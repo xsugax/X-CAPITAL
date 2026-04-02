@@ -1,0 +1,268 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #05050d;
+  --card: #0d0d1e;
+  --border: rgba(124, 58, 237, 0.15);
+  --purple: #7c3aed;
+  --gold: #d97706;
+  --green: #10b981;
+  --red: #ef4444;
+  --text: #f1f5f9;
+  --muted: #64748b;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.5);
+}
+
+/* Glassmorphism card */
+.glass {
+  background: rgba(13, 13, 30, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(124, 58, 237, 0.12);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #06b6d4 50%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-purple {
+  background: linear-gradient(135deg, #c4b5fd 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effects */
+.glow-purple {
+  box-shadow: 0 0 30px rgba(124, 58, 237, 0.35);
+}
+.glow-gold {
+  box-shadow: 0 0 20px rgba(217, 119, 6, 0.4);
+}
+.glow-green {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Animated gradient border */
+.border-glow {
+  position: relative;
+}
+.border-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.5),
+    rgba(6, 182, 212, 0.3),
+    rgba(217, 119, 6, 0.2)
+  );
+  z-index: -1;
+}
+
+/* Number font */
+.font-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Positive / Negative colors */
+.positive {
+  color: var(--green);
+}
+.negative {
+  color: var(--red);
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 37%,
+    rgba(255, 255, 255, 0.04) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Chart overrides */
+.recharts-wrapper {
+  font-family: "Inter", sans-serif !important;
+}
+.recharts-tooltip-wrapper {
+  font-size: 12px !important;
+}
+
+/* Market ticker scroll */
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-ticker {
+  animation: ticker 50s linear infinite;
+}
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* Hero rocket — slow upward drift (launch simulation) */
+@keyframes rocketAscent {
+  0% {
+    transform: scale(1.04) translateY(0px);
+  }
+  50% {
+    transform: scale(1.06) translateY(-28px);
+  }
+  100% {
+    transform: scale(1.04) translateY(0px);
+  }
+}
+.animate-rocket-ascent {
+  animation: rocketAscent 14s ease-in-out infinite;
+}
+
+/* Engine fire glow — breathe / flicker */
+@keyframes engineFire {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scaleX(1) scaleY(1);
+    filter: blur(18px);
+  }
+  25% {
+    opacity: 0.75;
+    transform: scaleX(1.12) scaleY(1.18);
+    filter: blur(22px);
+  }
+  60% {
+    opacity: 0.45;
+    transform: scaleX(0.9) scaleY(0.92);
+    filter: blur(14px);
+  }
+}
+.animate-engine-fire {
+  animation: engineFire 2.4s ease-in-out infinite;
+}
+
+/* Floating data particles — oracle / AI section */
+@keyframes floatParticle {
+  0%   { transform: translateY(0)       scale(1);   opacity: 0;   }
+  8%   { opacity: 0.85; }
+  88%  { opacity: 0.25; }
+  100% { transform: translateY(-85vh)   scale(0.5); opacity: 0;   }
+}
+.animate-float-particle {
+  animation: floatParticle 12s ease-in-out infinite;
+}
+
+/* Glow pulse — accent CTA elements */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 14px 3px rgba(124, 58, 237, 0.25); }
+  50%       { box-shadow: 0 0 32px 8px rgba(124, 58, 237, 0.50); }
+}
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Subtle scale-in on scroll reveal (apply via JS IntersectionObserver or just CSS hover) */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.animate-reveal-up {
+  animation: revealUp 0.6s ease-out forwards;
+}
+
+/* ── Scroll-reveal system ── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered items inside reveal containers */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.revealed .reveal-item,
+.reveal-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Gradient line animation for section dividers ── */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* ── Smooth hover lift for cards ── */
+.hover-lift {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}

@@ -1,0 +1,1000 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  ArrowRight,
+  BarChart3,
+  Globe,
+  Shield,
+  Zap,
+  TrendingUp,
+  Lock,
+  Star,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
+
+const stats = [
+  { label: "Instruments Available", value: "50,000+" },
+  { label: "Markets Connected", value: "14" },
+  { label: "Capital Rails", value: "5" },
+  { label: "Capital Deployed", value: "$2.4T+" },
+];
+
+const features = [
+  {
+    icon: BarChart3,
+    title: "Public Markets",
+    description:
+      "Real-time stock execution via Alpaca Securities. Your orders route directly to NASDAQ, NYSE, and global exchanges.",
+    tag: "BROKER API",
+    color: "from-purple-600/20 to-purple-900/10 border-purple-700/30",
+    iconColor: "text-purple-400",
+  },
+  {
+    icon: Lock,
+    title: "Private Equity & SPVs",
+    description:
+      "Access curated SPV structures and pre-IPO opportunities. From SpaceX exposure to AI infrastructure funds.",
+    tag: "ACCREDITED",
+    color: "from-amber-600/20 to-amber-900/10 border-amber-700/30",
+    iconColor: "text-amber-400",
+  },
+  {
+    icon: Globe,
+    title: "Tokenized Assets",
+    description:
+      "SEC-compliant security tokens on Polygon. Real exposure, on-chain execution, whitelisted wallets.",
+    tag: "BLOCKCHAIN",
+    color: "from-cyan-600/20 to-cyan-900/10 border-cyan-700/30",
+    iconColor: "text-cyan-400",
+  },
+  {
+    icon: Zap,
+    title: "Real-World Commerce",
+    description:
+      "Buy a Tesla and simultaneously invest in TSLA. Every purchase becomes a capital deployment event.",
+    tag: "COMMERCE",
+    color: "from-emerald-600/20 to-emerald-900/10 border-emerald-700/30",
+    iconColor: "text-emerald-400",
+  },
+  {
+    icon: TrendingUp,
+    title: "AI Oracle",
+    description:
+      "X-ORACLE runs LSTM forecasting, Monte Carlo risk simulation, and cross-asset sentiment analysis.",
+    tag: "ML POWERED",
+    color: "from-rose-600/20 to-rose-900/10 border-rose-700/30",
+    iconColor: "text-rose-400",
+  },
+  {
+    icon: Shield,
+    title: "Infrastructure Funds",
+    description:
+      "Deploy capital into AI data centers, renewable energy grids, and the space supply chain.",
+    tag: "REAL ASSETS",
+    color: "from-indigo-600/20 to-indigo-900/10 border-indigo-700/30",
+    iconColor: "text-indigo-400",
+  },
+];
+
+const tiers = [
+  {
+    name: "QUANTUM",
+    price: "$9,999",
+    priceSub: "per month",
+    description: "Entry to institutional-grade execution",
+    features: [
+      "50,000+ global instruments",
+      "Real-time AI Oracle forecasting",
+      "Tokenized asset desk (SEC-compliant)",
+      "Full portfolio risk analytics",
+      "Priority KYC & accreditation",
+      "24/7 institutional support desk",
+    ],
+    color: "border-white/10",
+    badge: "",
+  },
+  {
+    name: "SOVEREIGN",
+    price: "$49,999",
+    priceSub: "per month",
+    description: "For multi-family offices & fund operators",
+    features: [
+      "Everything in QUANTUM",
+      "Pre-IPO deal flow & SPV co-investment",
+      "X-CAPITAL Opportunity Funds",
+      "Space & infrastructure economy funds",
+      "Dedicated private wealth concierge",
+      "Commerce-to-capital automation",
+    ],
+    color: "border-amber-600/50",
+    badge: "MOST CHOSEN",
+  },
+  {
+    name: "VERTEX",
+    price: "By Invitation",
+    priceSub: "min. $50M AUM",
+    description: "The pinnacle. No ceiling.",
+    features: [
+      "Everything in SOVEREIGN",
+      "Direct founder co-investment rights",
+      "Portfolio company board access",
+      "Sovereign wealth structure setup",
+      "Dedicated 24/7 family office team",
+      "Zero execution & management fees",
+    ],
+    color: "border-purple-600/50",
+    badge: "APEX",
+  },
+];
+
+const tickerItems = [
+  { symbol: "BTC", price: "$89,420", change: 2.3 },
+  { symbol: "ETH", price: "$4,282", change: 1.8 },
+  { symbol: "TSLA", price: "$387.40", change: 3.1 },
+  { symbol: "NVDA", price: "$952.60", change: 0.9 },
+  { symbol: "S&P 500", price: "6,840", change: 0.4 },
+  { symbol: "AAPL", price: "$203.40", change: 1.2 },
+  { symbol: "GOLD", price: "$3,420", change: -0.2 },
+  { symbol: "OIL/WTI", price: "$94.30", change: 1.1 },
+  { symbol: "BTC.D", price: "51.2%", change: 0.3 },
+  { symbol: "MSFT", price: "$489.20", change: 0.7 },
+  { symbol: "BNB", price: "$692.40", change: 2.8 },
+  { symbol: "EUR/USD", price: "1.0842", change: -0.1 },
+];
+
+export default function LandingPage() {
+  const [bioExpanded, setBioExpanded] = useState(false);
+
+  // Parallax — subtle video shift on scroll 
+  useEffect(() => {
+    const video = document.getElementById('hero-video') as HTMLElement | null;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (video) video.style.transform = `scale(1.05) translateY(${y * 0.15}px)`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Scroll-reveal: IntersectionObserver for all [data-reveal] elements
+  useEffect(() => {
+    const els = document.querySelectorAll('[data-reveal]');
+    if (!els.length) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            (e.target as HTMLElement).classList.add('revealed');
+            obs.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, [bioExpanded]);
+
+  // Counter animation for stats
+  const [countersVisible, setCountersVisible] = useState(false);
+  const statsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setCountersVisible(true); obs.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-xc-black">
+      {/* Navigation */}
+      <nav className="fixed top-0 inset-x-0 z-50 px-6 py-4 glass border-b border-white/5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-black to-zinc-900 border border-white/20 flex items-center justify-center shadow-lg shadow-purple-950/40">
+              <svg
+                viewBox="0 0 24 24"
+                fill="white"
+                width="16"
+                height="16"
+                aria-label="X"
+              >
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </div>
+            <span className="font-black text-lg tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">X-CAPITAL</span>
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-sm text-xc-muted">
+            <a href="#features" className="hover:text-white transition-colors relative group">
+              Platform
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-purple-500 group-hover:w-full transition-all duration-300" />
+            </a>
+            <a href="#tiers" className="hover:text-white transition-colors relative group">
+              Tiers
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-purple-500 group-hover:w-full transition-all duration-300" />
+            </a>
+            <a href="#oracle" className="hover:text-white transition-colors relative group">
+              AI Oracle
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-purple-500 group-hover:w-full transition-all duration-300" />
+            </a>
+            <a
+              href="#founder"
+              className="hover:text-white transition-colors font-semibold text-xc-purple-light relative group"
+            >
+              Founder
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-purple-400 group-hover:w-full transition-all duration-300" />
+            </a>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/auth/login"
+              className="text-sm text-xc-muted hover:text-white transition-colors px-4 py-2"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/auth/register"
+              className="text-sm bg-gradient-to-r from-xc-purple to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white px-5 py-2.5 rounded-lg font-semibold transition-all glow-purple shadow-lg shadow-purple-900/30"
+            >
+              Get Started
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* ════════════════════════════════════════════════════════════════ */}
+      {/* ══ HERO — Live rocket launch video background ═══════════════ */}
+      {/* ════════════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-screen flex items-center justify-start overflow-hidden bg-black">
+
+        {/* ── L0: LIVE VIDEO — positioned so rocket is visible on the right ── */}
+        <video
+          id="hero-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover z-0 scale-[1.02]"
+          style={{ willChange: 'transform', objectPosition: '75% center' }}
+        >
+          <source src="/videos/hero-final.mp4" type="video/mp4" />
+        </video>
+
+        {/* ── L1: Minimal overlays — let the rocket be the star ── */}
+        {/* Bottom fade only — blends into next section */}
+        <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-[#030308] via-transparent to-transparent" />
+        {/* Left text scrim — just enough for headline readability */}
+        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 45%, transparent 70%)' }} />
+        {/* Top nav scrim — subtle */}
+        <div className="absolute top-0 inset-x-0 h-32 z-[1] pointer-events-none bg-gradient-to-b from-black/40 to-transparent" />
+
+        {/* ── L2: Engine glow — right-anchored to match rocket position ── */}
+        <div className="absolute bottom-0 right-0 z-[2] w-[60%] h-[500px] pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 100% 100% at 70% 100%, rgba(251,146,60,0.2) 0%, rgba(251,146,60,0.06) 40%, transparent 70%)',
+            animation: 'engineFire 4s ease-in-out infinite',
+          }}
+        />
+
+        {/* ── HERO CONTENT — left-aligned so rocket stays visible on right ── */}
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-8 md:px-16 text-left pt-32 pb-24">
+          {/* Live status */}
+          <div className="inline-flex items-center gap-2.5 text-[11px] font-medium text-purple-300/90 bg-black/30 backdrop-blur-md border border-white/[0.1] rounded-full px-5 py-2 mb-10">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+            <Star className="w-3 h-3 fill-current" />
+            <span className="tracking-wide">Multi-Rail Capital System — Live</span>
+          </div>
+
+          {/* Headline */}
+          <h1 className="mb-8 max-w-3xl">
+            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-[-0.03em] leading-[1.05] text-white" style={{ textShadow: '0 2px 40px rgba(0,0,0,0.9), 0 0 80px rgba(0,0,0,0.5)' }}>
+              Capital Deployed
+            </span>
+            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-[-0.03em] leading-[1.05] gradient-text mt-2" style={{ textShadow: '0 2px 40px rgba(0,0,0,0.7)' }}>
+              Into The Future
+            </span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-base sm:text-lg md:text-xl text-slate-200/90 max-w-xl mb-12 leading-relaxed font-light" style={{ textShadow: '0 1px 20px rgba(0,0,0,0.9)' }}>
+            The institutional-grade platform for deploying capital across public markets,
+            private equity, tokenized assets, and the space economy.
+            <span className="text-white font-medium"> Five rails. One command center.</span>
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-start gap-4 mb-16">
+            <Link
+              href="/auth/register"
+              className="group flex items-center gap-2.5 bg-white text-black font-bold px-8 py-4 rounded-xl text-base hover:bg-slate-100 transition-all shadow-[0_0_60px_rgba(255,255,255,0.15)]"
+            >
+              Launch Platform
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2.5 bg-white/[0.08] backdrop-blur-xl border border-white/[0.12] text-white font-medium px-8 py-4 rounded-xl text-base hover:bg-white/[0.14] hover:border-white/20 transition-all"
+            >
+              View Dashboard
+            </Link>
+          </div>
+
+          {/* HUD telemetry */}
+          <div className="hidden md:flex items-center gap-10 text-[11px] font-mono text-white/30">
+            <div>
+              <span className="text-orange-400/50 mr-1.5">ALT</span>
+              <span className="text-white/60 font-bold">127.4 km</span>
+            </div>
+            <div className="w-px h-3.5 bg-white/[0.08]" />
+            <div>
+              <span className="text-orange-400/50 mr-1.5">V</span>
+              <span className="text-white/60 font-bold">7,842 m/s</span>
+            </div>
+            <div className="w-px h-3.5 bg-white/[0.08]" />
+            <div>
+              <span className="text-emerald-400/50 mr-1.5">STATUS</span>
+              <span className="text-emerald-400/60 font-bold">NOMINAL</span>
+            </div>
+            <div className="w-px h-3.5 bg-white/[0.08]" />
+            <div>
+              <span className="text-purple-400/50 mr-1.5">FEED</span>
+              <span className="text-white/60 font-bold">STARBASE TX</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Stats bar — absolute bottom ── */}
+        <div className="absolute bottom-0 inset-x-0 z-10">
+          <div ref={statsRef} className="max-w-5xl mx-auto px-6 pb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {stats.map((stat, i) => (
+                <div
+                  key={stat.label}
+                  data-reveal
+                  className="reveal-item bg-black/30 backdrop-blur-xl border border-white/[0.08] rounded-xl px-4 py-4 text-center hover:bg-black/40 hover:border-white/[0.12] transition-all duration-300"
+                  style={{ transitionDelay: `${i * 80}ms` }}
+                >
+                  <div className="text-xl md:text-2xl font-black text-white mb-0.5 tracking-tight">
+                    {stat.value}
+                  </div>
+                  <div className="text-[10px] text-slate-400/70 uppercase tracking-[0.15em]">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Live Market Ticker ── */}
+      <div className="relative w-full overflow-hidden border-y border-white/[0.04] bg-[#07070f]/90 backdrop-blur-lg py-3.5 cursor-default">
+        <div className="animate-ticker inline-flex gap-12 whitespace-nowrap text-xs font-mono">
+          {[...tickerItems, ...tickerItems].map((item, i) => (
+            <span key={i} className="inline-flex items-center gap-2.5">
+              <span className="text-slate-500 uppercase tracking-widest text-[10px]">
+                {item.symbol}
+              </span>
+              <span className="text-white font-semibold">{item.price}</span>
+              <span
+                className={`text-[10px] font-bold ${
+                  item.change > 0
+                    ? "text-emerald-400"
+                    : item.change < 0
+                      ? "text-red-400"
+                      : "text-slate-600"
+                }`}
+              >
+                {item.change > 0 ? "+" : ""}{item.change.toFixed(1)}%
+              </span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Earth panoramic divider ── */}
+      <div className="relative w-full h-64 md:h-72 overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=3840&q=95&auto=format&fit=crop"
+          alt="Earth from space"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#05050d] via-transparent to-[#05050d]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#05050d]/80 via-transparent to-[#05050d]/80" />
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+          <p className="text-[10px] font-mono font-semibold text-cyan-400/80 tracking-[0.6em] mb-5 uppercase" data-reveal>
+            Earth Is The Launchpad
+          </p>
+          <h3 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight" data-reveal>
+            Capital without borders.{" "}
+            <span className="gradient-text">Wealth without limits.</span>
+          </h3>
+        </div>
+      </div>
+
+      {/* Features */}
+      <section id="features" className="relative py-28 px-6 overflow-hidden">
+        {/* Server room backdrop */}
+        <div className="absolute inset-0 pointer-events-none">
+          <Image
+            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=3840&q=85&auto=format&fit=crop"
+            alt="Server infrastructure"
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#05050d] via-[#05050d]/60 to-[#05050d]" />
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="text-center mb-16" data-reveal>
+            <p className="text-[10px] font-mono font-semibold text-purple-400/80 tracking-[0.5em] mb-4 uppercase">
+              Multi-Rail Infrastructure
+            </p>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+              Five Capital Rails.{" "}
+              <span className="gradient-text">One Platform.</span>
+            </h2>
+            <p className="text-slate-500 text-base max-w-lg mx-auto">
+              Built on regulated infrastructure. Powered by AI. Secured by blockchain.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {features.map((feature, i) => (
+              <div
+                key={feature.title}
+                data-reveal
+                className={`reveal-item relative rounded-2xl bg-gradient-to-br ${feature.color} border p-6 hover:scale-[1.02] hover:shadow-xl hover:shadow-purple-950/20 transition-all duration-400 cursor-pointer group`}
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-2.5 rounded-xl bg-white/[0.04] group-hover:bg-white/[0.08] transition-colors">
+                    <feature.icon className={`w-5 h-5 ${feature.iconColor}`} />
+                  </div>
+                  <span className="text-[9px] font-mono font-bold text-slate-600 tracking-wider uppercase">
+                    {feature.tag}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1.5">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Metrics row */}
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3" data-reveal>
+            {[
+              { value: '<1ms', label: 'Execution' },
+              { value: '99.99%', label: 'Uptime' },
+              { value: '14', label: 'Markets' },
+              { value: 'Level III', label: 'AI Tier' },
+            ].map((m) => (
+              <div key={m.label} className="text-center py-4 px-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                <div className="text-lg font-black text-white">{m.value}</div>
+                <div className="text-[10px] text-slate-600 uppercase tracking-wider mt-0.5">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Oracle Section */}
+      <section
+        id="oracle"
+        className="relative py-28 px-6 overflow-hidden"
+      >
+        {/* Cosmic nebula backdrop */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=3840&q=95&auto=format&fit=crop"
+            alt="Deep space nebula"
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-60"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#05050d] via-[#05050d]/40 to-[#05050d] pointer-events-none" />
+        <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+
+        {/* Particles */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+            <div
+              key={i}
+              className="absolute rounded-full animate-float-particle"
+              style={{
+                width: `${1.5 + (i % 3) * 0.6}px`,
+                height: `${1.5 + (i % 3) * 0.6}px`,
+                background: i % 2 === 0 ? 'rgba(167,139,250,0.5)' : 'rgba(34,211,238,0.4)',
+                left: `${8 + i * 11}%`,
+                bottom: 0,
+                animationDelay: `${i * 0.9}s`,
+                animationDuration: `${11 + (i % 3) * 3}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto">
+          <div className="text-center mb-14" data-reveal>
+            <p className="text-[10px] font-mono font-semibold text-purple-400/80 tracking-[0.5em] mb-4 uppercase">
+              Machine Intelligence
+            </p>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+              X-ORACLE <span className="gradient-text">AI Engine</span>
+            </h2>
+          </div>
+
+          <div className="rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] p-8 md:p-12" data-reveal>
+            <div className="grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-black text-white mb-4">
+                  Your AI capital allocator
+                </h3>
+                <p className="text-slate-500 mb-8 leading-relaxed text-[15px]">
+                  LSTM time-series forecasting, Monte Carlo risk simulation, and
+                  real-time sentiment analysis. X-ORACLE tells you where to deploy next.
+                </p>
+                {/* Capabilities */}
+                <div className="space-y-2.5 mb-8">
+                  {[
+                    { label: 'LSTM Forecasting', value: '94.7% accuracy' },
+                    { label: 'Monte Carlo Paths', value: '100K+ per asset' },
+                    { label: 'Sentiment Sources', value: '50+ real-time feeds' },
+                  ].map((cap) => (
+                    <div key={cap.label} className="flex items-center justify-between py-2.5 px-3.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                      <span className="text-sm text-slate-400">{cap.label}</span>
+                      <span className="text-sm font-semibold text-white">{cap.value}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link
+                  href="/auth/register"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-purple-400 hover:text-purple-300 transition-colors group"
+                >
+                  Access the Oracle <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+              <div>
+                {/* Terminal */}
+                <div className="rounded-xl overflow-hidden border border-white/[0.06] shadow-2xl shadow-black/40">
+                  <div className="flex items-center gap-1.5 px-4 py-2.5 bg-[#0a0a14] border-b border-white/[0.04]">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+                    <span className="ml-3 text-[10px] font-mono text-slate-600">x-oracle</span>
+                  </div>
+                  <div className="font-mono text-[13px] bg-[#08081a] p-5 leading-6">
+                    <div className="text-slate-600 text-xs mb-3">// X-ORACLE — LIVE</div>
+                    <div className="text-emerald-400">{"{"}</div>
+                    <div className="pl-4 text-slate-400">
+                      <span className="text-purple-400">&quot;projection&quot;</span>
+                      : <span className="text-emerald-400">&quot;+18.4%&quot;</span>,
+                    </div>
+                    <div className="pl-4 text-slate-400">
+                      <span className="text-purple-400">&quot;risk&quot;</span>
+                      : <span className="text-amber-400">&quot;MEDIUM&quot;</span>,
+                    </div>
+                    <div className="pl-4 text-slate-400">
+                      <span className="text-purple-400">&quot;confidence&quot;</span>
+                      : <span className="text-emerald-400">0.947</span>,
+                    </div>
+                    <div className="pl-4 text-slate-400">
+                      <span className="text-purple-400">&quot;allocation&quot;</span>: {"{"}
+                    </div>
+                    <div className="pl-8 text-slate-400">
+                      <span className="text-cyan-400">&quot;AI&quot;</span>: <span className="text-amber-300">40</span>,{" "}
+                      <span className="text-cyan-400">&quot;Energy&quot;</span>: <span className="text-amber-300">20</span>,
+                    </div>
+                    <div className="pl-8 text-slate-400">
+                      <span className="text-cyan-400">&quot;Space&quot;</span>: <span className="text-amber-300">15</span>,{" "}
+                      <span className="text-cyan-400">&quot;Cash&quot;</span>: <span className="text-amber-300">10</span>
+                    </div>
+                    <div className="pl-4 text-slate-400">{"}"}</div>
+                    <div className="text-emerald-400">{"}"}</div>
+                    <div className="mt-3 flex items-center gap-2 text-[10px] text-emerald-500/60">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      847 streams active
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tiers */}
+      <section id="tiers" className="relative py-28 px-6 overflow-hidden">
+        {/* Solar backdrop */}
+        <div className="absolute inset-0 pointer-events-none">
+          <Image
+            src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=3840&q=85&auto=format&fit=crop"
+            alt="Solar infrastructure"
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#05050d] via-[#05050d]/50 to-[#05050d]" />
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="text-center mb-16" data-reveal>
+            <p className="text-[10px] font-mono font-semibold text-amber-400/70 tracking-[0.5em] mb-4 uppercase">
+              Institutional Access
+            </p>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+              Three Tiers. <span className="gradient-text">One Ecosystem.</span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            {tiers.map((tier, i) => (
+              <div
+                key={tier.name}
+                data-reveal
+                className={`reveal-item relative rounded-2xl p-7 border transition-all duration-400 ${
+                  i === 1
+                    ? 'bg-gradient-to-b from-amber-950/15 to-[#0a0a1a] border-amber-600/30 md:-mt-3 md:pb-10 shadow-xl shadow-amber-950/10'
+                    : 'bg-white/[0.02] border-white/[0.06] hover:border-white/10'
+                }`}
+                style={{ transitionDelay: `${i * 100}ms` }}
+              >
+                {tier.badge && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className={`text-[10px] font-black px-3.5 py-1 rounded-full tracking-widest ${
+                      i === 1
+                        ? 'bg-amber-500 text-black'
+                        : 'bg-purple-600 text-white'
+                    }`}>
+                      {tier.badge}
+                    </span>
+                  </div>
+                )}
+                <div className="text-[10px] font-mono font-bold text-slate-600 tracking-[0.3em] mb-4">
+                  {tier.name}
+                </div>
+                <div className="text-3xl font-black text-white mb-0.5 leading-none tracking-tight">
+                  {tier.price}
+                </div>
+                <div className="text-[11px] font-mono text-slate-600 mb-6">
+                  {tier.priceSub}
+                </div>
+                <div className="text-sm text-slate-500 mb-7 border-b border-white/[0.04] pb-6">
+                  {tier.description}
+                </div>
+                <ul className="space-y-2.5 mb-8">
+                  {tier.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2.5 text-[13px] text-slate-400">
+                      <span className="w-1 h-1 rounded-full bg-emerald-500 flex-shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/auth/register"
+                  className={`block text-center py-3 rounded-xl font-semibold text-sm transition-all ${
+                    i === 1
+                      ? 'bg-amber-500 hover:bg-amber-400 text-black'
+                      : 'bg-white/[0.04] hover:bg-white/[0.08] text-white border border-white/[0.06]'
+                  }`}
+                >
+                  {i === 2 ? 'Request Invitation' : 'Get Started'}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────────────────────────────────────────────────────────────── */}
+      {/* ── FOUNDER SECTION ── */}
+      <section id="founder" className="relative py-28 px-6 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=3840&q=85&auto=format&fit=crop"
+            alt="Cosmos"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#05050d] via-[#05050d]/60 to-[#05050d]" />
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="text-center mb-16" data-reveal>
+            <p className="text-[10px] font-mono font-semibold text-purple-400/70 tracking-[0.5em] mb-4 uppercase">
+              The Architect
+            </p>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+              The Mind That <span className="gradient-text">Built Tomorrow</span>
+            </h2>
+          </div>
+
+          <div className="grid lg:grid-cols-5 gap-8 items-start mb-16">
+            {/* Portrait — 2/5 */}
+            <div className="lg:col-span-2 relative">
+              <div className="relative overflow-hidden rounded-2xl border border-white/[0.06]">
+                <div className="relative h-[500px]">
+                  <Image
+                    src="/images/elon-musk.jpg"
+                    alt="Elon Musk — Founder & Chief Vision Officer"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                    className="object-cover object-top"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/10" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <div className="text-[10px] font-mono text-purple-400/70 tracking-[0.3em] mb-1">
+                      FOUNDER &amp; CVO
+                    </div>
+                    <div className="text-xl font-black text-white">Elon Musk</div>
+                    <div className="text-[11px] text-slate-500 mt-1">
+                      b. 1971 &middot; Pretoria, South Africa
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Net worth badge */}
+              <div className="absolute -right-2 top-5 bg-[#0a0a1a] border border-white/[0.06] rounded-xl px-4 py-3">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-[10px] font-mono text-emerald-400/80">ACTIVE</span>
+                </div>
+                <div className="text-white font-black text-lg leading-none">~$870B</div>
+                <div className="text-[10px] text-slate-600 mt-0.5">Net Worth</div>
+              </div>
+
+              {/* Quote */}
+              <div className="mt-5 bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+                <p className="text-[13px] text-slate-400 leading-relaxed italic">
+                  &ldquo;Capital is the fuel. We&apos;re building the rocket.&rdquo;
+                </p>
+                <div className="mt-2 text-[10px] text-slate-600">
+                  — Elon Musk, X-CAPITAL Founding Address
+                </div>
+              </div>
+            </div>
+
+            {/* Bio — 3/5 */}
+            <div className="lg:col-span-3 space-y-6">
+              <div>
+                <h3 className="text-2xl font-black text-white mb-1.5 tracking-tight">
+                  From Pretoria to the Multiplanetary Economy
+                </h3>
+                <p className="text-[11px] font-mono text-slate-600">
+                  Engineer &middot; Entrepreneur &middot; Founder, X-CAPITAL
+                </p>
+              </div>
+
+              <div className="space-y-4 text-[14px] text-slate-400 leading-7">
+                <p>
+                  Born in Pretoria, South Africa, Elon Reeve Musk taught himself to code at age 10 and sold his first
+                  commercial software — <em>Blastar</em> — at 12. His first company, Zip2, was
+                  acquired for <span className="text-white font-medium">$307M</span>. Then
+                  came <span className="text-white font-medium">PayPal</span>,
+                  sold for <span className="text-white font-medium">$1.5B</span> — which he
+                  reinvested into <span className="text-white font-medium">SpaceX</span> and{" "}
+                  <span className="text-white font-medium">Tesla</span>, two companies the world declared uninvestable.
+                </p>
+                {bioExpanded && (
+                  <>
+                    <p>
+                      SpaceX became the first private company to orbit Earth,
+                      dock with the ISS, and recover orbital-class boosters — cutting launch costs by over 90%.
+                      Tesla forced global automotive into electrification, triggering a multi-trillion-dollar transition.
+                    </p>
+                    <p>
+                      The portfolio grew: <span className="text-white font-medium">Neuralink</span> (BCI),{" "}
+                      <span className="text-white font-medium">The Boring Company</span> (tunnelling),{" "}
+                      <span className="text-white font-medium">xAI</span> (AGI),{" "}
+                      <span className="text-white font-medium">X</span> (global communication).
+                      Each attacks a structural constraint on humanity&apos;s path to Type II civilisation.
+                    </p>
+                    <p>
+                      <span className="text-purple-400 font-medium">X-CAPITAL</span> is the financial infrastructure
+                      of that civilizational stack — deploy capital not merely for return, but as the load-bearing
+                      scaffolding of the multiplanetary economy.
+                    </p>
+                  </>
+                )}
+              </div>
+
+              <button
+                onClick={() => setBioExpanded(!bioExpanded)}
+                className="flex items-center gap-1.5 text-sm font-semibold text-purple-400/80 hover:text-white transition-colors group"
+              >
+                {bioExpanded ? (
+                  <><ChevronUp className="w-4 h-4" /> See less</>
+                ) : (
+                  <><ChevronDown className="w-4 h-4" /> Read full story</>
+                )}
+              </button>
+
+              {/* Ventures */}
+              <div>
+                <div className="text-[10px] font-mono text-slate-600 tracking-[0.3em] mb-3">VENTURES</div>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { name: "SpaceX", tag: "AEROSPACE" },
+                    { name: "Tesla", tag: "EV + ENERGY" },
+                    { name: "xAI", tag: "AGI" },
+                    { name: "Neuralink", tag: "BCI" },
+                    { name: "X", tag: "SOCIAL" },
+                    { name: "Boring Co.", tag: "INFRA" },
+                    { name: "X-CAPITAL", tag: "FINANCE" },
+                  ].map((v) => (
+                    <div key={v.name} className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-1.5">
+                      <span className="text-[12px] font-bold text-white">{v.name}</span>
+                      <span className="text-[10px] text-slate-600 ml-1.5">{v.tag}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {bioExpanded && (
+                <div>
+                  <div className="text-[10px] font-mono text-slate-600 tracking-[0.3em] mb-4">MILESTONES</div>
+                  <div className="space-y-2.5">
+                    {[
+                      { year: "1995", event: "Drops Stanford PhD. Founds Zip2." },
+                      { year: "1999", event: "Zip2 acquired for $307M. Founds X.com → PayPal." },
+                      { year: "2002", event: "PayPal sold for $1.5B. Founds SpaceX." },
+                      { year: "2004", event: "Joins Tesla as lead investor and Chairman." },
+                      { year: "2010", event: "SpaceX: first private spacecraft recovery from orbit." },
+                      { year: "2015", event: "Falcon 9 booster lands upright. Reusability proven." },
+                      { year: "2020", event: "Crew Dragon carries NASA astronauts to ISS." },
+                      { year: "2024", event: "Starship completes full orbital flight test." },
+                      { year: "2026", event: "Founds X-CAPITAL — multiplanetary finance." },
+                    ].map((m) => (
+                      <div key={m.year} className="flex gap-3 items-baseline">
+                        <span className="text-[11px] font-mono text-purple-400/60 w-9 shrink-0">{m.year}</span>
+                        <span className="w-1 h-1 rounded-full bg-purple-500/40 shrink-0 mt-1.5" />
+                        <span className="text-[13px] text-slate-400">{m.event}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Philosophy cards */}
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { label: "ON CAPITAL", quote: "&ldquo;Capital is condensed human energy. X-CAPITAL gives it the direction it deserves.&rdquo;" },
+              { label: "ON RISK", quote: "&ldquo;When something is important enough, you do it regardless of the odds.&rdquo;" },
+              { label: "ON THE FUTURE", quote: "&ldquo;The future is not something that happens to us. It is something we fund, engineer, and launch.&rdquo;" },
+            ].map((card) => (
+              <div key={card.label} className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-colors">
+                <div className="text-[10px] font-mono text-slate-600 tracking-[0.3em] mb-3">{card.label}</div>
+                <p className="text-[13px] text-slate-400 leading-relaxed italic" dangerouslySetInnerHTML={{ __html: card.quote }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="relative py-28 px-6 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <Image
+            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=3840&q=85&auto=format&fit=crop"
+            alt="Deep space"
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#05050d]/70 via-[#05050d]/30 to-[#05050d]/70" />
+        </div>
+
+        <div className="relative z-10 max-w-3xl mx-auto text-center" data-reveal>
+          <p className="text-[10px] font-mono font-semibold text-purple-400/70 tracking-[0.5em] mb-6 uppercase">
+            Deploy at Scale
+          </p>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-5 tracking-tight leading-tight">
+            You&apos;re not competing with apps.
+            <br />
+            <span className="gradient-text">You&apos;re competing with Goldman.</span>
+          </h2>
+          <p className="text-slate-500 text-base mb-10 max-w-lg mx-auto">
+            X-CAPITAL is the interface where capital gets deployed into the systems shaping the future.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/auth/register"
+              className="inline-flex items-center gap-2.5 bg-white text-black font-bold px-8 py-4 rounded-xl text-base hover:bg-slate-100 transition-colors"
+            >
+              Launch Your Capital <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 bg-white/[0.04] border border-white/[0.06] text-white font-semibold px-7 py-4 rounded-xl text-base hover:border-white/10 transition-colors"
+            >
+              Explore Dashboard
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Partners */}
+      <div className="border-y border-white/[0.04] bg-[#050508] py-8 px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-center text-[10px] font-mono text-slate-600 tracking-[0.5em] mb-5">INFRASTRUCTURE PARTNERS</p>
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-30 hover:opacity-50 transition-opacity">
+            {['NASDAQ', 'NYSE', 'Polygon', 'Alpaca', 'Stripe', 'Fireblocks', 'AWS', 'CloudFlare'].map((p) => (
+              <span key={p} className="text-[12px] font-bold text-white tracking-wider">{p}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="border-t border-white/[0.04] py-12 px-6 text-sm">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div className="md:col-span-1">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-purple-600 to-cyan-600 flex items-center justify-center">
+                  <span className="text-white font-black text-[10px]">X</span>
+                </div>
+                <span className="font-black text-white text-sm">X-CAPITAL</span>
+              </div>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                Multiplanetary capital deployment. Five rails. One command center.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-bold text-white tracking-[0.2em] mb-3">PLATFORM</h4>
+              <ul className="space-y-2 text-[12px] text-slate-500">
+                <li><a href="#features" className="hover:text-white transition-colors">Capital Rails</a></li>
+                <li><a href="#oracle" className="hover:text-white transition-colors">AI Oracle</a></li>
+                <li><a href="#tiers" className="hover:text-white transition-colors">Access Tiers</a></li>
+                <li><Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-bold text-white tracking-[0.2em] mb-3">COMPANY</h4>
+              <ul className="space-y-2 text-[12px] text-slate-500">
+                <li><a href="#founder" className="hover:text-white transition-colors">Founder</a></li>
+                <li><span className="text-slate-700 cursor-default">Careers</span></li>
+                <li><span className="text-slate-700 cursor-default">Press</span></li>
+                <li><span className="text-slate-700 cursor-default">Compliance</span></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-bold text-white tracking-[0.2em] mb-3">ACCESS</h4>
+              <ul className="space-y-2 text-[12px] text-slate-500">
+                <li><Link href="/auth/login" className="hover:text-white transition-colors">Log in</Link></li>
+                <li><Link href="/auth/register" className="text-purple-400/80 hover:text-white font-medium transition-colors">Get Started</Link></li>
+                <li><Link href="/wallet" className="hover:text-white transition-colors">Wallet</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-white/[0.04] pt-5 flex flex-col md:flex-row items-center justify-between gap-3">
+            <div className="text-[11px] text-slate-700">© 2026 X-CAPITAL. All rights reserved.</div>
+            <div className="text-[10px] text-slate-700 max-w-lg text-center md:text-right">
+              Securities trading through regulated broker partners. Not investment advice. All investments carry risk.
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
