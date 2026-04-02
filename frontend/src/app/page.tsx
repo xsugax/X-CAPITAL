@@ -255,7 +255,7 @@ export default function LandingPage() {
       {/* ════════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center justify-start overflow-hidden bg-black">
 
-        {/* ── L0: LIVE VIDEO — positioned so rocket is visible on the right ── */}
+        {/* ── L0: LIVE VIDEO — 4K SpaceX Falcon 9 launch, rocket visible on right ── */}
         <video
           id="hero-video"
           autoPlay
@@ -266,7 +266,8 @@ export default function LandingPage() {
           className="absolute inset-0 w-full h-full object-cover z-0 scale-[1.02]"
           style={{ willChange: 'transform', objectPosition: '75% center' }}
         >
-          <source src="/videos/hero-final.mp4" type="video/mp4" />
+          <source src="/videos/hero-4k.mp4" type="video/mp4" />
+          <source src="/videos/hero-hd.mp4" type="video/mp4" />
         </video>
 
         {/* ── L1: Minimal overlays — let the rocket be the star ── */}
