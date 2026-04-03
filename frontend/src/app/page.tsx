@@ -149,12 +149,35 @@ const tickerItems = [
 export default function LandingPage() {
   const [bioExpanded, setBioExpanded] = useState(false);
 
-  // Parallax — subtle video shift on scroll 
+  // Hero image slideshow — cycles through 12 SpaceX launch photos
+  const [activeSlide, setActiveSlide] = useState(0);
+  const heroImages = [
+    { src: "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 and Dragon vertical at night" },
+    { src: "https://images.unsplash.com/photo-1517976384346-3136801d605d?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon Heavy on pad at golden hour" },
+    { src: "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX rocket launching with white smoke" },
+    { src: "https://images.unsplash.com/photo-1517976487492-5750f3195933?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon Heavy launch with massive smoke" },
+    { src: "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon Heavy Demo Mission rising" },
+    { src: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 Launch Kennedy Space Center" },
+    { src: "https://images.unsplash.com/photo-1580551730007-11f498ebb39d?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 Starlink launch with frost" },
+    { src: "https://images.unsplash.com/photo-1522760122564-d567dac67f45?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 resupply mission at sunset" },
+    { src: "https://images.unsplash.com/photo-1484600316566-2f7b7e1c8236?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 launch through clouds" },
+    { src: "https://images.unsplash.com/photo-1518364538800-6bae3c2ea0f2?w=3840&q=90&auto=format&fit=crop", alt: "First SpaceX Falcon Heavy launch blue sky" },
+    { src: "https://images.unsplash.com/photo-1457364983758-510f8afa9f5f?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX night launch Cape Canaveral" },
+    { src: "https://images.unsplash.com/photo-1457364887197-9150188c107b?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX launch trail at sunset" },
+  ];
   useEffect(() => {
-    const video = document.getElementById('hero-video') as HTMLElement | null;
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
+  // Parallax — subtle image shift on scroll 
+  useEffect(() => {
+    const container = document.getElementById('hero-slideshow') as HTMLElement | null;
     const onScroll = () => {
       const y = window.scrollY;
-      if (video) video.style.transform = `scale(1.05) translateY(${y * 0.15}px)`;
+      if (container) container.style.transform = `translateY(${y * 0.15}px)`;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -251,24 +274,27 @@ export default function LandingPage() {
       </nav>
 
       {/* ════════════════════════════════════════════════════════════════ */}
-      {/* ══ HERO — Live rocket launch video background ═══════════════ */}
+      {/* ══ HERO — SpaceX rocket launch image slideshow ═════════════ */}
       {/* ════════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center justify-start overflow-hidden bg-black">
 
-        {/* ── L0: LIVE VIDEO — 4K SpaceX Falcon 9 launch, rocket visible on right ── */}
-        <video
-          id="hero-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover z-0 scale-[1.02] hero-video-position"
-          style={{ willChange: 'transform' }}
-        >
-          <source src="/videos/hero-4k.mp4" type="video/mp4" />
-          <source src="/videos/hero-hd.mp4" type="video/mp4" />
-        </video>
+        {/* ── L0: IMAGE SLIDESHOW — 12 SpaceX launch photos, Ken Burns crossfade ── */}
+        <div id="hero-slideshow" className="absolute inset-0 z-0" style={{ willChange: 'transform' }}>
+          {heroImages.map((img, i) => (
+            <Image
+              key={i}
+              src={img.src}
+              alt={img.alt}
+              fill
+              sizes="100vw"
+              priority={i === 0}
+              className={`object-cover transition-all duration-[2000ms] ease-in-out hero-slide ${
+                activeSlide === i ? 'opacity-100 scale-110' : 'opacity-0 scale-100'
+              }`}
+              style={{ objectPosition: 'center 40%' }}
+            />
+          ))}
+        </div>
 
         {/* ── L1: Minimal overlays — let the rocket be the star ── */}
         {/* Bottom fade only — blends into next section */}

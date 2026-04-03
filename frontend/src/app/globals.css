@@ -207,6 +207,14 @@ body {
   }
 }
 
+/* Hero slideshow — Ken Burns crossfade effect */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  will-change: opacity, transform;
+  transform-origin: center center;
+}
+
 /* Floating data particles — oracle / AI section */
 @keyframes floatParticle {
   0%   { transform: translateY(0)       scale(1);   opacity: 0;   }
