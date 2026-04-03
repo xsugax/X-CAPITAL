@@ -2,15 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import {
   BarChart3, Briefcase, Globe, ShoppingBag, Wallet,
-  Cpu, Home, ChevronLeft, ChevronRight, LogOut, Settings,
+  Cpu, Home, LogOut, Settings, X,
 } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/dashboard', icon: Home, label: 'Dashboard' },
+  { href: '/dashboard', icon: Home, label: 'Home' },
   { href: '/trading', icon: BarChart3, label: 'Trading' },
   { href: '/portfolio', icon: Briefcase, label: 'Portfolio' },
   { href: '/funds', icon: Globe, label: 'Funds & SPVs' },
@@ -27,99 +28,112 @@ const TIER_STYLES: Record<string, string> = {
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { sidebarOpen, toggleSidebar, user, logout } = useStore();
+  const { sidebarOpen, setSidebarOpen, user, logout } = useStore();
 
   return (
-    <aside className={cn(
-      'fixed left-0 top-0 bottom-0 z-40 flex flex-col transition-all duration-300 glass border-r border-white/5',
-      sidebarOpen ? 'w-60' : 'w-16'
-    )}>
-      {/* Logo */}
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-white/5">
-        <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center">
-          <span className="text-white font-black text-xs">X</span>
+    <>
+      {/* Mobile backdrop overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar — slide drawer on mobile, fixed rail on desktop */}
+      <aside className={cn(
+        'fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-xc-dark/95 backdrop-blur-xl border-r border-white/[0.06] transition-transform duration-300 ease-in-out',
+        // Mobile: 280px drawer, slides in/out
+        'w-[280px]',
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full',
+        // Desktop: always visible, icon rail (68px) expanding to full on lg
+        'md:translate-x-0 md:w-[68px] lg:w-[240px]'
+      )}>
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-4 border-b border-white/[0.06]">
+          <Link href="/dashboard" className="flex items-center gap-3" onClick={() => setSidebarOpen(false)}>
+            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center">
+              <span className="text-white font-black text-sm">X</span>
+            </div>
+            <span className="font-black text-base tracking-tight text-white md:hidden lg:inline">CAPITAL</span>
+          </Link>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="md:hidden w-8 h-8 rounded-full flex items-center justify-center text-xc-muted hover:text-white hover:bg-white/10 transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-        {sidebarOpen && (
-          <span className="font-black text-base tracking-tight text-white">X-CAPITAL</span>
-        )}
-      </div>
 
-      {/* Nav */}
-      <nav className="flex-1 py-4 space-y-1 px-2 overflow-y-auto">
-        {navItems.map(({ href, icon: Icon, label }) => {
-          const active = pathname === href || pathname.startsWith(href + '/');
-          return (
+        {/* Nav */}
+        <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
+          {navItems.map(({ href, icon: Icon, label }) => {
+            const active = pathname === href || pathname.startsWith(href + '/');
+            return (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setSidebarOpen(false)}
+                className={cn(
+                  'flex items-center gap-3 px-3 py-2.5 rounded-full text-[15px] font-medium transition-all md:justify-center lg:justify-start',
+                  active
+                    ? 'font-bold text-white bg-white/[0.08]'
+                    : 'text-slate-300 hover:text-white hover:bg-white/[0.06]'
+                )}
+              >
+                <Icon className={cn('w-[22px] h-[22px] flex-shrink-0')} strokeWidth={active ? 2.5 : 1.8} />
+                <span className="md:hidden lg:inline">{label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* User Section */}
+        {user && (
+          <div className="border-t border-white/[0.06] p-3 space-y-1">
             <Link
-              key={href}
-              href={href}
-              className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group',
-                active
-                  ? 'bg-xc-purple/20 text-xc-purple-light border border-purple-700/30'
-                  : 'text-xc-muted hover:text-white hover:bg-white/5'
-              )}
+              href="/settings"
+              onClick={() => setSidebarOpen(false)}
+              className="flex items-center gap-3 px-2 py-2.5 rounded-full hover:bg-white/[0.06] transition-colors md:justify-center lg:justify-start"
             >
-              <Icon className={cn('w-5 h-5 flex-shrink-0', active ? 'text-xc-purple-light' : 'text-current')} />
-              {sidebarOpen && <span className="truncate">{label}</span>}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* User Section */}
-      {user && (
-        <div className="border-t border-white/5 p-3 space-y-2">
-          {sidebarOpen ? (
-            <div className="flex items-center gap-3 px-2 py-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center flex-shrink-0">
-                <span className="text-white text-xs font-bold">
-                  {user.firstName[0]}{user.lastName[0]}
-                </span>
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center flex-shrink-0 overflow-hidden">
+                {user.profilePicture ? (
+                  <Image src={user.profilePicture} alt="Profile" width={36} height={36} className="w-full h-full object-cover" unoptimized />
+                ) : (
+                  <span className="text-white text-xs font-bold">
+                    {user.firstName[0]}{user.lastName[0]}
+                  </span>
+                )}
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-semibold text-white truncate">
+              <div className="flex-1 min-w-0 md:hidden lg:block">
+                <div className="text-sm font-bold text-white truncate">
                   {user.firstName} {user.lastName}
                 </div>
-                <div className={cn('inline-block text-xs px-1.5 py-0.5 rounded-full font-mono font-bold', TIER_STYLES[user.tier])}>
+                <div className={cn('inline-block text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold mt-0.5', TIER_STYLES[user.tier])}>
                   {user.tier}
                 </div>
               </div>
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center">
-                <span className="text-white text-xs font-bold">
-                  {user.firstName[0]}
-                </span>
-              </div>
-            </div>
-          )}
-
-          <div className="flex items-center gap-1">
-            <Link href="/settings"
-              className={cn('flex items-center gap-2 px-3 py-2 rounded-lg text-xc-muted hover:text-white hover:bg-white/5 transition-all text-sm', sidebarOpen ? 'flex-1' : 'w-full justify-center')}
-            >
-              <Settings className="w-4 h-4" />
-              {sidebarOpen && 'Settings'}
             </Link>
-            <button
-              onClick={logout}
-              className={cn('flex items-center gap-2 px-3 py-2 rounded-lg text-xc-muted hover:text-xc-red hover:bg-red-950/30 transition-all text-sm', sidebarOpen ? 'flex-1' : 'w-full justify-center')}
-            >
-              <LogOut className="w-4 h-4" />
-              {sidebarOpen && 'Logout'}
-            </button>
-          </div>
-        </div>
-      )}
 
-      {/* Collapse Toggle */}
-      <button
-        onClick={toggleSidebar}
-        className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-xc-card border border-xc-border text-xc-muted hover:text-white transition-colors flex items-center justify-center"
-      >
-        {sidebarOpen ? <ChevronLeft className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
-      </button>
-    </aside>
+            <div className="flex items-center gap-1 md:flex-col lg:flex-row">
+              <Link href="/settings"
+                onClick={() => setSidebarOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 rounded-full text-xc-muted hover:text-white hover:bg-white/[0.06] transition-all text-sm flex-1 md:justify-center lg:justify-start"
+              >
+                <Settings className="w-4 h-4" />
+                <span className="md:hidden lg:inline">Settings</span>
+              </Link>
+              <button
+                onClick={() => { logout(); setSidebarOpen(false); }}
+                className="flex items-center gap-2 px-3 py-2 rounded-full text-xc-muted hover:text-xc-red hover:bg-red-950/30 transition-all text-sm flex-1 md:justify-center lg:justify-start"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="md:hidden lg:inline">Logout</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </aside>
+    </>
   );
 }

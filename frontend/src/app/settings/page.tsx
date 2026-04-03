@@ -1,0 +1,256 @@
+"use client";
+
+import { useState, useRef, ChangeEvent } from "react";
+import Image from "next/image";
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import {
+  Camera, User, Mail, Phone, Shield, Bell, Moon, Eye, EyeOff,
+  ChevronRight, Check, Lock,
+} from "lucide-react";
+import { useStore } from "@/store/useStore";
+import { cn } from "@/lib/utils";
+
+const TIER_STYLES: Record<string, string> = {
+  CORE: "bg-white/10 text-white border border-white/10",
+  GOLD: "bg-amber-500/20 text-amber-400 border border-amber-500/30",
+  BLACK: "bg-purple-500/20 text-purple-400 border border-purple-500/30",
+};
+
+export default function SettingsPage() {
+  const { user, updateUser } = useStore();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [firstName, setFirstName] = useState(user?.firstName ?? "");
+  const [lastName, setLastName] = useState(user?.lastName ?? "");
+  const [phone, setPhone] = useState(user?.phone ?? "");
+  const [saved, setSaved] = useState(false);
+
+  // Notification preferences (local state)
+  const [emailNotifs, setEmailNotifs] = useState(true);
+  const [pushNotifs, setPushNotifs] = useState(true);
+  const [tradeNotifs, setTradeNotifs] = useState(true);
+  const [priceAlerts, setPriceAlerts] = useState(false);
+
+  // Security
+  const [showPassword, setShowPassword] = useState(false);
+  const [twoFA, setTwoFA] = useState(false);
+
+  const handleProfilePicture = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image must be under 5MB");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      updateUser({ profilePicture: result });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSaveProfile = () => {
+    updateUser({ firstName, lastName, phone: phone || undefined });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  if (!user) return null;
+
+  return (
+    <DashboardLayout title="Settings" subtitle="Manage your account">
+      <div className="max-w-2xl mx-auto space-y-6">
+
+        {/* Profile Picture */}
+        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+          <h2 className="text-base font-bold text-white mb-5">Profile</h2>
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            <div className="relative group">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center overflow-hidden ring-2 ring-white/10">
+                {user.profilePicture ? (
+                  <Image src={user.profilePicture} alt="Profile" width={80} height={80} className="w-full h-full object-cover" unoptimized />
+                ) : (
+                  <span className="text-white text-2xl font-black">
+                    {user.firstName[0]}{user.lastName[0]}
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+              >
+                <Camera className="w-6 h-6 text-white" />
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={handleProfilePicture}
+              />
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="text-white font-bold text-lg">{user.firstName} {user.lastName}</p>
+              <p className="text-xc-muted text-sm">{user.email}</p>
+              <span className={cn("inline-block text-xs px-2 py-0.5 rounded-full font-mono font-bold mt-1", TIER_STYLES[user.tier])}>
+                {user.tier} Tier
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* Personal Info */}
+        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+          <h2 className="text-base font-bold text-white mb-5">Personal Information</h2>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-medium text-xc-muted mb-1.5 block">First Name</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-xc-muted/50 focus:outline-none focus:ring-1 focus:ring-xc-purple/50 focus:border-xc-purple/30 transition-all"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-medium text-xc-muted mb-1.5 block">Last Name</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
+                  <input
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-xc-muted/50 focus:outline-none focus:ring-1 focus:ring-xc-purple/50 focus:border-xc-purple/30 transition-all"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-xc-muted mb-1.5 block">Email</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
+                <input
+                  type="email"
+                  value={user.email}
+                  disabled
+                  className="w-full bg-white/[0.02] border border-white/[0.06] rounded-xl pl-10 pr-4 py-2.5 text-sm text-xc-muted cursor-not-allowed"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-xc-muted mb-1.5 block">Phone</label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="(optional)"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-xc-muted/50 focus:outline-none focus:ring-1 focus:ring-xc-purple/50 focus:border-xc-purple/30 transition-all"
+                />
+              </div>
+            </div>
+            <button
+              onClick={handleSaveProfile}
+              className={cn(
+                "w-full sm:w-auto px-6 py-2.5 rounded-full text-sm font-bold transition-all",
+                saved
+                  ? "bg-xc-green/20 text-xc-green"
+                  : "bg-gradient-to-r from-xc-purple to-xc-cyan text-white hover:opacity-90"
+              )}
+            >
+              {saved ? (
+                <span className="flex items-center justify-center gap-2"><Check className="w-4 h-4" /> Saved</span>
+              ) : (
+                "Save Changes"
+              )}
+            </button>
+          </div>
+        </section>
+
+        {/* Notifications */}
+        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+          <h2 className="text-base font-bold text-white mb-5">Notifications</h2>
+          <div className="space-y-3">
+            <ToggleRow label="Email notifications" description="Receive updates via email" checked={emailNotifs} onChange={setEmailNotifs} />
+            <ToggleRow label="Push notifications" description="Browser push alerts" checked={pushNotifs} onChange={setPushNotifs} />
+            <ToggleRow label="Trade confirmations" description="Get notified on every trade" checked={tradeNotifs} onChange={setTradeNotifs} />
+            <ToggleRow label="Price alerts" description="Alert when assets hit target price" checked={priceAlerts} onChange={setPriceAlerts} />
+          </div>
+        </section>
+
+        {/* Security */}
+        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+          <h2 className="text-base font-bold text-white mb-5">Security</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs font-medium text-xc-muted mb-1.5 block">Change Password</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="New password"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-10 py-2.5 text-sm text-white placeholder:text-xc-muted/50 focus:outline-none focus:ring-1 focus:ring-xc-purple/50 focus:border-xc-purple/30 transition-all"
+                />
+                <button
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xc-muted hover:text-white transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+            <ToggleRow label="Two-factor authentication" description="Add an extra layer of security" checked={twoFA} onChange={setTwoFA} />
+          </div>
+        </section>
+
+        {/* Account Info */}
+        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+          <h2 className="text-base font-bold text-white mb-5">Account</h2>
+          <div className="space-y-3">
+            <InfoRow label="KYC Status" value={user.kycStatus.replace(/_/g, " ")} />
+            <InfoRow label="Accreditation" value={user.accreditationStatus.replace(/_/g, " ")} />
+            <InfoRow label="Member since" value={new Date(user.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })} />
+          </div>
+        </section>
+      </div>
+    </DashboardLayout>
+  );
+}
+
+function ToggleRow({ label, description, checked, onChange }: { label: string; description: string; checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <div className="flex items-center justify-between py-2">
+      <div>
+        <p className="text-sm font-medium text-white">{label}</p>
+        <p className="text-xs text-xc-muted">{description}</p>
+      </div>
+      <button
+        onClick={() => onChange(!checked)}
+        className={cn(
+          "relative w-11 h-6 rounded-full transition-colors",
+          checked ? "bg-xc-purple" : "bg-white/10"
+        )}
+      >
+        <div className={cn(
+          "absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform",
+          checked && "translate-x-5"
+        )} />
+      </button>
+    </div>
+  );
+}
+
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
+      <span className="text-sm text-xc-muted">{label}</span>
+      <span className="text-sm font-medium text-white capitalize">{value.toLowerCase()}</span>
+    </div>
+  );
+}

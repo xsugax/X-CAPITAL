@@ -1,6 +1,7 @@
 'use client';
 
-import { Bell, Search } from 'lucide-react';
+import Image from 'next/image';
+import { Bell, Menu, Search } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { formatCurrency } from '@/lib/utils';
 
@@ -10,16 +11,25 @@ interface HeaderProps {
 }
 
 export default function Header({ title, subtitle }: HeaderProps) {
-  const { user, wallet } = useStore();
+  const { user, wallet, setSidebarOpen } = useStore();
 
   return (
-    <header className="h-16 flex items-center justify-between px-6 border-b border-white/5 bg-xc-dark/80 backdrop-blur-xl sticky top-0 z-30">
-      <div>
-        <h1 className="text-lg font-bold text-white">{title}</h1>
-        {subtitle && <p className="text-xs text-xc-muted">{subtitle}</p>}
+    <header className="h-14 md:h-16 flex items-center justify-between px-4 md:px-6 border-b border-white/[0.06] bg-xc-dark/80 backdrop-blur-xl sticky top-0 z-30">
+      <div className="flex items-center gap-3">
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-xc-muted hover:text-white hover:bg-white/10 transition-colors"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <div>
+          <h1 className="text-base md:text-lg font-bold text-white">{title}</h1>
+          {subtitle && <p className="text-xs text-xc-muted">{subtitle}</p>}
+        </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         {/* Balance pill */}
         {wallet && (
           <div className="hidden md:flex items-center gap-2 glass border border-white/5 rounded-full px-4 py-1.5 text-sm">
@@ -43,10 +53,14 @@ export default function Header({ title, subtitle }: HeaderProps) {
 
         {/* Avatar */}
         {user && (
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center cursor-pointer">
-            <span className="text-white text-xs font-bold">
-              {user.firstName[0]}{user.lastName[0]}
-            </span>
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center cursor-pointer overflow-hidden">
+            {user.profilePicture ? (
+              <Image src={user.profilePicture} alt="" width={36} height={36} className="w-full h-full object-cover" unoptimized />
+            ) : (
+              <span className="text-white text-xs font-bold">
+                {user.firstName[0]}{user.lastName[0]}
+              </span>
+            )}
           </div>
         )}
       </div>

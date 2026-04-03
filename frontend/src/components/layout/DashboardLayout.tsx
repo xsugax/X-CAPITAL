@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { useStore } from '@/store/useStore';
-import { cn } from '@/lib/utils';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -14,7 +13,7 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children, title, subtitle }: DashboardLayoutProps) {
-  const { isAuthenticated, sidebarOpen } = useStore();
+  const { isAuthenticated } = useStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -26,14 +25,11 @@ export default function DashboardLayout({ children, title, subtitle }: Dashboard
   if (!isAuthenticated) return null;
 
   return (
-    <div className="min-h-screen bg-xc-black flex">
+    <div className="min-h-screen bg-xc-black">
       <Sidebar />
-      <div className={cn(
-        'flex-1 flex flex-col min-h-screen transition-all duration-300',
-        sidebarOpen ? 'ml-60' : 'ml-16'
-      )}>
+      <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 md:ml-[68px] lg:ml-[240px]">
         <Header title={title} subtitle={subtitle} />
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 md:p-6">
           {children}
         </main>
       </div>

@@ -18,6 +18,7 @@ export interface User {
   firstName: string;
   lastName: string;
   phone?: string;
+  profilePicture?: string;
   tier: UserTier;
   kycStatus: KYCStatus;
   accreditationStatus: AccreditationStatus;
