@@ -210,7 +210,7 @@ export default function LandingPage() {
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
             </div>
-            <span className="font-black text-lg tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">X-CAPITAL</span>
+            <span className="font-black text-lg tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">- CAPITAL</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm text-xc-muted">
             <a href="#features" className="hover:text-white transition-colors relative group">
@@ -263,8 +263,8 @@ export default function LandingPage() {
           loop
           playsInline
           preload="auto"
-          className="absolute inset-0 w-full h-full object-cover z-0 scale-[1.02]"
-          style={{ willChange: 'transform', objectPosition: '75% center' }}
+          className="absolute inset-0 w-full h-full object-cover z-0 scale-[1.02] hero-video-position"
+          style={{ willChange: 'transform' }}
         >
           <source src="/videos/hero-4k.mp4" type="video/mp4" />
           <source src="/videos/hero-hd.mp4" type="video/mp4" />
@@ -955,7 +955,7 @@ export default function LandingPage() {
                 <div className="w-6 h-6 rounded-md bg-gradient-to-br from-purple-600 to-cyan-600 flex items-center justify-center">
                   <span className="text-white font-black text-[10px]">X</span>
                 </div>
-                <span className="font-black text-white text-sm">X-CAPITAL</span>
+                <span className="font-black text-white text-sm">- CAPITAL</span>
               </div>
               <p className="text-[11px] text-slate-600 leading-relaxed">
                 Multiplanetary capital deployment. Five rails. One command center.

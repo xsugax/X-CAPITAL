@@ -197,6 +197,16 @@ body {
   animation: engineFire 2.4s ease-in-out infinite;
 }
 
+/* Hero video — rocket visible on mobile, offset on desktop */
+.hero-video-position {
+  object-position: center center;
+}
+@media (min-width: 768px) {
+  .hero-video-position {
+    object-position: 75% center;
+  }
+}
+
 /* Floating data particles — oracle / AI section */
 @keyframes floatParticle {
   0%   { transform: translateY(0)       scale(1);   opacity: 0;   }
