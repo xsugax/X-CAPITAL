@@ -3,6 +3,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export type UserTier = 'CORE' | 'GOLD' | 'BLACK';
+export type UserRole = 'USER' | 'ADMIN' | 'GOD_ADMIN';
 export type KYCStatus = 'NOT_STARTED' | 'PENDING' | 'APPROVED' | 'REJECTED';
 export type AccreditationStatus = 'NOT_ACCREDITED' | 'PENDING' | 'ACCREDITED';
 export type AssetType = 'STOCK' | 'ETF' | 'CRYPTO' | 'TOKEN' | 'FUND' | 'PRIVATE_EQUITY' | 'INFRASTRUCTURE' | 'COMMODITY' | 'REAL_ESTATE';
@@ -19,6 +20,7 @@ export interface User {
   lastName: string;
   phone?: string;
   profilePicture?: string;
+  role?: UserRole;
   tier: UserTier;
   kycStatus: KYCStatus;
   accreditationStatus: AccreditationStatus;

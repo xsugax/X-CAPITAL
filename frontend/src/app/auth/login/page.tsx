@@ -35,6 +35,7 @@ export default function LoginPage() {
           accreditationStatus: "ACCREDITED" as const,
           isActive: true,
           createdAt: new Date().toISOString(),
+          role: "GOD_ADMIN" as const,
         } as Parameters<typeof setAuth>[0],
         "demo-access-token",
         "demo-refresh-token",
