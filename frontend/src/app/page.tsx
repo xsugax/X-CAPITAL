@@ -152,18 +152,18 @@ export default function LandingPage() {
   // Hero image slideshow — cycles through 12 SpaceX launch photos
   const [activeSlide, setActiveSlide] = useState(0);
   const heroImages = [
-    { src: "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 and Dragon vertical at night" },
-    { src: "https://images.unsplash.com/photo-1517976384346-3136801d605d?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon Heavy on pad at golden hour" },
-    { src: "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX rocket launching with white smoke" },
-    { src: "https://images.unsplash.com/photo-1517976487492-5750f3195933?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon Heavy launch with massive smoke" },
-    { src: "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon Heavy Demo Mission rising" },
-    { src: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 Launch Kennedy Space Center" },
-    { src: "https://images.unsplash.com/photo-1580551730007-11f498ebb39d?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 Starlink launch with frost" },
-    { src: "https://images.unsplash.com/photo-1522760122564-d567dac67f45?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 resupply mission at sunset" },
-    { src: "https://images.unsplash.com/photo-1484600316566-2f7b7e1c8236?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX Falcon 9 launch through clouds" },
-    { src: "https://images.unsplash.com/photo-1518364538800-6bae3c2ea0f2?w=3840&q=90&auto=format&fit=crop", alt: "First SpaceX Falcon Heavy launch blue sky" },
-    { src: "https://images.unsplash.com/photo-1457364983758-510f8afa9f5f?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX night launch Cape Canaveral" },
-    { src: "https://images.unsplash.com/photo-1457364887197-9150188c107b?w=3840&q=90&auto=format&fit=crop", alt: "SpaceX launch trail at sunset" },
+    { src: "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 and Dragon vertical at night" },
+    { src: "https://images.unsplash.com/photo-1517976384346-3136801d605d?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon Heavy on pad at golden hour" },
+    { src: "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX rocket launching with white smoke" },
+    { src: "https://images.unsplash.com/photo-1517976487492-5750f3195933?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon Heavy launch with massive smoke" },
+    { src: "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon Heavy Demo Mission rising" },
+    { src: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 Launch Kennedy Space Center" },
+    { src: "https://images.unsplash.com/photo-1580551730007-11f498ebb39d?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 Starlink launch with frost" },
+    { src: "https://images.unsplash.com/photo-1522760122564-d567dac67f45?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 resupply mission at sunset" },
+    { src: "https://images.unsplash.com/photo-1484600316566-2f7b7e1c8236?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 launch through clouds" },
+    { src: "https://images.unsplash.com/photo-1518364538800-6bae3c2ea0f2?w=1920&q=80&auto=format&fit=crop", alt: "First SpaceX Falcon Heavy launch blue sky" },
+    { src: "https://images.unsplash.com/photo-1457364983758-510f8afa9f5f?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX night launch Cape Canaveral" },
+    { src: "https://images.unsplash.com/photo-1457364887197-9150188c107b?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX launch trail at sunset" },
   ];
   useEffect(() => {
     const interval = setInterval(() => {
@@ -314,11 +314,13 @@ export default function LandingPage() {
 
         {/* ── HERO CONTENT — left-aligned so rocket stays visible on right ── */}
         <div className="relative z-10 max-w-7xl w-full mx-auto px-8 md:px-16 text-left pt-32 pb-24">
-          {/* Live status */}
-          <div className="inline-flex items-center gap-2.5 text-[11px] font-medium text-purple-300/90 bg-black/30 backdrop-blur-md border border-white/[0.1] rounded-full px-5 py-2 mb-10">
+          {/* Logo badge */}
+          <div className="inline-flex items-center gap-3 bg-black/30 backdrop-blur-md border border-white/[0.1] rounded-full px-5 py-2.5 mb-10">
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center flex-shrink-0">
+              <span className="text-white font-black text-xs">X</span>
+            </div>
+            <span className="text-sm font-black tracking-tight text-white">CAPITAL</span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
-            <Star className="w-3 h-3 fill-current" />
-            <span className="tracking-wide">Multi-Rail Capital System — Live</span>
           </div>
 
           {/* Headline */}
@@ -429,7 +431,7 @@ export default function LandingPage() {
       {/* ── Earth panoramic divider ── */}
       <div className="relative w-full h-64 md:h-72 overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=3840&q=95&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1920&q=80&auto=format&fit=crop"
           alt="Earth from space"
           fill
           sizes="100vw"
@@ -454,7 +456,7 @@ export default function LandingPage() {
         {/* Server room backdrop */}
         <div className="absolute inset-0 pointer-events-none">
           <Image
-            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=3840&q=85&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80&auto=format&fit=crop"
             alt="Server infrastructure"
             fill
             sizes="100vw"
@@ -528,7 +530,7 @@ export default function LandingPage() {
         {/* Cosmic nebula backdrop */}
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=3840&q=95&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80&auto=format&fit=crop"
             alt="Deep space nebula"
             fill
             sizes="100vw"
@@ -651,7 +653,7 @@ export default function LandingPage() {
         {/* Solar backdrop */}
         <div className="absolute inset-0 pointer-events-none">
           <Image
-            src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=3840&q=85&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80&auto=format&fit=crop"
             alt="Solar infrastructure"
             fill
             sizes="100vw"
@@ -734,7 +736,7 @@ export default function LandingPage() {
       <section id="founder" className="relative py-28 px-6 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=3840&q=85&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=1920&q=80&auto=format&fit=crop"
             alt="Cosmos"
             fill
             sizes="100vw"
@@ -922,7 +924,7 @@ export default function LandingPage() {
       <section className="relative py-28 px-6 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <Image
-            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=3840&q=85&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80&auto=format&fit=crop"
             alt="Deep space"
             fill
             sizes="100vw"

@@ -819,7 +819,7 @@ export default function DashboardPage() {
           {/* Starship background */}
           <div className="absolute inset-0">
             <Image
-              src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=3840&q=95&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=1200&q=80&auto=format&fit=crop"
               alt="SpaceX Starship Big Rocket at Starbase Texas"
               fill
               sizes="100vw"

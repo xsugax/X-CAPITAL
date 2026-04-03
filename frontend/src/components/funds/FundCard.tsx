@@ -49,7 +49,7 @@ const CAT_CONFIG: Record<
     emoji: "🚀",
     headerBg: "from-indigo-950 to-purple-950",
     imageUrl:
-      "https://images.unsplash.com/photo-1541185200-8de3ab08bcf8?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=1200&q=80&auto=format&fit=crop",
   },
   AI: {
     grad: "from-purple-950/80 via-xc-card to-xc-card",
@@ -59,7 +59,7 @@ const CAT_CONFIG: Record<
     emoji: "🤖",
     headerBg: "from-purple-950 to-indigo-950",
     imageUrl:
-      "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&q=80&auto=format&fit=crop",
   },
   ENERGY: {
     grad: "from-amber-950/70 via-xc-card to-xc-card",
@@ -69,7 +69,7 @@ const CAT_CONFIG: Record<
     emoji: "⚡",
     headerBg: "from-amber-950 to-green-950",
     imageUrl:
-      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&q=80&auto=format&fit=crop",
   },
   VENTURE: {
     grad: "from-blue-950/70 via-xc-card to-xc-card",

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 
-/* â”€â”€ category filter config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── category filter config ─────────────────────────────────────────────── */
 const CATEGORIES = [
   {
     key: "ALL",
@@ -93,7 +93,7 @@ export default function CommercePage() {
       setCheckoutData(res.data.data);
       setMessage({
         type: "success",
-        text: "Checkout session created! Redirecting to purchaseâ€¦",
+        text: "Checkout session created! Redirecting to purchase…",
       });
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string } } };
@@ -123,15 +123,15 @@ export default function CommercePage() {
   return (
     <DashboardLayout
       title="Commerce"
-      subtitle="Buy world-class products Â· Invest in the companies behind them"
+      subtitle="Buy world-class products · Invest in the companies behind them"
     >
       <div className="space-y-8">
-        {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Hero Banner ────────────────────────────────────────────────── */}
         <div className="relative overflow-hidden rounded-2xl border border-xc-border min-h-[200px]">
           {/* background image */}
           <div className="absolute inset-0">
             <Image
-              src="https://images.unsplash.com/photo-1617704548623-340376564e68?w=3840&q=95&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1617704548623-340376564e68?w=1200&q=80&auto=format&fit=crop"
               alt="Tesla vehicle panoramic"
               fill
               className="object-cover object-center"
@@ -162,7 +162,7 @@ export default function CommercePage() {
               X-CAPITAL's commerce rail executes product purchases and stock
               investments simultaneously. Every Tesla you buy is an entry into
               TSLA. Every NVIDIA server is an NVDA position. Every SpaceX
-              terminal is a stake in the space economy â€” all settled in one
+              terminal is a stake in the space economy — all settled in one
               transaction.
             </p>
             <div className="flex flex-wrap items-center gap-6 mt-5">
@@ -194,7 +194,7 @@ export default function CommercePage() {
           </div>
         </div>
 
-        {/* â”€â”€ Tesla Ecosystem Showcase â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Tesla Ecosystem Showcase ──────────────────────────────────── */}
         {teslaProducts.length > 0 && (
           <section>
             <div className="flex items-center gap-3 mb-4">
@@ -215,7 +215,7 @@ export default function CommercePage() {
             {/* Wide panoramic Tesla banner */}
             <div className="relative h-48 rounded-2xl overflow-hidden mb-5 border border-red-900/20">
               <Image
-                src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=3840&q=95&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=1200&q=80&auto=format&fit=crop"
                 alt="Tesla Model S on the road"
                 fill
                 className="object-cover object-center"
@@ -225,7 +225,7 @@ export default function CommercePage() {
               <div className="absolute inset-0 flex items-center px-8">
                 <div>
                   <p className="text-xs font-bold text-red-300 uppercase tracking-widest mb-1">
-                    Tesla, Inc. â€” NASDAQ: TSLA
+                    Tesla, Inc. — NASDAQ: TSLA
                   </p>
                   <h4 className="text-2xl font-black text-white">
                     Every Purchase.
@@ -255,7 +255,7 @@ export default function CommercePage() {
           </section>
         )}
 
-        {/* â”€â”€ Space Economy Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Space Economy Section ─────────────────────────────────────── */}
         {spaceProducts.length > 0 && (
           <section>
             <div className="flex items-center gap-3 mb-4">
@@ -274,8 +274,8 @@ export default function CommercePage() {
             {/* Rocket launch panoramic banner */}
             <div className="relative h-44 rounded-2xl overflow-hidden mb-5 border border-indigo-900/20">
               <Image
-                src="https://images.unsplash.com/photo-1541185200-8de3ab08bcf8?w=3840&q=95&auto=format&fit=crop"
-                alt="Rocket launch"
+                src="https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=1200&q=80&auto=format&fit=crop"
+                alt="SpaceX rocket launch"
                 fill
                 className="object-cover object-center"
                 unoptimized
@@ -284,7 +284,7 @@ export default function CommercePage() {
               <div className="absolute inset-0 flex items-center px-8">
                 <div>
                   <p className="text-xs font-bold text-indigo-300 uppercase tracking-widest mb-1">
-                    Space Infrastructure Â· Connectivity
+                    Space Infrastructure · Connectivity
                   </p>
                   <h4 className="text-2xl font-black text-white">
                     The Final Frontier.
@@ -304,7 +304,7 @@ export default function CommercePage() {
                   className="text-5xl animate-bounce"
                   style={{ animationDuration: "3s" }}
                 >
-                  ðŸš€
+                  🚀
                 </div>
                 <div className="w-0.5 h-8 bg-gradient-to-b from-orange-400/60 to-transparent" />
               </div>
@@ -312,7 +312,7 @@ export default function CommercePage() {
           </section>
         )}
 
-        {/* â”€â”€ Category Filter Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Category Filter Tabs ──────────────────────────────────────── */}
         <div className="flex items-center gap-2 flex-wrap">
           <Filter className="w-4 h-4 text-xc-muted" />
           {CATEGORIES.map((cat) => (
@@ -336,7 +336,7 @@ export default function CommercePage() {
           ))}
         </div>
 
-        {/* â”€â”€ Product Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Product Grid ─────────────────────────────────────────────── */}
         {loading ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -363,7 +363,7 @@ export default function CommercePage() {
           </div>
         )}
 
-        {/* â”€â”€ Disclosure â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Disclosure ───────────────────────────────────────────────── */}
         <div className="flex items-start gap-3 text-xs text-xc-muted bg-xc-dark/40 border border-xc-border rounded-xl p-4">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-xc-muted" />
           <span>
@@ -376,7 +376,7 @@ export default function CommercePage() {
         </div>
       </div>
 
-      {/* â”€â”€ Checkout Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Checkout Modal ────────────────────────────────────────────────── */}
       <Modal
         open={!!selected}
         onClose={() => setSelected(null)}
@@ -485,7 +485,7 @@ export default function CommercePage() {
                       </span>{" "}
                       in{" "}
                       <span className="text-xc-purple-light font-semibold">
-                        ${selected.investmentSuggestion.symbol} â€”{" "}
+                        ${selected.investmentSuggestion.symbol} —{" "}
                         {selected.investmentSuggestion.name}
                       </span>
                     </p>
@@ -580,27 +580,27 @@ export default function CommercePage() {
   );
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   DEMO DATA â€” full product catalog
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ════════════════════════════════════════════════════════════════════════════
+   DEMO DATA — full product catalog
+   ════════════════════════════════════════════════════════════════════════════ */
 const DEMO_PRODUCTS: Product[] = [
-  // â”€â”€ Tesla lineup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Tesla lineup ──────────────────────────────────────────────────────────
   {
     id: "tesla-model-x",
     name: "Tesla Model X Plaid",
     category: "EV",
     price: 89990,
-    imageEmoji: "ðŸš—",
+    imageEmoji: "🚗",
     imageUrl:
-      "https://images.unsplash.com/photo-1617704548623-340376564e68?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1617704548623-340376564e68?w=1200&q=80&auto=format&fit=crop",
     imageAlt: "Tesla Model X Plaid in silver",
     tagline: "The quickest SUV ever made.",
     badge: "Bestseller",
     description:
-      "Premium all-electric SUV with Plaid tri-motor drivetrain. 0â€“60 in 2.5 seconds, 333-mile range, falcon-wing doors, 22-speaker audio, and full Autopilot hardware.",
+      "Premium all-electric SUV with Plaid tri-motor drivetrain. 0–60 in 2.5 seconds, 333-mile range, falcon-wing doors, 22-speaker audio, and full Autopilot hardware.",
     specs: {
       Range: "333 mi",
-      "0â€“60": "2.5 s",
+      "0–60": "2.5 s",
       "Top Speed": "163 mph",
       Seats: "7",
       Cargo: "187 cu ft",
@@ -630,17 +630,17 @@ const DEMO_PRODUCTS: Product[] = [
     name: "Tesla Model S Plaid",
     category: "EV",
     price: 89990,
-    imageEmoji: "ðŸŽï¸",
+    imageEmoji: "🏎️",
     imageUrl:
-      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=1200&q=80&auto=format&fit=crop",
     imageAlt: "Tesla Model S Plaid red",
-    tagline: "1,020 hp. 0â€“60 in 1.99 s.",
+    tagline: "1,020 hp. 0–60 in 1.99 s.",
     badge: "Plaid",
     description:
       "The most powerful production sedan ever built. Triple-motor Plaid architecture delivers 1,020 hp and a quarter-mile in 9.23 seconds. Range-topping 396-mile EPA estimate.",
     specs: {
       Range: "396 mi",
-      "0â€“60": "1.99 s",
+      "0–60": "1.99 s",
       "Peak Power": "1,020 hp",
       "Top Speed": "200 mph",
       "Charge Rate": "250 kW",
@@ -666,16 +666,16 @@ const DEMO_PRODUCTS: Product[] = [
     name: "Tesla Model 3 Long Range",
     category: "EV",
     price: 42990,
-    imageEmoji: "ðŸš™",
+    imageEmoji: "🚙",
     imageUrl:
-      "https://images.unsplash.com/photo-1561580125-028ee3bd62eb?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1561580125-028ee3bd62eb?w=1200&q=80&auto=format&fit=crop",
     imageAlt: "Tesla Model 3 white",
     tagline: "The world's most popular EV sedan.",
     description:
-      "Long Range AWD Model 3 with 358-mile range, 4.2-second 0â€“60, and 17-inch glass cockpit. Dual-motor, full Autopilot hardware, and over-the-air software updates for life.",
+      "Long Range AWD Model 3 with 358-mile range, 4.2-second 0–60, and 17-inch glass cockpit. Dual-motor, full Autopilot hardware, and over-the-air software updates for life.",
     specs: {
       Range: "358 mi",
-      "0â€“60": "4.2 s",
+      "0–60": "4.2 s",
       "Top Speed": "145 mph",
       Motor: "Dual AWD",
       Screen: '15.4" + 8"',
@@ -701,17 +701,17 @@ const DEMO_PRODUCTS: Product[] = [
     name: "Tesla Model Y AWD",
     category: "EV",
     price: 47990,
-    imageEmoji: "ðŸš",
+    imageEmoji: "🚐",
     imageUrl:
-      "https://images.unsplash.com/photo-1619642975990-fc74996d8be2?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1200&q=80&auto=format&fit=crop",
     imageAlt: "Tesla Model Y crossover",
     tagline: "The world's best-selling vehicle.",
     description:
       "All-Wheel Drive crossover with 330-mile range, 7-seat configuration, and the largest cargo space in its class. The #1 best-selling vehicle globally for 2023 and 2024.",
     specs: {
       Range: "330 mi",
-      "0â€“60": "4.8 s",
-      Seats: "5â€“7",
+      "0–60": "4.8 s",
+      Seats: "5–7",
       Cargo: "76 cu ft",
       Screen: '15.4"',
       Drive: "Dual AWD",
@@ -736,17 +736,17 @@ const DEMO_PRODUCTS: Product[] = [
     name: "Tesla Cybertruck Foundation",
     category: "EV",
     price: 99990,
-    imageEmoji: "ðŸ›»",
+    imageEmoji: "🛻",
     imageUrl:
-      "https://images.unsplash.com/photo-1585087591762-99f98700b56d?w=3840&q=95&auto=format&fit=crop",
-    imageAlt: "Tesla Cybertruck stainless steel",
+      "https://images.unsplash.com/photo-1705771801928-4fceafdd6e55?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Tesla Cybertruck Foundation Series",
     tagline: "Built for the future. Available now.",
     badge: "Limited",
     description:
-      "Cyberbeast tri-motor Cybertruck in 30X cold-rolled stainless steel exoskeleton. 320-mile range, 0â€“60 in 2.6 seconds, 11,000 lb tow rating, and 120V/240V power export.",
+      "Cyberbeast tri-motor Cybertruck in 30X cold-rolled stainless steel exoskeleton. 320-mile range, 0–60 in 2.6 seconds, 11,000 lb tow rating, and 120V/240V power export.",
     specs: {
       Range: "320 mi",
-      "0â€“60": "2.6 s",
+      "0–60": "2.6 s",
       Tow: "11,000 lb",
       Payload: "2,500 lb",
       Bed: "6 ft",
@@ -772,7 +772,10 @@ const DEMO_PRODUCTS: Product[] = [
     name: "Tesla Powerwall 3",
     category: "ENERGY",
     price: 11500,
-    imageEmoji: "ðŸ”‹",
+    imageEmoji: "🔋",
+    imageUrl:
+      "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Tesla Powerwall home battery",
     tagline: "Whole-home backup power.",
     description:
       "Powerwall 3 with integrated 11.5 kW solar inverter, 13.5 kWh usable capacity, and Storm Watch automatic backup activation. Monitor and control from the Tesla app.",
@@ -800,23 +803,23 @@ const DEMO_PRODUCTS: Product[] = [
     affiliateUrl: "https://tesla.com/powerwall",
   },
 
-  // â”€â”€ Space Economy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Space Economy ─────────────────────────────────────────────────────────
   {
     id: "starlink-residential",
     name: "Starlink Residential Kit",
     category: "SPACE",
     price: 499,
-    imageEmoji: "ðŸ“¡",
+    imageEmoji: "📡",
     imageUrl:
-      "https://images.unsplash.com/photo-1541185200-8de3ab08bcf8?w=3840&q=95&auto=format&fit=crop",
-    imageAlt: "Rocket launch at night",
+      "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "SpaceX rocket launch",
     tagline: "High-speed internet from low orbit.",
     badge: "Space",
     description:
-      "Second-generation Starlink dish with Gen 3 square design, built-in WiFi 6 router, and 100â€“300 Mbps speeds via LEO satellite constellation. Ships globally.",
+      "Second-generation Starlink dish with Gen 3 square design, built-in WiFi 6 router, and 100–300 Mbps speeds via LEO satellite constellation. Ships globally.",
     specs: {
-      Download: "100â€“300 Mbps",
-      Latency: "25â€“60 ms",
+      Download: "100–300 Mbps",
+      Latency: "25–60 ms",
       "Dish Gen": "Gen 3",
       WiFi: "WiFi 6",
       Mounting: "Pipe / Roof",
@@ -842,9 +845,9 @@ const DEMO_PRODUCTS: Product[] = [
     name: "Starlink Roam Global",
     category: "SPACE",
     price: 2500,
-    imageEmoji: "ðŸ›°ï¸",
+    imageEmoji: "🛰️",
     imageUrl:
-      "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=1200&q=80&auto=format&fit=crop",
     imageAlt: "SpaceX Falcon 9 at launch pad",
     tagline: "Internet anywhere on Earth.",
     badge: "Enterprise",
@@ -874,20 +877,20 @@ const DEMO_PRODUCTS: Product[] = [
     affiliateUrl: "https://starlink.com",
   },
 
-  // â”€â”€ AI / Computing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── AI / Computing ────────────────────────────────────────────────────────
   {
     id: "nvidia-dgx-h100",
     name: "NVIDIA DGX H100",
     category: "AI",
     price: 250000,
-    imageEmoji: "ðŸ–¥ï¸",
+    imageEmoji: "🖥️",
     imageUrl:
-      "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&q=80&auto=format&fit=crop",
     imageAlt: "NVIDIA AI computing system",
     tagline: "The AI supercomputer. In a box.",
     badge: "Enterprise",
     description:
-      "The NVIDIA DGX H100 delivers the definitive AI infrastructure platform â€” 8x H100 80GB GPUs interconnected at 3.2 Tbps NVLink bandwidth. Train frontier models on-premise.",
+      "The NVIDIA DGX H100 delivers the definitive AI infrastructure platform — 8x H100 80GB GPUs interconnected at 3.2 Tbps NVLink bandwidth. Train frontier models on-premise.",
     specs: {
       GPUs: "8x H100 80GB",
       "GPU RAM": "640 GB HBM3",
@@ -916,14 +919,14 @@ const DEMO_PRODUCTS: Product[] = [
     name: "MacBook Pro M4 Max",
     category: "COMPUTING",
     price: 3499,
-    imageEmoji: "ðŸ’»",
+    imageEmoji: "💻",
     imageUrl:
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=3840&q=95&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=80&auto=format&fit=crop",
     imageAlt: "Apple MacBook Pro on desk",
     tagline: "Outrageous. Outrageously good.",
     badge: "New",
     description:
-      "16-inch MacBook Pro with M4 Max chip featuring 16-core CPU, 40-core GPU, and up to 128 GB unified memory â€” purpose-built for LLM fine-tuning and video workflows.",
+      "16-inch MacBook Pro with M4 Max chip featuring 16-core CPU, 40-core GPU, and up to 128 GB unified memory — purpose-built for LLM fine-tuning and video workflows.",
     specs: {
       Chip: "M4 Max",
       CPU: "16-Core",
