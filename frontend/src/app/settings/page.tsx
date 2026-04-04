@@ -4,8 +4,18 @@ import { useState, useRef, ChangeEvent } from "react";
 import Image from "next/image";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import {
-  Camera, User, Mail, Phone, Shield, Bell, Moon, Eye, EyeOff,
-  ChevronRight, Check, Lock,
+  Camera,
+  User,
+  Mail,
+  Phone,
+  Shield,
+  Bell,
+  Moon,
+  Eye,
+  EyeOff,
+  ChevronRight,
+  Check,
+  Lock,
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { cn } from "@/lib/utils";
@@ -61,7 +71,6 @@ export default function SettingsPage() {
   return (
     <DashboardLayout title="Settings" subtitle="Manage your account">
       <div className="max-w-2xl mx-auto space-y-6">
-
         {/* Profile Picture */}
         <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Profile</h2>
@@ -69,10 +78,18 @@ export default function SettingsPage() {
             <div className="relative group">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center overflow-hidden ring-2 ring-white/10">
                 {user.profilePicture ? (
-                  <Image src={user.profilePicture} alt="Profile" width={80} height={80} className="w-full h-full object-cover" unoptimized />
+                  <Image
+                    src={user.profilePicture}
+                    alt="Profile"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover"
+                    unoptimized
+                  />
                 ) : (
                   <span className="text-white text-2xl font-black">
-                    {user.firstName[0]}{user.lastName[0]}
+                    {user.firstName[0]}
+                    {user.lastName[0]}
                   </span>
                 )}
               </div>
@@ -91,9 +108,16 @@ export default function SettingsPage() {
               />
             </div>
             <div className="text-center sm:text-left">
-              <p className="text-white font-bold text-lg">{user.firstName} {user.lastName}</p>
+              <p className="text-white font-bold text-lg">
+                {user.firstName} {user.lastName}
+              </p>
               <p className="text-xc-muted text-sm">{user.email}</p>
-              <span className={cn("inline-block text-xs px-2 py-0.5 rounded-full font-mono font-bold mt-1", TIER_STYLES[user.tier])}>
+              <span
+                className={cn(
+                  "inline-block text-xs px-2 py-0.5 rounded-full font-mono font-bold mt-1",
+                  TIER_STYLES[user.tier],
+                )}
+              >
                 {user.tier} Tier
               </span>
             </div>
@@ -102,11 +126,15 @@ export default function SettingsPage() {
 
         {/* Personal Info */}
         <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
-          <h2 className="text-base font-bold text-white mb-5">Personal Information</h2>
+          <h2 className="text-base font-bold text-white mb-5">
+            Personal Information
+          </h2>
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-medium text-xc-muted mb-1.5 block">First Name</label>
+                <label className="text-xs font-medium text-xc-muted mb-1.5 block">
+                  First Name
+                </label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
                   <input
@@ -118,7 +146,9 @@ export default function SettingsPage() {
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-xc-muted mb-1.5 block">Last Name</label>
+                <label className="text-xs font-medium text-xc-muted mb-1.5 block">
+                  Last Name
+                </label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
                   <input
@@ -131,7 +161,9 @@ export default function SettingsPage() {
               </div>
             </div>
             <div>
-              <label className="text-xs font-medium text-xc-muted mb-1.5 block">Email</label>
+              <label className="text-xs font-medium text-xc-muted mb-1.5 block">
+                Email
+              </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
                 <input
@@ -143,7 +175,9 @@ export default function SettingsPage() {
               </div>
             </div>
             <div>
-              <label className="text-xs font-medium text-xc-muted mb-1.5 block">Phone</label>
+              <label className="text-xs font-medium text-xc-muted mb-1.5 block">
+                Phone
+              </label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
                 <input
@@ -161,11 +195,13 @@ export default function SettingsPage() {
                 "w-full sm:w-auto px-6 py-2.5 rounded-full text-sm font-bold transition-all",
                 saved
                   ? "bg-xc-green/20 text-xc-green"
-                  : "bg-gradient-to-r from-xc-purple to-xc-cyan text-white hover:opacity-90"
+                  : "bg-gradient-to-r from-xc-purple to-xc-cyan text-white hover:opacity-90",
               )}
             >
               {saved ? (
-                <span className="flex items-center justify-center gap-2"><Check className="w-4 h-4" /> Saved</span>
+                <span className="flex items-center justify-center gap-2">
+                  <Check className="w-4 h-4" /> Saved
+                </span>
               ) : (
                 "Save Changes"
               )}
@@ -177,10 +213,30 @@ export default function SettingsPage() {
         <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Notifications</h2>
           <div className="space-y-3">
-            <ToggleRow label="Email notifications" description="Receive updates via email" checked={emailNotifs} onChange={setEmailNotifs} />
-            <ToggleRow label="Push notifications" description="Browser push alerts" checked={pushNotifs} onChange={setPushNotifs} />
-            <ToggleRow label="Trade confirmations" description="Get notified on every trade" checked={tradeNotifs} onChange={setTradeNotifs} />
-            <ToggleRow label="Price alerts" description="Alert when assets hit target price" checked={priceAlerts} onChange={setPriceAlerts} />
+            <ToggleRow
+              label="Email notifications"
+              description="Receive updates via email"
+              checked={emailNotifs}
+              onChange={setEmailNotifs}
+            />
+            <ToggleRow
+              label="Push notifications"
+              description="Browser push alerts"
+              checked={pushNotifs}
+              onChange={setPushNotifs}
+            />
+            <ToggleRow
+              label="Trade confirmations"
+              description="Get notified on every trade"
+              checked={tradeNotifs}
+              onChange={setTradeNotifs}
+            />
+            <ToggleRow
+              label="Price alerts"
+              description="Alert when assets hit target price"
+              checked={priceAlerts}
+              onChange={setPriceAlerts}
+            />
           </div>
         </section>
 
@@ -189,7 +245,9 @@ export default function SettingsPage() {
           <h2 className="text-base font-bold text-white mb-5">Security</h2>
           <div className="space-y-4">
             <div>
-              <label className="text-xs font-medium text-xc-muted mb-1.5 block">Change Password</label>
+              <label className="text-xs font-medium text-xc-muted mb-1.5 block">
+                Change Password
+              </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
                 <input
@@ -201,11 +259,20 @@ export default function SettingsPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-xc-muted hover:text-white transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
             </div>
-            <ToggleRow label="Two-factor authentication" description="Add an extra layer of security" checked={twoFA} onChange={setTwoFA} />
+            <ToggleRow
+              label="Two-factor authentication"
+              description="Add an extra layer of security"
+              checked={twoFA}
+              onChange={setTwoFA}
+            />
           </div>
         </section>
 
@@ -213,9 +280,22 @@ export default function SettingsPage() {
         <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Account</h2>
           <div className="space-y-3">
-            <InfoRow label="KYC Status" value={user.kycStatus.replace(/_/g, " ")} />
-            <InfoRow label="Accreditation" value={user.accreditationStatus.replace(/_/g, " ")} />
-            <InfoRow label="Member since" value={new Date(user.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })} />
+            <InfoRow
+              label="KYC Status"
+              value={user.kycStatus.replace(/_/g, " ")}
+            />
+            <InfoRow
+              label="Accreditation"
+              value={user.accreditationStatus.replace(/_/g, " ")}
+            />
+            <InfoRow
+              label="Member since"
+              value={new Date(user.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            />
           </div>
         </section>
       </div>
@@ -223,7 +303,17 @@ export default function SettingsPage() {
   );
 }
 
-function ToggleRow({ label, description, checked, onChange }: { label: string; description: string; checked: boolean; onChange: (v: boolean) => void }) {
+function ToggleRow({
+  label,
+  description,
+  checked,
+  onChange,
+}: {
+  label: string;
+  description: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) {
   return (
     <div className="flex items-center justify-between py-2">
       <div>
@@ -234,13 +324,15 @@ function ToggleRow({ label, description, checked, onChange }: { label: string; d
         onClick={() => onChange(!checked)}
         className={cn(
           "relative w-11 h-6 rounded-full transition-colors",
-          checked ? "bg-xc-purple" : "bg-white/10"
+          checked ? "bg-xc-purple" : "bg-white/10",
         )}
       >
-        <div className={cn(
-          "absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform",
-          checked && "translate-x-5"
-        )} />
+        <div
+          className={cn(
+            "absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform",
+            checked && "translate-x-5",
+          )}
+        />
       </button>
     </div>
   );
@@ -250,7 +342,9 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
       <span className="text-sm text-xc-muted">{label}</span>
-      <span className="text-sm font-medium text-white capitalize">{value.toLowerCase()}</span>
+      <span className="text-sm font-medium text-white capitalize">
+        {value.toLowerCase()}
+      </span>
     </div>
   );
 }

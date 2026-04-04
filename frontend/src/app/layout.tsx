@@ -1,34 +1,151 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'X-CAPITAL — Multi-Rail Capital Execution System',
-  description: 'The interface where capital grows and gets deployed into the systems shaping the future of civilization.',
-  keywords: ['investing', 'trading', 'private equity', 'tokenization', 'infrastructure', 'AI', 'space economy'],
-  authors: [{ name: 'X-CAPITAL' }],
+  metadataBase: new URL("https://xcapital.investments"),
+  title: {
+    default: "X-CAPITAL — Next-Generation Capital Deployment Platform",
+    template: "%s | X-CAPITAL",
+  },
+  description:
+    "X-CAPITAL is the multi-rail capital execution system for public markets, private equity, tokenized assets, and infrastructure investing. One interface. Total control.",
+  keywords: [
+    "X-CAPITAL",
+    "capital deployment",
+    "investing platform",
+    "public markets",
+    "private equity",
+    "tokenization",
+    "infrastructure investing",
+    "AI trading",
+    "space economy",
+    "fintech",
+    "asset management",
+    "portfolio management",
+  ],
+  authors: [{ name: "X-CAPITAL", url: "https://xcapital.investments" }],
+  creator: "X-CAPITAL",
+  publisher: "X-CAPITAL",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: 'X-CAPITAL',
-    description: 'Public markets. Private equity. Real-world commerce. Infrastructure. One interface.',
-    type: 'website',
+    title: "X-CAPITAL — Next-Generation Capital Deployment Platform",
+    description:
+      "Public markets. Private equity. Tokenized assets. Infrastructure. One interface, total control over your capital.",
+    url: "https://xcapital.investments",
+    siteName: "X-CAPITAL",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "X-CAPITAL — Multi-Rail Capital Execution System",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "X-CAPITAL — Next-Generation Capital Deployment",
+    description:
+      "The interface where capital grows. Public markets, private equity, tokenization, infrastructure — one system.",
+    images: ["/og-image.png"],
+    creator: "@xcapital",
+  },
+  alternates: {
+    canonical: "https://xcapital.investments",
+  },
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/apple-touch-icon.png",
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className="dark">
       <head>
         {/* DNS prefetch + preconnect for instant image/video loading */}
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
-        <link rel="dns-prefetch" href="https://cdn.pixabay.com" />
-        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdn.pixabay.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Preload the hero video for instant playback */}
         <link
-          rel="preload"
-          as="video"
-          href="https://cdn.pixabay.com/video/2022/06/03/119193-717336704_large.mp4"
+          rel="preconnect"
+          href="https://images.unsplash.com"
+          crossOrigin="anonymous"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        {/* Structured data — Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "X-CAPITAL",
+              url: "https://xcapital.investments",
+              logo: "https://xcapital.investments/favicon.svg",
+              description:
+                "Next-generation multi-rail capital deployment platform for public markets, private equity, tokenized assets, and infrastructure investing.",
+              sameAs: [],
+            }),
+          }}
+        />
+        {/* Structured data — WebSite (enables sitelinks search) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "X-CAPITAL",
+              url: "https://xcapital.investments",
+              potentialAction: {
+                "@type": "SearchAction",
+                target:
+                  "https://xcapital.investments/oracle?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+        {/* Structured data — SoftwareApplication */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "X-CAPITAL",
+              applicationCategory: "FinanceApplication",
+              operatingSystem: "Web",
+              url: "https://xcapital.investments",
+              description:
+                "Multi-rail capital execution system — trade public markets, access private equity, tokenized assets, and infrastructure investments from one interface.",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+            }),
+          }}
         />
       </head>
       <body className="bg-xc-black text-xc-text antialiased min-h-screen">
@@ -40,11 +157,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* Particle field */}
             <div className="xc-splash-particles">
               {Array.from({ length: 20 }).map((_, i) => (
-                <div key={i} className="xc-splash-dot" style={{
-                  left: `${5 + (i * 4.7) % 90}%`,
-                  animationDelay: `${i * 0.15}s`,
-                  animationDuration: `${1.5 + (i % 3) * 0.5}s`,
-                }} />
+                <div
+                  key={i}
+                  className="xc-splash-dot"
+                  style={{
+                    left: `${5 + ((i * 4.7) % 90)}%`,
+                    animationDelay: `${i * 0.15}s`,
+                    animationDuration: `${1.5 + (i % 3) * 0.5}s`,
+                  }}
+                />
               ))}
             </div>
             {/* Logo */}
@@ -61,7 +182,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="xc-splash-bar-fill" />
             </div>
             <div className="xc-splash-status">
-              INITIALIZING SYSTEMS<span className="xc-splash-dots" />
+              INITIALIZING SYSTEMS
+              <span className="xc-splash-dots" />
             </div>
           </div>
         </div>

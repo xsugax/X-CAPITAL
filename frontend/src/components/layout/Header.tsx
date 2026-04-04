@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import { Bell, Menu, Search } from 'lucide-react';
-import { useStore } from '@/store/useStore';
-import { formatCurrency } from '@/lib/utils';
-import SearchModal from './SearchModal';
-import NotificationsPanel from './NotificationsPanel';
+import { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { Bell, Menu, Search } from "lucide-react";
+import { useStore } from "@/store/useStore";
+import { formatCurrency } from "@/lib/utils";
+import SearchModal from "./SearchModal";
+import NotificationsPanel from "./NotificationsPanel";
 
 interface HeaderProps {
   title: string;
@@ -22,15 +22,15 @@ export default function Header({ title, subtitle }: HeaderProps) {
 
   // Ctrl/Cmd+K shortcut to open search
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
       e.preventDefault();
       setSearchOpen((o) => !o);
     }
   }, []);
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
   return (
@@ -45,7 +45,9 @@ export default function Header({ title, subtitle }: HeaderProps) {
             <Menu className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-base md:text-lg font-bold text-white">{title}</h1>
+            <h1 className="text-base md:text-lg font-bold text-white">
+              {title}
+            </h1>
             {subtitle && <p className="text-xs text-xc-muted">{subtitle}</p>}
           </div>
         </div>
@@ -87,7 +89,10 @@ export default function Header({ title, subtitle }: HeaderProps) {
             </button>
             <NotificationsPanel
               open={notifsOpen}
-              onClose={() => { setNotifsOpen(false); setUnread(0); }}
+              onClose={() => {
+                setNotifsOpen(false);
+                setUnread(0);
+              }}
               anchorRef={bellRef}
             />
           </div>
@@ -96,10 +101,18 @@ export default function Header({ title, subtitle }: HeaderProps) {
           {user && (
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center cursor-pointer overflow-hidden">
               {user.profilePicture ? (
-                <Image src={user.profilePicture} alt="" width={36} height={36} className="w-full h-full object-cover" unoptimized />
+                <Image
+                  src={user.profilePicture}
+                  alt=""
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-cover"
+                  unoptimized
+                />
               ) : (
                 <span className="text-white text-xs font-bold">
-                  {user.firstName[0]}{user.lastName[0]}
+                  {user.firstName[0]}
+                  {user.lastName[0]}
                 </span>
               )}
             </div>

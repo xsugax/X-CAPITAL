@@ -2,16 +2,42 @@
 // X-CAPITAL — Shared TypeScript Types
 // ─────────────────────────────────────────────────────────────────────────────
 
-export type UserTier = 'CORE' | 'GOLD' | 'BLACK';
-export type UserRole = 'USER' | 'ADMIN' | 'GOD_ADMIN';
-export type KYCStatus = 'NOT_STARTED' | 'PENDING' | 'APPROVED' | 'REJECTED';
-export type AccreditationStatus = 'NOT_ACCREDITED' | 'PENDING' | 'ACCREDITED';
-export type AssetType = 'STOCK' | 'ETF' | 'CRYPTO' | 'TOKEN' | 'FUND' | 'PRIVATE_EQUITY' | 'INFRASTRUCTURE' | 'COMMODITY' | 'REAL_ESTATE';
-export type OrderType = 'BUY' | 'SELL';
-export type OrderStatus = 'PENDING' | 'FILLED' | 'PARTIALLY_FILLED' | 'CANCELLED' | 'REJECTED';
-export type ExecutionSource = 'BROKER' | 'BLOCKCHAIN' | 'INTERNAL' | 'SECONDARY_MARKET';
-export type TransactionType = 'DEPOSIT' | 'WITHDRAWAL' | 'TRADE' | 'DIVIDEND' | 'FEE' | 'CONVERSION' | 'FUND_INVESTMENT' | 'FUND_REDEMPTION';
-export type RiskLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'VERY_HIGH';
+export type UserTier = "CORE" | "GOLD" | "BLACK";
+export type UserRole = "USER" | "ADMIN" | "GOD_ADMIN";
+export type KYCStatus = "NOT_STARTED" | "PENDING" | "APPROVED" | "REJECTED";
+export type AccreditationStatus = "NOT_ACCREDITED" | "PENDING" | "ACCREDITED";
+export type AssetType =
+  | "STOCK"
+  | "ETF"
+  | "CRYPTO"
+  | "TOKEN"
+  | "FUND"
+  | "PRIVATE_EQUITY"
+  | "INFRASTRUCTURE"
+  | "COMMODITY"
+  | "REAL_ESTATE";
+export type OrderType = "BUY" | "SELL";
+export type OrderStatus =
+  | "PENDING"
+  | "FILLED"
+  | "PARTIALLY_FILLED"
+  | "CANCELLED"
+  | "REJECTED";
+export type ExecutionSource =
+  | "BROKER"
+  | "BLOCKCHAIN"
+  | "INTERNAL"
+  | "SECONDARY_MARKET";
+export type TransactionType =
+  | "DEPOSIT"
+  | "WITHDRAWAL"
+  | "TRADE"
+  | "DIVIDEND"
+  | "FEE"
+  | "CONVERSION"
+  | "FUND_INVESTMENT"
+  | "FUND_REDEMPTION";
+export type RiskLevel = "LOW" | "MEDIUM" | "HIGH" | "VERY_HIGH";
 
 export interface User {
   id: string;
@@ -80,7 +106,7 @@ export interface Order {
   txHash?: string;
   filledAt?: string;
   createdAt: string;
-  asset?: Pick<Asset, 'symbol' | 'name' | 'type' | 'imageUrl'>;
+  asset?: Pick<Asset, "symbol" | "name" | "type" | "imageUrl">;
 }
 
 export interface PortfolioHolding {
