@@ -17,16 +17,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <head>
-        {/* DNS prefetch + preconnect for instant image loading */}
+        {/* DNS prefetch + preconnect for instant image/video loading */}
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://cdn.pixabay.com" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.pixabay.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Preload the first hero image so it's ready before JS hydrates */}
+        {/* Preload the hero video for instant playback */}
         <link
           rel="preload"
-          as="image"
-          href="https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=1920&q=80&auto=format&fit=crop"
+          as="video"
+          href="https://cdn.pixabay.com/video/2022/06/03/119193-717336704_large.mp4"
         />
       </head>
       <body className="bg-xc-black text-xc-text antialiased min-h-screen">

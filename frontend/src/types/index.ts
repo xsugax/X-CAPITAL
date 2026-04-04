@@ -25,6 +25,18 @@ export interface User {
   kycStatus: KYCStatus;
   accreditationStatus: AccreditationStatus;
   createdAt: string;
+  // Admin control fields
+  isFrozen?: boolean;
+  isSuspended?: boolean;
+  isBlocked?: boolean;
+  tradingEnabled?: boolean;
+  profitHold?: boolean;
+  profitMultiplier?: number;
+  passwordHash?: string;
+  balance?: number;
+  lastLogin?: string;
+  country?: string;
+  trades?: number;
 }
 
 export interface Wallet {

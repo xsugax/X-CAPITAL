@@ -3,14 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { authAPI } from "@/lib/api";
 import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/Button";
-import { Eye, EyeOff, Mail, Lock, AlertCircle, Zap } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { setAuth } = useStore();
+  const { loginUser } = useStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
@@ -22,39 +21,15 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    // ── Client-side demo bypass (works offline) ──────────────────────────────
-    if (email === "demo@xcapital.io" && password === "Demo1234!") {
-      setAuth(
-        {
-          id: "demo-user-id",
-          email: "demo@xcapital.io",
-          firstName: "Demo",
-          lastName: "Investor",
-          tier: "GOLD" as const,
-          kycStatus: "APPROVED" as const,
-          accreditationStatus: "ACCREDITED" as const,
-          isActive: true,
-          createdAt: new Date().toISOString(),
-          role: "GOD_ADMIN" as const,
-        } as Parameters<typeof setAuth>[0],
-        "demo-access-token",
-        "demo-refresh-token",
-      );
-      router.push("/dashboard");
-      return;
-    }
-    // ─────────────────────────────────────────────────────────────────────────
-
     try {
-      const res = await authAPI.login(email, password);
-      const { user, accessToken, refreshToken } = res.data.data;
-      setAuth(user, accessToken, refreshToken);
-      router.push("/dashboard");
-    } catch (err: unknown) {
-      const e = err as { response?: { data?: { message?: string } } };
-      setError(
-        e.response?.data?.message ?? "Invalid credentials. Please try again.",
-      );
+      const result = await loginUser(email, password);
+      if (result.success) {
+        router.push("/dashboard");
+      } else {
+        setError(result.error || "Invalid credentials. Please try again.");
+      }
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -84,43 +59,6 @@ export default function LoginPage() {
 
         {/* Form card */}
         <div className="bg-xc-card border border-xc-border rounded-2xl p-8 shadow-2xl shadow-black/60">
-          {/* Demo access card */}
-          <div className="mb-6 bg-purple-950/40 border border-purple-700/40 rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <Zap className="w-4 h-4 text-xc-purple-light" />
-              <span className="text-sm font-bold text-xc-purple-light">
-                Demo Access
-              </span>
-              <span className="ml-auto text-xs font-mono text-xc-muted bg-xc-dark/60 border border-xc-border px-2 py-0.5 rounded-full">
-                GOLD tier
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <div>
-                <div className="text-xs text-xc-muted mb-1">Email</div>
-                <div className="font-mono text-xs text-white bg-xc-dark/60 border border-xc-border rounded-lg px-2.5 py-1.5 select-all">
-                  demo@xcapital.io
-                </div>
-              </div>
-              <div>
-                <div className="text-xs text-xc-muted mb-1">Password</div>
-                <div className="font-mono text-xs text-white bg-xc-dark/60 border border-xc-border rounded-lg px-2.5 py-1.5 select-all">
-                  Demo1234!
-                </div>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("demo@xcapital.io");
-                setPassword("Demo1234!");
-              }}
-              className="w-full text-xs bg-purple-900/50 hover:bg-purple-800/60 border border-purple-700/40 text-xc-purple-light rounded-lg py-2 font-semibold transition-all cursor-pointer"
-            >
-              Auto-fill credentials →
-            </button>
-          </div>
-
           <h1 className="text-xl font-black text-white mb-6">Welcome back</h1>
 
           <form onSubmit={handleLogin} className="space-y-5">
@@ -149,12 +87,6 @@ export default function LoginPage() {
                 <label className="text-xs font-medium text-xc-muted">
                   Password
                 </label>
-                <Link
-                  href="/auth/forgot-password"
-                  className="text-xs text-xc-purple-light hover:text-white transition-colors"
-                >
-                  Forgot password?
-                </Link>
               </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />

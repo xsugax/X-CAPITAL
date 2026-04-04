@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { authAPI } from '@/lib/api';
 import { useStore } from '@/store/useStore';
 import { Button } from '@/components/ui/Button';
 import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle2 } from 'lucide-react';
@@ -19,7 +18,7 @@ interface FormData {
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { setAuth } = useStore();
+  const { registerUser } = useStore();
   const [form, setForm] = useState<FormData>({
     firstName: '', lastName: '', email: '', password: '', confirmPassword: '', agreeTerms: false,
   });
@@ -59,18 +58,19 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      const res = await authAPI.register({
+      const result = await registerUser({
         firstName: form.firstName,
         lastName: form.lastName,
         email: form.email,
         password: form.password,
       });
-      const { user, accessToken, refreshToken } = res.data.data;
-      setAuth(user, accessToken, refreshToken);
-      router.push('/dashboard');
-    } catch (err: unknown) {
-      const e = err as { response?: { data?: { message?: string } } };
-      setError(e.response?.data?.message ?? 'Registration failed. Please try again.');
+      if (result.success) {
+        router.push('/dashboard');
+      } else {
+        setError(result.error || 'Registration failed. Please try again.');
+      }
+    } catch {
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
