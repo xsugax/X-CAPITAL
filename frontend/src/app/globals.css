@@ -207,12 +207,34 @@ body {
   }
 }
 
-/* Hero slideshow — Ken Burns crossfade effect */
+/* Hero slideshow — Ken Burns crossfade effect (legacy, kept for compatibility) */
 .hero-slide {
   position: absolute;
   inset: 0;
   will-change: opacity, transform;
   transform-origin: center center;
+}
+
+/* ── Mobile depth & layering enhancements ── */
+@media (max-width: 767px) {
+  /* Feature cards: staggered depth on mobile */
+  section [data-reveal] .reveal-item:nth-child(even) {
+    transform: translateY(20px) scale(0.98);
+  }
+  section [data-reveal] .reveal-item:nth-child(even).revealed,
+  section .revealed .reveal-item:nth-child(even) {
+    transform: translateY(0) scale(1);
+  }
+
+  /* Tighter section spacing for overlap feel */
+  section + section {
+    margin-top: -8px;
+  }
+
+  /* Hero CTA buttons: elevated glass layer */
+  .hero-cta-mobile {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.06);
+  }
 }
 
 /* Floating data particles — oracle / AI section */

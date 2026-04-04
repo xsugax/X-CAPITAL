@@ -148,9 +148,8 @@ const tickerItems = [
 export default function LandingPage() {
   const [bioExpanded, setBioExpanded] = useState(false);
 
-  // Hero video — SpaceX rocket launch
-  const heroVideoUrl = "https://cdn.pixabay.com/video/2022/06/03/119193-717336704_large.mp4";
-  const heroPosterUrl = "https://images.unsplash.com/photo-1517976384346-3136801d605d?w=1920&q=80&auto=format&fit=crop";
+  // Hero video — self-hosted, never fails to load
+  const heroVideoUrl = "/videos/hero-hd.mp4";
 
   // Parallax — subtle video shift on scroll
   const videoRef = useRef<HTMLDivElement>(null);
@@ -257,7 +256,7 @@ export default function LandingPage() {
       {/* ════════════════════════════════════════════════════════════════ */}
       {/* ══ HERO — SpaceX rocket launch cinematic video ═════════════ */}
       {/* ════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center justify-start overflow-hidden bg-black">
+      <section className="relative min-h-screen flex items-center justify-center md:justify-start overflow-hidden bg-black">
 
         {/* ── L0: VIDEO BACKGROUND — SpaceX launch, autoplay, looped ── */}
         <div ref={videoRef} className="absolute inset-0 z-0" style={{ willChange: 'transform' }}>
@@ -267,7 +266,6 @@ export default function LandingPage() {
             loop
             playsInline
             preload="auto"
-            poster={heroPosterUrl}
             className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: 'center 40%' }}
           >
@@ -278,8 +276,10 @@ export default function LandingPage() {
         {/* ── L1: Minimal overlays — let the rocket be the star ── */}
         {/* Bottom fade only — blends into next section */}
         <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-[#030308] via-transparent to-transparent" />
-        {/* Left text scrim — just enough for headline readability */}
-        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 45%, transparent 70%)' }} />
+        {/* Left text scrim — centered on mobile, left on desktop */}
+        <div className="absolute inset-0 z-[1] pointer-events-none hidden md:block" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 45%, transparent 70%)' }} />
+        {/* Mobile scrim — radial center vignette for depth */}
+        <div className="absolute inset-0 z-[1] pointer-events-none md:hidden" style={{ background: 'radial-gradient(ellipse 120% 100% at 50% 50%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.45) 100%)' }} />
         {/* Top nav scrim — subtle */}
         <div className="absolute top-0 inset-x-0 h-32 z-[1] pointer-events-none bg-gradient-to-b from-black/40 to-transparent" />
 
@@ -291,28 +291,31 @@ export default function LandingPage() {
           }}
         />
 
-        {/* ── HERO CONTENT — left-aligned so rocket stays visible on right ── */}
-        <div className="relative z-10 max-w-7xl w-full mx-auto px-8 md:px-16 text-left pt-32 pb-24">
+        {/* ── HERO CONTENT — centered on mobile, left-aligned on desktop ── */}
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-16 text-center md:text-left pt-28 pb-32 md:pt-32 md:pb-24">
+
+          {/* Mobile depth layer — glassmorphic card behind text */}
+          <div className="md:hidden absolute inset-x-4 top-20 bottom-20 rounded-3xl bg-black/40 backdrop-blur-md border border-white/[0.06] pointer-events-none" />
 
           {/* Headline */}
-          <h1 className="mb-8 max-w-3xl">
-            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-[-0.03em] leading-[1.05] text-white" style={{ textShadow: '0 2px 40px rgba(0,0,0,0.9), 0 0 80px rgba(0,0,0,0.5)' }}>
+          <h1 className="mb-6 md:mb-8 max-w-3xl mx-auto md:mx-0 relative">
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-[-0.03em] leading-[1.05] text-white" style={{ textShadow: '0 2px 40px rgba(0,0,0,0.9), 0 0 80px rgba(0,0,0,0.5)' }}>
               Capital Deployed
             </span>
-            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-[-0.03em] leading-[1.05] gradient-text mt-2" style={{ textShadow: '0 2px 40px rgba(0,0,0,0.7)' }}>
+            <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-[-0.03em] leading-[1.05] gradient-text mt-1 md:mt-2" style={{ textShadow: '0 2px 40px rgba(0,0,0,0.7)' }}>
               Into The Future
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg md:text-xl text-slate-200/90 max-w-xl mb-12 leading-relaxed font-light" style={{ textShadow: '0 1px 20px rgba(0,0,0,0.9)' }}>
+          <p className="text-sm sm:text-base md:text-xl text-slate-200/90 max-w-md md:max-w-xl mx-auto md:mx-0 mb-8 md:mb-12 leading-relaxed font-light relative" style={{ textShadow: '0 1px 20px rgba(0,0,0,0.9)' }}>
             The institutional-grade platform for deploying capital across public markets,
             private equity, tokenized assets, and the space economy.
             <span className="text-white font-medium"> Five rails. One command center.</span>
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 mb-16">
+          <div className="flex flex-col sm:flex-row items-center md:items-start gap-3 md:gap-4 mb-12 md:mb-16 relative">
             <Link
               href="/auth/register"
               className="group flex items-center gap-2.5 bg-white text-black font-bold px-8 py-4 rounded-xl text-base hover:bg-slate-100 transition-all shadow-[0_0_60px_rgba(255,255,255,0.15)]"
@@ -328,7 +331,7 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          {/* HUD telemetry */}
+          {/* HUD telemetry — desktop */}
           <div className="hidden md:flex items-center gap-10 text-[11px] font-mono text-white/30">
             <div>
               <span className="text-orange-400/50 mr-1.5">ALT</span>
@@ -350,12 +353,24 @@ export default function LandingPage() {
               <span className="text-white/60 font-bold">STARBASE TX</span>
             </div>
           </div>
+
+          {/* HUD telemetry — mobile compact strip */}
+          <div className="flex md:hidden items-center justify-center gap-4 text-[9px] font-mono text-white/25 relative">
+            <div className="flex items-center gap-1">
+              <div className="w-1 h-1 rounded-full bg-emerald-400/60 animate-pulse" />
+              <span className="text-emerald-400/50">LIVE</span>
+            </div>
+            <span className="text-white/10">|</span>
+            <span><span className="text-orange-400/40">ALT</span> <span className="text-white/50 font-bold">127.4km</span></span>
+            <span className="text-white/10">|</span>
+            <span><span className="text-purple-400/40">FEED</span> <span className="text-white/50 font-bold">TX</span></span>
+          </div>
         </div>
 
-        {/* ── Stats bar — absolute bottom ── */}
-        <div className="absolute bottom-0 inset-x-0 z-10">
-          <div ref={statsRef} className="max-w-5xl mx-auto px-6 pb-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {/* ── Stats bar — overlaps into next section for depth ── */}
+        <div className="absolute -bottom-6 md:bottom-0 inset-x-0 z-10">
+          <div ref={statsRef} className="max-w-5xl mx-auto px-4 md:px-6 pb-0 md:pb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
               {stats.map((stat, i) => (
                 <div
                   key={stat.label}
@@ -375,7 +390,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Live Market Ticker ── */}
-      <div className="relative w-full overflow-hidden border-y border-white/[0.04] bg-[#07070f]/90 backdrop-blur-lg py-3.5 cursor-default">
+      <div className="relative w-full overflow-hidden border-y border-white/[0.04] bg-[#07070f]/90 backdrop-blur-lg pt-10 md:pt-3.5 pb-3.5 cursor-default">
         <div className="animate-ticker inline-flex gap-12 whitespace-nowrap text-xs font-mono">
           {[...tickerItems, ...tickerItems].map((item, i) => (
             <span key={i} className="inline-flex items-center gap-2.5">
@@ -400,13 +415,13 @@ export default function LandingPage() {
       </div>
 
       {/* ── Earth panoramic divider ── */}
-      <div className="relative w-full h-64 md:h-72 overflow-hidden">
+      <div className="relative w-full h-48 sm:h-64 md:h-72 overflow-hidden -mt-1">
         <img
           src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=70&auto=format&fit=crop"
           alt="Earth from space"
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-110 md:scale-100"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#05050d] via-transparent to-[#05050d]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#05050d]/80 via-transparent to-[#05050d]/80" />
@@ -415,7 +430,7 @@ export default function LandingPage() {
           <p className="text-[10px] font-mono font-semibold text-cyan-400/80 tracking-[0.6em] mb-5 uppercase" data-reveal>
             Earth Is The Launchpad
           </p>
-          <h3 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight" data-reveal>
+          <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight" data-reveal>
             Capital without borders.{" "}
             <span className="gradient-text">Wealth without limits.</span>
           </h3>
@@ -423,7 +438,7 @@ export default function LandingPage() {
       </div>
 
       {/* Features */}
-      <section id="features" className="relative py-28 px-6 overflow-hidden">
+      <section id="features" className="relative py-16 md:py-28 px-4 md:px-6 overflow-hidden">
         {/* Server room backdrop */}
         <div className="absolute inset-0 pointer-events-none">
           <img
@@ -441,7 +456,7 @@ export default function LandingPage() {
             <p className="text-[10px] font-mono font-semibold text-purple-400/80 tracking-[0.5em] mb-4 uppercase">
               Multi-Rail Infrastructure
             </p>
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
               Five Capital Rails.{" "}
               <span className="gradient-text">One Platform.</span>
             </h2>
@@ -450,7 +465,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {features.map((feature, i) => (
               <div
                 key={feature.title}
@@ -477,7 +492,7 @@ export default function LandingPage() {
           </div>
 
           {/* Metrics row */}
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3" data-reveal>
+          <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3" data-reveal>
             {[
               { value: '<1ms', label: 'Execution' },
               { value: '99.99%', label: 'Uptime' },
@@ -496,7 +511,7 @@ export default function LandingPage() {
       {/* AI Oracle Section */}
       <section
         id="oracle"
-        className="relative py-28 px-6 overflow-hidden"
+        className="relative py-16 md:py-28 px-4 md:px-6 overflow-hidden"
       >
         {/* Cosmic nebula backdrop */}
         <div className="absolute inset-0">
@@ -540,8 +555,8 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          <div className="rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] p-8 md:p-12" data-reveal>
-            <div className="grid md:grid-cols-2 gap-10 items-center">
+          <div className="rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] p-5 sm:p-8 md:p-12" data-reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
               <div>
                 <h3 className="text-2xl md:text-3xl font-black text-white mb-4">
                   Your AI capital allocator
@@ -620,7 +635,7 @@ export default function LandingPage() {
       </section>
 
       {/* Tiers */}
-      <section id="tiers" className="relative py-28 px-6 overflow-hidden">
+      <section id="tiers" className="relative py-16 md:py-28 px-4 md:px-6 overflow-hidden">
         {/* Solar backdrop */}
         <div className="absolute inset-0 pointer-events-none">
           <img
@@ -643,7 +658,7 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-4">
             {tiers.map((tier, i) => (
               <div
                 key={tier.name}
@@ -704,7 +719,7 @@ export default function LandingPage() {
 
       {/* ──────────────────────────────────────────────────────────────────── */}
       {/* ── FOUNDER SECTION ── */}
-      <section id="founder" className="relative py-28 px-6 overflow-hidden">
+      <section id="founder" className="relative py-16 md:py-28 px-4 md:px-6 overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=800&q=60&auto=format&fit=crop"
@@ -726,7 +741,7 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          <div className="grid lg:grid-cols-5 gap-8 items-start mb-16">
+          <div className="grid lg:grid-cols-5 gap-6 md:gap-8 items-start mb-16">
             {/* Portrait — 2/5 */}
             <div className="lg:col-span-2 relative">
               <div className="relative overflow-hidden rounded-2xl border border-white/[0.06]">
@@ -876,7 +891,7 @@ export default function LandingPage() {
           </div>
 
           {/* Philosophy cards */}
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
             {[
               { label: "ON CAPITAL", quote: "&ldquo;Capital is condensed human energy. X-CAPITAL gives it the direction it deserves.&rdquo;" },
               { label: "ON RISK", quote: "&ldquo;When something is important enough, you do it regardless of the odds.&rdquo;" },
@@ -892,7 +907,7 @@ export default function LandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="relative py-28 px-6 overflow-hidden">
+      <section className="relative py-16 md:py-28 px-4 md:px-6 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=800&q=60&auto=format&fit=crop"
