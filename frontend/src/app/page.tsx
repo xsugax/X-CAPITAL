@@ -313,14 +313,6 @@ export default function LandingPage() {
 
         {/* ── HERO CONTENT — left-aligned so rocket stays visible on right ── */}
         <div className="relative z-10 max-w-7xl w-full mx-auto px-8 md:px-16 text-left pt-32 pb-24">
-          {/* Logo badge */}
-          <div className="inline-flex items-center gap-3 bg-black/30 backdrop-blur-md border border-white/[0.1] rounded-full px-5 py-2.5 mb-10">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center flex-shrink-0">
-              <span className="text-white font-black text-xs">X</span>
-            </div>
-            <span className="text-sm font-black tracking-tight text-white">CAPITAL</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
-          </div>
 
           {/* Headline */}
           <h1 className="mb-8 max-w-3xl">
