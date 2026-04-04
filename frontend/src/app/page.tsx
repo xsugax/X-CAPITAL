@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowRight,
   BarChart3,
@@ -152,18 +151,18 @@ export default function LandingPage() {
   // Hero image slideshow — cycles through 12 SpaceX launch photos
   const [activeSlide, setActiveSlide] = useState(0);
   const heroImages = [
-    { src: "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 and Dragon vertical at night" },
-    { src: "https://images.unsplash.com/photo-1517976384346-3136801d605d?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon Heavy on pad at golden hour" },
-    { src: "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX rocket launching with white smoke" },
-    { src: "https://images.unsplash.com/photo-1517976487492-5750f3195933?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon Heavy launch with massive smoke" },
-    { src: "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon Heavy Demo Mission rising" },
-    { src: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 Launch Kennedy Space Center" },
-    { src: "https://images.unsplash.com/photo-1580551730007-11f498ebb39d?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 Starlink launch with frost" },
-    { src: "https://images.unsplash.com/photo-1522760122564-d567dac67f45?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 resupply mission at sunset" },
-    { src: "https://images.unsplash.com/photo-1484600316566-2f7b7e1c8236?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX Falcon 9 launch through clouds" },
-    { src: "https://images.unsplash.com/photo-1518364538800-6bae3c2ea0f2?w=1920&q=80&auto=format&fit=crop", alt: "First SpaceX Falcon Heavy launch blue sky" },
-    { src: "https://images.unsplash.com/photo-1457364983758-510f8afa9f5f?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX night launch Cape Canaveral" },
-    { src: "https://images.unsplash.com/photo-1457364887197-9150188c107b?w=1920&q=80&auto=format&fit=crop", alt: "SpaceX launch trail at sunset" },
+    { src: "https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX Falcon 9 and Dragon vertical at night" },
+    { src: "https://images.unsplash.com/photo-1517976384346-3136801d605d?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX Falcon Heavy on pad at golden hour" },
+    { src: "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX rocket launching with white smoke" },
+    { src: "https://images.unsplash.com/photo-1517976487492-5750f3195933?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX Falcon Heavy launch with massive smoke" },
+    { src: "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX Falcon Heavy Demo Mission rising" },
+    { src: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX Falcon 9 Launch Kennedy Space Center" },
+    { src: "https://images.unsplash.com/photo-1580551730007-11f498ebb39d?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX Falcon 9 Starlink launch with frost" },
+    { src: "https://images.unsplash.com/photo-1522760122564-d567dac67f45?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX Falcon 9 resupply mission at sunset" },
+    { src: "https://images.unsplash.com/photo-1484600316566-2f7b7e1c8236?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX Falcon 9 launch through clouds" },
+    { src: "https://images.unsplash.com/photo-1518364538800-6bae3c2ea0f2?w=1280&q=75&auto=format&fit=crop", alt: "First SpaceX Falcon Heavy launch blue sky" },
+    { src: "https://images.unsplash.com/photo-1457364983758-510f8afa9f5f?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX night launch Cape Canaveral" },
+    { src: "https://images.unsplash.com/photo-1457364887197-9150188c107b?w=1280&q=75&auto=format&fit=crop", alt: "SpaceX launch trail at sunset" },
   ];
   useEffect(() => {
     const interval = setInterval(() => {
@@ -281,14 +280,14 @@ export default function LandingPage() {
         {/* ── L0: IMAGE SLIDESHOW — 12 SpaceX launch photos, Ken Burns crossfade ── */}
         <div id="hero-slideshow" className="absolute inset-0 z-0" style={{ willChange: 'transform' }}>
           {heroImages.map((img, i) => (
-            <Image
+            <img
               key={i}
               src={img.src}
               alt={img.alt}
-              fill
-              sizes="100vw"
-              priority={i === 0}
-              className={`object-cover transition-all duration-[2000ms] ease-in-out hero-slide ${
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding={i === 0 ? 'sync' : 'async'}
+              fetchPriority={i === 0 ? 'high' : 'low'}
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-[2000ms] ease-in-out hero-slide ${
                 activeSlide === i ? 'opacity-100 scale-110' : 'opacity-0 scale-100'
               }`}
               style={{ objectPosition: 'center 40%' }}
@@ -430,12 +429,12 @@ export default function LandingPage() {
 
       {/* ── Earth panoramic divider ── */}
       <div className="relative w-full h-64 md:h-72 overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1920&q=80&auto=format&fit=crop"
+        <img
+          src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=70&auto=format&fit=crop"
           alt="Earth from space"
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#05050d] via-transparent to-[#05050d]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#05050d]/80 via-transparent to-[#05050d]/80" />
@@ -455,12 +454,12 @@ export default function LandingPage() {
       <section id="features" className="relative py-28 px-6 overflow-hidden">
         {/* Server room backdrop */}
         <div className="absolute inset-0 pointer-events-none">
-          <Image
-            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80&auto=format&fit=crop"
+          <img
+            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=60&auto=format&fit=crop"
             alt="Server infrastructure"
-            fill
-            sizes="100vw"
-            className="object-cover object-center opacity-25"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-25"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#05050d] via-[#05050d]/60 to-[#05050d]" />
         </div>
@@ -529,12 +528,12 @@ export default function LandingPage() {
       >
         {/* Cosmic nebula backdrop */}
         <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80&auto=format&fit=crop"
+          <img
+            src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&q=60&auto=format&fit=crop"
             alt="Deep space nebula"
-            fill
-            sizes="100vw"
-            className="object-cover object-center opacity-60"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-60"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#05050d] via-[#05050d]/40 to-[#05050d] pointer-events-none" />
@@ -652,12 +651,12 @@ export default function LandingPage() {
       <section id="tiers" className="relative py-28 px-6 overflow-hidden">
         {/* Solar backdrop */}
         <div className="absolute inset-0 pointer-events-none">
-          <Image
-            src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80&auto=format&fit=crop"
+          <img
+            src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=60&auto=format&fit=crop"
             alt="Solar infrastructure"
-            fill
-            sizes="100vw"
-            className="object-cover object-center opacity-20"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#05050d] via-[#05050d]/50 to-[#05050d]" />
         </div>
@@ -735,12 +734,12 @@ export default function LandingPage() {
       {/* ── FOUNDER SECTION ── */}
       <section id="founder" className="relative py-28 px-6 overflow-hidden">
         <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=1920&q=80&auto=format&fit=crop"
+          <img
+            src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=800&q=60&auto=format&fit=crop"
             alt="Cosmos"
-            fill
-            sizes="100vw"
-            className="object-cover opacity-20"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#05050d] via-[#05050d]/60 to-[#05050d]" />
         </div>
@@ -760,12 +759,12 @@ export default function LandingPage() {
             <div className="lg:col-span-2 relative">
               <div className="relative overflow-hidden rounded-2xl border border-white/[0.06]">
                 <div className="relative h-[500px]">
-                  <Image
+                  <img
                     src="/images/elon-musk.jpg"
                     alt="Elon Musk — Founder & Chief Vision Officer"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 40vw"
-                    className="object-cover object-top"
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -923,12 +922,12 @@ export default function LandingPage() {
       {/* Final CTA */}
       <section className="relative py-28 px-6 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <Image
-            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80&auto=format&fit=crop"
+          <img
+            src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=800&q=60&auto=format&fit=crop"
             alt="Deep space"
-            fill
-            sizes="100vw"
-            className="object-cover object-center opacity-40"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#05050d]/70 via-[#05050d]/30 to-[#05050d]/70" />
         </div>

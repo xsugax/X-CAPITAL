@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { useState } from "react";
@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import type { Investment } from "@/types";
 
-/* ── per-risk config ──────────────────────────────────────────────────────── */
+/* â”€â”€ per-risk config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const RISK_CONFIG: Record<
   string,
   { label: string; variant: "success" | "warning" | "danger" }
@@ -28,7 +28,7 @@ const RISK_CONFIG: Record<
   HIGH: { label: "High Risk", variant: "danger" },
 };
 
-/* ── per-category visual config ─────────────────────────────────────────── */
+/* â”€â”€ per-category visual config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const CAT_CONFIG: Record<
   string,
   {
@@ -46,37 +46,37 @@ const CAT_CONFIG: Record<
     border: "hover:border-indigo-500/50",
     glow: "hover:shadow-indigo-900/30",
     icon: <Rocket className="w-4 h-4 text-indigo-300" />,
-    emoji: "🚀",
+    emoji: "ðŸš€",
     headerBg: "from-indigo-950 to-purple-950",
     imageUrl:
-      "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=1200&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=640&q=70&auto=format&fit=crop",
   },
   AI: {
     grad: "from-purple-950/80 via-xc-card to-xc-card",
     border: "hover:border-purple-500/50",
     glow: "hover:shadow-purple-900/30",
     icon: <Cpu className="w-4 h-4 text-xc-purple-light" />,
-    emoji: "🤖",
+    emoji: "ðŸ¤–",
     headerBg: "from-purple-950 to-indigo-950",
     imageUrl:
-      "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=640&q=70&auto=format&fit=crop",
   },
   ENERGY: {
     grad: "from-amber-950/70 via-xc-card to-xc-card",
     border: "hover:border-amber-500/50",
     glow: "hover:shadow-amber-900/30",
     icon: <Zap className="w-4 h-4 text-amber-300" />,
-    emoji: "⚡",
+    emoji: "âš¡",
     headerBg: "from-amber-950 to-green-950",
     imageUrl:
-      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=640&q=70&auto=format&fit=crop",
   },
   VENTURE: {
     grad: "from-blue-950/70 via-xc-card to-xc-card",
     border: "hover:border-blue-500/50",
     glow: "hover:shadow-blue-900/30",
     icon: <Gem className="w-4 h-4 text-blue-300" />,
-    emoji: "💎",
+    emoji: "ðŸ’Ž",
     headerBg: "from-blue-950 to-xc-dark",
   },
   DEFAULT: {
@@ -84,7 +84,7 @@ const CAT_CONFIG: Record<
     border: "hover:border-xc-purple/40",
     glow: "hover:shadow-purple-900/20",
     icon: <TrendingUp className="w-4 h-4 text-xc-muted" />,
-    emoji: "📈",
+    emoji: "ðŸ“ˆ",
     headerBg: "from-xc-dark to-xc-card",
   },
 };
@@ -120,7 +120,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         "hover:shadow-xl",
       )}
     >
-      {/* ── Hero image header ────────────────────────────────────────────── */}
+      {/* â”€â”€ Hero image header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div
         className={cn(
           "relative h-36 overflow-hidden bg-gradient-to-br",
@@ -170,7 +170,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         </div>
       </div>
 
-      {/* ── Description ──────────────────────────────────────────────────── */}
+      {/* â”€â”€ Description â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       {fund.description && (
         <div className="px-5 pt-4 pb-2">
           <p className="text-xs text-xc-muted leading-relaxed line-clamp-2">
@@ -179,7 +179,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         </div>
       )}
 
-      {/* ── Risk + lock badges ───────────────────────────────────────────── */}
+      {/* â”€â”€ Risk + lock badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="px-5 pt-2 pb-3 flex items-center gap-2">
         <Badge variant={risk.variant} size="sm">
           {risk.label}
@@ -189,7 +189,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         </span>
       </div>
 
-      {/* ── Metrics grid ─────────────────────────────────────────────────── */}
+      {/* â”€â”€ Metrics grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="mx-5 mb-4 grid grid-cols-2 gap-3 bg-black/20 rounded-xl px-4 py-3 border border-white/5">
         <div>
           <div className="text-[9px] uppercase tracking-widest text-xc-muted font-semibold flex items-center gap-1 mb-0.5">
@@ -223,12 +223,12 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
             <Lock className="w-2.5 h-2.5" /> Lock Period
           </div>
           <div className="font-bold text-white text-sm">
-            {fund.lockPeriodDays ? `${fund.lockPeriodDays} days` : "—"}
+            {fund.lockPeriodDays ? `${fund.lockPeriodDays} days` : "â€”"}
           </div>
         </div>
       </div>
 
-      {/* ── Capacity bar ─────────────────────────────────────────────────── */}
+      {/* â”€â”€ Capacity bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="px-5 pb-4">
         <div className="flex items-center justify-between text-xs mb-2">
           <span className="text-xc-muted">Capacity filled</span>
@@ -244,12 +244,12 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         </div>
         {pctFull >= 80 && (
           <p className="text-[10px] text-amber-400 mt-1 font-semibold">
-            ⚠ Near capacity — act soon
+            âš  Near capacity â€” act soon
           </p>
         )}
       </div>
 
-      {/* ── CTA ──────────────────────────────────────────────────────────── */}
+      {/* â”€â”€ CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="px-5 pb-5 mt-auto">
         <Button
           variant={fund.isOpen ? "primary" : "secondary"}
