@@ -266,8 +266,7 @@ export default function LandingPage() {
             loop
             playsInline
             preload="auto"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ objectPosition: 'center center' }}
+            className="absolute inset-0 w-full h-full object-cover hero-video"
           >
             <source src={heroVideoUrl} type="video/mp4" />
           </video>

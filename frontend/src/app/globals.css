@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hero video responsive framing — show the rocket, not just smoke */
+.hero-video {
+  object-position: center 20%;  /* mobile: focus higher up where rocket is */
+}
+@media (min-width: 768px) {
+  .hero-video {
+    object-position: center center;  /* desktop: landscape has room, center it */
+  }
+}
+
 :root {
   --bg: #05050d;
   --card: #0d0d1e;
