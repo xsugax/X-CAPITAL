@@ -25,7 +25,7 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
-import type { Transaction } from "@/types";
+import type { WalletTransaction } from "@/types";
 import { useStore } from "@/store/useStore";
 
 type ModalType = "deposit" | "withdraw" | null;
@@ -199,7 +199,7 @@ const TX_COLOR: Record<string, string> = {
 
 export default function WalletPage() {
   const { wallet, setWallet } = useStore();
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<ModalType>(null);
   const [depositTab, setDepositTab] = useState<DepositTab>("wire");
@@ -888,7 +888,7 @@ export default function WalletPage() {
 }
 
 const D = { userId: "demo-user", walletId: "demo-wallet" };
-const DEMO_TRANSACTIONS: Transaction[] = [
+const DEMO_TRANSACTIONS: WalletTransaction[] = [
   {
     ...D,
     id: "1",

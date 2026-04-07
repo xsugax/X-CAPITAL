@@ -14,7 +14,6 @@ import {
   LogOut,
   Settings,
   X,
-  Shield,
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { cn } from "@/lib/utils";
@@ -84,12 +83,7 @@ export default function Sidebar() {
 
         {/* Nav */}
         <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
-          {[
-            ...navItems,
-            ...(user?.role === "GOD_ADMIN" || user?.role === "ADMIN"
-              ? [{ href: "/admin", icon: Shield, label: "God Admin" }]
-              : []),
-          ].map(({ href, icon: Icon, label }) => {
+          {navItems.map(({ href, icon: Icon, label }) => {
             const active = pathname === href || pathname.startsWith(href + "/");
             return (
               <Link

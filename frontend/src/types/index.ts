@@ -58,11 +58,25 @@ export interface User {
   tradingEnabled?: boolean;
   profitHold?: boolean;
   profitMultiplier?: number;
+  profitRate?: number; // Daily profit % (e.g. 1.5 = 1.5%/day)
+  profitMode?: "linear" | "compound" | "stepped" | "random";
+  profitSchedule?: "daily" | "weekly" | "monthly";
   passwordHash?: string;
   balance?: number;
   lastLogin?: string;
   country?: string;
   trades?: number;
+  // Transaction ledger
+  transactions?: Transaction[];
+}
+
+export interface Transaction {
+  id: string;
+  type: "CREDIT" | "DEBIT" | "PROFIT" | "FEE" | "ADJUSTMENT";
+  amount: number;
+  note: string;
+  timestamp: string;
+  performedBy: string;
 }
 
 export interface Wallet {
@@ -160,7 +174,7 @@ export interface UserInvestment {
   investment: Investment;
 }
 
-export interface Transaction {
+export interface WalletTransaction {
   id: string;
   userId: string;
   walletId: string;
