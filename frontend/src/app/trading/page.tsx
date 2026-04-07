@@ -370,41 +370,11 @@ export default function TradingPage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════════
-            SECTION 3 — MAIN TRADING GRID (3 columns, deep layering)
+            SECTION 3A — PRICE CHART (full width — room to breathe)
             ═══════════════════════════════════════════════════════════════════ */}
-        <section className="grid lg:grid-cols-[360px_1fr_360px] gap-7">
-          {/* ── Left: Markets List ─────────────────────────────────────── */}
-          <div
-            className="bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]"
-          >
-            {/* Panel header — elevated bar */}
-            <div className="px-6 py-5 border-b border-white/[0.04] bg-gradient-to-r from-purple-950/20 to-transparent">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-purple-900/40 border border-purple-800/30 flex items-center justify-center">
-                  <BarChart3 className="w-3.5 h-3.5 text-purple-400" />
-                </div>
-                <div>
-                  <h2 className="font-bold text-white text-sm">All Markets</h2>
-                  <p className="text-[10px] text-white/30">
-                    50,000+ instruments
-                  </p>
-                </div>
-                <span className="ml-auto flex items-center gap-1.5 text-[9px] font-mono text-emerald-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />{" "}
-                  LIVE
-                </span>
-              </div>
-            </div>
-            <div className="p-4">
-              <AssetList
-                onSelect={setSelectedAsset}
-                selectedSymbol={selectedAsset?.symbol}
-              />
-            </div>
-          </div>
-
-          {/* ── Center: Chart + Volume ─────────────────────────────────── */}
-          <div className="flex flex-col gap-7">
+        <section className="space-y-7">
+          {/* ── Chart + Volume ─────────────────────────────────────────── */}
+          <div className="space-y-7">
             {/* Price Chart — deep elevated panel */}
             <div className="relative bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
               {/* Subtle inner glow */}
@@ -721,8 +691,33 @@ export default function TradingPage() {
             )}
           </div>
 
-          {/* ── Right: Order Form + Insights ───────────────────────────── */}
-          <div className="flex flex-col gap-7">
+          {/* ═══════════════════════════════════════════════════════════════════
+              SECTION 3B — ALL MARKETS (full-width, scrollable)
+              ═══════════════════════════════════════════════════════════════════ */}
+          <div className="bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+            <div className="px-6 py-5 border-b border-white/[0.04] bg-gradient-to-r from-purple-950/20 to-transparent">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-purple-900/40 border border-purple-800/30 flex items-center justify-center">
+                  <BarChart3 className="w-3.5 h-3.5 text-purple-400" />
+                </div>
+                <div>
+                  <h2 className="font-bold text-white text-sm">All Markets</h2>
+                  <p className="text-[10px] text-white/30">50,000+ instruments</p>
+                </div>
+                <span className="ml-auto flex items-center gap-1.5 text-[9px] font-mono text-emerald-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> LIVE
+                </span>
+              </div>
+            </div>
+            <div className="p-4" style={{ height: 520, overflowY: 'auto' }}>
+              <AssetList onSelect={setSelectedAsset} selectedSymbol={selectedAsset?.symbol} />
+            </div>
+          </div>
+
+          {/* ═══════════════════════════════════════════════════════════════════
+              SECTION 3C — ORDER FORM + PROJECTIONS (comfortable 2-col)
+              ═══════════════════════════════════════════════════════════════════ */}
+          <div className="grid lg:grid-cols-2 gap-7">
             {/* Order Form Panel */}
             <div className="relative bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
               {selectedAsset && (

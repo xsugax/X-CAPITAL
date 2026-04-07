@@ -8,7 +8,7 @@ import {
   getChangeColor,
   getAssetTypeColor,
 } from "@/lib/utils";
-import { Search, ArrowUpRight, ArrowDownRight, Flame, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, ArrowUpRight, ArrowDownRight, Flame } from "lucide-react";
 import type { Asset } from "@/types";
 
 const ASSET_TYPES = [
@@ -33,8 +33,8 @@ export default function AssetList({
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [activeType, setActiveType] = useState("ALL");  const [showAll, setShowAll] = useState(false);
-  const VISIBLE_LIMIT = 12;
+  const [activeType, setActiveType] = useState("ALL");
+
   useEffect(() => {
     const load = async () => {
       setLoading(true);
@@ -119,7 +119,7 @@ export default function AssetList({
       {/* Count */}
       <div className="flex items-center justify-between px-2 mb-2">
         <span className="text-[10px] text-xc-muted">
-          {showAll ? sorted.length : Math.min(VISIBLE_LIMIT, sorted.length)} of {sorted.length} assets
+          {sorted.length} assets
         </span>
         <span className="text-[10px] text-emerald-400 flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />{" "}
@@ -136,7 +136,7 @@ export default function AssetList({
                 className="h-14 rounded-xl bg-white/5 animate-pulse"
               />
             ))
-          : (showAll ? sorted : sorted.slice(0, VISIBLE_LIMIT)).map((asset) => {
+          : sorted.map((asset) => {
               const change = Number(asset.priceChange24h ?? 0);
               const isHot = Math.abs(change) > 4;
               return (
@@ -228,18 +228,6 @@ export default function AssetList({
           <div className="text-center py-12 text-xc-muted text-sm">
             No assets match your search.
           </div>
-        )}
-        {!loading && sorted.length > VISIBLE_LIMIT && (
-          <button
-            onClick={() => setShowAll((v) => !v)}
-            className="w-full flex items-center justify-center gap-1.5 py-2.5 mt-1 rounded-xl text-[11px] font-semibold text-purple-400 hover:text-purple-300 bg-purple-900/10 hover:bg-purple-900/20 border border-purple-800/20 transition-all"
-          >
-            {showAll ? (
-              <><ChevronUp className="w-3.5 h-3.5" /> Show less</>
-            ) : (
-              <><ChevronDown className="w-3.5 h-3.5" /> See all {sorted.length} markets</>
-            )}
-          </button>
         )}
       </div>
     </div>
