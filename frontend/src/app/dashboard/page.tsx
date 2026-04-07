@@ -33,6 +33,15 @@ import {
   Shield,
   Globe,
   Cpu as CpuIcon,
+  Radio,
+  Clock,
+  Newspaper,
+  ExternalLink,
+  Satellite,
+  BrainCircuit,
+  Car,
+  CircuitBoard,
+  Building2,
 } from "lucide-react";
 import { portfolioAPI, walletAPI, oracleAPI, tradingAPI } from "@/lib/api";
 import {
@@ -814,6 +823,242 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* ─── SpaceX Mission Control & Musk Empire ─────────────────────── */}
+        <div className="grid lg:grid-cols-5 gap-6">
+          {/* SpaceX Mission Control — 3-col */}
+          <div className="lg:col-span-3 bg-xc-card border border-cyan-800/25 rounded-2xl p-6 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/15 to-transparent pointer-events-none" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-cyan-900/50 flex items-center justify-center">
+                    <Rocket className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-sm">SpaceX Mission Control</h3>
+                    <p className="text-[10px] text-xc-muted">Live launch schedule · Investment catalyst events</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                  <span className="text-[10px] font-mono text-cyan-400">TRACKING</span>
+                </div>
+              </div>
+
+              {/* Next Launch Countdown */}
+              <div className="bg-gradient-to-r from-cyan-950/40 to-purple-950/30 border border-cyan-700/20 rounded-xl p-4 mb-4">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <div className="text-[10px] text-cyan-400 font-mono uppercase tracking-wider mb-1">Next Launch</div>
+                    <div className="text-lg font-black text-white">Starship Flight 12</div>
+                    <div className="text-xs text-xc-muted mt-0.5">Starbase, TX · Orbital flight test</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[10px] text-xc-muted uppercase mb-1">T-Minus</div>
+                    <div className="flex gap-1.5">
+                      {[
+                        { val: "02", label: "D" },
+                        { val: "14", label: "H" },
+                        { val: "37", label: "M" },
+                      ].map(({ val, label }) => (
+                        <div key={label} className="bg-xc-black/60 rounded-lg px-2.5 py-1.5 text-center min-w-[40px]">
+                          <div className="text-lg font-black font-mono text-cyan-400">{val}</div>
+                          <div className="text-[8px] text-xc-muted">{label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 text-[10px]">
+                  <span className="text-xc-muted">Vehicle: <span className="text-white font-semibold">Super Heavy + Starship</span></span>
+                  <span className="text-xc-muted">Payload: <span className="text-white font-semibold">Starlink V3 x 40</span></span>
+                  <span className="text-xc-muted">Orbit: <span className="text-white font-semibold">LEO 550km</span></span>
+                </div>
+              </div>
+
+              {/* Recent Launches */}
+              <div className="space-y-2">
+                <div className="text-[10px] text-xc-muted font-bold uppercase tracking-wider mb-2">Recent Missions</div>
+                {SPACEX_MISSIONS.map((m) => (
+                  <div key={m.name} className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
+                    <div className="flex items-center gap-3">
+                      <div className={cn("w-2 h-2 rounded-full", m.success ? "bg-emerald-400" : "bg-amber-400")} />
+                      <div>
+                        <div className="text-xs font-semibold text-white">{m.name}</div>
+                        <div className="text-[10px] text-xc-muted">{m.vehicle} · {m.date}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-xc-muted">{m.payload}</span>
+                      <Badge variant={m.success ? "success" : "warning"} size="sm">
+                        {m.success ? "SUCCESS" : "PARTIAL"}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Stats bar */}
+              <div className="grid grid-cols-4 gap-3 mt-4 pt-4 border-t border-white/[0.04]">
+                {[
+                  { label: "Launches 2026", value: "28" },
+                  { label: "Success Rate", value: "97.3%" },
+                  { label: "Starlink Sats", value: "7,200+" },
+                  { label: "Landing Reuse", value: "94%" },
+                ].map(({ label, value }) => (
+                  <div key={label} className="text-center">
+                    <div className="text-sm font-black text-white">{value}</div>
+                    <div className="text-[9px] text-xc-muted">{label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Musk Empire Ventures — 2-col */}
+          <div className="lg:col-span-2 bg-xc-card border border-purple-800/25 rounded-2xl p-6 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-950/15 to-transparent pointer-events-none" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-purple-900/50 flex items-center justify-center">
+                    <Building2 className="w-4 h-4 text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-sm">Musk Empire Index</h3>
+                    <p className="text-[10px] text-xc-muted">Combined venture exposure</p>
+                  </div>
+                </div>
+                <Badge variant="gold" size="sm">COMPOSITE</Badge>
+              </div>
+
+              {/* Composite Index Value */}
+              <div className="bg-purple-950/30 border border-purple-700/20 rounded-xl p-4 mb-4">
+                <div className="text-[10px] text-purple-400 font-mono uppercase tracking-wider mb-1">X-MEI Composite</div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-black text-white">$4,847</span>
+                  <span className="text-sm font-bold text-emerald-400">+24.6%</span>
+                </div>
+                <div className="text-[10px] text-xc-muted mt-1">YTD performance across all Musk ventures</div>
+              </div>
+
+              {/* Companies */}
+              <div className="space-y-2.5">
+                {MUSK_VENTURES.map((v) => (
+                  <div key={v.name} className="flex items-center justify-between py-2 px-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", v.bgColor)}>
+                        <v.icon className={cn("w-4 h-4", v.iconColor)} />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">{v.name}</div>
+                        <div className="text-[10px] text-xc-muted">{v.role}</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs font-mono font-bold text-white">{v.valuation}</div>
+                      <div className={cn("text-[10px] font-bold", v.change >= 0 ? "text-emerald-400" : "text-red-400")}>
+                        {v.change >= 0 ? "+" : ""}{v.change}%
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <Link href="/funds" className="mt-4 w-full flex items-center justify-center gap-2 bg-purple-900/40 hover:bg-purple-900/60 border border-purple-700/30 text-white text-xs font-bold py-2.5 rounded-xl transition-colors">
+                <Globe className="w-3.5 h-3.5" /> View All Funds & SPVs
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── Starlink & Live News Feed ──────────────────────────────────── */}
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Starlink Growth Tracker */}
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+            <div className="flex items-center gap-2.5 mb-5">
+              <div className="w-8 h-8 rounded-lg bg-blue-900/50 flex items-center justify-center">
+                <Satellite className="w-4 h-4 text-blue-400" />
+              </div>
+              <div>
+                <h3 className="font-bold text-white text-sm">Starlink Network</h3>
+                <p className="text-[10px] text-xc-muted">Global satellite internet</p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              {[
+                { label: "Active Satellites", value: "7,200+", sub: "LEO Constellation" },
+                { label: "Global Subscribers", value: "5.2M", sub: "+42% YoY Growth" },
+                { label: "Revenue Run Rate", value: "$8.4B", sub: "Annualized 2026" },
+                { label: "Countries Served", value: "105", sub: "All Continents" },
+                { label: "Avg Download Speed", value: "220 Mbps", sub: "V3 Hardware" },
+              ].map(({ label, value, sub }) => (
+                <div key={label} className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs text-xc-muted">{label}</div>
+                    <div className="text-[10px] text-xc-muted/60">{sub}</div>
+                  </div>
+                  <div className="text-sm font-black text-white">{value}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 pt-4 border-t border-white/[0.04]">
+              <div className="text-[10px] text-blue-400 font-mono uppercase tracking-wider mb-2">Network Health</div>
+              <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400" style={{ width: "99.7%" }} />
+              </div>
+              <div className="flex justify-between text-[10px] text-xc-muted mt-1">
+                <span>Uptime: 99.97%</span>
+                <span>Latency: 25ms avg</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Live News Feed */}
+          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-amber-900/50 flex items-center justify-center">
+                  <Newspaper className="w-4 h-4 text-amber-400" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white text-sm">Market Intelligence Feed</h3>
+                  <p className="text-[10px] text-xc-muted">AI-curated · SpaceX · Tesla · xAI · Markets</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                <span className="text-[10px] font-mono text-amber-400">LIVE</span>
+              </div>
+            </div>
+            <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1">
+              {NEWS_FEED.map((news, i) => (
+                <div key={i} className="flex gap-3 p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors border border-transparent hover:border-white/[0.06]">
+                  <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center shrink-0", news.bgColor)}>
+                    <news.icon className={cn("w-5 h-5", news.iconColor)} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="text-sm font-semibold text-white leading-tight">{news.headline}</div>
+                      <span className="text-[10px] text-xc-muted whitespace-nowrap shrink-0">{news.time}</span>
+                    </div>
+                    <p className="text-xs text-xc-muted mt-1 line-clamp-2">{news.summary}</p>
+                    <div className="flex items-center gap-3 mt-2">
+                      <Badge variant={news.sentiment === "bullish" ? "success" : news.sentiment === "bearish" ? "danger" : "default"} size="sm">
+                        {news.sentiment.toUpperCase()}
+                      </Badge>
+                      <span className="text-[10px] text-xc-muted">{news.source}</span>
+                      {news.ticker && (
+                        <span className="text-[10px] font-mono font-bold text-white bg-white/10 px-1.5 py-0.5 rounded">{news.ticker}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* ─── Founder Vision — Elon Musk at the Bottom ───────────────────── */}
         <div className="relative rounded-3xl overflow-hidden border border-purple-800/30 shadow-[0_0_80px_-20px_rgba(124,58,237,0.4)]">
           {/* Starship background */}
@@ -993,3 +1238,114 @@ const DEMO_TRANSACTIONS = [
     createdAt: new Date(Date.now() - 432000000).toISOString(),
   },
 ] as WalletTransaction[];
+
+// ─── SpaceX Missions ─────────────────────────────────────────────────────────
+const SPACEX_MISSIONS = [
+  { name: "Starship Flight 11", vehicle: "Super Heavy + Starship", date: "Mar 28, 2026", payload: "40 Starlink V3", success: true },
+  { name: "Falcon 9 · Transporter-14", vehicle: "Falcon 9 Block 5", date: "Mar 22, 2026", payload: "Rideshare 112 sats", success: true },
+  { name: "Falcon Heavy · USSF-67", vehicle: "Falcon Heavy", date: "Mar 15, 2026", payload: "NRO Classified", success: true },
+  { name: "Starship Flight 10", vehicle: "Super Heavy + Starship", date: "Mar 4, 2026", payload: "Booster catch test", success: true },
+  { name: "Falcon 9 · CRS-32", vehicle: "Falcon 9 Block 5", date: "Feb 27, 2026", payload: "ISS Dragon Resupply", success: true },
+];
+
+// ─── Musk Empire Ventures ────────────────────────────────────────────────────
+const MUSK_VENTURES = [
+  { name: "Tesla", role: "CEO · Technoking", valuation: "$1.2T", change: 18.4, icon: Car, bgColor: "bg-red-900/40", iconColor: "text-red-400" },
+  { name: "SpaceX", role: "CEO · Chief Engineer", valuation: "$350B", change: 32.1, icon: Rocket, bgColor: "bg-cyan-900/40", iconColor: "text-cyan-400" },
+  { name: "xAI", role: "Founder · CEO", valuation: "$80B", change: 124.5, icon: BrainCircuit, bgColor: "bg-purple-900/40", iconColor: "text-purple-400" },
+  { name: "Neuralink", role: "Co-founder", valuation: "$12B", change: 45.8, icon: CircuitBoard, bgColor: "bg-pink-900/40", iconColor: "text-pink-400" },
+  { name: "The Boring Co", role: "Founder", valuation: "$8.5B", change: 12.3, icon: Building2, bgColor: "bg-amber-900/40", iconColor: "text-amber-400" },
+  { name: "Starlink", role: "SpaceX Division", valuation: "$120B", change: 52.7, icon: Satellite, bgColor: "bg-blue-900/40", iconColor: "text-blue-400" },
+];
+
+// ─── News Feed ───────────────────────────────────────────────────────────────
+type NewsSentiment = "bullish" | "bearish" | "neutral";
+const NEWS_FEED: Array<{
+  headline: string;
+  summary: string;
+  time: string;
+  source: string;
+  ticker?: string;
+  sentiment: NewsSentiment;
+  icon: typeof Rocket;
+  bgColor: string;
+  iconColor: string;
+}> = [
+  {
+    headline: "Starship Flight 12 scheduled for April 9 — full orbital attempt with 40 V3 Starlinks",
+    summary: "SpaceX targeting full orbital insertion and booster catch. If successful, this will be the first operational Starlink V3 deployment via Starship.",
+    time: "2h ago",
+    source: "SpaceX Press",
+    ticker: "SpaceX",
+    sentiment: "bullish" as const,
+    icon: Rocket,
+    bgColor: "bg-cyan-900/40",
+    iconColor: "text-cyan-400",
+  },
+  {
+    headline: "Tesla Q1 2026 deliveries surge 38% to 614,000 units — Cybertruck ramp accelerates",
+    summary: "Tesla exceeded Wall Street consensus by 12%. Cybertruck production hit 8,200/week run rate at Gigafactory Texas. Model 2 production begins Q3.",
+    time: "5h ago",
+    source: "Reuters",
+    ticker: "TSLA",
+    sentiment: "bullish" as const,
+    icon: Car,
+    bgColor: "bg-red-900/40",
+    iconColor: "text-red-400",
+  },
+  {
+    headline: "xAI Grok-4 benchmark crushes GPT-5 on MMLU-Pro and ARC-AGI — valuation jumps to $80B",
+    summary: "xAI's latest foundation model achieves 94.2% on MMLU-Pro. Enterprise API launch expected May 2026. Memphis supercluster now at 200,000 H100 GPUs.",
+    time: "8h ago",
+    source: "The Information",
+    ticker: "xAI",
+    sentiment: "bullish" as const,
+    icon: BrainCircuit,
+    bgColor: "bg-purple-900/40",
+    iconColor: "text-purple-400",
+  },
+  {
+    headline: "Neuralink PRIME study — 8th patient implanted, full cursor control achieved in 72 hours",
+    summary: "FDA expanded access approval for N2 chip. Patients demonstrating thought-to-text at 62 words/minute. IPO speculation intensifies.",
+    time: "12h ago",
+    source: "STAT News",
+    ticker: "Neuralink",
+    sentiment: "bullish" as const,
+    icon: CircuitBoard,
+    bgColor: "bg-pink-900/40",
+    iconColor: "text-pink-400",
+  },
+  {
+    headline: "Starlink surpasses 5 million subscribers — direct-to-cell beta in 14 countries",
+    summary: "Starlink's direct-to-cell service now covers 94% of the globe. Partnership deals with T-Mobile, Vodafone, and Jio accelerating subscriber growth.",
+    time: "1d ago",
+    source: "Bloomberg",
+    ticker: "SpaceX",
+    sentiment: "bullish" as const,
+    icon: Satellite,
+    bgColor: "bg-blue-900/40",
+    iconColor: "text-blue-400",
+  },
+  {
+    headline: "NVIDIA cuts Q2 guidance on supply constraints — AI capex remains strong",
+    summary: "Supply bottleneck for B200 GPUs delays shipments by 4-6 weeks. Demand remains at 2x supply. xAI and Tesla among largest buyers.",
+    time: "1d ago",
+    source: "CNBC",
+    ticker: "NVDA",
+    sentiment: "neutral" as const,
+    icon: Cpu,
+    bgColor: "bg-green-900/40",
+    iconColor: "text-green-400",
+  },
+  {
+    headline: "Boring Company awarded $4.2B contract for Las Vegas-to-LA hyperloop feasibility study",
+    summary: "Nevada DOT and Caltrans jointly funding the largest infrastructure study for high-speed underground transit. Construction could begin 2028.",
+    time: "2d ago",
+    source: "Wall Street Journal",
+    ticker: "Boring Co",
+    sentiment: "bullish" as const,
+    icon: Building2,
+    bgColor: "bg-amber-900/40",
+    iconColor: "text-amber-400",
+  },
+];

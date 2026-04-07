@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import MarketTicker from "./MarketTicker";
 import { useStore } from "@/store/useStore";
 
 interface DashboardLayoutProps {
@@ -32,6 +33,7 @@ export default function DashboardLayout({
     <div className="min-h-screen bg-xc-black">
       <Sidebar />
       <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 md:ml-[68px] lg:ml-[240px]">
+        <MarketTicker />
         <Header title={title} subtitle={subtitle} />
         <main className="flex-1 p-4 md:p-6">{children}</main>
       </div>
