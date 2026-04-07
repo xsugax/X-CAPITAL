@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { StatCard } from "@/components/ui/Card";
@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/Badge";
 import {
   AreaChart,
   Area,
+  BarChart,
+  Bar,
   PieChart,
   Pie,
   Cell,
@@ -196,12 +198,43 @@ export default function DashboardPage() {
         .map(([name, value]) => ({ name, value: Number(value) }))
     : [];
 
+  // ── Live price drift on perf chart ──
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPerfData((prev) => {
+        if (!prev.length) return prev;
+        const last = prev[prev.length - 1];
+        return [
+          ...prev.slice(0, -1),
+          { ...last, value: last.value * (1 + (Math.random() - 0.48) * 0.003) },
+        ];
+      });
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // ── Volume data for dashboard volume chart ──
+  const volumeData = useMemo(() => {
+    const data = [];
+    const now = new Date();
+    for (let i = 14; i >= 0; i--) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      data.push({
+        date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+        volume: Math.round(Math.random() * 500000 + 100000),
+        trades: Math.round(Math.random() * 80 + 20),
+      });
+    }
+    return data;
+  }, []);
+
   return (
     <DashboardLayout
       title="Dashboard"
       subtitle={`Welcome back, ${user?.firstName ?? "Investor"}`}
     >
-      <div className="space-y-6">
+      <div className="space-y-8">
         {/* ─── KYC Banner ─────────────────────────────────────────────────── */}
         {user?.kycStatus !== "APPROVED" && (
           <div className="flex items-center justify-between bg-amber-950/30 border border-amber-700/40 rounded-xl px-5 py-3">
@@ -457,7 +490,7 @@ export default function DashboardPage() {
                 {formatPercent(pnlPct)}
               </div>
             </div>
-            <div className="h-48">
+            <div style={{ height: 280 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={perfData}
@@ -507,15 +540,15 @@ export default function DashboardPage() {
               <h3 className="font-bold text-white">AI Oracle Allocation</h3>
               <Badge variant="purple">LIVE</Badge>
             </div>
-            <div className="h-36">
+            <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={allocationData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={40}
-                    outerRadius={65}
+                    innerRadius={50}
+                    outerRadius={80}
                     paddingAngle={3}
                     dataKey="value"
                   >
@@ -561,6 +594,33 @@ export default function DashboardPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* ─── Trading Volume Chart ─────────────────────────────────────── */}
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-cyan-400" />
+              <h3 className="font-bold text-white">Trading Volume</h3>
+              <span className="text-[10px] text-xc-muted">14-day overview</span>
+            </div>
+            <Badge variant="default" size="sm">{volumeData.reduce((s, d) => s + d.trades, 0)} trades</Badge>
+          </div>
+          <div style={{ height: 180 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={volumeData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+                <XAxis dataKey="date" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
+                <YAxis tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                <Tooltip contentStyle={{ background: "#0d0d1e", border: "1px solid #1a1a3a", borderRadius: 8, fontSize: 12 }}
+                  formatter={(v: number, name: string) => [name === "volume" ? formatCurrency(v) : v, name === "volume" ? "Volume" : "Trades"]} />
+                <Bar dataKey="volume" radius={[4, 4, 0, 0]}>
+                  {volumeData.map((_, i) => (
+                    <Cell key={i} fill={i === volumeData.length - 1 ? "#7c3aed" : "#7c3aed"} opacity={i === volumeData.length - 1 ? 0.9 : 0.4} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 

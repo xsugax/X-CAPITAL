@@ -29,6 +29,25 @@ const TICKER_DATA: TickerItem[] = [
   { symbol: "Starlink", price: 95.00, change: 4.22, tag: "PRIVATE" },
   { symbol: "Neuralink", price: 48.50, change: 9.8, tag: "PRIVATE" },
   { symbol: "Boring Co", price: 32.00, change: 2.15, tag: "PRIVATE" },
+  { symbol: "AMD", price: 164.82, change: 1.93 },
+  { symbol: "CRM", price: 302.50, change: -0.84 },
+  { symbol: "NFLX", price: 628.40, change: 1.05 },
+  { symbol: "UBER", price: 74.15, change: -1.12 },
+  { symbol: "COIN", price: 254.80, change: 3.62, tag: "CRYPTO" },
+  { symbol: "SQ", price: 78.92, change: 2.18 },
+  { symbol: "SNAP", price: 16.35, change: -2.41 },
+  { symbol: "ADA", price: 0.6428, change: 4.75, tag: "CRYPTO" },
+  { symbol: "AVAX", price: 38.92, change: 6.21, tag: "CRYPTO" },
+  { symbol: "LINK", price: 18.47, change: 3.08, tag: "CRYPTO" },
+  { symbol: "DOT", price: 7.82, change: -1.54, tag: "CRYPTO" },
+  { symbol: "XRP", price: 0.6215, change: 2.33, tag: "CRYPTO" },
+  { symbol: "MATIC", price: 0.8814, change: -0.92, tag: "CRYPTO" },
+  { symbol: "ARKK", price: 52.30, change: 1.87, tag: "ETF" },
+  { symbol: "QQQ", price: 482.60, change: 0.64, tag: "ETF" },
+  { symbol: "SPY", price: 525.18, change: 0.42, tag: "ETF" },
+  { symbol: "GOLD", price: 2342.50, change: 0.22, tag: "COMMOD" },
+  { symbol: "OIL", price: 78.42, change: -1.08, tag: "COMMOD" },
+  { symbol: "URAN", price: 85.60, change: 2.95, tag: "COMMOD" },
 ];
 
 function formatPrice(price: number): string {
@@ -76,7 +95,11 @@ export default function MarketTicker() {
                   ? "bg-purple-900/50 text-purple-400"
                   : item.tag === "CRYPTO"
                     ? "bg-amber-900/50 text-amber-400"
-                    : "bg-white/10 text-white/50"
+                    : item.tag === "ETF"
+                      ? "bg-cyan-900/50 text-cyan-400"
+                      : item.tag === "COMMOD"
+                        ? "bg-yellow-900/50 text-yellow-400"
+                        : "bg-white/10 text-white/50"
               )}>
                 {item.tag}
               </span>

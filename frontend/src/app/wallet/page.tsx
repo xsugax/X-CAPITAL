@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { StatCard } from "@/components/ui/Card";
 import { Modal, ModalFooter } from "@/components/ui/Modal";
@@ -8,6 +8,9 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { walletAPI } from "@/lib/api";
 import { formatCurrency, cn } from "@/lib/utils";
+import {
+  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis,
+} from "recharts";
 import {
   DollarSign,
   ArrowDownLeft,
@@ -24,6 +27,8 @@ import {
   Wallet,
   ShieldCheck,
   Zap,
+  TrendingUp,
+  Activity,
 } from "lucide-react";
 import type { WalletTransaction } from "@/types";
 import { useStore } from "@/store/useStore";
@@ -278,12 +283,50 @@ export default function WalletPage() {
   const locked = Number(wallet?.lockedBalance ?? 52300);
   const displayTx = transactions.length > 0 ? transactions : DEMO_TRANSACTIONS;
 
+  // Balance history data
+  const balanceHistory = useMemo(() => {
+    const data = [];
+    let v = cash * 0.4;
+    const now = new Date();
+    for (let i = 30; i >= 0; i--) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      v *= 1 + (Math.random() - 0.42) * 0.04;
+      data.push({
+        date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+        balance: Math.round(v),
+      });
+    }
+    return data;
+  }, [cash]);
+
+  // Monthly inflow/outflow data
+  const flowData = useMemo(() => {
+    const months = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
+    return months.map((m) => ({
+      month: m,
+      inflow: Math.round(Math.random() * 80000 + 20000),
+      outflow: Math.round(Math.random() * 40000 + 5000),
+    }));
+  }, []);
+
+  // Transaction type breakdown
+  const txBreakdown = useMemo(() => {
+    const counts: Record<string, number> = {};
+    displayTx.forEach((tx) => {
+      counts[tx.type] = (counts[tx.type] || 0) + Number(tx.amount);
+    });
+    return Object.entries(counts).map(([name, value]) => ({ name: name.replace(/_/g, " "), value: Math.round(value) }));
+  }, [displayTx]);
+
+  const TX_PIE_COLORS = ["#10b981", "#ef4444", "#7c3aed", "#d97706", "#06b6d4", "#a78bfa"];
+
   return (
     <DashboardLayout
       title="Wallet"
-      subtitle="Balances, deposits &amp; withdrawals"
+      subtitle="Balances, deposits &amp; withdrawals — live tracking"
     >
-      <div className="space-y-6">
+      <div className="space-y-8">
         {/* ── Stat Cards ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
@@ -308,6 +351,92 @@ export default function WalletPage() {
             subtitle="+22.4% this year"
             icon={<BarChart3 className="w-5 h-5" />}
           />
+        </div>
+
+        {/* ── Balance History + Inflow/Outflow + Tx Breakdown Charts ── */}
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Balance History Chart */}
+          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-purple-400" />
+                <h3 className="font-bold text-white">Balance History</h3>
+              </div>
+              <span className="text-[10px] text-xc-muted">30 days</span>
+            </div>
+            <div style={{ height: 220 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={balanceHistory} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+                  <defs>
+                    <linearGradient id="balGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="date" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
+                  <YAxis tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                  <Tooltip contentStyle={{ background: "#0d0d1e", border: "1px solid #1a1a3a", borderRadius: 8, fontSize: 12 }} formatter={(v: number) => [formatCurrency(v), "Balance"]} />
+                  <Area type="monotone" dataKey="balance" stroke="#7c3aed" strokeWidth={2} fill="url(#balGrad)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Transaction Type Breakdown Pie */}
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+            <div className="flex items-center gap-2 mb-5">
+              <Activity className="w-4 h-4 text-cyan-400" />
+              <h3 className="font-bold text-white">Tx Breakdown</h3>
+            </div>
+            <div style={{ height: 160 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={txBreakdown} cx="50%" cy="50%" innerRadius={40} outerRadius={65} paddingAngle={3} dataKey="value">
+                    {txBreakdown.map((_, i) => (
+                      <Cell key={i} fill={TX_PIE_COLORS[i % TX_PIE_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{ background: "#0d0d1e", border: "1px solid #1a1a3a", borderRadius: 8, fontSize: 11 }} formatter={(v: number) => [formatCurrency(v)]} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="space-y-1.5 mt-3">
+              {txBreakdown.map((item, i) => (
+                <div key={item.name} className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full" style={{ background: TX_PIE_COLORS[i % TX_PIE_COLORS.length] }} />
+                    <span className="text-xc-muted capitalize">{item.name.toLowerCase()}</span>
+                  </div>
+                  <span className="font-mono text-white">{formatCurrency(item.value)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Monthly Inflow / Outflow ── */}
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-emerald-400" />
+              <h3 className="font-bold text-white">Monthly Cash Flow</h3>
+            </div>
+            <div className="flex items-center gap-4 text-[10px]">
+              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-emerald-500" /><span className="text-xc-muted">Inflow</span></div>
+              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500" /><span className="text-xc-muted">Outflow</span></div>
+            </div>
+          </div>
+          <div style={{ height: 200 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={flowData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+                <XAxis dataKey="month" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                <Tooltip contentStyle={{ background: "#0d0d1e", border: "1px solid #1a1a3a", borderRadius: 8, fontSize: 12 }} formatter={(v: number) => [formatCurrency(v)]} />
+                <Bar dataKey="inflow" fill="#10b981" opacity={0.7} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="outflow" fill="#ef4444" opacity={0.7} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* ── Funding Methods ── */}
