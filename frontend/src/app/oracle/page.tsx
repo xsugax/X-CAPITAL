@@ -65,8 +65,10 @@ export default function OraclePage() {
         oracleAPI.getOptimalAllocation(),
         ...SYMBOLS.slice(0, 8).map(sym => oracleAPI.getForecast(sym, '30d')),
       ]);
-      if (allocRes.status === 'fulfilled') {
-        setAllocation(allocRes.value.data.data ?? { AI: 40, Energy: 20, Space: 15, PrivateEquity: 15, Cash: 10 });
+      if (allocRes.status === 'fulfilled' && allocRes.value.data.data && Object.keys(allocRes.value.data.data).length > 0) {
+        setAllocation(allocRes.value.data.data);
+      } else {
+        setAllocation({ AI: 40, Energy: 20, Space: 15, PrivateEquity: 15, Cash: 10 });
       }
       const fcasts = fcastResults
         .map((r, i) => r.status === 'fulfilled' ? { ...r.value.data.data, symbol: SYMBOLS[i] } : null)

@@ -46,7 +46,7 @@ const CAT_CONFIG: Record<
     border: "hover:border-indigo-500/50",
     glow: "hover:shadow-indigo-900/30",
     icon: <Rocket className="w-4 h-4 text-indigo-300" />,
-    emoji: "ðŸš€",
+    emoji: "\u{1F680}",
     headerBg: "from-indigo-950 to-purple-950",
     imageUrl:
       "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=640&q=70&auto=format&fit=crop",
@@ -56,7 +56,7 @@ const CAT_CONFIG: Record<
     border: "hover:border-purple-500/50",
     glow: "hover:shadow-purple-900/30",
     icon: <Cpu className="w-4 h-4 text-xc-purple-light" />,
-    emoji: "ðŸ¤–",
+    emoji: "\u{1F916}",
     headerBg: "from-purple-950 to-indigo-950",
     imageUrl:
       "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=640&q=70&auto=format&fit=crop",
@@ -66,7 +66,7 @@ const CAT_CONFIG: Record<
     border: "hover:border-amber-500/50",
     glow: "hover:shadow-amber-900/30",
     icon: <Zap className="w-4 h-4 text-amber-300" />,
-    emoji: "âš¡",
+    emoji: "\u{26A1}",
     headerBg: "from-amber-950 to-green-950",
     imageUrl:
       "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=640&q=70&auto=format&fit=crop",
@@ -76,16 +76,20 @@ const CAT_CONFIG: Record<
     border: "hover:border-blue-500/50",
     glow: "hover:shadow-blue-900/30",
     icon: <Gem className="w-4 h-4 text-blue-300" />,
-    emoji: "ðŸ’Ž",
+    emoji: "\u{1F48E}",
     headerBg: "from-blue-950 to-xc-dark",
+    imageUrl:
+      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=640&q=70&auto=format&fit=crop",
   },
   DEFAULT: {
     grad: "from-xc-dark to-xc-card",
     border: "hover:border-xc-purple/40",
     glow: "hover:shadow-purple-900/20",
     icon: <TrendingUp className="w-4 h-4 text-xc-muted" />,
-    emoji: "ðŸ“ˆ",
+    emoji: "\u{1F4C8}",
     headerBg: "from-xc-dark to-xc-card",
+    imageUrl:
+      "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=640&q=70&auto=format&fit=crop",
   },
 };
 

@@ -48,6 +48,7 @@ export default function CommercePage() {
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("ALL");
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Product | null>(null);
+  const [modalImgError, setModalImgError] = useState(false);
   const [bundleInvest, setBundleInvest] = useState(true);
   const [checking, setChecking] = useState(false);
   const [checkoutData, setCheckoutData] = useState<{
@@ -76,6 +77,7 @@ export default function CommercePage() {
 
   const openCheckout = (product: Product) => {
     setSelected(product);
+    setModalImgError(false);
     setBundleInvest(true);
     setCheckoutData(null);
     setMessage(null);
@@ -388,7 +390,7 @@ export default function CommercePage() {
           <div className="space-y-5">
             {/* product hero in modal */}
             <div className="relative h-40 rounded-xl overflow-hidden border border-xc-border bg-xc-dark">
-              {selected.imageUrl ? (
+              {selected.imageUrl && !modalImgError ? (
                 <>
                   <Image
                     src={selected.imageUrl}
@@ -396,6 +398,7 @@ export default function CommercePage() {
                     fill
                     className="object-cover"
                     unoptimized
+                    onError={() => setModalImgError(true)}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 </>

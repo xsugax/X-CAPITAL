@@ -162,7 +162,7 @@ export default function DashboardPage() {
         if (assetsRes.status === "fulfilled") {
           setTopAssets(assetsRes.value.data.data.assets || []);
         }
-        if (allocRes.status === "fulfilled") {
+        if (allocRes.status === "fulfilled" && allocRes.value.data.data && Object.keys(allocRes.value.data.data).filter(k => k !== "rationale").length > 0) {
           setAllocation(allocRes.value.data.data);
         } else {
           setAllocation({
