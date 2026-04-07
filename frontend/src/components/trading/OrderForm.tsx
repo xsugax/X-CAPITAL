@@ -9,6 +9,10 @@ import {
   TrendingDown,
   AlertCircle,
   CheckCircle2,
+  Zap,
+  Clock,
+  Shield,
+  Sparkles,
 } from "lucide-react";
 import type { Asset } from "@/types";
 import { useStore } from "@/store/useStore";
@@ -30,6 +34,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
     type: "success" | "error";
     text: string;
   } | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   // Derived
   const price = Number(asset?.price ?? 0);
@@ -46,6 +51,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
     setAmount("");
     setQty("");
     setMessage(null);
+    setShowCelebration(false);
   }, [asset?.symbol, side]);
 
   const handleQuickAmount = (pct: number) => {
@@ -65,12 +71,14 @@ export default function OrderForm({ asset }: OrderFormProps) {
       } else {
         await tradingAPI.sell(asset.id, estimatedQty);
       }
+      setShowCelebration(true);
       setMessage({
         type: "success",
         text: `${side === "buy" ? "Buy" : "Sell"} order placed for ${estimatedQty.toFixed(4)} ${asset.symbol}`,
       });
       setAmount("");
       setQty("");
+      setTimeout(() => setShowCelebration(false), 3000);
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       setMessage({
@@ -97,9 +105,9 @@ export default function OrderForm({ asset }: OrderFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {/* Asset header */}
-      <div className="flex items-center gap-3 pb-4 border-b border-xc-border">
+      <div className="flex items-center gap-3 pb-3 border-b border-xc-border">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-900 to-cyan-900 flex items-center justify-center text-sm font-black text-white">
           {asset.symbol[0]}
         </div>
@@ -108,22 +116,37 @@ export default function OrderForm({ asset }: OrderFormProps) {
           <div className="text-xs text-xc-muted">{asset.name}</div>
         </div>
         <div className="ml-auto text-right">
-          <div className="font-mono font-bold text-white">
+          <div className="font-mono font-bold text-white price-shimmer">
             {formatCurrency(price)}
           </div>
           <div
             className={cn(
-              "text-xs font-semibold",
+              "text-xs font-semibold flex items-center gap-0.5 justify-end",
               Number(asset.priceChange24h) >= 0
-                ? "text-xc-green"
-                : "text-xc-red",
+                ? "text-emerald-400"
+                : "text-red-400",
             )}
           >
+            {Number(asset.priceChange24h) >= 0 ? (
+              <TrendingUp className="w-3 h-3" />
+            ) : (
+              <TrendingDown className="w-3 h-3" />
+            )}
             {Number(asset.priceChange24h) >= 0 ? "+" : ""}
             {Number(asset.priceChange24h).toFixed(2)}%
           </div>
         </div>
       </div>
+
+      {/* Urgency nudge */}
+      {Number(asset.priceChange24h) > 2 && side === "buy" && (
+        <div className="flex items-center gap-2 text-[10px] bg-emerald-950/30 border border-emerald-700/30 rounded-lg px-3 py-2 signal-flash-green">
+          <Zap className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+          <span className="text-emerald-400 font-semibold">
+            {asset.symbol} is up {Number(asset.priceChange24h).toFixed(1)}% today — momentum is building
+          </span>
+        </div>
+      )}
 
       {/* Buy/Sell switch */}
       <div className="flex rounded-xl overflow-hidden border border-xc-border">
@@ -133,7 +156,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
           className={cn(
             "flex-1 py-2.5 text-sm font-bold transition-all flex items-center justify-center gap-1.5",
             side === "buy"
-              ? "bg-xc-green/20 text-xc-green border-r border-xc-border"
+              ? "bg-emerald-500/20 text-emerald-400 border-r border-xc-border"
               : "text-xc-muted hover:text-white",
           )}
         >
@@ -145,7 +168,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
           className={cn(
             "flex-1 py-2.5 text-sm font-bold transition-all flex items-center justify-center gap-1.5",
             side === "sell"
-              ? "bg-xc-red/20 text-xc-red"
+              ? "bg-red-500/20 text-red-400"
               : "text-xc-muted hover:text-white",
           )}
         >
@@ -204,14 +227,24 @@ export default function OrderForm({ asset }: OrderFormProps) {
           </div>
           {side === "buy" && (
             <div className="flex gap-2 mt-2">
-              {[0.25, 0.5, 0.75, 1.0].map((pct) => (
+              {[
+                { pct: 0.25, label: "25%" },
+                { pct: 0.5, label: "50%" },
+                { pct: 0.75, label: "75%" },
+                { pct: 1.0, label: "MAX" },
+              ].map(({ pct, label }) => (
                 <button
                   key={pct}
                   type="button"
                   onClick={() => handleQuickAmount(pct)}
-                  className="flex-1 py-1.5 rounded-lg text-xs font-semibold bg-white/5 hover:bg-white/10 text-xc-muted hover:text-white transition-all"
+                  className={cn(
+                    "flex-1 py-1.5 rounded-lg text-xs font-bold transition-all",
+                    pct === 1.0
+                      ? "bg-purple-900/40 hover:bg-purple-900/60 text-purple-300 hover:text-white border border-purple-500/30"
+                      : "bg-white/5 hover:bg-white/10 text-xc-muted hover:text-white",
+                  )}
                 >
-                  {pct * 100}%
+                  {label}
                 </button>
               ))}
             </div>
@@ -236,74 +269,107 @@ export default function OrderForm({ asset }: OrderFormProps) {
       )}
 
       {/* Order summary */}
-      <div className="bg-xc-dark/40 border border-xc-border rounded-xl p-4 space-y-2 text-sm">
+      <div className="bg-xc-dark/40 border border-xc-border rounded-xl p-3 space-y-1.5 text-sm">
         <div className="flex justify-between">
-          <span className="text-xc-muted">Estimated quantity</span>
-          <span className="font-mono text-white">
+          <span className="text-xc-muted text-xs">Est. quantity</span>
+          <span className="font-mono text-white text-xs">
             {estimatedQty.toFixed(4)} {asset.symbol}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-xc-muted">Estimated cost</span>
-          <span className="font-mono text-white">
+          <span className="text-xc-muted text-xs">Est. cost</span>
+          <span className="font-mono text-white text-xs">
             {formatCurrency(estimatedCost)}
           </span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-xc-muted">Available cash</span>
+        <div className="flex justify-between border-t border-white/[0.04] pt-1.5">
+          <span className="text-xc-muted text-xs">Available</span>
           <span
             className={cn(
-              "font-mono",
-              hasSufficientFunds ? "text-xc-green" : "text-xc-red",
+              "font-mono text-xs",
+              hasSufficientFunds ? "text-emerald-400" : "text-red-400",
             )}
           >
             {formatCurrency(availableCash)}
           </span>
         </div>
+        {estimatedCost > 0 && side === "buy" && (
+          <div className="flex justify-between pt-1">
+            <span className="text-xc-muted text-xs">If +25% gain</span>
+            <span className="font-mono text-xs text-emerald-400 font-bold profit-glow">
+              +{formatCurrency(estimatedCost * 0.25)}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Insufficient funds warning */}
-      {side === "buy" && !hasSufficientFunds && (
+      {side === "buy" && !hasSufficientFunds && estimatedCost > 0 && (
         <div className="flex items-center gap-2 text-xs text-amber-400 bg-amber-950/30 border border-amber-700/40 rounded-xl px-3 py-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           Insufficient funds. Add cash to your wallet to continue.
         </div>
       )}
 
-      {/* Feedback message */}
-      {message && (
-        <div
-          className={cn(
-            "flex items-center gap-2 text-xs rounded-xl px-3 py-2",
-            message.type === "success"
-              ? "text-xc-green bg-emerald-950/30 border border-emerald-700/40"
-              : "text-xc-red bg-red-950/30 border border-red-700/40",
-          )}
-        >
-          {message.type === "success" ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
-          ) : (
-            <AlertCircle className="w-4 h-4 shrink-0" />
-          )}
+      {/* Success celebration */}
+      {showCelebration && message?.type === "success" && (
+        <div className="celebrate flex items-center gap-2 text-xs rounded-xl px-3 py-3 text-emerald-400 bg-emerald-950/40 border border-emerald-500/40">
+          <div className="relative">
+            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <Sparkles className="w-3 h-3 absolute -top-1 -right-1 text-amber-400 animate-pulse" />
+          </div>
+          <div>
+            <div className="font-bold">{message.text}</div>
+            <div className="text-[10px] text-emerald-400/70 mt-0.5">
+              Position added to your portfolio
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error message */}
+      {message && message.type === "error" && (
+        <div className="flex items-center gap-2 text-xs rounded-xl px-3 py-2 text-red-400 bg-red-950/30 border border-red-700/40">
+          <AlertCircle className="w-4 h-4 shrink-0" />
           {message.text}
         </div>
       )}
 
-      <Button
+      <button
         type="submit"
-        variant={side === "buy" ? "primary" : "danger"}
-        fullWidth
-        loading={loading}
-        disabled={!hasSufficientFunds && side === "buy"}
-        size="lg"
+        disabled={(side === "buy" && !hasSufficientFunds) || loading}
+        className={cn(
+          "w-full py-3 rounded-xl text-sm font-black transition-all flex items-center justify-center gap-2",
+          side === "buy"
+            ? "bg-emerald-500 hover:bg-emerald-400 text-white buy-pulse disabled:opacity-50 disabled:animate-none"
+            : "bg-red-500 hover:bg-red-400 text-white disabled:opacity-50",
+          loading && "opacity-70 cursor-wait",
+        )}
       >
-        {side === "buy" ? "Place Buy Order" : "Place Sell Order"}
-      </Button>
+        {loading ? (
+          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        ) : (
+          <>
+            <Zap className="w-4 h-4" />
+            {side === "buy" ? "Execute Buy Order" : "Execute Sell Order"}
+          </>
+        )}
+      </button>
 
-      <p className="text-xs text-xc-muted text-center">
-        Market orders execute at current prices. By trading, you agree to
-        X-CAPITAL Terms of Service.
-      </p>
+      {/* Trust line */}
+      <div className="flex items-center justify-center gap-3 text-[9px] text-xc-muted">
+        <div className="flex items-center gap-1">
+          <Shield className="w-2.5 h-2.5" /> SEC Compliant
+        </div>
+        <span className="text-white/10">|</span>
+        <div className="flex items-center gap-1">
+          <Clock className="w-2.5 h-2.5" /> Instant Execution
+        </div>
+        <span className="text-white/10">|</span>
+        <div className="flex items-center gap-1">
+          <Zap className="w-2.5 h-2.5" /> Zero Commission
+        </div>
+      </div>
     </form>
   );
 }
