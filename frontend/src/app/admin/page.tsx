@@ -164,9 +164,9 @@ export default function AdminPage() {
 
   // ── State ─────────────────────────────────────────────────────────────────
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<
-    "users" | "audit" | "create"
-  >("users");
+  const [activeTab, setActiveTab] = useState<"users" | "audit" | "create">(
+    "users",
+  );
   const [expandedUser, setExpandedUser] = useState<string | null>(null);
   const [toast, setToast] = useState<{
     message: string;
@@ -235,9 +235,7 @@ export default function AdminPage() {
     const totalBalance = users.reduce((s, u) => s + (u.balance ?? 0), 0);
     const frozenCount = users.filter((u) => u.isFrozen).length;
     const blockedCount = users.filter((u) => u.isBlocked).length;
-    const tradingCount = users.filter(
-      (u) => u.tradingEnabled !== false,
-    ).length;
+    const tradingCount = users.filter((u) => u.tradingEnabled !== false).length;
     return {
       total: users.length,
       totalBalance,
@@ -274,14 +272,22 @@ export default function AdminPage() {
   const handleToggleFreeze = (u: User) => {
     const frozen = !u.isFrozen;
     updateUserById(u.id, { isFrozen: frozen });
-    audit(frozen ? "Froze account" : "Unfroze account", u.email, frozen ? "warning" : "success");
+    audit(
+      frozen ? "Froze account" : "Unfroze account",
+      u.email,
+      frozen ? "warning" : "success",
+    );
     showToast(`${u.firstName} ${frozen ? "frozen" : "unfrozen"}`);
   };
 
   const handleToggleBlock = (u: User) => {
     const blocked = !u.isBlocked;
     updateUserById(u.id, { isBlocked: blocked });
-    audit(blocked ? "Blocked account" : "Unblocked account", u.email, blocked ? "danger" : "success");
+    audit(
+      blocked ? "Blocked account" : "Unblocked account",
+      u.email,
+      blocked ? "danger" : "success",
+    );
     showToast(`${u.firstName} ${blocked ? "blocked" : "unblocked"}`);
   };
 
@@ -369,7 +375,11 @@ export default function AdminPage() {
     updateUserById(backdateModal.id, {
       createdAt: new Date(backdateValue).toISOString(),
     });
-    audit(`Backdated account to ${backdateValue}`, backdateModal.email, "warning");
+    audit(
+      `Backdated account to ${backdateValue}`,
+      backdateModal.email,
+      "warning",
+    );
     showToast(`Account date updated for ${backdateModal.firstName}`);
     setBackdateModal(null);
     setBackdateValue("");
@@ -470,9 +480,7 @@ export default function AdminPage() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-xs text-gray-500">
-              {currentUser?.email}
-            </span>
+            <span className="text-xs text-gray-500">{currentUser?.email}</span>
             <button
               onClick={() => {
                 logout();
@@ -585,9 +593,7 @@ export default function AdminPage() {
                     onFreeze={() => handleToggleFreeze(u)}
                     onBlock={() => handleToggleBlock(u)}
                     onTrade={() => handleToggleTrading(u)}
-                    onFund={() =>
-                      setFundModal({ userId: u.id, mode: "fund" })
-                    }
+                    onFund={() => setFundModal({ userId: u.id, mode: "fund" })}
                     onDebit={() =>
                       setFundModal({ userId: u.id, mode: "debit" })
                     }
@@ -667,7 +673,9 @@ export default function AdminPage() {
                     <span className="text-white font-medium flex-1">
                       {entry.action}
                     </span>
-                    <span className="text-gray-400 text-xs">{entry.target}</span>
+                    <span className="text-gray-400 text-xs">
+                      {entry.target}
+                    </span>
                     <span className="text-gray-600 text-xs">{entry.actor}</span>
                   </div>
                 ))}
@@ -705,34 +713,26 @@ export default function AdminPage() {
                 label="Email"
                 value={createForm.email}
                 type="email"
-                onChange={(v) =>
-                  setCreateForm({ ...createForm, email: v })
-                }
+                onChange={(v) => setCreateForm({ ...createForm, email: v })}
               />
               <Field
                 label="Password"
                 value={createForm.password}
                 type="password"
-                onChange={(v) =>
-                  setCreateForm({ ...createForm, password: v })
-                }
+                onChange={(v) => setCreateForm({ ...createForm, password: v })}
               />
               <div className="grid grid-cols-2 gap-4">
                 <SelectField
                   label="Role"
                   value={createForm.role}
                   options={["USER", "ADMIN"]}
-                  onChange={(v) =>
-                    setCreateForm({ ...createForm, role: v })
-                  }
+                  onChange={(v) => setCreateForm({ ...createForm, role: v })}
                 />
                 <SelectField
                   label="Tier"
                   value={createForm.tier}
                   options={["CORE", "GOLD", "BLACK"]}
-                  onChange={(v) =>
-                    setCreateForm({ ...createForm, tier: v })
-                  }
+                  onChange={(v) => setCreateForm({ ...createForm, tier: v })}
                 />
               </div>
               <button
@@ -1089,9 +1089,7 @@ function UserRow({
             <InfoCell
               label="Last Login"
               value={
-                user.lastLogin
-                  ? new Date(user.lastLogin).toLocaleString()
-                  : "—"
+                user.lastLogin ? new Date(user.lastLogin).toLocaleString() : "—"
               }
             />
           </div>

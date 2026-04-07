@@ -13,27 +13,27 @@ interface TickerItem {
 
 const TICKER_DATA: TickerItem[] = [
   { symbol: "TSLA", price: 342.18, change: 3.12, tag: "NYSE" },
-  { symbol: "SpaceX", price: 252.00, change: 6.84, tag: "PRIVATE" },
+  { symbol: "SpaceX", price: 252.0, change: 6.84, tag: "PRIVATE" },
   { symbol: "NVDA", price: 875.39, change: 2.41 },
-  { symbol: "BTC", price: 97842.50, change: -1.23, tag: "CRYPTO" },
+  { symbol: "BTC", price: 97842.5, change: -1.23, tag: "CRYPTO" },
   { symbol: "DOGE", price: 0.4217, change: 8.52, tag: "CRYPTO" },
-  { symbol: "xAI", price: 180.00, change: 12.4, tag: "PRIVATE" },
+  { symbol: "xAI", price: 180.0, change: 12.4, tag: "PRIVATE" },
   { symbol: "AAPL", price: 213.07, change: 0.84 },
   { symbol: "AMZN", price: 196.25, change: -0.62 },
   { symbol: "META", price: 513.92, change: 1.37 },
   { symbol: "PLTR", price: 23.47, change: 4.21 },
-  { symbol: "ETH", price: 3842.10, change: -0.38, tag: "CRYPTO" },
+  { symbol: "ETH", price: 3842.1, change: -0.38, tag: "CRYPTO" },
   { symbol: "SOL", price: 187.63, change: 5.17, tag: "CRYPTO" },
-  { symbol: "MSFT", price: 428.50, change: 0.97 },
+  { symbol: "MSFT", price: 428.5, change: 0.97 },
   { symbol: "GOOGL", price: 178.32, change: -0.14 },
-  { symbol: "Starlink", price: 95.00, change: 4.22, tag: "PRIVATE" },
-  { symbol: "Neuralink", price: 48.50, change: 9.8, tag: "PRIVATE" },
-  { symbol: "Boring Co", price: 32.00, change: 2.15, tag: "PRIVATE" },
+  { symbol: "Starlink", price: 95.0, change: 4.22, tag: "PRIVATE" },
+  { symbol: "Neuralink", price: 48.5, change: 9.8, tag: "PRIVATE" },
+  { symbol: "Boring Co", price: 32.0, change: 2.15, tag: "PRIVATE" },
   { symbol: "AMD", price: 164.82, change: 1.93 },
-  { symbol: "CRM", price: 302.50, change: -0.84 },
-  { symbol: "NFLX", price: 628.40, change: 1.05 },
+  { symbol: "CRM", price: 302.5, change: -0.84 },
+  { symbol: "NFLX", price: 628.4, change: 1.05 },
   { symbol: "UBER", price: 74.15, change: -1.12 },
-  { symbol: "COIN", price: 254.80, change: 3.62, tag: "CRYPTO" },
+  { symbol: "COIN", price: 254.8, change: 3.62, tag: "CRYPTO" },
   { symbol: "SQ", price: 78.92, change: 2.18 },
   { symbol: "SNAP", price: 16.35, change: -2.41 },
   { symbol: "ADA", price: 0.6428, change: 4.75, tag: "CRYPTO" },
@@ -42,16 +42,20 @@ const TICKER_DATA: TickerItem[] = [
   { symbol: "DOT", price: 7.82, change: -1.54, tag: "CRYPTO" },
   { symbol: "XRP", price: 0.6215, change: 2.33, tag: "CRYPTO" },
   { symbol: "MATIC", price: 0.8814, change: -0.92, tag: "CRYPTO" },
-  { symbol: "ARKK", price: 52.30, change: 1.87, tag: "ETF" },
-  { symbol: "QQQ", price: 482.60, change: 0.64, tag: "ETF" },
+  { symbol: "ARKK", price: 52.3, change: 1.87, tag: "ETF" },
+  { symbol: "QQQ", price: 482.6, change: 0.64, tag: "ETF" },
   { symbol: "SPY", price: 525.18, change: 0.42, tag: "ETF" },
-  { symbol: "GOLD", price: 2342.50, change: 0.22, tag: "COMMOD" },
+  { symbol: "GOLD", price: 2342.5, change: 0.22, tag: "COMMOD" },
   { symbol: "OIL", price: 78.42, change: -1.08, tag: "COMMOD" },
-  { symbol: "URAN", price: 85.60, change: 2.95, tag: "COMMOD" },
+  { symbol: "URAN", price: 85.6, change: 2.95, tag: "COMMOD" },
 ];
 
 function formatPrice(price: number): string {
-  if (price >= 1000) return price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (price >= 1000)
+    return price.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   if (price < 1) return price.toFixed(4);
   return price.toFixed(2);
 }
@@ -67,7 +71,7 @@ export default function MarketTicker() {
           ...item,
           price: item.price * (1 + (Math.random() - 0.5) * 0.002),
           change: item.change + (Math.random() - 0.5) * 0.15,
-        }))
+        })),
       );
     }, 3000);
     return () => clearInterval(interval);
@@ -87,34 +91,43 @@ export default function MarketTicker() {
             key={`${item.symbol}-${i}`}
             className="inline-flex items-center gap-2 px-4 border-r border-white/[0.04] shrink-0"
           >
-            <span className="text-[11px] font-bold text-white/90">{item.symbol}</span>
+            <span className="text-[11px] font-bold text-white/90">
+              {item.symbol}
+            </span>
             {item.tag && (
-              <span className={cn(
-                "text-[8px] font-mono px-1 py-px rounded",
-                item.tag === "PRIVATE"
-                  ? "bg-purple-900/50 text-purple-400"
-                  : item.tag === "CRYPTO"
-                    ? "bg-amber-900/50 text-amber-400"
-                    : item.tag === "ETF"
-                      ? "bg-cyan-900/50 text-cyan-400"
-                      : item.tag === "COMMOD"
-                        ? "bg-yellow-900/50 text-yellow-400"
-                        : "bg-white/10 text-white/50"
-              )}>
+              <span
+                className={cn(
+                  "text-[8px] font-mono px-1 py-px rounded",
+                  item.tag === "PRIVATE"
+                    ? "bg-purple-900/50 text-purple-400"
+                    : item.tag === "CRYPTO"
+                      ? "bg-amber-900/50 text-amber-400"
+                      : item.tag === "ETF"
+                        ? "bg-cyan-900/50 text-cyan-400"
+                        : item.tag === "COMMOD"
+                          ? "bg-yellow-900/50 text-yellow-400"
+                          : "bg-white/10 text-white/50",
+                )}
+              >
                 {item.tag}
               </span>
             )}
-            <span className="text-[11px] font-mono text-white/70">${formatPrice(item.price)}</span>
-            <span className={cn(
-              "text-[10px] font-bold flex items-center gap-0.5",
-              item.change >= 0 ? "text-emerald-400" : "text-red-400"
-            )}>
+            <span className="text-[11px] font-mono text-white/70">
+              ${formatPrice(item.price)}
+            </span>
+            <span
+              className={cn(
+                "text-[10px] font-bold flex items-center gap-0.5",
+                item.change >= 0 ? "text-emerald-400" : "text-red-400",
+              )}
+            >
               {item.change >= 0 ? (
                 <TrendingUp className="w-2.5 h-2.5" />
               ) : (
                 <TrendingDown className="w-2.5 h-2.5" />
               )}
-              {item.change >= 0 ? "+" : ""}{item.change.toFixed(2)}%
+              {item.change >= 0 ? "+" : ""}
+              {item.change.toFixed(2)}%
             </span>
           </div>
         ))}

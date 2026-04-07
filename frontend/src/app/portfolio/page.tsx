@@ -1,22 +1,54 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo } from 'react';
-import DashboardLayout from '@/components/layout/DashboardLayout';
-import { StatCard } from '@/components/ui/Card';
-import PortfolioChart from '@/components/portfolio/PortfolioChart';
-import HoldingsList from '@/components/portfolio/HoldingsList';
-import { portfolioAPI } from '@/lib/api';
-import { formatCurrency, formatPercent, cn } from '@/lib/utils';
+import { useState, useEffect, useMemo } from "react";
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import { StatCard } from "@/components/ui/Card";
+import PortfolioChart from "@/components/portfolio/PortfolioChart";
+import HoldingsList from "@/components/portfolio/HoldingsList";
+import { portfolioAPI } from "@/lib/api";
+import { formatCurrency, formatPercent, cn } from "@/lib/utils";
 import {
-  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend,
-} from 'recharts';
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Legend,
+} from "recharts";
 import {
-  TrendingUp, TrendingDown, DollarSign, Percent, ShieldCheck, BarChart3,
-  Flame, Zap, Target, ArrowUpRight, ArrowDownRight, Activity,
-} from 'lucide-react';
-import type { Portfolio } from '@/types';
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Percent,
+  ShieldCheck,
+  BarChart3,
+  Flame,
+  Zap,
+  Target,
+  ArrowUpRight,
+  ArrowDownRight,
+  Activity,
+} from "lucide-react";
+import type { Portfolio } from "@/types";
 
-const PIE_COLORS = ['#7c3aed', '#06b6d4', '#d97706', '#10b981', '#ef4444', '#a78bfa', '#6366f1', '#f59e0b', '#ec4899', '#14b8a6'];
+const PIE_COLORS = [
+  "#7c3aed",
+  "#06b6d4",
+  "#d97706",
+  "#10b981",
+  "#ef4444",
+  "#a78bfa",
+  "#6366f1",
+  "#f59e0b",
+  "#ec4899",
+  "#14b8a6",
+];
 
 function generatePerfData(tv: number) {
   const data = [];
@@ -27,7 +59,7 @@ function generatePerfData(tv: number) {
     d.setDate(d.getDate() - i);
     v *= 1 + (Math.random() - 0.47) * 0.025;
     data.push({
-      date: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       value: Math.round(v * 100) / 100,
     });
   }
@@ -46,7 +78,7 @@ function generateDrawdownData(tv: number) {
     if (v > peak) peak = v;
     const dd = ((v - peak) / peak) * 100;
     data.push({
-      date: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       drawdown: Math.round(dd * 100) / 100,
     });
   }
@@ -54,7 +86,20 @@ function generateDrawdownData(tv: number) {
 }
 
 function generateMonthlyReturns() {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   return months.slice(0, new Date().getMonth() + 1).map((m) => ({
     month: m,
     return: Number(((Math.random() - 0.35) * 12).toFixed(2)),
@@ -63,9 +108,15 @@ function generateMonthlyReturns() {
 
 export default function PortfolioPage() {
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-  const [perfData, setPerfData] = useState<Array<{ date: string; value: number }>>([]);
-  const [drawdownData, setDrawdownData] = useState<Array<{ date: string; drawdown: number }>>([]);
-  const [monthlyReturns, setMonthlyReturns] = useState<Array<{ month: string; return: number }>>([]);
+  const [perfData, setPerfData] = useState<
+    Array<{ date: string; value: number }>
+  >([]);
+  const [drawdownData, setDrawdownData] = useState<
+    Array<{ date: string; drawdown: number }>
+  >([]);
+  const [monthlyReturns, setMonthlyReturns] = useState<
+    Array<{ month: string; return: number }>
+  >([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -75,11 +126,20 @@ export default function PortfolioPage() {
         const res = await portfolioAPI.getPortfolio();
         setPortfolio(res.data.data);
         setPerfData(generatePerfData(res.data.data.totalValue || 10000));
-        setDrawdownData(generateDrawdownData(res.data.data.totalValue || 10000));
+        setDrawdownData(
+          generateDrawdownData(res.data.data.totalValue || 10000),
+        );
       } catch {
         const demo: Portfolio = {
-          id: '1', userId: '1', totalValue: 287450, totalCost: 198200, totalPnL: 89250,
-          cashBalance: 42500, riskScore: 48, performanceYTD: 34.2, holdings: DEMO_HOLDINGS,
+          id: "1",
+          userId: "1",
+          totalValue: 287450,
+          totalCost: 198200,
+          totalPnL: 89250,
+          cashBalance: 42500,
+          riskScore: 48,
+          performanceYTD: 34.2,
+          holdings: DEMO_HOLDINGS,
         };
         setPortfolio(demo);
         setPerfData(generatePerfData(287450));
@@ -108,50 +168,103 @@ export default function PortfolioPage() {
             asset: h.asset ? { ...h.asset, price: newPrice } : h.asset,
           };
         });
-        const totalVal = updatedHoldings.reduce((s, h) => s + Number(h.currentValue), 0) + (prev.cashBalance ?? 0);
-        return { ...prev, holdings: updatedHoldings, totalValue: totalVal, totalPnL: totalVal - (prev.totalCost ?? 0) };
+        const totalVal =
+          updatedHoldings.reduce((s, h) => s + Number(h.currentValue), 0) +
+          (prev.cashBalance ?? 0);
+        return {
+          ...prev,
+          holdings: updatedHoldings,
+          totalValue: totalVal,
+          totalPnL: totalVal - (prev.totalCost ?? 0),
+        };
       });
     }, 2500);
     return () => clearInterval(interval);
   }, []);
 
-  const pnlPct = portfolio && portfolio.totalCost > 0 ? (portfolio.totalPnL / portfolio.totalCost) * 100 : 0;
+  const pnlPct =
+    portfolio && portfolio.totalCost > 0
+      ? (portfolio.totalPnL / portfolio.totalCost) * 100
+      : 0;
 
   const allocationData = portfolio?.holdings?.length
     ? portfolio.holdings.map((h) => ({
-        name: h.asset?.symbol ?? 'Unknown',
+        name: h.asset?.symbol ?? "Unknown",
         value: Math.round(Number(h.currentValue)),
       }))
     : DEMO_ALLOCATION;
 
-  const holdingsPnl = portfolio?.holdings?.map((h) => ({
-    symbol: h.asset?.symbol ?? '?',
-    pnl: Number(h.unrealizedPnL ?? 0),
-    pnlPct: h.avgCost > 0 ? (Number(h.unrealizedPnL ?? 0) / (h.quantity * h.avgCost)) * 100 : 0,
-  })) ?? [];
+  const holdingsPnl =
+    portfolio?.holdings?.map((h) => ({
+      symbol: h.asset?.symbol ?? "?",
+      pnl: Number(h.unrealizedPnL ?? 0),
+      pnlPct:
+        h.avgCost > 0
+          ? (Number(h.unrealizedPnL ?? 0) / (h.quantity * h.avgCost)) * 100
+          : 0,
+    })) ?? [];
 
   return (
-    <DashboardLayout title="Portfolio" subtitle="Performance, holdings &amp; allocation — live data">
+    <DashboardLayout
+      title="Portfolio"
+      subtitle="Performance, holdings &amp; allocation — live data"
+    >
       <div className="space-y-8">
-
         {/* ── Stats Row ── */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-          <StatCard title="Total Value" value={formatCurrency(portfolio?.totalValue ?? 0)} change={pnlPct} icon={<DollarSign className="w-5 h-5" />} />
-          <StatCard title="Total P&L" value={formatCurrency(portfolio?.totalPnL ?? 0)} change={pnlPct} icon={<TrendingUp className="w-5 h-5" />} />
-          <StatCard title="YTD Return" value={formatPercent(portfolio?.performanceYTD ?? 0)} change={portfolio?.performanceYTD ?? 0} icon={<Percent className="w-5 h-5" />} />
-          <StatCard title="Cash Balance" value={formatCurrency(portfolio?.cashBalance ?? 0)} icon={<BarChart3 className="w-5 h-5" />} />
-          <StatCard title="Risk Score" value={`${portfolio?.riskScore ?? 48}/100`} subtitle={riskLabel(portfolio?.riskScore ?? 48)} icon={<ShieldCheck className="w-5 h-5" />} />
+          <StatCard
+            title="Total Value"
+            value={formatCurrency(portfolio?.totalValue ?? 0)}
+            change={pnlPct}
+            icon={<DollarSign className="w-5 h-5" />}
+          />
+          <StatCard
+            title="Total P&L"
+            value={formatCurrency(portfolio?.totalPnL ?? 0)}
+            change={pnlPct}
+            icon={<TrendingUp className="w-5 h-5" />}
+          />
+          <StatCard
+            title="YTD Return"
+            value={formatPercent(portfolio?.performanceYTD ?? 0)}
+            change={portfolio?.performanceYTD ?? 0}
+            icon={<Percent className="w-5 h-5" />}
+          />
+          <StatCard
+            title="Cash Balance"
+            value={formatCurrency(portfolio?.cashBalance ?? 0)}
+            icon={<BarChart3 className="w-5 h-5" />}
+          />
+          <StatCard
+            title="Risk Score"
+            value={`${portfolio?.riskScore ?? 48}/100`}
+            subtitle={riskLabel(portfolio?.riskScore ?? 48)}
+            icon={<ShieldCheck className="w-5 h-5" />}
+          />
         </div>
 
         {/* ── Performance Chart (full width, tall) ── */}
         <div className="bg-xc-card border border-xc-border rounded-2xl p-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="font-black text-white text-lg">Portfolio Performance</h3>
-              <p className="text-sm text-xc-muted mt-1">90-day history · Updated live</p>
+              <h3 className="font-black text-white text-lg">
+                Portfolio Performance
+              </h3>
+              <p className="text-sm text-xc-muted mt-1">
+                90-day history · Updated live
+              </p>
             </div>
-            <div className={cn('flex items-center gap-2 text-lg font-black', pnlPct >= 0 ? 'text-emerald-400' : 'text-red-400')}>
-              {pnlPct >= 0 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
+            <div
+              className={cn(
+                "flex items-center gap-2 text-lg font-black",
+                pnlPct >= 0 ? "text-emerald-400" : "text-red-400",
+              )}
+            >
+              {pnlPct >= 0 ? (
+                <TrendingUp className="w-5 h-5" />
+              ) : (
+                <TrendingDown className="w-5 h-5" />
+              )}
               {formatPercent(pnlPct)}
             </div>
           </div>
@@ -167,32 +280,70 @@ export default function PortfolioPage() {
             <div className="flex items-center gap-2 mb-5">
               <Activity className="w-4 h-4 text-red-400" />
               <h3 className="font-bold text-white">Drawdown Analysis</h3>
-              <span className="text-[10px] text-xc-muted ml-auto">Max DD from peak</span>
+              <span className="text-[10px] text-xc-muted ml-auto">
+                Max DD from peak
+              </span>
             </div>
             <div style={{ height: 200 }}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={drawdownData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+                <AreaChart
+                  data={drawdownData}
+                  margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
+                >
                   <defs>
                     <linearGradient id="ddGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
                       <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
-                  <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v}%`} domain={['auto', 0]} />
-                  <Tooltip contentStyle={{ background: '#0d0d1e', border: '1px solid #1a1a3a', borderRadius: 8, fontSize: 12 }} formatter={(v: number) => [`${v.toFixed(2)}%`, 'Drawdown']} />
-                  <Area type="monotone" dataKey="drawdown" stroke="#ef4444" strokeWidth={2} fill="url(#ddGrad)" />
+                  <XAxis
+                    dataKey="date"
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    axisLine={false}
+                    tickLine={false}
+                    interval="preserveStartEnd"
+                  />
+                  <YAxis
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v) => `${v}%`}
+                    domain={["auto", 0]}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "#0d0d1e",
+                      border: "1px solid #1a1a3a",
+                      borderRadius: 8,
+                      fontSize: 12,
+                    }}
+                    formatter={(v: number) => [`${v.toFixed(2)}%`, "Drawdown"]}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="drawdown"
+                    stroke="#ef4444"
+                    strokeWidth={2}
+                    fill="url(#ddGrad)"
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
             <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/[0.04] text-xs">
               <div>
                 <span className="text-xc-muted">Max Drawdown: </span>
-                <span className="text-red-400 font-bold font-mono">{Math.min(...drawdownData.map(d => d.drawdown)).toFixed(2)}%</span>
+                <span className="text-red-400 font-bold font-mono">
+                  {Math.min(...drawdownData.map((d) => d.drawdown)).toFixed(2)}%
+                </span>
               </div>
               <div>
                 <span className="text-xc-muted">Current: </span>
-                <span className="text-red-400 font-bold font-mono">{(drawdownData[drawdownData.length - 1]?.drawdown ?? 0).toFixed(2)}%</span>
+                <span className="text-red-400 font-bold font-mono">
+                  {(
+                    drawdownData[drawdownData.length - 1]?.drawdown ?? 0
+                  ).toFixed(2)}
+                  %
+                </span>
               </div>
             </div>
           </div>
@@ -202,17 +353,44 @@ export default function PortfolioPage() {
             <div className="flex items-center gap-2 mb-5">
               <BarChart3 className="w-4 h-4 text-purple-400" />
               <h3 className="font-bold text-white">Monthly Returns</h3>
-              <span className="text-[10px] text-xc-muted ml-auto">2026 YTD</span>
+              <span className="text-[10px] text-xc-muted ml-auto">
+                2026 YTD
+              </span>
             </div>
             <div style={{ height: 200 }}>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={monthlyReturns} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
-                  <XAxis dataKey="month" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v}%`} />
-                  <Tooltip contentStyle={{ background: '#0d0d1e', border: '1px solid #1a1a3a', borderRadius: 8, fontSize: 12 }} formatter={(v: number) => [`${v.toFixed(2)}%`, 'Return']} />
+                <BarChart
+                  data={monthlyReturns}
+                  margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
+                >
+                  <XAxis
+                    dataKey="month"
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v) => `${v}%`}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "#0d0d1e",
+                      border: "1px solid #1a1a3a",
+                      borderRadius: 8,
+                      fontSize: 12,
+                    }}
+                    formatter={(v: number) => [`${v.toFixed(2)}%`, "Return"]}
+                  />
                   <Bar dataKey="return" radius={[4, 4, 0, 0]}>
                     {monthlyReturns.map((entry, i) => (
-                      <Cell key={i} fill={entry.return >= 0 ? '#10b981' : '#ef4444'} opacity={0.7} />
+                      <Cell
+                        key={i}
+                        fill={entry.return >= 0 ? "#10b981" : "#ef4444"}
+                        opacity={0.7}
+                      />
                     ))}
                   </Bar>
                 </BarChart>
@@ -221,11 +399,20 @@ export default function PortfolioPage() {
             <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/[0.04] text-xs">
               <div>
                 <span className="text-xc-muted">Best Month: </span>
-                <span className="text-emerald-400 font-bold font-mono">+{Math.max(...monthlyReturns.map(m => m.return)).toFixed(2)}%</span>
+                <span className="text-emerald-400 font-bold font-mono">
+                  +{Math.max(...monthlyReturns.map((m) => m.return)).toFixed(2)}
+                  %
+                </span>
               </div>
               <div>
                 <span className="text-xc-muted">Avg Monthly: </span>
-                <span className="text-white font-bold font-mono">{(monthlyReturns.reduce((s, m) => s + m.return, 0) / monthlyReturns.length).toFixed(2)}%</span>
+                <span className="text-white font-bold font-mono">
+                  {(
+                    monthlyReturns.reduce((s, m) => s + m.return, 0) /
+                    monthlyReturns.length
+                  ).toFixed(2)}
+                  %
+                </span>
               </div>
             </div>
           </div>
@@ -237,24 +424,58 @@ export default function PortfolioPage() {
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-bold text-white text-lg">Holdings</h3>
               <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> LIVE PRICES
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />{" "}
+                LIVE PRICES
               </span>
             </div>
-            <HoldingsList holdings={portfolio?.holdings ?? []} loading={loading} />
+            <HoldingsList
+              holdings={portfolio?.holdings ?? []}
+              loading={loading}
+            />
 
             {/* Per-holding P&L bars */}
             {holdingsPnl.length > 0 && (
               <div className="mt-8 pt-6 border-t border-white/[0.04]">
-                <h4 className="text-sm font-bold text-white mb-4">Unrealized P&L by Position</h4>
+                <h4 className="text-sm font-bold text-white mb-4">
+                  Unrealized P&L by Position
+                </h4>
                 <div style={{ height: 180 }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={holdingsPnl} layout="vertical" margin={{ top: 5, right: 20, bottom: 5, left: 60 }}>
-                      <XAxis type="number" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => formatCurrency(v)} />
-                      <YAxis type="category" dataKey="symbol" tick={{ fill: '#fff', fontSize: 12, fontWeight: 700 }} axisLine={false} tickLine={false} />
-                      <Tooltip contentStyle={{ background: '#0d0d1e', border: '1px solid #1a1a3a', borderRadius: 8, fontSize: 12 }} formatter={(v: number) => [formatCurrency(v), 'P&L']} />
+                    <BarChart
+                      data={holdingsPnl}
+                      layout="vertical"
+                      margin={{ top: 5, right: 20, bottom: 5, left: 60 }}
+                    >
+                      <XAxis
+                        type="number"
+                        tick={{ fill: "#64748b", fontSize: 10 }}
+                        axisLine={false}
+                        tickLine={false}
+                        tickFormatter={(v) => formatCurrency(v)}
+                      />
+                      <YAxis
+                        type="category"
+                        dataKey="symbol"
+                        tick={{ fill: "#fff", fontSize: 12, fontWeight: 700 }}
+                        axisLine={false}
+                        tickLine={false}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          background: "#0d0d1e",
+                          border: "1px solid #1a1a3a",
+                          borderRadius: 8,
+                          fontSize: 12,
+                        }}
+                        formatter={(v: number) => [formatCurrency(v), "P&L"]}
+                      />
                       <Bar dataKey="pnl" radius={[0, 4, 4, 0]}>
                         {holdingsPnl.map((entry, i) => (
-                          <Cell key={i} fill={entry.pnl >= 0 ? '#10b981' : '#ef4444'} opacity={0.7} />
+                          <Cell
+                            key={i}
+                            fill={entry.pnl >= 0 ? "#10b981" : "#ef4444"}
+                            opacity={0.7}
+                          />
                         ))}
                       </Bar>
                     </BarChart>
@@ -270,12 +491,28 @@ export default function PortfolioPage() {
             <div style={{ height: 260 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={allocationData} cx="50%" cy="50%" innerRadius={65} outerRadius={100} paddingAngle={3} dataKey="value">
+                  <Pie
+                    data={allocationData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={65}
+                    outerRadius={100}
+                    paddingAngle={3}
+                    dataKey="value"
+                  >
                     {allocationData.map((_, i) => (
                       <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(v: number) => [formatCurrency(v)]} contentStyle={{ background: '#0d0d1e', border: '1px solid #1a1a3a', borderRadius: 8, fontSize: 12 }} />
+                  <Tooltip
+                    formatter={(v: number) => [formatCurrency(v)]}
+                    contentStyle={{
+                      background: "#0d0d1e",
+                      border: "1px solid #1a1a3a",
+                      borderRadius: 8,
+                      fontSize: 12,
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -284,14 +521,26 @@ export default function PortfolioPage() {
                 const total = allocationData.reduce((s, d) => s + d.value, 0);
                 const pct = total > 0 ? (item.value / total) * 100 : 0;
                 return (
-                  <div key={item.name} className="flex items-center justify-between text-xs">
+                  <div
+                    key={item.name}
+                    className="flex items-center justify-between text-xs"
+                  >
                     <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ background: PIE_COLORS[i % PIE_COLORS.length] }} />
+                      <div
+                        className="w-2.5 h-2.5 rounded-full"
+                        style={{
+                          background: PIE_COLORS[i % PIE_COLORS.length],
+                        }}
+                      />
                       <span className="text-xc-muted">{item.name}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="font-mono text-white/60">{formatCurrency(item.value)}</span>
-                      <span className="font-mono font-bold text-white w-12 text-right">{pct.toFixed(1)}%</span>
+                      <span className="font-mono text-white/60">
+                        {formatCurrency(item.value)}
+                      </span>
+                      <span className="font-mono font-bold text-white w-12 text-right">
+                        {pct.toFixed(1)}%
+                      </span>
                     </div>
                   </div>
                 );
@@ -308,53 +557,205 @@ export default function PortfolioPage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {[
-              { label: 'Sharpe Ratio', value: '1.84', desc: 'Risk-adjusted return' },
-              { label: 'Sortino Ratio', value: '2.41', desc: 'Downside-adjusted' },
-              { label: 'Beta (vs SPY)', value: '1.32', desc: 'Market sensitivity' },
-              { label: 'Alpha', value: '+8.4%', desc: 'Excess return' },
-              { label: 'Volatility', value: '18.2%', desc: 'Annualized' },
-              { label: 'Max Drawdown', value: `${Math.min(...drawdownData.map(d => d.drawdown)).toFixed(1)}%`, desc: '90-day period' },
+              {
+                label: "Sharpe Ratio",
+                value: "1.84",
+                desc: "Risk-adjusted return",
+              },
+              {
+                label: "Sortino Ratio",
+                value: "2.41",
+                desc: "Downside-adjusted",
+              },
+              {
+                label: "Beta (vs SPY)",
+                value: "1.32",
+                desc: "Market sensitivity",
+              },
+              { label: "Alpha", value: "+8.4%", desc: "Excess return" },
+              { label: "Volatility", value: "18.2%", desc: "Annualized" },
+              {
+                label: "Max Drawdown",
+                value: `${Math.min(...drawdownData.map((d) => d.drawdown)).toFixed(1)}%`,
+                desc: "90-day period",
+              },
             ].map(({ label, value, desc }) => (
-              <div key={label} className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-4 text-center">
-                <div className="text-lg font-black text-white font-mono">{value}</div>
-                <div className="text-xs font-bold text-xc-muted mt-1">{label}</div>
-                <div className="text-[10px] text-xc-muted/60 mt-0.5">{desc}</div>
+              <div
+                key={label}
+                className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-4 text-center"
+              >
+                <div className="text-lg font-black text-white font-mono">
+                  {value}
+                </div>
+                <div className="text-xs font-bold text-xc-muted mt-1">
+                  {label}
+                </div>
+                <div className="text-[10px] text-xc-muted/60 mt-0.5">
+                  {desc}
+                </div>
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </DashboardLayout>
   );
 }
 
 function riskLabel(score: number) {
-  if (score < 30) return 'Conservative';
-  if (score < 55) return 'Moderate';
-  if (score < 75) return 'Aggressive';
-  return 'High Risk';
+  if (score < 30) return "Conservative";
+  if (score < 55) return "Moderate";
+  if (score < 75) return "Aggressive";
+  return "High Risk";
 }
 
 const DEMO_HOLDINGS = [
-  { id: '1', portfolioId: '1', assetId: '1', quantity: 25, avgCost: 198.5, currentValue: 8554.5, unrealizedPnL: 3591.5, asset: { id: '1', symbol: 'TSLA', name: 'Tesla, Inc.', type: 'STOCK' as const, price: 342.18, isTradable: true } },
-  { id: '2', portfolioId: '1', assetId: '2', quantity: 8, avgCost: 750.0, currentValue: 7003.12, unrealizedPnL: 1003.12, asset: { id: '2', symbol: 'NVDA', name: 'NVIDIA Corporation', type: 'STOCK' as const, price: 875.39, isTradable: true } },
-  { id: '3', portfolioId: '1', assetId: '3', quantity: 15, avgCost: 195.2, currentValue: 3196.05, unrealizedPnL: 268.05, asset: { id: '3', symbol: 'AAPL', name: 'Apple Inc.', type: 'STOCK' as const, price: 213.07, isTradable: true } },
-  { id: '4', portfolioId: '1', assetId: '4', quantity: 200, avgCost: 10.2, currentValue: 50400, unrealizedPnL: 48360, asset: { id: '4', symbol: 'XSPACE', name: 'SpaceX Pre-IPO Token', type: 'TOKEN' as const, price: 252.0, isTradable: true } },
-  { id: '5', portfolioId: '1', assetId: '5', quantity: 1.2, avgCost: 62000, currentValue: 117411, unrealizedPnL: 43011, asset: { id: '5', symbol: 'BTC', name: 'Bitcoin', type: 'CRYPTO' as const, price: 97842.5, isTradable: true } },
-  { id: '6', portfolioId: '1', assetId: '6', quantity: 10, avgCost: 450.0, currentValue: 5139.2, unrealizedPnL: 639.2, asset: { id: '6', symbol: 'META', name: 'Meta Platforms', type: 'STOCK' as const, price: 513.92, isTradable: true } },
-  { id: '7', portfolioId: '1', assetId: '7', quantity: 50, avgCost: 18.0, currentValue: 1173.5, unrealizedPnL: 273.5, asset: { id: '7', symbol: 'PLTR', name: 'Palantir Technologies', type: 'STOCK' as const, price: 23.47, isTradable: true } },
-  { id: '8', portfolioId: '1', assetId: '8', quantity: 100, avgCost: 120.0, currentValue: 18000, unrealizedPnL: 6000, asset: { id: '8', symbol: 'XAI', name: 'xAI Venture Token', type: 'TOKEN' as const, price: 180.0, isTradable: true } },
+  {
+    id: "1",
+    portfolioId: "1",
+    assetId: "1",
+    quantity: 25,
+    avgCost: 198.5,
+    currentValue: 8554.5,
+    unrealizedPnL: 3591.5,
+    asset: {
+      id: "1",
+      symbol: "TSLA",
+      name: "Tesla, Inc.",
+      type: "STOCK" as const,
+      price: 342.18,
+      isTradable: true,
+    },
+  },
+  {
+    id: "2",
+    portfolioId: "1",
+    assetId: "2",
+    quantity: 8,
+    avgCost: 750.0,
+    currentValue: 7003.12,
+    unrealizedPnL: 1003.12,
+    asset: {
+      id: "2",
+      symbol: "NVDA",
+      name: "NVIDIA Corporation",
+      type: "STOCK" as const,
+      price: 875.39,
+      isTradable: true,
+    },
+  },
+  {
+    id: "3",
+    portfolioId: "1",
+    assetId: "3",
+    quantity: 15,
+    avgCost: 195.2,
+    currentValue: 3196.05,
+    unrealizedPnL: 268.05,
+    asset: {
+      id: "3",
+      symbol: "AAPL",
+      name: "Apple Inc.",
+      type: "STOCK" as const,
+      price: 213.07,
+      isTradable: true,
+    },
+  },
+  {
+    id: "4",
+    portfolioId: "1",
+    assetId: "4",
+    quantity: 200,
+    avgCost: 10.2,
+    currentValue: 50400,
+    unrealizedPnL: 48360,
+    asset: {
+      id: "4",
+      symbol: "XSPACE",
+      name: "SpaceX Pre-IPO Token",
+      type: "TOKEN" as const,
+      price: 252.0,
+      isTradable: true,
+    },
+  },
+  {
+    id: "5",
+    portfolioId: "1",
+    assetId: "5",
+    quantity: 1.2,
+    avgCost: 62000,
+    currentValue: 117411,
+    unrealizedPnL: 43011,
+    asset: {
+      id: "5",
+      symbol: "BTC",
+      name: "Bitcoin",
+      type: "CRYPTO" as const,
+      price: 97842.5,
+      isTradable: true,
+    },
+  },
+  {
+    id: "6",
+    portfolioId: "1",
+    assetId: "6",
+    quantity: 10,
+    avgCost: 450.0,
+    currentValue: 5139.2,
+    unrealizedPnL: 639.2,
+    asset: {
+      id: "6",
+      symbol: "META",
+      name: "Meta Platforms",
+      type: "STOCK" as const,
+      price: 513.92,
+      isTradable: true,
+    },
+  },
+  {
+    id: "7",
+    portfolioId: "1",
+    assetId: "7",
+    quantity: 50,
+    avgCost: 18.0,
+    currentValue: 1173.5,
+    unrealizedPnL: 273.5,
+    asset: {
+      id: "7",
+      symbol: "PLTR",
+      name: "Palantir Technologies",
+      type: "STOCK" as const,
+      price: 23.47,
+      isTradable: true,
+    },
+  },
+  {
+    id: "8",
+    portfolioId: "1",
+    assetId: "8",
+    quantity: 100,
+    avgCost: 120.0,
+    currentValue: 18000,
+    unrealizedPnL: 6000,
+    asset: {
+      id: "8",
+      symbol: "XAI",
+      name: "xAI Venture Token",
+      type: "TOKEN" as const,
+      price: 180.0,
+      isTradable: true,
+    },
+  },
 ];
 
 const DEMO_ALLOCATION = [
-  { name: 'TSLA', value: 8554 },
-  { name: 'NVDA', value: 7003 },
-  { name: 'AAPL', value: 3196 },
-  { name: 'XSPACE', value: 50400 },
-  { name: 'BTC', value: 117411 },
-  { name: 'META', value: 5139 },
-  { name: 'PLTR', value: 1173 },
-  { name: 'XAI', value: 18000 },
-  { name: 'Cash', value: 42500 },
+  { name: "TSLA", value: 8554 },
+  { name: "NVDA", value: 7003 },
+  { name: "AAPL", value: 3196 },
+  { name: "XSPACE", value: 50400 },
+  { name: "BTC", value: 117411 },
+  { name: "META", value: 5139 },
+  { name: "PLTR", value: 1173 },
+  { name: "XAI", value: 18000 },
+  { name: "Cash", value: 42500 },
 ];

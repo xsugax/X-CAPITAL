@@ -1,24 +1,40 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo } from 'react';
-import { tradingAPI } from '@/lib/api';
-import { formatCurrency, cn, getChangeColor, getAssetTypeColor } from '@/lib/utils';
-import { Search, ArrowUpRight, ArrowDownRight, Flame } from 'lucide-react';
-import type { Asset } from '@/types';
+import { useState, useEffect, useMemo } from "react";
+import { tradingAPI } from "@/lib/api";
+import {
+  formatCurrency,
+  cn,
+  getChangeColor,
+  getAssetTypeColor,
+} from "@/lib/utils";
+import { Search, ArrowUpRight, ArrowDownRight, Flame, ChevronDown, ChevronUp } from "lucide-react";
+import type { Asset } from "@/types";
 
-const ASSET_TYPES = ['ALL', 'STOCK', 'ETF', 'CRYPTO', 'TOKEN', 'FUND', 'COMMODITY'];
+const ASSET_TYPES = [
+  "ALL",
+  "STOCK",
+  "ETF",
+  "CRYPTO",
+  "TOKEN",
+  "FUND",
+  "COMMODITY",
+];
 
 interface AssetListProps {
   onSelect?: (asset: Asset) => void;
   selectedSymbol?: string;
 }
 
-export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) {
+export default function AssetList({
+  onSelect,
+  selectedSymbol,
+}: AssetListProps) {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [activeType, setActiveType] = useState('ALL');
-
+  const [search, setSearch] = useState("");
+  const [activeType, setActiveType] = useState("ALL");  const [showAll, setShowAll] = useState(false);
+  const VISIBLE_LIMIT = 12;
   useEffect(() => {
     const load = async () => {
       setLoading(true);
@@ -41,8 +57,9 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
         prev.map((a) => ({
           ...a,
           price: Number(a.price) * (1 + (Math.random() - 0.48) * 0.004),
-          priceChange24h: Number(a.priceChange24h ?? 0) + (Math.random() - 0.48) * 0.08,
-        }))
+          priceChange24h:
+            Number(a.priceChange24h ?? 0) + (Math.random() - 0.48) * 0.08,
+        })),
       );
     }, 2000);
     return () => clearInterval(interval);
@@ -53,13 +70,18 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
       !search ||
       a.symbol.toLowerCase().includes(search.toLowerCase()) ||
       a.name.toLowerCase().includes(search.toLowerCase());
-    const matchType = activeType === 'ALL' || a.type === activeType;
+    const matchType = activeType === "ALL" || a.type === activeType;
     return matchSearch && matchType;
   });
 
-  const sorted = useMemo(() =>
-    [...filtered].sort((a, b) => Math.abs(Number(b.priceChange24h ?? 0)) - Math.abs(Number(a.priceChange24h ?? 0))),
-    [filtered]
+  const sorted = useMemo(
+    () =>
+      [...filtered].sort(
+        (a, b) =>
+          Math.abs(Number(b.priceChange24h ?? 0)) -
+          Math.abs(Number(a.priceChange24h ?? 0)),
+      ),
+    [filtered],
   );
 
   return (
@@ -83,10 +105,10 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
             key={type}
             onClick={() => setActiveType(type)}
             className={cn(
-              'px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all',
+              "px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all",
               activeType === type
-                ? 'bg-xc-purple text-white'
-                : 'bg-white/5 text-xc-muted hover:text-white hover:bg-white/10',
+                ? "bg-xc-purple text-white"
+                : "bg-white/5 text-xc-muted hover:text-white hover:bg-white/10",
             )}
           >
             {type}
@@ -96,9 +118,12 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
 
       {/* Count */}
       <div className="flex items-center justify-between px-2 mb-2">
-        <span className="text-[10px] text-xc-muted">{sorted.length} assets</span>
+        <span className="text-[10px] text-xc-muted">
+          {showAll ? sorted.length : Math.min(VISIBLE_LIMIT, sorted.length)} of {sorted.length} assets
+        </span>
         <span className="text-[10px] text-emerald-400 flex items-center gap-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />{" "}
+          Live
         </span>
       </div>
 
@@ -106,9 +131,12 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
       <div className="flex-1 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
         {loading
           ? Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="h-14 rounded-xl bg-white/5 animate-pulse" />
+              <div
+                key={i}
+                className="h-14 rounded-xl bg-white/5 animate-pulse"
+              />
             ))
-          : sorted.map((asset) => {
+          : (showAll ? sorted : sorted.slice(0, VISIBLE_LIMIT)).map((asset) => {
               const change = Number(asset.priceChange24h ?? 0);
               const isHot = Math.abs(change) > 4;
               return (
@@ -116,12 +144,12 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
                   key={asset.symbol}
                   onClick={() => onSelect?.(asset)}
                   className={cn(
-                    'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left',
+                    "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left",
                     selectedSymbol === asset.symbol
-                      ? 'bg-xc-purple/20 border border-xc-purple/40'
-                      : 'hover:bg-white/[0.04] border border-transparent',
-                    isHot && change > 0 && 'bg-emerald-950/10',
-                    isHot && change < 0 && 'bg-red-950/10',
+                      ? "bg-xc-purple/20 border border-xc-purple/40"
+                      : "hover:bg-white/[0.04] border border-transparent",
+                    isHot && change > 0 && "bg-emerald-950/10",
+                    isHot && change < 0 && "bg-red-950/10",
                   )}
                 >
                   {/* Icon */}
@@ -133,35 +161,63 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
                     }}
                   >
                     {asset.symbol[0]}
-                    {isHot && <Flame className="w-2.5 h-2.5 text-amber-400 absolute -top-1 -right-1 animate-pulse" />}
+                    {isHot && (
+                      <Flame className="w-2.5 h-2.5 text-amber-400 absolute -top-1 -right-1 animate-pulse" />
+                    )}
                   </div>
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-bold text-white">{asset.symbol}</span>
-                      <span className={cn('text-[8px] font-mono px-1 py-px rounded',
-                        asset.type === 'TOKEN' ? 'bg-purple-900/50 text-purple-400' :
-                        asset.type === 'CRYPTO' ? 'bg-amber-900/50 text-amber-400' :
-                        asset.type === 'ETF' ? 'bg-cyan-900/50 text-cyan-400' :
-                        asset.type === 'COMMODITY' ? 'bg-orange-900/50 text-orange-400' :
-                        asset.type === 'FUND' ? 'bg-green-900/50 text-green-400' :
-                        'bg-white/10 text-white/40'
-                      )}>{asset.type}</span>
+                      <span className="text-sm font-bold text-white">
+                        {asset.symbol}
+                      </span>
+                      <span
+                        className={cn(
+                          "text-[8px] font-mono px-1 py-px rounded",
+                          asset.type === "TOKEN"
+                            ? "bg-purple-900/50 text-purple-400"
+                            : asset.type === "CRYPTO"
+                              ? "bg-amber-900/50 text-amber-400"
+                              : asset.type === "ETF"
+                                ? "bg-cyan-900/50 text-cyan-400"
+                                : asset.type === "COMMODITY"
+                                  ? "bg-orange-900/50 text-orange-400"
+                                  : asset.type === "FUND"
+                                    ? "bg-green-900/50 text-green-400"
+                                    : "bg-white/10 text-white/40",
+                        )}
+                      >
+                        {asset.type}
+                      </span>
                     </div>
-                    <div className="text-[10px] text-xc-muted truncate">{asset.name}</div>
+                    <div className="text-[10px] text-xc-muted truncate">
+                      {asset.name}
+                    </div>
                   </div>
 
                   {/* Sparkline */}
-                  <MiniSparkline price={Number(asset.price)} positive={change >= 0} />
+                  <MiniSparkline
+                    price={Number(asset.price)}
+                    positive={change >= 0}
+                  />
 
                   {/* Price + Change */}
                   <div className="text-right flex-shrink-0">
                     <div className="text-xs font-mono font-bold text-white">
                       {formatCurrency(Number(asset.price))}
                     </div>
-                    <div className={cn('text-[10px] font-bold flex items-center justify-end gap-0.5', getChangeColor(change))}>
-                      {change >= 0 ? <ArrowUpRight className="w-2.5 h-2.5" /> : <ArrowDownRight className="w-2.5 h-2.5" />}
+                    <div
+                      className={cn(
+                        "text-[10px] font-bold flex items-center justify-end gap-0.5",
+                        getChangeColor(change),
+                      )}
+                    >
+                      {change >= 0 ? (
+                        <ArrowUpRight className="w-2.5 h-2.5" />
+                      ) : (
+                        <ArrowDownRight className="w-2.5 h-2.5" />
+                      )}
                       {Math.abs(change).toFixed(2)}%
                     </div>
                   </div>
@@ -169,7 +225,21 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
               );
             })}
         {!loading && sorted.length === 0 && (
-          <div className="text-center py-12 text-xc-muted text-sm">No assets match your search.</div>
+          <div className="text-center py-12 text-xc-muted text-sm">
+            No assets match your search.
+          </div>
+        )}
+        {!loading && sorted.length > VISIBLE_LIMIT && (
+          <button
+            onClick={() => setShowAll((v) => !v)}
+            className="w-full flex items-center justify-center gap-1.5 py-2.5 mt-1 rounded-xl text-[11px] font-semibold text-purple-400 hover:text-purple-300 bg-purple-900/10 hover:bg-purple-900/20 border border-purple-800/20 transition-all"
+          >
+            {showAll ? (
+              <><ChevronUp className="w-3.5 h-3.5" /> Show less</>
+            ) : (
+              <><ChevronDown className="w-3.5 h-3.5" /> See all {sorted.length} markets</>
+            )}
+          </button>
         )}
       </div>
     </div>
@@ -177,7 +247,13 @@ export default function AssetList({ onSelect, selectedSymbol }: AssetListProps) 
 }
 
 // Inline mini sparkline (no Recharts dependency, pure SVG path)
-function MiniSparkline({ price, positive }: { price: number; positive: boolean }) {
+function MiniSparkline({
+  price,
+  positive,
+}: {
+  price: number;
+  positive: boolean;
+}) {
   const points = useMemo(() => {
     const pts = [];
     let v = price * 0.97;
@@ -194,75 +270,358 @@ function MiniSparkline({ price, positive }: { price: number; positive: boolean }
   const range = max - min || 1;
   const w = 48;
   const h = 20;
-  const d = points.map((p, i) => {
-    const x = (i / (points.length - 1)) * w;
-    const y = h - ((p - min) / range) * h;
-    return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(' ');
+  const d = points
+    .map((p, i) => {
+      const x = (i / (points.length - 1)) * w;
+      const y = h - ((p - min) / range) * h;
+      return `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
 
   return (
     <svg width={w} height={h} className="flex-shrink-0 opacity-60">
-      <path d={d} fill="none" stroke={positive ? '#10b981' : '#ef4444'} strokeWidth="1.5" />
+      <path
+        d={d}
+        fill="none"
+        stroke={positive ? "#10b981" : "#ef4444"}
+        strokeWidth="1.5"
+      />
     </svg>
   );
 }
 
 const DEMO_ASSETS = [
   // ── US Mega-Cap Stocks ──
-  { symbol: 'TSLA', name: 'Tesla, Inc.', type: 'STOCK', price: 342.18, priceChange24h: 3.21 },
-  { symbol: 'NVDA', name: 'NVIDIA Corporation', type: 'STOCK', price: 875.39, priceChange24h: 2.15 },
-  { symbol: 'AAPL', name: 'Apple Inc.', type: 'STOCK', price: 213.07, priceChange24h: 0.54 },
-  { symbol: 'META', name: 'Meta Platforms', type: 'STOCK', price: 513.92, priceChange24h: 2.77 },
-  { symbol: 'AMZN', name: 'Amazon.com, Inc.', type: 'STOCK', price: 196.25, priceChange24h: -0.82 },
-  { symbol: 'MSFT', name: 'Microsoft Corporation', type: 'STOCK', price: 428.86, priceChange24h: 1.04 },
-  { symbol: 'GOOGL', name: 'Alphabet Inc.', type: 'STOCK', price: 178.32, priceChange24h: -0.14 },
-  { symbol: 'AMD', name: 'Advanced Micro Devices', type: 'STOCK', price: 164.78, priceChange24h: 3.47 },
-  { symbol: 'PLTR', name: 'Palantir Technologies', type: 'STOCK', price: 23.47, priceChange24h: 4.55 },
-  { symbol: 'CRM', name: 'Salesforce, Inc.', type: 'STOCK', price: 272.43, priceChange24h: 1.23 },
-  { symbol: 'NFLX', name: 'Netflix, Inc.', type: 'STOCK', price: 628.90, priceChange24h: -1.08 },
-  { symbol: 'UBER', name: 'Uber Technologies', type: 'STOCK', price: 78.45, priceChange24h: 2.31 },
-  { symbol: 'COIN', name: 'Coinbase Global', type: 'STOCK', price: 267.12, priceChange24h: 5.84 },
-  { symbol: 'SQ', name: 'Block, Inc.', type: 'STOCK', price: 82.67, priceChange24h: 1.92 },
-  { symbol: 'SNAP', name: 'Snap Inc.', type: 'STOCK', price: 14.23, priceChange24h: -2.41 },
+  {
+    symbol: "TSLA",
+    name: "Tesla, Inc.",
+    type: "STOCK",
+    price: 342.18,
+    priceChange24h: 3.21,
+  },
+  {
+    symbol: "NVDA",
+    name: "NVIDIA Corporation",
+    type: "STOCK",
+    price: 875.39,
+    priceChange24h: 2.15,
+  },
+  {
+    symbol: "AAPL",
+    name: "Apple Inc.",
+    type: "STOCK",
+    price: 213.07,
+    priceChange24h: 0.54,
+  },
+  {
+    symbol: "META",
+    name: "Meta Platforms",
+    type: "STOCK",
+    price: 513.92,
+    priceChange24h: 2.77,
+  },
+  {
+    symbol: "AMZN",
+    name: "Amazon.com, Inc.",
+    type: "STOCK",
+    price: 196.25,
+    priceChange24h: -0.82,
+  },
+  {
+    symbol: "MSFT",
+    name: "Microsoft Corporation",
+    type: "STOCK",
+    price: 428.86,
+    priceChange24h: 1.04,
+  },
+  {
+    symbol: "GOOGL",
+    name: "Alphabet Inc.",
+    type: "STOCK",
+    price: 178.32,
+    priceChange24h: -0.14,
+  },
+  {
+    symbol: "AMD",
+    name: "Advanced Micro Devices",
+    type: "STOCK",
+    price: 164.78,
+    priceChange24h: 3.47,
+  },
+  {
+    symbol: "PLTR",
+    name: "Palantir Technologies",
+    type: "STOCK",
+    price: 23.47,
+    priceChange24h: 4.55,
+  },
+  {
+    symbol: "CRM",
+    name: "Salesforce, Inc.",
+    type: "STOCK",
+    price: 272.43,
+    priceChange24h: 1.23,
+  },
+  {
+    symbol: "NFLX",
+    name: "Netflix, Inc.",
+    type: "STOCK",
+    price: 628.9,
+    priceChange24h: -1.08,
+  },
+  {
+    symbol: "UBER",
+    name: "Uber Technologies",
+    type: "STOCK",
+    price: 78.45,
+    priceChange24h: 2.31,
+  },
+  {
+    symbol: "COIN",
+    name: "Coinbase Global",
+    type: "STOCK",
+    price: 267.12,
+    priceChange24h: 5.84,
+  },
+  {
+    symbol: "SQ",
+    name: "Block, Inc.",
+    type: "STOCK",
+    price: 82.67,
+    priceChange24h: 1.92,
+  },
+  {
+    symbol: "SNAP",
+    name: "Snap Inc.",
+    type: "STOCK",
+    price: 14.23,
+    priceChange24h: -2.41,
+  },
 
   // ── Crypto ──
-  { symbol: 'BTC', name: 'Bitcoin', type: 'CRYPTO', price: 97842.50, priceChange24h: -1.23 },
-  { symbol: 'ETH', name: 'Ethereum', type: 'CRYPTO', price: 3842.10, priceChange24h: 2.64 },
-  { symbol: 'SOL', name: 'Solana', type: 'CRYPTO', price: 187.63, priceChange24h: 5.17 },
-  { symbol: 'DOGE', name: 'Dogecoin', type: 'CRYPTO', price: 0.4217, priceChange24h: 8.52 },
-  { symbol: 'ADA', name: 'Cardano', type: 'CRYPTO', price: 0.6834, priceChange24h: -0.72 },
-  { symbol: 'AVAX', name: 'Avalanche', type: 'CRYPTO', price: 38.92, priceChange24h: 3.18 },
-  { symbol: 'LINK', name: 'Chainlink', type: 'CRYPTO', price: 18.47, priceChange24h: 1.56 },
-  { symbol: 'DOT', name: 'Polkadot', type: 'CRYPTO', price: 7.84, priceChange24h: -1.89 },
-  { symbol: 'XRP', name: 'Ripple', type: 'CRYPTO', price: 2.14, priceChange24h: 4.22 },
-  { symbol: 'MATIC', name: 'Polygon', type: 'CRYPTO', price: 0.9127, priceChange24h: 2.08 },
+  {
+    symbol: "BTC",
+    name: "Bitcoin",
+    type: "CRYPTO",
+    price: 97842.5,
+    priceChange24h: -1.23,
+  },
+  {
+    symbol: "ETH",
+    name: "Ethereum",
+    type: "CRYPTO",
+    price: 3842.1,
+    priceChange24h: 2.64,
+  },
+  {
+    symbol: "SOL",
+    name: "Solana",
+    type: "CRYPTO",
+    price: 187.63,
+    priceChange24h: 5.17,
+  },
+  {
+    symbol: "DOGE",
+    name: "Dogecoin",
+    type: "CRYPTO",
+    price: 0.4217,
+    priceChange24h: 8.52,
+  },
+  {
+    symbol: "ADA",
+    name: "Cardano",
+    type: "CRYPTO",
+    price: 0.6834,
+    priceChange24h: -0.72,
+  },
+  {
+    symbol: "AVAX",
+    name: "Avalanche",
+    type: "CRYPTO",
+    price: 38.92,
+    priceChange24h: 3.18,
+  },
+  {
+    symbol: "LINK",
+    name: "Chainlink",
+    type: "CRYPTO",
+    price: 18.47,
+    priceChange24h: 1.56,
+  },
+  {
+    symbol: "DOT",
+    name: "Polkadot",
+    type: "CRYPTO",
+    price: 7.84,
+    priceChange24h: -1.89,
+  },
+  {
+    symbol: "XRP",
+    name: "Ripple",
+    type: "CRYPTO",
+    price: 2.14,
+    priceChange24h: 4.22,
+  },
+  {
+    symbol: "MATIC",
+    name: "Polygon",
+    type: "CRYPTO",
+    price: 0.9127,
+    priceChange24h: 2.08,
+  },
 
   // ── ETFs ──
-  { symbol: 'ARKK', name: 'ARK Innovation ETF', type: 'ETF', price: 44.18, priceChange24h: 1.33 },
-  { symbol: 'QQQ', name: 'Invesco QQQ Trust', type: 'ETF', price: 487.23, priceChange24h: 0.78 },
-  { symbol: 'SPY', name: 'SPDR S&P 500 ETF', type: 'ETF', price: 523.14, priceChange24h: 0.42 },
-  { symbol: 'IBIT', name: 'iShares Bitcoin Trust', type: 'ETF', price: 52.89, priceChange24h: -1.34 },
-  { symbol: 'GLD', name: 'SPDR Gold Shares', type: 'ETF', price: 214.78, priceChange24h: 0.21 },
+  {
+    symbol: "ARKK",
+    name: "ARK Innovation ETF",
+    type: "ETF",
+    price: 44.18,
+    priceChange24h: 1.33,
+  },
+  {
+    symbol: "QQQ",
+    name: "Invesco QQQ Trust",
+    type: "ETF",
+    price: 487.23,
+    priceChange24h: 0.78,
+  },
+  {
+    symbol: "SPY",
+    name: "SPDR S&P 500 ETF",
+    type: "ETF",
+    price: 523.14,
+    priceChange24h: 0.42,
+  },
+  {
+    symbol: "IBIT",
+    name: "iShares Bitcoin Trust",
+    type: "ETF",
+    price: 52.89,
+    priceChange24h: -1.34,
+  },
+  {
+    symbol: "GLD",
+    name: "SPDR Gold Shares",
+    type: "ETF",
+    price: 214.78,
+    priceChange24h: 0.21,
+  },
 
   // ── Private / X-CAPITAL Tokens ──
-  { symbol: 'XSPACE', name: 'SpaceX Pre-IPO Token', type: 'TOKEN', price: 252.00, priceChange24h: 6.84 },
-  { symbol: 'XAI', name: 'xAI Venture Token', type: 'TOKEN', price: 180.00, priceChange24h: 12.40 },
-  { symbol: 'XLINK', name: 'Starlink Growth Token', type: 'TOKEN', price: 95.00, priceChange24h: 4.22 },
-  { symbol: 'XNEURA', name: 'Neuralink BCI Token', type: 'TOKEN', price: 48.50, priceChange24h: 9.80 },
-  { symbol: 'XBORE', name: 'Boring Company Token', type: 'TOKEN', price: 32.00, priceChange24h: 2.15 },
-  { symbol: 'XINFRA', name: 'X-INFRA Infrastructure', type: 'TOKEN', price: 8.75, priceChange24h: 2.88 },
-  { symbol: 'XENERGY', name: 'X-ENERGY Green Grid', type: 'TOKEN', price: 6.20, priceChange24h: -1.45 },
-  { symbol: 'XOPTIMUS', name: 'Tesla Optimus Token', type: 'TOKEN', price: 67.30, priceChange24h: 7.12 },
+  {
+    symbol: "XSPACE",
+    name: "SpaceX Pre-IPO Token",
+    type: "TOKEN",
+    price: 252.0,
+    priceChange24h: 6.84,
+  },
+  {
+    symbol: "XAI",
+    name: "xAI Venture Token",
+    type: "TOKEN",
+    price: 180.0,
+    priceChange24h: 12.4,
+  },
+  {
+    symbol: "XLINK",
+    name: "Starlink Growth Token",
+    type: "TOKEN",
+    price: 95.0,
+    priceChange24h: 4.22,
+  },
+  {
+    symbol: "XNEURA",
+    name: "Neuralink BCI Token",
+    type: "TOKEN",
+    price: 48.5,
+    priceChange24h: 9.8,
+  },
+  {
+    symbol: "XBORE",
+    name: "Boring Company Token",
+    type: "TOKEN",
+    price: 32.0,
+    priceChange24h: 2.15,
+  },
+  {
+    symbol: "XINFRA",
+    name: "X-INFRA Infrastructure",
+    type: "TOKEN",
+    price: 8.75,
+    priceChange24h: 2.88,
+  },
+  {
+    symbol: "XENERGY",
+    name: "X-ENERGY Green Grid",
+    type: "TOKEN",
+    price: 6.2,
+    priceChange24h: -1.45,
+  },
+  {
+    symbol: "XOPTIMUS",
+    name: "Tesla Optimus Token",
+    type: "TOKEN",
+    price: 67.3,
+    priceChange24h: 7.12,
+  },
 
   // ── Commodities ──
-  { symbol: 'GOLD', name: 'Gold Spot', type: 'COMMODITY', price: 2342.80, priceChange24h: 0.34 },
-  { symbol: 'SILVER', name: 'Silver Spot', type: 'COMMODITY', price: 28.47, priceChange24h: -0.62 },
-  { symbol: 'OIL', name: 'Crude Oil WTI', type: 'COMMODITY', price: 78.92, priceChange24h: 1.18 },
-  { symbol: 'URAN', name: 'Uranium Spot', type: 'COMMODITY', price: 86.40, priceChange24h: 2.94 },
+  {
+    symbol: "GOLD",
+    name: "Gold Spot",
+    type: "COMMODITY",
+    price: 2342.8,
+    priceChange24h: 0.34,
+  },
+  {
+    symbol: "SILVER",
+    name: "Silver Spot",
+    type: "COMMODITY",
+    price: 28.47,
+    priceChange24h: -0.62,
+  },
+  {
+    symbol: "OIL",
+    name: "Crude Oil WTI",
+    type: "COMMODITY",
+    price: 78.92,
+    priceChange24h: 1.18,
+  },
+  {
+    symbol: "URAN",
+    name: "Uranium Spot",
+    type: "COMMODITY",
+    price: 86.4,
+    priceChange24h: 2.94,
+  },
 
   // ── Funds ──
-  { symbol: 'XSPACEFUND', name: 'X-SPACE Fund I', type: 'FUND', price: 112.50, priceChange24h: 3.42 },
-  { symbol: 'XAIFUND', name: 'X-AI Infrastructure Fund', type: 'FUND', price: 145.80, priceChange24h: 4.18 },
-  { symbol: 'XDOGE', name: 'X-DOGE Meme Economy', type: 'FUND', price: 24.67, priceChange24h: 11.32 },
-  { symbol: 'XMARS', name: 'Mars Colony Fund', type: 'FUND', price: 88.20, priceChange24h: 5.67 },
+  {
+    symbol: "XSPACEFUND",
+    name: "X-SPACE Fund I",
+    type: "FUND",
+    price: 112.5,
+    priceChange24h: 3.42,
+  },
+  {
+    symbol: "XAIFUND",
+    name: "X-AI Infrastructure Fund",
+    type: "FUND",
+    price: 145.8,
+    priceChange24h: 4.18,
+  },
+  {
+    symbol: "XDOGE",
+    name: "X-DOGE Meme Economy",
+    type: "FUND",
+    price: 24.67,
+    priceChange24h: 11.32,
+  },
+  {
+    symbol: "XMARS",
+    name: "Mars Colony Fund",
+    type: "FUND",
+    price: 88.2,
+    priceChange24h: 5.67,
+  },
 ];

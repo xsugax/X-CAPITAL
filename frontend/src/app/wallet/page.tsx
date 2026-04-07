@@ -9,7 +9,17 @@ import { Badge } from "@/components/ui/Badge";
 import { walletAPI } from "@/lib/api";
 import { formatCurrency, cn } from "@/lib/utils";
 import {
-  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import {
   DollarSign,
@@ -316,10 +326,20 @@ export default function WalletPage() {
     displayTx.forEach((tx) => {
       counts[tx.type] = (counts[tx.type] || 0) + Number(tx.amount);
     });
-    return Object.entries(counts).map(([name, value]) => ({ name: name.replace(/_/g, " "), value: Math.round(value) }));
+    return Object.entries(counts).map(([name, value]) => ({
+      name: name.replace(/_/g, " "),
+      value: Math.round(value),
+    }));
   }, [displayTx]);
 
-  const TX_PIE_COLORS = ["#10b981", "#ef4444", "#7c3aed", "#d97706", "#06b6d4", "#a78bfa"];
+  const TX_PIE_COLORS = [
+    "#10b981",
+    "#ef4444",
+    "#7c3aed",
+    "#d97706",
+    "#06b6d4",
+    "#a78bfa",
+  ];
 
   return (
     <DashboardLayout
@@ -366,17 +386,45 @@ export default function WalletPage() {
             </div>
             <div style={{ height: 220 }}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={balanceHistory} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+                <AreaChart
+                  data={balanceHistory}
+                  margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
+                >
                   <defs>
                     <linearGradient id="balGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.3} />
                       <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <XAxis dataKey="date" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
-                  <YAxis tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                  <Tooltip contentStyle={{ background: "#0d0d1e", border: "1px solid #1a1a3a", borderRadius: 8, fontSize: 12 }} formatter={(v: number) => [formatCurrency(v), "Balance"]} />
-                  <Area type="monotone" dataKey="balance" stroke="#7c3aed" strokeWidth={2} fill="url(#balGrad)" />
+                  <XAxis
+                    dataKey="date"
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    axisLine={false}
+                    tickLine={false}
+                    interval="preserveStartEnd"
+                  />
+                  <YAxis
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "#0d0d1e",
+                      border: "1px solid #1a1a3a",
+                      borderRadius: 8,
+                      fontSize: 12,
+                    }}
+                    formatter={(v: number) => [formatCurrency(v), "Balance"]}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="balance"
+                    stroke="#7c3aed"
+                    strokeWidth={2}
+                    fill="url(#balGrad)"
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -391,23 +439,54 @@ export default function WalletPage() {
             <div style={{ height: 160 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={txBreakdown} cx="50%" cy="50%" innerRadius={40} outerRadius={65} paddingAngle={3} dataKey="value">
+                  <Pie
+                    data={txBreakdown}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={40}
+                    outerRadius={65}
+                    paddingAngle={3}
+                    dataKey="value"
+                  >
                     {txBreakdown.map((_, i) => (
-                      <Cell key={i} fill={TX_PIE_COLORS[i % TX_PIE_COLORS.length]} />
+                      <Cell
+                        key={i}
+                        fill={TX_PIE_COLORS[i % TX_PIE_COLORS.length]}
+                      />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ background: "#0d0d1e", border: "1px solid #1a1a3a", borderRadius: 8, fontSize: 11 }} formatter={(v: number) => [formatCurrency(v)]} />
+                  <Tooltip
+                    contentStyle={{
+                      background: "#0d0d1e",
+                      border: "1px solid #1a1a3a",
+                      borderRadius: 8,
+                      fontSize: 11,
+                    }}
+                    formatter={(v: number) => [formatCurrency(v)]}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
             <div className="space-y-1.5 mt-3">
               {txBreakdown.map((item, i) => (
-                <div key={item.name} className="flex items-center justify-between text-xs">
+                <div
+                  key={item.name}
+                  className="flex items-center justify-between text-xs"
+                >
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full" style={{ background: TX_PIE_COLORS[i % TX_PIE_COLORS.length] }} />
-                    <span className="text-xc-muted capitalize">{item.name.toLowerCase()}</span>
+                    <div
+                      className="w-2 h-2 rounded-full"
+                      style={{
+                        background: TX_PIE_COLORS[i % TX_PIE_COLORS.length],
+                      }}
+                    />
+                    <span className="text-xc-muted capitalize">
+                      {item.name.toLowerCase()}
+                    </span>
                   </div>
-                  <span className="font-mono text-white">{formatCurrency(item.value)}</span>
+                  <span className="font-mono text-white">
+                    {formatCurrency(item.value)}
+                  </span>
                 </div>
               ))}
             </div>
@@ -422,18 +501,55 @@ export default function WalletPage() {
               <h3 className="font-bold text-white">Monthly Cash Flow</h3>
             </div>
             <div className="flex items-center gap-4 text-[10px]">
-              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-emerald-500" /><span className="text-xc-muted">Inflow</span></div>
-              <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500" /><span className="text-xc-muted">Outflow</span></div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span className="text-xc-muted">Inflow</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-red-500" />
+                <span className="text-xc-muted">Outflow</span>
+              </div>
             </div>
           </div>
           <div style={{ height: 200 }}>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={flowData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
-                <XAxis dataKey="month" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "#64748b", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                <Tooltip contentStyle={{ background: "#0d0d1e", border: "1px solid #1a1a3a", borderRadius: 8, fontSize: 12 }} formatter={(v: number) => [formatCurrency(v)]} />
-                <Bar dataKey="inflow" fill="#10b981" opacity={0.7} radius={[4, 4, 0, 0]} />
-                <Bar dataKey="outflow" fill="#ef4444" opacity={0.7} radius={[4, 4, 0, 0]} />
+              <BarChart
+                data={flowData}
+                margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
+              >
+                <XAxis
+                  dataKey="month"
+                  tick={{ fill: "#64748b", fontSize: 10 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  tick={{ fill: "#64748b", fontSize: 10 }}
+                  axisLine={false}
+                  tickLine={false}
+                  tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                />
+                <Tooltip
+                  contentStyle={{
+                    background: "#0d0d1e",
+                    border: "1px solid #1a1a3a",
+                    borderRadius: 8,
+                    fontSize: 12,
+                  }}
+                  formatter={(v: number) => [formatCurrency(v)]}
+                />
+                <Bar
+                  dataKey="inflow"
+                  fill="#10b981"
+                  opacity={0.7}
+                  radius={[4, 4, 0, 0]}
+                />
+                <Bar
+                  dataKey="outflow"
+                  fill="#ef4444"
+                  opacity={0.7}
+                  radius={[4, 4, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>

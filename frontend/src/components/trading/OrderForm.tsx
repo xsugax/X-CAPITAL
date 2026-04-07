@@ -143,7 +143,8 @@ export default function OrderForm({ asset }: OrderFormProps) {
         <div className="flex items-center gap-2 text-[10px] bg-emerald-950/30 border border-emerald-700/30 rounded-lg px-3 py-2 signal-flash-green">
           <Zap className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
           <span className="text-emerald-400 font-semibold">
-            {asset.symbol} is up {Number(asset.priceChange24h).toFixed(1)}% today — momentum is building
+            {asset.symbol} is up {Number(asset.priceChange24h).toFixed(1)}%
+            today — momentum is building
           </span>
         </div>
       )}
