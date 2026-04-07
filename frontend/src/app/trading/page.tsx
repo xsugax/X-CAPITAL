@@ -17,9 +17,9 @@ import {
 } from 'lucide-react';
 import type { Asset } from '@/types';
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/*  TRADING TERMINAL — Spaced out, charts everywhere, live data              */
-/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TRADING TERMINAL — Mature layered design · Deep elevation · Spacious
+   ═══════════════════════════════════════════════════════════════════════════════ */
 
 export default function TradingPage() {
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
@@ -32,7 +32,6 @@ export default function TradingPage() {
   const [marketOverview, setMarketOverview] = useState(MARKET_SECTORS);
   const [heatmapData, setHeatmapData] = useState(HEATMAP_DATA);
 
-  // Fetch chart on asset/period change
   useEffect(() => {
     if (!selectedAsset) return;
     const fetchChart = async () => {
@@ -42,14 +41,11 @@ export default function TradingPage() {
         setChartData(res.data.data.bars ?? []);
       } catch {
         setChartData(generateMockBars(Number(selectedAsset.price), period));
-      } finally {
-        setChartLoading(false);
-      }
+      } finally { setChartLoading(false); }
     };
     fetchChart();
   }, [selectedAsset?.id, period]);
 
-  // Live trade feed — every 1.2s
   useEffect(() => {
     const interval = setInterval(() => {
       const symbols = ['TSLA', 'NVDA', 'AAPL', 'BTC', 'ETH', 'DOGE', 'SpaceX', 'xAI', 'PLTR', 'META', 'AMZN', 'XSPACE', 'SOL', 'GOOGL', 'AMD', 'COIN', 'AVAX', 'XRP'];
@@ -57,318 +53,317 @@ export default function TradingPage() {
       const side = Math.random() > 0.42 ? 'BUY' : 'SELL';
       const price = Math.random() * 1000 + 10;
       const amount = Math.random() * 80000 + 500;
-      const newTrade: LiveTrade = {
-        id: Date.now().toString() + Math.random(),
-        symbol: sym,
-        side,
-        price,
-        amount,
-        time: new Date().toLocaleTimeString('en-US', { hour12: false }),
-      };
-      setLiveFeed((prev) => [newTrade, ...prev.slice(0, 29)]);
+      setLiveFeed((prev) => [{ id: Date.now().toString() + Math.random(), symbol: sym, side, price, amount, time: new Date().toLocaleTimeString('en-US', { hour12: false }) }, ...prev.slice(0, 29)]);
     }, 1200);
     return () => clearInterval(interval);
   }, []);
 
-  // Order book fluctuations — every 2.5s
   useEffect(() => {
     if (!selectedAsset) return;
-    const interval = setInterval(() => {
-      setOrderBook(generateOrderBook(Number(selectedAsset.price)));
-    }, 2500);
+    const interval = setInterval(() => { setOrderBook(generateOrderBook(Number(selectedAsset.price))); }, 2500);
     return () => clearInterval(interval);
   }, [selectedAsset?.price]);
 
-  // Hot signal countdown + confidence drift
   useEffect(() => {
     const interval = setInterval(() => {
-      setHotSignals((prev) =>
-        prev.map((s) => ({
-          ...s,
-          confidence: Math.min(99, Math.max(60, s.confidence + (Math.random() - 0.4) * 3)),
-          countdown: Math.max(0, s.countdown - 1),
-        }))
-      );
+      setHotSignals((prev) => prev.map((s) => ({ ...s, confidence: Math.min(99, Math.max(60, s.confidence + (Math.random() - 0.4) * 3)), countdown: Math.max(0, s.countdown - 1) })));
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // Market sectors live drift
   useEffect(() => {
     const interval = setInterval(() => {
-      setMarketOverview((prev) =>
-        prev.map((s) => ({
-          ...s,
-          change: s.change + (Math.random() - 0.48) * 0.15,
-          value: s.value * (1 + (Math.random() - 0.48) * 0.001),
-        }))
-      );
+      setMarketOverview((prev) => prev.map((s) => ({ ...s, change: s.change + (Math.random() - 0.48) * 0.15, value: s.value * (1 + (Math.random() - 0.48) * 0.001) })));
     }, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  // Heatmap live drift
   useEffect(() => {
-    const interval = setInterval(() => {
-      setHeatmapData((prev) =>
-        prev.map((item) => ({
-          ...item,
-          change: item.change + (Math.random() - 0.48) * 0.12,
-        }))
-      );
-    }, 2500);
+    const interval = setInterval(() => { setHeatmapData((prev) => prev.map((item) => ({ ...item, change: item.change + (Math.random() - 0.48) * 0.12 }))); }, 2500);
     return () => clearInterval(interval);
   }, []);
 
-  const priceChange = chartData.length > 1
-    ? ((chartData[chartData.length - 1].c - chartData[0].c) / chartData[0].c) * 100
-    : 0;
+  const priceChange = chartData.length > 1 ? ((chartData[chartData.length - 1].c - chartData[0].c) / chartData[0].c) * 100 : 0;
 
   return (
-    <DashboardLayout title="Trading Terminal" subtitle="Multi-rail execution · Real-time intelligence · 50,000+ assets">
-      <div className="space-y-8">
+    <DashboardLayout title="Trading Terminal" subtitle="Multi-rail execution \u00b7 Real-time intelligence \u00b7 50,000+ assets">
+      <div className="space-y-10">
 
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        {/*  SECTION 1 — Hot Signals Banner (full width)                     */}
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        <div className="bg-gradient-to-r from-amber-950/40 via-xc-card to-emerald-950/30 border border-amber-700/25 rounded-2xl p-6 overflow-hidden relative">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,rgba(217,119,6,0.08),transparent_50%)] pointer-events-none" />
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-amber-900/60 flex items-center justify-center">
-                  <Flame className="w-4 h-4 text-amber-400 animate-pulse" />
+        {/* ═══════════════════════════════════════════════════════════════════
+            SECTION 1 — HOT SIGNALS  (elevated hero panel)
+            ═══════════════════════════════════════════════════════════════════ */}
+        <section className="relative">
+          {/* Outer glow ring */}
+          <div className="absolute -inset-px rounded-3xl bg-gradient-to-r from-amber-600/20 via-transparent to-emerald-600/20 blur-sm pointer-events-none" />
+          <div className="relative bg-gradient-to-br from-amber-950/50 via-[#0a0a18] to-emerald-950/30 border border-amber-700/20 rounded-3xl p-8 overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(217,119,6,0.06),transparent_60%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(16,185,129,0.05),transparent_60%)] pointer-events-none" />
+
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-900/50 border border-amber-700/30 flex items-center justify-center shadow-lg shadow-amber-900/20">
+                    <Flame className="w-5 h-5 text-amber-400 animate-pulse" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-black text-white tracking-tight">X-ORACLE HOT SIGNALS</h2>
+                    <p className="text-xs text-white/40 mt-0.5">AI-generated trade intelligence \u00b7 Not financial advice</p>
+                  </div>
                 </div>
-                <span className="text-base font-black text-white">X-ORACLE HOT SIGNALS</span>
-                <span className="text-[10px] font-mono text-amber-400 animate-pulse">● LIVE</span>
+                <div className="flex items-center gap-2 bg-emerald-950/60 border border-emerald-700/30 rounded-full px-4 py-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-lg shadow-emerald-400/50" />
+                  <span className="text-[11px] font-mono font-bold text-emerald-400">LIVE</span>
+                </div>
               </div>
-              <div className="text-[10px] text-xc-muted">AI-generated · Not financial advice</div>
-            </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-4">
-              {hotSignals.map((signal) => (
-                <button
-                  key={signal.symbol}
-                  onClick={() => {
-                    const asset = SIGNAL_ASSETS.find((a) => a.symbol === signal.symbol);
-                    if (asset) setSelectedAsset(asset as Asset);
-                  }}
-                  className={cn(
-                    'relative group p-4 rounded-xl border transition-all hover:scale-[1.02] active:scale-[0.98]',
-                    signal.side === 'BUY'
-                      ? 'bg-emerald-950/40 border-emerald-700/30 hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]'
-                      : 'bg-red-950/40 border-red-700/30 hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(239,68,68,0.15)]',
-                  )}
-                >
-                  {signal.countdown > 0 && signal.countdown < 300 && (
-                    <div className="absolute top-2 right-2 flex items-center gap-1">
-                      <Clock className="w-2.5 h-2.5 text-amber-400" />
-                      <span className="text-[9px] font-mono text-amber-400 animate-pulse">
-                        {Math.floor(signal.countdown / 60)}:{String(signal.countdown % 60).padStart(2, '0')}
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-sm font-black text-white">{signal.symbol}</span>
-                    <span className={cn(
-                      'text-[9px] font-black px-1.5 py-0.5 rounded-full',
-                      signal.side === 'BUY' ? 'bg-emerald-500/30 text-emerald-300 signal-flash-green' : 'bg-red-500/30 text-red-300',
-                    )}>{signal.side}</span>
-                  </div>
-                  <div className={cn('text-xl font-black font-mono', signal.side === 'BUY' ? 'text-emerald-400' : 'text-red-400')}>
-                    {signal.projection}
-                  </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <div className="h-1.5 flex-1 bg-white/10 rounded-full mr-2 overflow-hidden">
-                      <div
-                        className={cn('h-full rounded-full transition-all duration-500', signal.side === 'BUY' ? 'bg-emerald-500' : 'bg-red-500')}
-                        style={{ width: `${signal.confidence}%` }}
-                      />
-                    </div>
-                    <span className="text-[9px] font-mono text-white/70">{signal.confidence.toFixed(0)}%</span>
-                  </div>
-                  <div className="text-[9px] text-xc-muted mt-2 leading-relaxed">{signal.reason}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
 
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        {/*  SECTION 2 — Market Heatmap (full width)                         */}
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-          <div className="flex items-center gap-2 mb-5">
-            <Globe className="w-5 h-5 text-cyan-400" />
-            <h2 className="font-black text-white text-base">Market Heatmap</h2>
-            <span className="text-[10px] font-mono text-emerald-400 ml-auto flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Real-time
-            </span>
+              <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5">
+                {hotSignals.slice(0, 8).map((signal) => (
+                  <button
+                    key={signal.symbol}
+                    onClick={() => { const a = SIGNAL_ASSETS.find((a) => a.symbol === signal.symbol); if (a) setSelectedAsset(a as Asset); }}
+                    className={cn(
+                      'relative group rounded-2xl border-2 transition-all hover:scale-[1.015] active:scale-[0.99] text-left',
+                      'p-5 backdrop-blur-sm',
+                      signal.side === 'BUY'
+                        ? 'bg-emerald-950/30 border-emerald-700/25 hover:border-emerald-500/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.12)]'
+                        : 'bg-red-950/30 border-red-700/25 hover:border-red-500/50 hover:shadow-[0_0_30px_rgba(239,68,68,0.12)]',
+                    )}
+                  >
+                    {/* Inner surface */}
+                    <div className={cn('absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500',
+                      signal.side === 'BUY' ? 'bg-gradient-to-br from-emerald-900/20 to-transparent' : 'bg-gradient-to-br from-red-900/20 to-transparent'
+                    )} />
+
+                    {signal.countdown > 0 && signal.countdown < 300 && (
+                      <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/40 rounded-full px-2 py-0.5">
+                        <Clock className="w-2.5 h-2.5 text-amber-400" />
+                        <span className="text-[9px] font-mono text-amber-400 animate-pulse">
+                          {Math.floor(signal.countdown / 60)}:{String(signal.countdown % 60).padStart(2, '0')}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="relative z-10">
+                      <div className="flex items-center gap-2.5 mb-3">
+                        <span className="text-base font-black text-white">{signal.symbol}</span>
+                        <span className={cn(
+                          'text-[10px] font-black px-2 py-0.5 rounded-full',
+                          signal.side === 'BUY' ? 'bg-emerald-500/25 text-emerald-300 signal-flash-green' : 'bg-red-500/25 text-red-300',
+                        )}>{signal.side}</span>
+                      </div>
+
+                      <div className={cn('text-2xl font-black font-mono mb-3', signal.side === 'BUY' ? 'text-emerald-400' : 'text-red-400')}>
+                        {signal.projection}
+                      </div>
+
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="h-2 flex-1 bg-white/[0.06] rounded-full overflow-hidden">
+                          <div
+                            className={cn('h-full rounded-full transition-all duration-500', signal.side === 'BUY' ? 'bg-emerald-500' : 'bg-red-500')}
+                            style={{ width: `${signal.confidence}%` }}
+                          />
+                        </div>
+                        <span className="text-[10px] font-mono text-white/60 w-8 text-right">{signal.confidence.toFixed(0)}%</span>
+                      </div>
+
+                      <p className="text-[10px] text-white/40 leading-relaxed">{signal.reason}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-2">
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            SECTION 2 — MARKET HEATMAP
+            ═══════════════════════════════════════════════════════════════════ */}
+        <section className="bg-[#080814] border border-white/[0.06] rounded-3xl p-8 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center justify-between mb-7">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-cyan-900/40 border border-cyan-800/30 flex items-center justify-center">
+                <Globe className="w-4 h-4 text-cyan-400" />
+              </div>
+              <div>
+                <h2 className="font-black text-white text-base tracking-tight">Market Heatmap</h2>
+                <p className="text-[11px] text-white/30 mt-0.5">24 tracked assets \u00b7 Color-coded by performance</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Real-time
+            </div>
+          </div>
+
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-3">
             {heatmapData.map((item) => {
               const intensity = Math.min(1, Math.abs(item.change) / 8);
               const bg = item.change >= 0
-                ? `rgba(16, 185, 129, ${0.1 + intensity * 0.4})`
-                : `rgba(239, 68, 68, ${0.1 + intensity * 0.4})`;
+                ? `rgba(16, 185, 129, ${0.06 + intensity * 0.3})`
+                : `rgba(239, 68, 68, ${0.06 + intensity * 0.3})`;
               return (
                 <button
                   key={item.symbol}
-                  onClick={() => {
-                    const a = SIGNAL_ASSETS.find((sa) => sa.symbol === item.symbol);
-                    if (a) setSelectedAsset(a as Asset);
-                  }}
-                  className="p-3 rounded-xl border border-white/5 transition-all hover:scale-105 hover:border-white/20 text-center"
+                  onClick={() => { const a = SIGNAL_ASSETS.find((sa) => sa.symbol === item.symbol); if (a) setSelectedAsset(a as Asset); }}
+                  className="p-3.5 rounded-xl border border-white/[0.04] transition-all hover:scale-105 hover:border-white/15 text-center group"
                   style={{ background: bg }}
                 >
-                  <div className="text-xs font-black text-white">{item.symbol}</div>
-                  <div className={cn('text-sm font-black font-mono mt-1', item.change >= 0 ? 'text-emerald-300' : 'text-red-300')}>
+                  <div className="text-xs font-black text-white group-hover:text-white/90">{item.symbol}</div>
+                  <div className={cn('text-sm font-black font-mono mt-1.5', item.change >= 0 ? 'text-emerald-300' : 'text-red-300')}>
                     {item.change >= 0 ? '+' : ''}{item.change.toFixed(1)}%
                   </div>
-                  <div className="text-[8px] text-white/50 mt-0.5">{item.cap}</div>
+                  <div className="text-[8px] text-white/30 mt-1">{item.cap}</div>
                 </button>
               );
             })}
           </div>
-        </div>
+        </section>
 
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        {/*  SECTION 3 — Main Trading Grid (spaced out, tall)                */}
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        <div className="grid lg:grid-cols-[340px_1fr_340px] gap-6">
+        {/* ═══════════════════════════════════════════════════════════════════
+            SECTION 3 — MAIN TRADING GRID (3 columns, deep layering)
+            ═══════════════════════════════════════════════════════════════════ */}
+        <section className="grid lg:grid-cols-[360px_1fr_360px] gap-7">
 
-          {/* ── Left: Markets List ──────────────────────────────── */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col" style={{ minHeight: 700 }}>
-            <div className="flex items-center gap-2 mb-4">
-              <BarChart3 className="w-4 h-4 text-xc-purple-light" />
-              <h2 className="font-bold text-white text-sm">All Markets</h2>
-              <span className="ml-auto text-[9px] font-mono text-emerald-400 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> LIVE
-              </span>
+          {/* ── Left: Markets List ─────────────────────────────────────── */}
+          <div className="bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]" style={{ minHeight: 740 }}>
+            {/* Panel header — elevated bar */}
+            <div className="px-6 py-5 border-b border-white/[0.04] bg-gradient-to-r from-purple-950/20 to-transparent">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-purple-900/40 border border-purple-800/30 flex items-center justify-center">
+                  <BarChart3 className="w-3.5 h-3.5 text-purple-400" />
+                </div>
+                <div>
+                  <h2 className="font-bold text-white text-sm">All Markets</h2>
+                  <p className="text-[10px] text-white/30">50,000+ instruments</p>
+                </div>
+                <span className="ml-auto flex items-center gap-1.5 text-[9px] font-mono text-emerald-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> LIVE
+                </span>
+              </div>
             </div>
-            <div className="flex-1 overflow-hidden">
+            <div className="p-4 flex-1 overflow-hidden" style={{ height: 'calc(100% - 72px)' }}>
               <AssetList onSelect={setSelectedAsset} selectedSymbol={selectedAsset?.symbol} />
             </div>
           </div>
 
-          {/* ── Center: Chart + Volume ─────────────────────────── */}
-          <div className="flex flex-col gap-6">
-            {/* Price Chart */}
-            <div className="bg-xc-card border border-xc-border rounded-2xl p-6 relative" style={{ minHeight: 480 }}>
-              {selectedAsset ? (
-                <>
-                  <div className="absolute inset-0 pointer-events-none rounded-2xl overflow-hidden">
-                    <div className={cn(
-                      'absolute inset-0 opacity-0 transition-opacity duration-300',
-                      priceChange >= 0 ? 'chart-flash-green' : 'chart-flash-red'
-                    )} />
-                  </div>
+          {/* ── Center: Chart + Volume ─────────────────────────────────── */}
+          <div className="flex flex-col gap-7">
+            {/* Price Chart — deep elevated panel */}
+            <div className="relative bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+              {/* Subtle inner glow */}
+              <div className="absolute inset-0 bg-gradient-to-b from-purple-950/10 via-transparent to-transparent pointer-events-none" />
 
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-6 relative z-10">
-                    <div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600/20 to-cyan-600/20 border border-white/10 flex items-center justify-center text-xl font-black text-white">
+              {selectedAsset ? (
+                <div className="relative z-10">
+                  {/* Chart header bar */}
+                  <div className="px-8 pt-7 pb-5 border-b border-white/[0.03]">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-600/15 to-cyan-600/15 border border-white/[0.08] flex items-center justify-center text-2xl font-black text-white shadow-inner">
                           {selectedAsset.symbol[0]}
                         </div>
                         <div>
-                          <div className="flex items-center gap-2">
-                            <h2 className="text-2xl font-black text-white">{selectedAsset.symbol}</h2>
+                          <div className="flex items-center gap-3">
+                            <h2 className="text-2xl font-black text-white tracking-tight">{selectedAsset.symbol}</h2>
                             <Badge variant={selectedAsset.type === 'STOCK' ? 'default' : selectedAsset.type === 'TOKEN' ? 'purple' : 'info'}>
                               {selectedAsset.type}
                             </Badge>
                           </div>
-                          <p className="text-sm text-xc-muted">{selectedAsset.name}</p>
+                          <p className="text-sm text-white/40 mt-1">{selectedAsset.name}</p>
                         </div>
                       </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-4xl font-black font-mono text-white price-shimmer">
-                        {formatCurrency(Number(selectedAsset.price))}
-                      </div>
-                      <div className={cn('text-base font-bold flex items-center justify-end gap-1', priceChange >= 0 ? 'text-emerald-400' : 'text-red-400')}>
-                        {priceChange >= 0 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
-                        {priceChange >= 0 ? '+' : ''}{priceChange.toFixed(2)}%
-                        <span className="text-xs text-xc-muted ml-1">({period})</span>
+                      <div className="text-right">
+                        <div className="text-4xl font-black font-mono text-white price-shimmer tracking-tight">
+                          {formatCurrency(Number(selectedAsset.price))}
+                        </div>
+                        <div className={cn('text-base font-bold flex items-center justify-end gap-1 mt-1', priceChange >= 0 ? 'text-emerald-400' : 'text-red-400')}>
+                          {priceChange >= 0 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
+                          {priceChange >= 0 ? '+' : ''}{priceChange.toFixed(2)}%
+                          <span className="text-xs text-white/30 ml-1">({period})</span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Period tabs + volume */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex gap-1">
+                  {/* Chart controls + metrics */}
+                  <div className="px-8 py-4 flex items-center justify-between border-b border-white/[0.02]">
+                    <div className="flex gap-1.5 bg-white/[0.03] rounded-xl p-1">
                       {(['1D', '1W', '1M', '3M'] as const).map((p) => (
                         <button key={p} onClick={() => setPeriod(p)}
                           className={cn('px-4 py-2 rounded-lg text-sm font-bold transition-all',
-                            period === p ? 'bg-xc-purple text-white glow-purple' : 'text-xc-muted hover:text-white hover:bg-white/5'
+                            period === p ? 'bg-xc-purple text-white shadow-lg shadow-purple-900/30' : 'text-white/40 hover:text-white hover:bg-white/[0.04]'
                           )}>
                           {p}
                         </button>
                       ))}
                     </div>
-                    <div className="flex items-center gap-4 text-xs text-xc-muted">
-                      <span>Vol 24h: <span className="text-white font-mono">{formatCurrency(Math.random() * 5e9 + 1e8)}</span></span>
-                      <span>Mkt Cap: <span className="text-white font-mono">{formatCurrency(Number(selectedAsset.price) * (Math.random() * 5e9 + 1e8))}</span></span>
+                    <div className="flex items-center gap-6 text-xs text-white/30">
+                      <span>Vol 24h: <span className="text-white/70 font-mono">{formatCurrency(Math.random() * 5e9 + 1e8)}</span></span>
+                      <span>Mkt Cap: <span className="text-white/70 font-mono">{formatCurrency(Number(selectedAsset.price) * (Math.random() * 5e9 + 1e8))}</span></span>
                     </div>
                   </div>
 
-                  {/* Chart */}
-                  <div style={{ height: 280 }}>
-                    {chartLoading ? (
-                      <div className="h-full w-full rounded-xl bg-xc-dark/60 animate-pulse" />
-                    ) : (
-                      <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
-                          <defs>
-                            <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor={priceChange >= 0 ? '#10b981' : '#ef4444'} stopOpacity={0.3} />
-                              <stop offset="95%" stopColor={priceChange >= 0 ? '#10b981' : '#ef4444'} stopOpacity={0} />
-                            </linearGradient>
-                          </defs>
-                          <XAxis dataKey="t" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
-                          <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${v}`} domain={['auto', 'auto']} />
-                          <Tooltip
-                            contentStyle={{ background: '#0d0d1e', border: '1px solid #1a1a3a', borderRadius: 8, fontSize: 12 }}
-                            formatter={(v: number, name: string) => [name === 'c' ? formatCurrency(v) : formatCurrency(v), name === 'c' ? 'Price' : 'Volume']}
-                            labelStyle={{ color: '#64748b' }}
-                          />
-                          <Area type="monotone" dataKey="c" stroke={priceChange >= 0 ? '#10b981' : '#ef4444'} strokeWidth={2.5} fill="url(#chartGrad)" />
-                        </AreaChart>
-                      </ResponsiveContainer>
-                    )}
+                  {/* Chart canvas */}
+                  <div className="px-8 pt-6 pb-4">
+                    <div style={{ height: 320 }}>
+                      {chartLoading ? (
+                        <div className="h-full w-full rounded-2xl bg-white/[0.02] animate-pulse" />
+                      ) : (
+                        <ResponsiveContainer width="100%" height="100%">
+                          <AreaChart data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+                            <defs>
+                              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor={priceChange >= 0 ? '#10b981' : '#ef4444'} stopOpacity={0.25} />
+                                <stop offset="95%" stopColor={priceChange >= 0 ? '#10b981' : '#ef4444'} stopOpacity={0} />
+                              </linearGradient>
+                            </defs>
+                            <XAxis dataKey="t" tick={{ fill: '#475569', fontSize: 10 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
+                            <YAxis tick={{ fill: '#475569', fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${v}`} domain={['auto', 'auto']} />
+                            <Tooltip
+                              contentStyle={{ background: '#0d0d1e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, fontSize: 12, boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+                              formatter={(v: number, name: string) => [name === 'c' ? formatCurrency(v) : formatCurrency(v), name === 'c' ? 'Price' : 'Volume']}
+                              labelStyle={{ color: '#64748b' }}
+                            />
+                            <Area type="monotone" dataKey="c" stroke={priceChange >= 0 ? '#10b981' : '#ef4444'} strokeWidth={2.5} fill="url(#chartGrad)" />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Quick stats bar */}
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/[0.04]">
-                    {[
-                      { label: 'Open', value: formatCurrency(Number(selectedAsset.price) * 0.985) },
-                      { label: 'High', value: formatCurrency(Number(selectedAsset.price) * 1.032) },
-                      { label: 'Low', value: formatCurrency(Number(selectedAsset.price) * 0.971) },
-                      { label: 'Prev Close', value: formatCurrency(Number(selectedAsset.price) * 0.994) },
-                      { label: 'Avg Volume', value: '42.8M' },
-                      { label: 'Spread', value: '0.02%' },
-                    ].map(({ label, value }) => (
-                      <div key={label} className="text-center">
-                        <div className="text-[9px] text-xc-muted uppercase">{label}</div>
-                        <div className="text-xs font-mono font-bold text-white">{value}</div>
-                      </div>
-                    ))}
+                  {/* Stats footer bar */}
+                  <div className="px-8 py-4 border-t border-white/[0.03] bg-white/[0.01]">
+                    <div className="flex items-center justify-between">
+                      {[
+                        { label: 'Open', value: formatCurrency(Number(selectedAsset.price) * 0.985) },
+                        { label: 'High', value: formatCurrency(Number(selectedAsset.price) * 1.032) },
+                        { label: 'Low', value: formatCurrency(Number(selectedAsset.price) * 0.971) },
+                        { label: 'Prev Close', value: formatCurrency(Number(selectedAsset.price) * 0.994) },
+                        { label: 'Avg Volume', value: '42.8M' },
+                        { label: 'Spread', value: '0.02%' },
+                      ].map(({ label, value }) => (
+                        <div key={label} className="text-center">
+                          <div className="text-[9px] text-white/25 uppercase tracking-wider">{label}</div>
+                          <div className="text-xs font-mono font-bold text-white/70 mt-1">{value}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </>
+                </div>
               ) : (
-                <div className="flex flex-col items-center justify-center h-full text-center py-20">
-                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-900/50 to-cyan-900/50 flex items-center justify-center mb-6 animate-pulse">
-                    <Rocket className="w-10 h-10 text-purple-400" />
+                <div className="relative z-10 flex flex-col items-center justify-center text-center py-24 px-8">
+                  <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-purple-900/40 to-cyan-900/40 border border-white/[0.06] flex items-center justify-center mb-8 shadow-lg animate-pulse">
+                    <Rocket className="w-12 h-12 text-purple-400" />
                   </div>
-                  <h3 className="text-white font-black text-xl mb-3">Select an Asset to Trade</h3>
-                  <p className="text-xc-muted text-sm max-w-md mb-6">
+                  <h3 className="text-white font-black text-2xl mb-3 tracking-tight">Select an Asset to Trade</h3>
+                  <p className="text-white/35 text-sm max-w-md mb-8 leading-relaxed">
                     Choose from 50,000+ assets across stocks, ETFs, crypto, private tokens, commodities, and SPVs.
                   </p>
-                  <div className="flex flex-wrap gap-2 justify-center">
+                  <div className="flex flex-wrap gap-3 justify-center">
                     {QUICK_PICKS.map((pick) => (
                       <button
                         key={pick.symbol}
                         onClick={() => setSelectedAsset(pick as Asset)}
-                        className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-purple-950/30 hover:border-purple-500/30 transition-all text-sm"
+                        className="px-5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-purple-950/30 hover:border-purple-500/30 transition-all text-sm shadow-sm"
                       >
                         <span className="font-bold text-white">{pick.symbol}</span>
                         <span className={cn('ml-2 text-xs font-mono', Number(pick.priceChange24h) >= 0 ? 'text-emerald-400' : 'text-red-400')}>
@@ -383,22 +378,21 @@ export default function TradingPage() {
 
             {/* Volume Chart */}
             {selectedAsset && (
-              <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <BarChart3 className="w-4 h-4 text-cyan-400" />
+              <div className="bg-[#080814] border border-white/[0.06] rounded-3xl p-7 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+                <div className="flex items-center gap-2.5 mb-5">
+                  <div className="w-7 h-7 rounded-lg bg-cyan-900/40 border border-cyan-800/30 flex items-center justify-center">
+                    <BarChart3 className="w-3.5 h-3.5 text-cyan-400" />
+                  </div>
                   <h3 className="font-bold text-white text-sm">Volume Analysis</h3>
-                  <span className="text-[10px] text-xc-muted ml-auto">{selectedAsset.symbol} · {period}</span>
+                  <span className="text-[10px] text-white/30 ml-auto">{selectedAsset.symbol} \u00b7 {period}</span>
                 </div>
-                <div style={{ height: 140 }}>
+                <div style={{ height: 160 }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
-                      <XAxis dataKey="t" tick={{ fill: '#64748b', fontSize: 9 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
-                      <YAxis tick={{ fill: '#64748b', fontSize: 9 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`} />
-                      <Tooltip
-                        contentStyle={{ background: '#0d0d1e', border: '1px solid #1a1a3a', borderRadius: 8, fontSize: 11 }}
-                        formatter={(v: number) => [formatCurrency(v), 'Volume']}
-                      />
-                      <Bar dataKey="v" fill="#7c3aed" opacity={0.6} radius={[3, 3, 0, 0]} />
+                      <XAxis dataKey="t" tick={{ fill: '#475569', fontSize: 9 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
+                      <YAxis tick={{ fill: '#475569', fontSize: 9 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`} />
+                      <Tooltip contentStyle={{ background: '#0d0d1e', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, fontSize: 11 }} formatter={(v: number) => [formatCurrency(v), 'Volume']} />
+                      <Bar dataKey="v" fill="#7c3aed" opacity={0.5} radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -406,204 +400,237 @@ export default function TradingPage() {
             )}
           </div>
 
-          {/* ── Right: Order Form + Profit Calc ────────────────── */}
-          <div className="flex flex-col gap-6">
-            {/* Order Form */}
-            <div className="bg-xc-card border border-xc-border rounded-2xl p-6 relative">
+          {/* ── Right: Order Form + Insights ───────────────────────────── */}
+          <div className="flex flex-col gap-7">
+            {/* Order Form Panel */}
+            <div className="relative bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
               {selectedAsset && (
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-purple-500/5 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-purple-500/[0.04] to-transparent pointer-events-none" />
               )}
               <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-5">
-                  <Target className="w-4 h-4 text-xc-purple-light" />
-                  <h2 className="font-bold text-white text-sm">Place Order</h2>
+                <div className="px-7 py-5 border-b border-white/[0.04] bg-gradient-to-r from-purple-950/15 to-transparent">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-purple-900/40 border border-purple-800/30 flex items-center justify-center">
+                      <Target className="w-3.5 h-3.5 text-purple-400" />
+                    </div>
+                    <h2 className="font-bold text-white text-sm">Place Order</h2>
+                  </div>
                 </div>
-                <OrderForm asset={selectedAsset} />
+                <div className="p-7">
+                  <OrderForm asset={selectedAsset} />
+                </div>
               </div>
             </div>
 
-            {/* Profit Projections */}
+            {/* Profit Projections — elevated */}
             {selectedAsset && (
-              <div className="bg-gradient-to-b from-emerald-950/30 to-xc-card border border-emerald-800/25 rounded-2xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Zap className="w-4 h-4 text-emerald-400" />
-                  <span className="text-sm font-bold text-white">Profit Projections</span>
-                </div>
-                <div className="space-y-3">
-                  {[
-                    { label: 'If +10%', multiplier: 1.1, period: '7D avg' },
-                    { label: 'If +25%', multiplier: 1.25, period: '30D target' },
-                    { label: 'If +100%', multiplier: 2.0, period: '12M bull' },
-                    { label: 'If +500%', multiplier: 6.0, period: 'SpaceX IPO' },
-                  ].map(({ label, multiplier, period }) => {
-                    const invested = 10000;
-                    const profit = invested * (multiplier - 1);
-                    return (
-                      <div key={label} className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/[0.02]">
-                        <div>
-                          <div className="text-xs font-bold text-white">{label}</div>
-                          <div className="text-[9px] text-xc-muted">{period}</div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-sm font-black font-mono text-emerald-400 profit-glow">
-                            +{formatCurrency(profit)}
-                          </div>
-                          <div className="text-[9px] text-xc-muted">on $10k</div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* AI Insight */}
-                <div className="mt-4 p-3 rounded-lg bg-amber-950/20 border border-amber-700/20">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <BrainCircuit className="w-3.5 h-3.5 text-amber-400" />
-                    <span className="text-[10px] font-bold text-amber-400">X-ORACLE INSIGHT</span>
+              <div className="relative bg-[#080814] border border-emerald-800/20 rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/30 to-transparent pointer-events-none" />
+                <div className="relative z-10 p-7">
+                  <div className="flex items-center gap-2.5 mb-6">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-900/40 border border-emerald-800/30 flex items-center justify-center">
+                      <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                    </div>
+                    <span className="text-sm font-bold text-white">Profit Projections</span>
                   </div>
-                  <p className="text-[11px] text-white/60 leading-relaxed">
-                    {selectedAsset.symbol} is trading{' '}
-                    {Number(selectedAsset.priceChange24h ?? 0) >= 0 ? 'above' : 'below'}{' '}
-                    its 20-day SMA with {Number(selectedAsset.priceChange24h ?? 0) >= 0 ? 'bullish' : 'bearish'}{' '}
-                    momentum. AI confidence:{' '}
-                    <span className="text-emerald-400 font-bold">{(75 + Math.random() * 20).toFixed(0)}%</span>
-                  </p>
+
+                  <div className="space-y-3">
+                    {[
+                      { label: 'If +10%', multiplier: 1.1, period: '7D avg' },
+                      { label: 'If +25%', multiplier: 1.25, period: '30D target' },
+                      { label: 'If +100%', multiplier: 2.0, period: '12M bull' },
+                      { label: 'If +500%', multiplier: 6.0, period: 'SpaceX IPO' },
+                    ].map(({ label, multiplier, period: pd }) => {
+                      const invested = 10000;
+                      const profit = invested * (multiplier - 1);
+                      return (
+                        <div key={label} className="flex items-center justify-between py-3 px-4 rounded-xl bg-white/[0.02] border border-white/[0.03]">
+                          <div>
+                            <div className="text-xs font-bold text-white">{label}</div>
+                            <div className="text-[10px] text-white/30 mt-0.5">{pd}</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm font-black font-mono text-emerald-400 profit-glow">+{formatCurrency(profit)}</div>
+                            <div className="text-[10px] text-white/30">on $10k invested</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* AI Insight */}
+                  <div className="mt-5 p-4 rounded-xl bg-amber-950/15 border border-amber-700/15">
+                    <div className="flex items-center gap-2 mb-2">
+                      <BrainCircuit className="w-4 h-4 text-amber-400" />
+                      <span className="text-[10px] font-bold text-amber-400 tracking-wider uppercase">X-ORACLE INSIGHT</span>
+                    </div>
+                    <p className="text-[11px] text-white/40 leading-relaxed">
+                      {selectedAsset.symbol} is trading{' '}
+                      {Number(selectedAsset.priceChange24h ?? 0) >= 0 ? 'above' : 'below'}{' '}
+                      its 20-day SMA with {Number(selectedAsset.priceChange24h ?? 0) >= 0 ? 'bullish' : 'bearish'}{' '}
+                      momentum. AI confidence:{' '}
+                      <span className="text-emerald-400 font-bold">{(75 + Math.random() * 20).toFixed(0)}%</span>
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
 
-            {/* Trust badges */}
-            <div className="bg-xc-card border border-xc-border rounded-2xl p-4">
+            {/* Trust badges — inset panel */}
+            <div className="bg-[#080814] border border-white/[0.06] rounded-3xl p-6 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
               <div className="flex items-center justify-around text-center">
                 {[
                   { icon: ShieldCheck, label: 'SEC Compliant', color: 'text-emerald-400' },
-                  { icon: Zap, label: '<1ms Exec', color: 'text-cyan-400' },
+                  { icon: Zap, label: '<1ms Execution', color: 'text-cyan-400' },
                   { icon: Volume2, label: '$2.4T Volume', color: 'text-purple-400' },
                 ].map(({ icon: Icon, label, color }) => (
-                  <div key={label} className="flex flex-col items-center gap-1.5">
-                    <Icon className={cn('w-4 h-4', color)} />
-                    <span className="text-[9px] text-xc-muted font-medium">{label}</span>
+                  <div key={label} className="flex flex-col items-center gap-2">
+                    <div className="w-9 h-9 rounded-xl bg-white/[0.03] border border-white/[0.05] flex items-center justify-center">
+                      <Icon className={cn('w-4 h-4', color)} />
+                    </div>
+                    <span className="text-[10px] text-white/35 font-medium">{label}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        {/*  SECTION 4 — Order Book + Live Trades (full width, side by side) */}
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        {/* ═══════════════════════════════════════════════════════════════════
+            SECTION 4 — ORDER BOOK + LIVE TRADES (deep panels, side by side)
+            ═══════════════════════════════════════════════════════════════════ */}
+        <section className="grid lg:grid-cols-2 gap-7">
           {/* Order Book */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <Layers className="w-4 h-4 text-cyan-400" />
-              <h3 className="font-bold text-white text-base">Order Book</h3>
-              <span className="text-[10px] text-xc-muted font-mono ml-auto">
-                {selectedAsset ? selectedAsset.symbol : 'Select asset'} · Depth L2
-              </span>
-            </div>
-            {selectedAsset ? (
-              <div className="grid grid-cols-2 gap-6">
-                {/* Bids */}
-                <div>
-                  <div className="flex justify-between text-[9px] text-xc-muted mb-3 uppercase font-bold">
-                    <span>Bid Price</span><span>Size</span><span>Total</span>
-                  </div>
-                  <div className="space-y-1">
-                    {orderBook.bids.map((bid, i) => {
-                      const cumSize = orderBook.bids.slice(0, i + 1).reduce((s, b) => s + b.size, 0);
-                      return (
-                        <div key={i} className="flex justify-between text-xs relative py-1">
-                          <div className="absolute inset-0 bg-emerald-500/8 rounded" style={{ width: `${bid.depth}%` }} />
-                          <span className="font-mono text-emerald-400 relative z-10">${bid.price.toFixed(2)}</span>
-                          <span className="font-mono text-white/70 relative z-10">{bid.size.toFixed(2)}</span>
-                          <span className="font-mono text-white/40 relative z-10">{cumSize.toFixed(0)}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
+          <div className="bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+            <div className="px-7 py-5 border-b border-white/[0.04] bg-gradient-to-r from-cyan-950/15 to-transparent">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-cyan-900/40 border border-cyan-800/30 flex items-center justify-center">
+                  <Layers className="w-3.5 h-3.5 text-cyan-400" />
                 </div>
-                {/* Asks */}
                 <div>
-                  <div className="flex justify-between text-[9px] text-xc-muted mb-3 uppercase font-bold">
-                    <span>Ask Price</span><span>Size</span><span>Total</span>
-                  </div>
-                  <div className="space-y-1">
-                    {orderBook.asks.map((ask, i) => {
-                      const cumSize = orderBook.asks.slice(0, i + 1).reduce((s, a) => s + a.size, 0);
-                      return (
-                        <div key={i} className="flex justify-between text-xs relative py-1">
-                          <div className="absolute inset-0 bg-red-500/8 rounded" style={{ width: `${ask.depth}%` }} />
-                          <span className="font-mono text-red-400 relative z-10">${ask.price.toFixed(2)}</span>
-                          <span className="font-mono text-white/70 relative z-10">{ask.size.toFixed(2)}</span>
-                          <span className="font-mono text-white/40 relative z-10">{cumSize.toFixed(0)}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  <h3 className="font-bold text-white text-sm">Order Book</h3>
+                  <p className="text-[10px] text-white/30">{selectedAsset ? selectedAsset.symbol : 'Select asset'} \u00b7 Depth L2</p>
                 </div>
               </div>
-            ) : (
-              <div className="text-center py-12 text-xc-muted text-sm">Select an asset to view order book depth</div>
-            )}
+            </div>
+            <div className="p-7">
+              {selectedAsset ? (
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <div className="flex justify-between text-[9px] text-white/30 mb-4 uppercase font-bold tracking-wider">
+                      <span>Bid Price</span><span>Size</span><span>Total</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {orderBook.bids.map((bid, i) => {
+                        const cumSize = orderBook.bids.slice(0, i + 1).reduce((s, b) => s + b.size, 0);
+                        return (
+                          <div key={i} className="flex justify-between text-xs relative py-1.5 px-2 rounded-lg">
+                            <div className="absolute inset-0 bg-emerald-500/[0.06] rounded-lg" style={{ width: `${bid.depth}%` }} />
+                            <span className="font-mono text-emerald-400 relative z-10">${bid.price.toFixed(2)}</span>
+                            <span className="font-mono text-white/50 relative z-10">{bid.size.toFixed(2)}</span>
+                            <span className="font-mono text-white/25 relative z-10">{cumSize.toFixed(0)}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-[9px] text-white/30 mb-4 uppercase font-bold tracking-wider">
+                      <span>Ask Price</span><span>Size</span><span>Total</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {orderBook.asks.map((ask, i) => {
+                        const cumSize = orderBook.asks.slice(0, i + 1).reduce((s, a) => s + a.size, 0);
+                        return (
+                          <div key={i} className="flex justify-between text-xs relative py-1.5 px-2 rounded-lg">
+                            <div className="absolute inset-0 bg-red-500/[0.06] rounded-lg" style={{ width: `${ask.depth}%` }} />
+                            <span className="font-mono text-red-400 relative z-10">${ask.price.toFixed(2)}</span>
+                            <span className="font-mono text-white/50 relative z-10">{ask.size.toFixed(2)}</span>
+                            <span className="font-mono text-white/25 relative z-10">{cumSize.toFixed(0)}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-16 text-white/25 text-sm">Select an asset to view order book depth</div>
+              )}
+            </div>
           </div>
 
           {/* Live Trades Feed */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
-              <h3 className="font-bold text-white text-base">Live Trades</h3>
-              <span className="text-[10px] font-mono text-emerald-400 ml-auto">Streaming · All markets</span>
-            </div>
-            <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-x-4 gap-y-1 text-xs">
-              {/* Header */}
-              <span className="text-[9px] text-xc-muted font-bold uppercase pb-2">Side</span>
-              <span className="text-[9px] text-xc-muted font-bold uppercase pb-2">Asset</span>
-              <span className="text-[9px] text-xc-muted font-bold uppercase pb-2 text-right">Price</span>
-              <span className="text-[9px] text-xc-muted font-bold uppercase pb-2 text-right">Amount</span>
-              <span className="text-[9px] text-xc-muted font-bold uppercase pb-2 text-right">Time</span>
-
-              {liveFeed.slice(0, 15).map((trade, i) => (
-                <div key={trade.id} className={cn('contents', i === 0 ? 'trade-flash' : '')}>
-                  <span className={cn('font-bold py-1', trade.side === 'BUY' ? 'text-emerald-400' : 'text-red-400')}>
-                    {trade.side}
-                  </span>
-                  <span className="font-bold text-white py-1">{trade.symbol}</span>
-                  <span className="font-mono text-white/70 py-1 text-right">${trade.price.toFixed(2)}</span>
-                  <span className="font-mono text-white/80 py-1 text-right">{formatCurrency(trade.amount)}</span>
-                  <span className="text-xc-muted font-mono py-1 text-right">{trade.time}</span>
+          <div className="bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+            <div className="px-7 py-5 border-b border-white/[0.04] bg-gradient-to-r from-emerald-950/15 to-transparent">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-emerald-900/40 border border-emerald-800/30 flex items-center justify-center">
+                  <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
                 </div>
-              ))}
+                <div>
+                  <h3 className="font-bold text-white text-sm">Live Trades</h3>
+                  <p className="text-[10px] text-white/30">Streaming \u00b7 All markets</p>
+                </div>
+                <span className="ml-auto flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> LIVE
+                </span>
+              </div>
+            </div>
+            <div className="p-7">
+              <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-x-5 gap-y-1.5 text-xs">
+                <span className="text-[9px] text-white/25 font-bold uppercase pb-3 tracking-wider">Side</span>
+                <span className="text-[9px] text-white/25 font-bold uppercase pb-3 tracking-wider">Asset</span>
+                <span className="text-[9px] text-white/25 font-bold uppercase pb-3 text-right tracking-wider">Price</span>
+                <span className="text-[9px] text-white/25 font-bold uppercase pb-3 text-right tracking-wider">Amount</span>
+                <span className="text-[9px] text-white/25 font-bold uppercase pb-3 text-right tracking-wider">Time</span>
+
+                {liveFeed.slice(0, 14).map((trade, i) => (
+                  <div key={trade.id} className={cn('contents', i === 0 ? 'trade-flash' : '')}>
+                    <span className={cn('font-bold py-1.5', trade.side === 'BUY' ? 'text-emerald-400' : 'text-red-400')}>{trade.side}</span>
+                    <span className="font-bold text-white py-1.5">{trade.symbol}</span>
+                    <span className="font-mono text-white/50 py-1.5 text-right">${trade.price.toFixed(2)}</span>
+                    <span className="font-mono text-white/60 py-1.5 text-right">{formatCurrency(trade.amount)}</span>
+                    <span className="text-white/25 font-mono py-1.5 text-right">{trade.time}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        {/*  SECTION 5 — Market Sectors (full width bar charts)              */}
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-          <div className="flex items-center gap-2 mb-5">
-            <LineChart className="w-5 h-5 text-purple-400" />
-            <h2 className="font-black text-white text-base">Sector Performance</h2>
-            <span className="text-[10px] text-xc-muted ml-auto">Live · Updated every 3s</span>
+        {/* ═══════════════════════════════════════════════════════════════════
+            SECTION 5 — SECTOR PERFORMANCE (spacious grid with charts)
+            ═══════════════════════════════════════════════════════════════════ */}
+        <section className="bg-[#080814] border border-white/[0.06] rounded-3xl p-8 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-purple-900/40 border border-purple-800/30 flex items-center justify-center">
+                <LineChart className="w-4 h-4 text-purple-400" />
+              </div>
+              <div>
+                <h2 className="font-black text-white text-base tracking-tight">Sector Performance</h2>
+                <p className="text-[11px] text-white/30 mt-0.5">12 sectors \u00b7 Updated every 3 seconds</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> LIVE
+            </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5">
             {marketOverview.map((sector) => (
-              <div key={sector.name} className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-white">{sector.name}</span>
+              <div key={sector.name} className="bg-white/[0.02] border border-white/[0.04] rounded-2xl p-5 hover:border-white/[0.08] transition-all group">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-bold text-white group-hover:text-white">{sector.name}</span>
                   <span className={cn('text-xs font-bold font-mono', sector.change >= 0 ? 'text-emerald-400' : 'text-red-400')}>
                     {sector.change >= 0 ? '+' : ''}{sector.change.toFixed(2)}%
                   </span>
                 </div>
-                {/* Mini area chart per sector */}
-                <div style={{ height: 60 }}>
+                <div style={{ height: 70 }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={sector.data} margin={{ top: 2, right: 2, bottom: 2, left: 2 }}>
                       <defs>
                         <linearGradient id={`sg-${sector.name}`} x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor={sector.change >= 0 ? '#10b981' : '#ef4444'} stopOpacity={0.3} />
+                          <stop offset="5%" stopColor={sector.change >= 0 ? '#10b981' : '#ef4444'} stopOpacity={0.25} />
                           <stop offset="95%" stopColor={sector.change >= 0 ? '#10b981' : '#ef4444'} stopOpacity={0} />
                         </linearGradient>
                       </defs>
@@ -611,39 +638,43 @@ export default function TradingPage() {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="flex items-center justify-between mt-2 text-[10px] text-xc-muted">
+                <div className="flex items-center justify-between mt-3 text-[10px] text-white/25">
                   <span>{sector.assets} assets</span>
                   <span className="font-mono">{formatCurrency(sector.value)}</span>
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        {/*  SECTION 6 — Top Movers (full width)                             */}
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Top Gainers */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
-              <h3 className="font-bold text-white text-base">Top Gainers</h3>
-              <span className="text-[10px] text-xc-muted ml-auto">24h</span>
+        {/* ═══════════════════════════════════════════════════════════════════
+            SECTION 6 — TOP MOVERS
+            ═══════════════════════════════════════════════════════════════════ */}
+        <section className="grid lg:grid-cols-2 gap-7">
+          {/* Gainers */}
+          <div className="bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+            <div className="px-7 py-5 border-b border-white/[0.04] bg-gradient-to-r from-emerald-950/15 to-transparent">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-emerald-900/40 border border-emerald-800/30 flex items-center justify-center">
+                  <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+                </div>
+                <h3 className="font-bold text-white text-sm">Top Gainers</h3>
+                <span className="ml-auto text-[10px] text-white/25">24h</span>
+              </div>
             </div>
-            <div className="space-y-3">
+            <div className="p-7 space-y-3">
               {TOP_GAINERS.map((asset) => (
                 <button
                   key={asset.symbol}
                   onClick={() => setSelectedAsset(asset as Asset)}
-                  className="w-full flex items-center gap-4 p-3 rounded-xl bg-emerald-950/10 border border-emerald-800/20 hover:border-emerald-600/40 transition-all text-left"
+                  className="w-full flex items-center gap-4 p-4 rounded-2xl bg-emerald-950/8 border border-emerald-800/15 hover:border-emerald-600/30 transition-all text-left group"
                 >
-                  <div className="w-10 h-10 rounded-full bg-emerald-900/40 flex items-center justify-center text-sm font-black text-emerald-400">
+                  <div className="w-11 h-11 rounded-xl bg-emerald-900/30 border border-emerald-800/20 flex items-center justify-center text-sm font-black text-emerald-400 group-hover:scale-105 transition-transform">
                     {asset.symbol[0]}
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="font-bold text-white">{asset.symbol}</div>
-                    <div className="text-xs text-xc-muted">{asset.name}</div>
+                    <div className="text-xs text-white/30 truncate">{asset.name}</div>
                   </div>
                   <div className="text-right">
                     <div className="font-mono font-bold text-white">{formatCurrency(Number(asset.price))}</div>
@@ -654,26 +685,30 @@ export default function TradingPage() {
             </div>
           </div>
 
-          {/* Top Losers */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <TrendingDown className="w-5 h-5 text-red-400" />
-              <h3 className="font-bold text-white text-base">Top Losers</h3>
-              <span className="text-[10px] text-xc-muted ml-auto">24h</span>
+          {/* Losers */}
+          <div className="bg-[#080814] border border-white/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+            <div className="px-7 py-5 border-b border-white/[0.04] bg-gradient-to-r from-red-950/15 to-transparent">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-red-900/40 border border-red-800/30 flex items-center justify-center">
+                  <TrendingDown className="w-3.5 h-3.5 text-red-400" />
+                </div>
+                <h3 className="font-bold text-white text-sm">Top Losers</h3>
+                <span className="ml-auto text-[10px] text-white/25">24h</span>
+              </div>
             </div>
-            <div className="space-y-3">
+            <div className="p-7 space-y-3">
               {TOP_LOSERS.map((asset) => (
                 <button
                   key={asset.symbol}
                   onClick={() => setSelectedAsset(asset as Asset)}
-                  className="w-full flex items-center gap-4 p-3 rounded-xl bg-red-950/10 border border-red-800/20 hover:border-red-600/40 transition-all text-left"
+                  className="w-full flex items-center gap-4 p-4 rounded-2xl bg-red-950/8 border border-red-800/15 hover:border-red-600/30 transition-all text-left group"
                 >
-                  <div className="w-10 h-10 rounded-full bg-red-900/40 flex items-center justify-center text-sm font-black text-red-400">
+                  <div className="w-11 h-11 rounded-xl bg-red-900/30 border border-red-800/20 flex items-center justify-center text-sm font-black text-red-400 group-hover:scale-105 transition-transform">
                     {asset.symbol[0]}
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="font-bold text-white">{asset.symbol}</div>
-                    <div className="text-xs text-xc-muted">{asset.name}</div>
+                    <div className="text-xs text-white/30 truncate">{asset.name}</div>
                   </div>
                   <div className="text-right">
                     <div className="font-mono font-bold text-white">{formatCurrency(Number(asset.price))}</div>
@@ -683,7 +718,7 @@ export default function TradingPage() {
               ))}
             </div>
           </div>
-        </div>
+        </section>
 
       </div>
     </DashboardLayout>
@@ -716,11 +751,7 @@ function generateMockBars(basePrice: number, period: string) {
     if (period === '1D') d.setHours(d.getHours() - i);
     else d.setDate(d.getDate() - i);
     price *= 1 + (Math.random() - 0.47) * 0.03;
-    data.push({
-      t: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      c: Math.round(price * 100) / 100,
-      v: Math.round(Math.random() * 80e6 + 20e6),
-    });
+    data.push({ t: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), c: Math.round(price * 100) / 100, v: Math.round(Math.random() * 80e6 + 20e6) });
   }
   return data;
 }
@@ -728,23 +759,20 @@ function generateMockBars(basePrice: number, period: string) {
 function generateSectorData() {
   const data = [];
   let v = 100;
-  for (let i = 0; i < 20; i++) {
-    v *= 1 + (Math.random() - 0.47) * 0.03;
-    data.push({ v: Math.round(v * 100) / 100 });
-  }
+  for (let i = 0; i < 20; i++) { v *= 1 + (Math.random() - 0.47) * 0.03; data.push({ v: Math.round(v * 100) / 100 }); }
   return data;
 }
 
 // ─── Static Data ──────────────────────────────────────────────────────────────
 const HOT_SIGNALS = [
-  { symbol: 'TSLA', side: 'BUY' as const, projection: '+18.4%', confidence: 92, reason: 'Q1 deliveries beat · Robotaxi launch Q3', countdown: 247 },
-  { symbol: 'SpaceX', side: 'BUY' as const, projection: '+32.1%', confidence: 88, reason: 'Starship Flight 12 · Starlink 5M subs', countdown: 180 },
-  { symbol: 'NVDA', side: 'BUY' as const, projection: '+24.2%', confidence: 94, reason: 'B200 ramp · 2x demand vs supply', countdown: 312 },
+  { symbol: 'TSLA', side: 'BUY' as const, projection: '+18.4%', confidence: 92, reason: 'Q1 deliveries beat \u00b7 Robotaxi launch Q3', countdown: 247 },
+  { symbol: 'SpaceX', side: 'BUY' as const, projection: '+32.1%', confidence: 88, reason: 'Starship Flight 12 \u00b7 Starlink 5M subs', countdown: 180 },
+  { symbol: 'NVDA', side: 'BUY' as const, projection: '+24.2%', confidence: 94, reason: 'B200 ramp \u00b7 2x demand vs supply', countdown: 312 },
   { symbol: 'DOGE', side: 'BUY' as const, projection: '+44.7%', confidence: 71, reason: 'X Payments integration rumor', countdown: 125 },
-  { symbol: 'SOL', side: 'BUY' as const, projection: '+28.3%', confidence: 82, reason: 'Firedancer mainnet · DeFi TVL ATH', countdown: 198 },
-  { symbol: 'AMD', side: 'BUY' as const, projection: '+16.8%', confidence: 79, reason: 'MI400 launch · hyperscaler wins', countdown: 267 },
-  { symbol: 'COIN', side: 'BUY' as const, projection: '+22.5%', confidence: 85, reason: 'ETF inflows record · staking revenue', countdown: 154 },
-  { symbol: 'XAI', side: 'BUY' as const, projection: '+55.2%', confidence: 76, reason: 'Grok-4 benchmark · pre-IPO round', countdown: 89 },
+  { symbol: 'SOL', side: 'BUY' as const, projection: '+28.3%', confidence: 82, reason: 'Firedancer mainnet \u00b7 DeFi TVL ATH', countdown: 198 },
+  { symbol: 'AMD', side: 'BUY' as const, projection: '+16.8%', confidence: 79, reason: 'MI400 launch \u00b7 hyperscaler wins', countdown: 267 },
+  { symbol: 'COIN', side: 'BUY' as const, projection: '+22.5%', confidence: 85, reason: 'ETF inflows record \u00b7 staking revenue', countdown: 154 },
+  { symbol: 'XAI', side: 'BUY' as const, projection: '+55.2%', confidence: 76, reason: 'Grok-4 benchmark \u00b7 pre-IPO round', countdown: 89 },
 ];
 
 const SIGNAL_ASSETS = [
@@ -768,30 +796,18 @@ const QUICK_PICKS = [
 ];
 
 const HEATMAP_DATA = [
-  { symbol: 'TSLA', change: 3.21, cap: '$1.08T' },
-  { symbol: 'NVDA', change: 2.15, cap: '$2.18T' },
-  { symbol: 'AAPL', change: 0.54, cap: '$3.42T' },
-  { symbol: 'META', change: 2.77, cap: '$1.31T' },
-  { symbol: 'AMZN', change: -0.82, cap: '$2.01T' },
-  { symbol: 'MSFT', change: 1.04, cap: '$3.12T' },
-  { symbol: 'GOOGL', change: -0.14, cap: '$2.21T' },
-  { symbol: 'BTC', change: -1.23, cap: '$1.92T' },
-  { symbol: 'ETH', change: 2.64, cap: '$462B' },
-  { symbol: 'SOL', change: 5.17, cap: '$84B' },
-  { symbol: 'DOGE', change: 8.52, cap: '$58B' },
-  { symbol: 'AMD', change: 3.47, cap: '$267B' },
-  { symbol: 'PLTR', change: 4.55, cap: '$54B' },
-  { symbol: 'COIN', change: 5.84, cap: '$67B' },
-  { symbol: 'SpaceX', change: 6.84, cap: '$350B' },
-  { symbol: 'XAI', change: 12.40, cap: '$45B' },
-  { symbol: 'NFLX', change: -1.08, cap: '$278B' },
-  { symbol: 'CRM', change: 1.23, cap: '$263B' },
-  { symbol: 'UBER', change: 2.31, cap: '$162B' },
-  { symbol: 'SNAP', change: -2.41, cap: '$23B' },
-  { symbol: 'XRP', change: 4.22, cap: '$118B' },
-  { symbol: 'AVAX', change: 3.18, cap: '$15B' },
-  { symbol: 'LINK', change: 1.56, cap: '$11B' },
-  { symbol: 'ARKK', change: 1.33, cap: '$6.2B' },
+  { symbol: 'TSLA', change: 3.21, cap: '$1.08T' }, { symbol: 'NVDA', change: 2.15, cap: '$2.18T' },
+  { symbol: 'AAPL', change: 0.54, cap: '$3.42T' }, { symbol: 'META', change: 2.77, cap: '$1.31T' },
+  { symbol: 'AMZN', change: -0.82, cap: '$2.01T' }, { symbol: 'MSFT', change: 1.04, cap: '$3.12T' },
+  { symbol: 'GOOGL', change: -0.14, cap: '$2.21T' }, { symbol: 'BTC', change: -1.23, cap: '$1.92T' },
+  { symbol: 'ETH', change: 2.64, cap: '$462B' }, { symbol: 'SOL', change: 5.17, cap: '$84B' },
+  { symbol: 'DOGE', change: 8.52, cap: '$58B' }, { symbol: 'AMD', change: 3.47, cap: '$267B' },
+  { symbol: 'PLTR', change: 4.55, cap: '$54B' }, { symbol: 'COIN', change: 5.84, cap: '$67B' },
+  { symbol: 'SpaceX', change: 6.84, cap: '$350B' }, { symbol: 'XAI', change: 12.40, cap: '$45B' },
+  { symbol: 'NFLX', change: -1.08, cap: '$278B' }, { symbol: 'CRM', change: 1.23, cap: '$263B' },
+  { symbol: 'UBER', change: 2.31, cap: '$162B' }, { symbol: 'SNAP', change: -2.41, cap: '$23B' },
+  { symbol: 'XRP', change: 4.22, cap: '$118B' }, { symbol: 'AVAX', change: 3.18, cap: '$15B' },
+  { symbol: 'LINK', change: 1.56, cap: '$11B' }, { symbol: 'ARKK', change: 1.33, cap: '$6.2B' },
 ];
 
 const MARKET_SECTORS = [
