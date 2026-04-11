@@ -38,7 +38,7 @@ export default function AIOracle({ allocation, forecasts = [], loading = false, 
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-cyan-600 flex items-center justify-center shadow-lg shadow-purple-900/50">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-white/15 to-white/5 flex items-center justify-center shadow-lg shadow-black/50/50">
             <Brain className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -94,7 +94,7 @@ export default function AIOracle({ allocation, forecasts = [], loading = false, 
             return (
               <div key={fc.symbol} className="flex items-center justify-between p-3.5 rounded-xl bg-xc-dark/40 border border-xc-border/60 hover:border-xc-border transition-all">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-900 to-cyan-900 flex items-center justify-center text-xs font-black text-white">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/[0.06] to-white/[0.03] flex items-center justify-center text-xs font-black text-white">
                     {fc.symbol[0]}
                   </div>
                   <div>

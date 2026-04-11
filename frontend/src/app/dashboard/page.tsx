@@ -247,9 +247,9 @@ export default function DashboardPage() {
       <div className="space-y-8">
         {/* ─── KYC Banner ─────────────────────────────────────────────────── */}
         {user?.kycStatus !== "APPROVED" && (
-          <div className="flex items-center justify-between bg-amber-950/30 border border-amber-700/40 rounded-xl px-5 py-3">
+          <div className="flex items-center justify-between bg-white/[0.03] border border-white/[0.10]/40 rounded-xl px-5 py-3">
             <div>
-              <span className="text-amber-400 font-semibold text-sm">
+              <span className="text-white/50 font-semibold text-sm">
                 KYC Verification Required
               </span>
               <span className="text-xc-muted text-sm ml-2">
@@ -322,8 +322,8 @@ export default function DashboardPage() {
                 pct: "+4.91%",
                 icon: <Calendar className="w-4 h-4" />,
                 period: "Mar 17 – 23, 2026",
-                border: "border-cyan-800/25",
-                glow: "from-cyan-900/15",
+                border: "border-white/[0.06]/25",
+                glow: "from-white/[0.03]/15",
               },
               {
                 label: "Monthly Return",
@@ -331,8 +331,8 @@ export default function DashboardPage() {
                 pct: "+11.4%",
                 icon: <Flame className="w-4 h-4" />,
                 period: "March 2026",
-                border: "border-purple-800/25",
-                glow: "from-purple-900/15",
+                border: "border-white/[0.08]/25",
+                glow: "from-white/[0.04]/15",
               },
             ] as const
           ).map(({ label, value, pct, icon, period, border, glow }) => (
@@ -366,11 +366,11 @@ export default function DashboardPage() {
         </div>
 
         {/* ─── X-Oracle Live Signals ───────────────────────────────────── */}
-        <div className="bg-xc-card border border-purple-800/25 rounded-2xl p-5">
+        <div className="bg-xc-card border border-white/[0.08]/25 rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-7 h-7 rounded-lg bg-purple-900/50 flex items-center justify-center">
-                <Zap className="w-3.5 h-3.5 text-purple-400" />
+              <div className="w-7 h-7 rounded-lg bg-white/[0.04] flex items-center justify-center">
+                <Zap className="w-3.5 h-3.5 text-white/60" />
               </div>
               <div>
                 <h3 className="font-black text-white text-base">
@@ -382,8 +382,8 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-              <span className="text-xs font-mono text-purple-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-white/[0.08] animate-pulse" />
+              <span className="text-xs font-mono text-white/60">
                 LIVE
               </span>
             </div>
@@ -425,7 +425,7 @@ export default function DashboardPage() {
             ].map(({ symbol, signal, conf, proj, color }) => (
               <div
                 key={symbol}
-                className={`bg-gradient-to-br ${color === "emerald" ? "from-emerald-950/40" : color === "amber" ? "from-amber-950/30" : "from-rose-950/30"} to-transparent border border-white/5 rounded-xl p-5 hover:scale-[1.02] transition-transform`}
+                className={`bg-gradient-to-br ${color === "emerald" ? "from-emerald-950/40" : color === "amber" ? "from-black/30" : "from-rose-950/30"} to-transparent border border-white/5 rounded-xl p-5 hover:scale-[1.02] transition-transform`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-black text-white">
@@ -437,7 +437,7 @@ export default function DashboardPage() {
                       color === "emerald"
                         ? "bg-emerald-950/60 text-emerald-400 border-emerald-800/40"
                         : color === "amber"
-                          ? "bg-amber-950/60 text-amber-400 border-amber-800/40"
+                          ? "bg-white/[0.03]/60 text-white/50 border-amber-800/40"
                           : "bg-rose-950/60 text-rose-400 border-rose-800/40",
                     )}
                   >
@@ -450,7 +450,7 @@ export default function DashboardPage() {
                     color === "emerald"
                       ? "text-emerald-400"
                       : color === "amber"
-                        ? "text-amber-400"
+                        ? "text-white/50"
                         : "text-rose-400",
                   )}
                 >
@@ -611,7 +611,7 @@ export default function DashboardPage() {
         <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-cyan-400" />
+              <BarChart3 className="w-4 h-4 text-white/50" />
               <h3 className="font-black text-white text-base">Trading Volume</h3>
               <span className="text-xs text-xc-muted">14-day overview</span>
             </div>
@@ -670,7 +670,7 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-5">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <Target className="w-4 h-4 text-xc-purple-light" />
+                <Target className="w-4 h-4 text-white/70" />
                 <h3 className="font-black text-white text-base">
                   Capital Rails Deployment
                 </h3>
@@ -750,7 +750,7 @@ export default function DashboardPage() {
           {/* Quick Deploy */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-4">
-              <Rocket className="w-4 h-4 text-xc-purple-light" />
+              <Rocket className="w-4 h-4 text-white/70" />
               <h3 className="font-black text-white text-base">Quick Deploy</h3>
             </div>
             <div className="space-y-3">
@@ -758,7 +758,7 @@ export default function DashboardPage() {
                 {
                   label: "NVDA",
                   desc: "BUY · AI 94% conf.",
-                  cls: "border-purple-700/40 hover:border-purple-500/60 hover:bg-purple-950/20",
+                  cls: "border-white/[0.10] hover:border-white/[0.10]/60 hover:bg-white/[0.02]/20",
                 },
                 {
                   label: "TSLA",
@@ -768,12 +768,12 @@ export default function DashboardPage() {
                 {
                   label: "BTC",
                   desc: "HOLD · Monitor",
-                  cls: "border-amber-700/40 hover:border-amber-500/50 hover:bg-amber-950/15",
+                  cls: "border-white/[0.10]/40 hover:border-white/[0.10]/50 hover:bg-white/[0.03]/15",
                 },
                 {
                   label: "SPV Fund",
                   desc: "New Allocation",
-                  cls: "border-cyan-700/40 hover:border-cyan-500/60 hover:bg-cyan-950/20",
+                  cls: "border-white/[0.08]/40 hover:border-white/20 hover:bg-white/[0.02]/20",
                 },
               ].map(({ label, desc, cls }) => (
                 <Link
@@ -791,7 +791,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/trading"
-              className="mt-4 w-full flex items-center justify-center gap-2 bg-xc-purple hover:bg-purple-600 text-white text-sm font-bold py-2.5 rounded-xl transition-colors glow-purple"
+              className="mt-4 w-full flex items-center justify-center gap-2 bg-xc-purple hover:bg-white/[0.08] text-white text-sm font-bold py-2.5 rounded-xl transition-colors glow-purple"
             >
               <Zap className="w-4 h-4" /> Open Trade Terminal
             </Link>
@@ -806,7 +806,7 @@ export default function DashboardPage() {
               <h3 className="font-black text-white text-base">Market</h3>
               <Link
                 href="/trading"
-                className="text-xs text-xc-purple-light hover:text-white transition-colors"
+                className="text-xs text-white/70 hover:text-white transition-colors"
               >
                 View all →
               </Link>
@@ -819,7 +819,7 @@ export default function DashboardPage() {
                     className="flex items-center justify-between"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-900 to-cyan-900 flex items-center justify-center text-xs font-black text-white">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/[0.04] to-black flex items-center justify-center text-xs font-black text-white">
                         {(asset.symbol ?? "?")[0]}
                       </div>
                       <div>
@@ -861,7 +861,7 @@ export default function DashboardPage() {
               <h3 className="font-black text-white text-base">Recent Activity</h3>
               <Link
                 href="/wallet"
-                className="text-xs text-xc-purple-light hover:text-white transition-colors"
+                className="text-xs text-white/70 hover:text-white transition-colors"
               >
                 View all →
               </Link>
@@ -881,7 +881,7 @@ export default function DashboardPage() {
                             ? "bg-emerald-950/60"
                             : tx.type === "WITHDRAWAL"
                               ? "bg-red-950/60"
-                              : "bg-purple-950/60",
+                              : "bg-white/[0.02]/60",
                         )}
                       >
                         {tx.type === "DEPOSIT" ? (
@@ -889,7 +889,7 @@ export default function DashboardPage() {
                         ) : tx.type === "WITHDRAWAL" ? (
                           <ArrowUpRight className="w-4 h-4 text-xc-red" />
                         ) : (
-                          <BarChart3 className="w-4 h-4 text-xc-purple-light" />
+                          <BarChart3 className="w-4 h-4 text-white/70" />
                         )}
                       </div>
                       <div>
@@ -926,13 +926,13 @@ export default function DashboardPage() {
         {/* ─── SpaceX Mission Control & Musk Empire ─────────────────────── */}
         <div className="grid lg:grid-cols-5 gap-6">
           {/* SpaceX Mission Control — 3-col */}
-          <div className="lg:col-span-3 bg-xc-card border border-cyan-800/25 rounded-2xl p-6 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/15 to-transparent pointer-events-none" />
+          <div className="lg:col-span-3 bg-xc-card border border-white/[0.06]/25 rounded-2xl p-6 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-cyan-900/50 flex items-center justify-center">
-                    <Rocket className="w-4 h-4 text-cyan-400" />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center">
+                    <Rocket className="w-4 h-4 text-white/50" />
                   </div>
                   <div>
                     <h3 className="font-black text-white text-base">
@@ -944,18 +944,18 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                  <span className="text-xs font-mono text-cyan-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/[0.06] animate-pulse" />
+                  <span className="text-xs font-mono text-white/50">
                     TRACKING
                   </span>
                 </div>
               </div>
 
               {/* Next Launch Countdown */}
-              <div className="bg-gradient-to-r from-cyan-950/40 to-purple-950/30 border border-cyan-700/20 rounded-xl p-5 mb-4">
+              <div className="bg-gradient-to-r from-white/[0.04] to-black/30 border border-white/[0.08]/20 rounded-xl p-5 mb-4">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <div className="text-xs text-cyan-400 font-mono uppercase tracking-wider mb-1">
+                    <div className="text-xs text-white/50 font-mono uppercase tracking-wider mb-1">
                       Next Launch
                     </div>
                     <div className="text-lg font-black text-white">
@@ -979,7 +979,7 @@ export default function DashboardPage() {
                           key={label}
                           className="bg-xc-black/60 rounded-lg px-2.5 py-1.5 text-center min-w-[40px]"
                         >
-                          <div className="text-lg font-black font-mono text-cyan-400">
+                          <div className="text-lg font-black font-mono text-white/50">
                             {val}
                           </div>
                           <div className="text-xs text-xc-muted">
@@ -1069,13 +1069,13 @@ export default function DashboardPage() {
           </div>
 
           {/* Musk Empire Ventures — 2-col */}
-          <div className="lg:col-span-2 bg-xc-card border border-purple-800/25 rounded-2xl p-6 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-950/15 to-transparent pointer-events-none" />
+          <div className="lg:col-span-2 bg-xc-card border border-white/[0.08]/25 rounded-2xl p-6 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-black/15 to-transparent pointer-events-none" />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-purple-900/50 flex items-center justify-center">
-                    <Building2 className="w-4 h-4 text-purple-400" />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center">
+                    <Building2 className="w-4 h-4 text-white/60" />
                   </div>
                   <div>
                     <h3 className="font-black text-white text-base">
@@ -1092,8 +1092,8 @@ export default function DashboardPage() {
               </div>
 
               {/* Composite Index Value */}
-              <div className="bg-purple-950/30 border border-purple-700/20 rounded-xl p-5 mb-4">
-                <div className="text-xs text-purple-400 font-mono uppercase tracking-wider mb-1">
+              <div className="bg-white/[0.02] border border-white/[0.10]/20 rounded-xl p-5 mb-4">
+                <div className="text-xs text-white/60 font-mono uppercase tracking-wider mb-1">
                   X-MEI Composite
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -1152,7 +1152,7 @@ export default function DashboardPage() {
 
               <Link
                 href="/funds"
-                className="mt-4 w-full flex items-center justify-center gap-2 bg-purple-900/40 hover:bg-purple-900/60 border border-purple-700/30 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
+                className="mt-4 w-full flex items-center justify-center gap-2 bg-white/[0.04] hover:bg-white/[0.04]/60 border border-white/[0.08] text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
               >
                 <Globe className="w-3.5 h-3.5" /> View All Funds & SPVs
               </Link>
@@ -1220,7 +1220,7 @@ export default function DashboardPage() {
               </div>
               <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400"
+                  className="h-full rounded-full bg-gradient-to-r from-blue-500 via-white/40 to-emerald-400"
                   style={{ width: "99.7%" }}
                 />
               </div>
@@ -1235,8 +1235,8 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-amber-900/50 flex items-center justify-center">
-                  <Newspaper className="w-4 h-4 text-amber-400" />
+                <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center">
+                  <Newspaper className="w-4 h-4 text-white/50" />
                 </div>
                 <div>
                   <h3 className="font-black text-white text-base">
@@ -1249,7 +1249,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-xs font-mono text-amber-400">
+                <span className="text-xs font-mono text-white/50">
                   LIVE
                 </span>
               </div>
@@ -1310,7 +1310,7 @@ export default function DashboardPage() {
         </div>
 
         {/* ─── Founder Vision — Elon Musk at the Bottom ───────────────────── */}
-        <div className="relative rounded-3xl overflow-hidden border border-purple-800/30 shadow-[0_0_80px_-20px_rgba(124,58,237,0.4)]">
+        <div className="relative rounded-3xl overflow-hidden border border-white/[0.06] shadow-[0_0_80px_-20px_rgba(124,58,237,0.4)]">
           {/* Starship background */}
           <div className="absolute inset-0">
             <Image
@@ -1321,7 +1321,7 @@ export default function DashboardPage() {
               className="object-cover object-bottom opacity-55"
             />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-xc-black/97 via-xc-black/80 to-purple-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-xc-black/97 via-xc-black/80 to-black/40" />
           <div className="absolute inset-0 bg-gradient-to-t from-xc-black/90 via-transparent to-xc-black/60" />
           {/* Engine glow at footer */}
           <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-orange-950/35 via-amber-950/10 to-transparent pointer-events-none" />
@@ -1338,7 +1338,7 @@ export default function DashboardPage() {
           <div className="relative z-10 flex flex-col md:flex-row items-center md:items-stretch gap-0">
             {/* Portrait column */}
             <div className="flex-shrink-0 flex flex-col items-center justify-end gap-4 p-8 md:p-10 md:border-r md:border-white/5">
-              <div className="relative w-48 h-64 rounded-2xl overflow-hidden ring-2 ring-purple-500/50 shadow-2xl shadow-purple-950/80">
+              <div className="relative w-48 h-64 rounded-2xl overflow-hidden ring-2 ring-white/20/50 shadow-2xl shadow-black/80">
                 <Image
                   src="/images/elon-musk.jpg"
                   alt="Elon Musk — Founder & Chief Architect, X-CAPITAL"
@@ -1352,7 +1352,7 @@ export default function DashboardPage() {
                 <div className="text-white font-black text-xl tracking-tight">
                   Elon Musk
                 </div>
-                <div className="text-xs text-purple-400 font-mono tracking-[0.3em] uppercase mt-0.5">
+                <div className="text-xs text-white/60 font-mono tracking-[0.3em] uppercase mt-0.5">
                   Founder · Chief Architect
                 </div>
                 <div className="text-xs text-xc-muted/70 mt-1">
@@ -1363,7 +1363,7 @@ export default function DashboardPage() {
 
             {/* Main content column */}
             <div className="flex-1 flex flex-col justify-center p-8 md:p-10">
-              <div className="text-xs font-mono font-bold text-purple-400/80 tracking-[0.5em] uppercase mb-4">
+              <div className="text-xs font-mono font-bold text-white/60/80 tracking-[0.5em] uppercase mb-4">
                 X-Capital · The Multiplanetary Capital Network · Est. 2026
               </div>
               <blockquote className="text-2xl md:text-4xl font-black text-white leading-tight mb-4 max-w-2xl">
@@ -1414,7 +1414,7 @@ export default function DashboardPage() {
                   Platform Edition
                 </div>
                 <div className="text-sm font-black text-white">VERTEX</div>
-                <div className="text-xs text-purple-400 font-mono">
+                <div className="text-xs text-white/60 font-mono">
                   March 2026
                 </div>
               </div>
@@ -1545,8 +1545,8 @@ const MUSK_VENTURES = [
     valuation: "$350B",
     change: 32.1,
     icon: Rocket,
-    bgColor: "bg-cyan-900/40",
-    iconColor: "text-cyan-400",
+    bgColor: "bg-white/[0.04]",
+    iconColor: "text-white/50",
   },
   {
     name: "xAI",
@@ -1554,8 +1554,8 @@ const MUSK_VENTURES = [
     valuation: "$80B",
     change: 124.5,
     icon: BrainCircuit,
-    bgColor: "bg-purple-900/40",
-    iconColor: "text-purple-400",
+    bgColor: "bg-white/[0.04]",
+    iconColor: "text-white/60",
   },
   {
     name: "Neuralink",
@@ -1572,8 +1572,8 @@ const MUSK_VENTURES = [
     valuation: "$8.5B",
     change: 12.3,
     icon: Building2,
-    bgColor: "bg-amber-900/40",
-    iconColor: "text-amber-400",
+    bgColor: "bg-white/[0.04]/40",
+    iconColor: "text-white/50",
   },
   {
     name: "Starlink",
@@ -1609,8 +1609,8 @@ const NEWS_FEED: Array<{
     ticker: "SpaceX",
     sentiment: "bullish" as const,
     icon: Rocket,
-    bgColor: "bg-cyan-900/40",
-    iconColor: "text-cyan-400",
+    bgColor: "bg-white/[0.04]",
+    iconColor: "text-white/50",
   },
   {
     headline:
@@ -1635,8 +1635,8 @@ const NEWS_FEED: Array<{
     ticker: "xAI",
     sentiment: "bullish" as const,
     icon: BrainCircuit,
-    bgColor: "bg-purple-900/40",
-    iconColor: "text-purple-400",
+    bgColor: "bg-white/[0.04]",
+    iconColor: "text-white/60",
   },
   {
     headline:
@@ -1687,7 +1687,7 @@ const NEWS_FEED: Array<{
     ticker: "Boring Co",
     sentiment: "bullish" as const,
     icon: Building2,
-    bgColor: "bg-amber-900/40",
-    iconColor: "text-amber-400",
+    bgColor: "bg-white/[0.04]/40",
+    iconColor: "text-white/50",
   },
 ];

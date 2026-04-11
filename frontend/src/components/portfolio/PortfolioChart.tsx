@@ -63,7 +63,7 @@ export default function PortfolioChart({ data, height = 200 }: PortfolioChartPro
               className={cn(
                 'px-2.5 py-1 rounded-lg text-xs font-semibold transition-all',
                 activePeriod === p.label
-                  ? 'bg-xc-purple text-white'
+                  ? 'bg-xc-purple text-black font-bold'
                   : 'text-xc-muted hover:text-white hover:bg-white/5',
               )}
             >

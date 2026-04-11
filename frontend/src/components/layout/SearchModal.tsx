@@ -379,7 +379,7 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
                         className={cn(
                           "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
                           isActive
-                            ? "bg-xc-purple/20 text-xc-purple-light"
+                            ? "bg-xc-purple/20 text-white/70"
                             : "bg-white/[0.04] text-xc-muted",
                         )}
                       >

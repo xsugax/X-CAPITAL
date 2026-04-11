@@ -82,7 +82,7 @@ export default function Header({ title, subtitle }: HeaderProps) {
             >
               <Bell className="w-4 h-4" />
               {unread > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 flex items-center justify-center bg-xc-purple text-white text-[10px] font-bold rounded-full px-1">
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 flex items-center justify-center bg-xc-purple text-black font-bold text-[10px] font-bold rounded-full px-1">
                   {unread}
                 </span>
               )}
@@ -99,7 +99,7 @@ export default function Header({ title, subtitle }: HeaderProps) {
 
           {/* Avatar */}
           {user && (
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center cursor-pointer overflow-hidden">
+            <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center cursor-pointer overflow-hidden">
               {user.profilePicture ? (
                 <Image
                   src={user.profilePicture}

@@ -22,8 +22,8 @@ import { cn } from "@/lib/utils";
 
 const TIER_STYLES: Record<string, string> = {
   CORE: "bg-white/10 text-white border border-white/10",
-  GOLD: "bg-amber-500/20 text-amber-400 border border-amber-500/30",
-  BLACK: "bg-purple-500/20 text-purple-400 border border-purple-500/30",
+  GOLD: "bg-white/[0.05] text-white/50 border border-white/[0.10]",
+  BLACK: "bg-white/[0.06] text-white/60 border border-white/[0.10]",
 };
 
 export default function SettingsPage() {
@@ -76,7 +76,7 @@ export default function SettingsPage() {
           <h2 className="text-base font-bold text-white mb-5">Profile</h2>
           <div className="flex flex-col sm:flex-row items-center gap-5">
             <div className="relative group">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center overflow-hidden ring-2 ring-white/10">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-white/20 to-white/5 flex items-center justify-center overflow-hidden ring-2 ring-white/10">
                 {user.profilePicture ? (
                   <Image
                     src={user.profilePicture}
@@ -195,7 +195,7 @@ export default function SettingsPage() {
                 "w-full sm:w-auto px-6 py-2.5 rounded-full text-sm font-bold transition-all",
                 saved
                   ? "bg-xc-green/20 text-xc-green"
-                  : "bg-gradient-to-r from-xc-purple to-xc-cyan text-white hover:opacity-90",
+                  : "bg-gradient-to-r from-white/20 to-white/5 text-white hover:opacity-90",
               )}
             >
               {saved ? (

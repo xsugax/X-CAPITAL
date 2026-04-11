@@ -11,10 +11,10 @@ const variants: Record<string, string> = {
   default: 'bg-white/10 text-white',
   success: 'bg-emerald-950/50 text-xc-green border border-emerald-800/30',
   danger: 'bg-red-950/50 text-xc-red border border-red-800/30',
-  warning: 'bg-amber-950/50 text-xc-gold-light border border-amber-800/30',
-  info: 'bg-cyan-950/50 text-xc-cyan border border-cyan-800/30',
-  purple: 'bg-purple-950/50 text-xc-purple-light border border-purple-800/30',
-  gold: 'bg-amber-950/50 text-xc-gold-light border border-amber-600/30',
+  warning: 'bg-white/[0.03]/50 text-xc-gold-light border border-amber-800/30',
+  info: 'bg-white/[0.02]/50 text-xc-cyan border border-white/[0.06]/30',
+  purple: 'bg-white/[0.02]/50 text-white/70 border border-white/[0.08]',
+  gold: 'bg-white/[0.03]/50 text-xc-gold-light border border-white/[0.10]/30',
 };
 
 const sizes: Record<string, string> = {

@@ -108,7 +108,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {/* Asset header */}
       <div className="flex items-center gap-3 pb-3 border-b border-xc-border">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-900 to-cyan-900 flex items-center justify-center text-sm font-black text-white">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-white/[0.06] to-white/[0.03] flex items-center justify-center text-sm font-black text-white">
           {asset.symbol[0]}
         </div>
         <div>
@@ -241,7 +241,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
                   className={cn(
                     "flex-1 py-1.5 rounded-lg text-xs font-bold transition-all",
                     pct === 1.0
-                      ? "bg-purple-900/40 hover:bg-purple-900/60 text-purple-300 hover:text-white border border-purple-500/30"
+                      ? "bg-white/[0.04]/40 hover:bg-white/[0.04]/60 text-white/70 hover:text-white border border-white/[0.10]/30"
                       : "bg-white/5 hover:bg-white/10 text-xc-muted hover:text-white",
                   )}
                 >
@@ -306,7 +306,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
 
       {/* Insufficient funds warning */}
       {side === "buy" && !hasSufficientFunds && estimatedCost > 0 && (
-        <div className="flex items-center gap-2 text-xs text-amber-400 bg-amber-950/30 border border-amber-700/40 rounded-xl px-3 py-2">
+        <div className="flex items-center gap-2 text-xs text-white/50 bg-white/[0.03] border border-white/[0.10]/40 rounded-xl px-3 py-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           Insufficient funds. Add cash to your wallet to continue.
         </div>
@@ -317,7 +317,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
         <div className="celebrate flex items-center gap-2 text-xs rounded-xl px-3 py-3 text-emerald-400 bg-emerald-950/40 border border-emerald-500/40">
           <div className="relative">
             <CheckCircle2 className="w-5 h-5 shrink-0" />
-            <Sparkles className="w-3 h-3 absolute -top-1 -right-1 text-amber-400 animate-pulse" />
+            <Sparkles className="w-3 h-3 absolute -top-1 -right-1 text-white/50 animate-pulse" />
           </div>
           <div>
             <div className="font-bold">{message.text}</div>

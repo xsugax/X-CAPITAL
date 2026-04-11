@@ -107,7 +107,7 @@ export default function AssetList({
             className={cn(
               "px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all",
               activeType === type
-                ? "bg-xc-purple text-white"
+                ? "bg-xc-purple text-black font-bold"
                 : "bg-white/5 text-xc-muted hover:text-white hover:bg-white/10",
             )}
           >
@@ -162,7 +162,7 @@ export default function AssetList({
                   >
                     {asset.symbol[0]}
                     {isHot && (
-                      <Flame className="w-2.5 h-2.5 text-amber-400 absolute -top-1 -right-1 animate-pulse" />
+                      <Flame className="w-2.5 h-2.5 text-white/50 absolute -top-1 -right-1 animate-pulse" />
                     )}
                   </div>
 
@@ -176,11 +176,11 @@ export default function AssetList({
                         className={cn(
                           "text-[8px] font-mono px-1 py-px rounded",
                           asset.type === "TOKEN"
-                            ? "bg-purple-900/50 text-purple-400"
+                            ? "bg-white/[0.04] text-white/60"
                             : asset.type === "CRYPTO"
-                              ? "bg-amber-900/50 text-amber-400"
+                              ? "bg-white/[0.04]/50 text-white/50"
                               : asset.type === "ETF"
-                                ? "bg-cyan-900/50 text-cyan-400"
+                                ? "bg-white/[0.04] text-white/50"
                                 : asset.type === "COMMODITY"
                                   ? "bg-orange-900/50 text-orange-400"
                                   : asset.type === "FUND"

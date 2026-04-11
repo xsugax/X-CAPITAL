@@ -145,8 +145,8 @@ export default function CommercePage() {
           {/* content */}
           <div className="relative z-10 px-8 py-8">
             <div className="flex items-center gap-2 mb-3">
-              <ShoppingCart className="w-5 h-5 text-xc-purple-light" />
-              <span className="text-sm font-bold text-xc-purple-light tracking-wide uppercase">
+              <ShoppingCart className="w-5 h-5 text-white/70" />
+              <span className="text-sm font-bold text-white/70 tracking-wide uppercase">
                 Commerce + Investment Rail
               </span>
               <Badge variant="purple" size="sm">
@@ -156,7 +156,7 @@ export default function CommercePage() {
             <h2 className="text-3xl font-black text-white mb-3 leading-tight">
               Buy Real Products.
               <br />
-              <span className="text-xc-purple-light">
+              <span className="text-white/70">
                 Own the Companies Behind Them.
               </span>
             </h2>
@@ -323,7 +323,7 @@ export default function CommercePage() {
               onClick={() => setActiveCategory(cat.key)}
               className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border transition-all duration-200 ${
                 activeCategory === cat.key
-                  ? "bg-xc-purple border-purple-500 text-white shadow-lg shadow-purple-900/30"
+                  ? "bg-xc-purple text-black font-bold border-transparent/[0.10] text-white shadow-lg shadow-black/50"
                   : "bg-xc-dark/60 border-xc-border text-xc-muted hover:border-xc-purple/40 hover:text-white"
               }`}
             >
@@ -412,7 +412,7 @@ export default function CommercePage() {
                   {selected.name}
                 </div>
                 {selected.tagline && (
-                  <div className="text-xs text-xc-purple-light">
+                  <div className="text-xs text-white/70">
                     {selected.tagline}
                   </div>
                 )}
@@ -487,7 +487,7 @@ export default function CommercePage() {
                         {formatCurrency(selected.investmentSuggestion.amount)}
                       </span>{" "}
                       in{" "}
-                      <span className="text-xc-purple-light font-semibold">
+                      <span className="text-white/70 font-semibold">
                         ${selected.investmentSuggestion.symbol} â€”{" "}
                         {selected.investmentSuggestion.name}
                       </span>

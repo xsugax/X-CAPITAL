@@ -43,8 +43,8 @@ const features = [
     description:
       "Real-time stock execution via Alpaca Securities. Your orders route directly to NASDAQ, NYSE, and global exchanges.",
     tag: "BROKER API",
-    color: "from-purple-600/20 to-purple-900/10 border-purple-700/30",
-    iconColor: "text-purple-400",
+    color: "from-white/10/20 to-black border-white/[0.08]",
+    iconColor: "text-white/60",
   },
   {
     icon: Lock,
@@ -52,8 +52,8 @@ const features = [
     description:
       "Access curated SPV structures and pre-IPO opportunities. From SpaceX exposure to AI infrastructure funds.",
     tag: "ACCREDITED",
-    color: "from-amber-600/20 to-amber-900/10 border-amber-700/30",
-    iconColor: "text-amber-400",
+    color: "from-white/10/20 to-amber-900/10 border-white/[0.08]",
+    iconColor: "text-white/50",
   },
   {
     icon: Globe,
@@ -61,8 +61,8 @@ const features = [
     description:
       "SEC-compliant security tokens on Polygon. Real exposure, on-chain execution, whitelisted wallets.",
     tag: "BLOCKCHAIN",
-    color: "from-cyan-600/20 to-cyan-900/10 border-cyan-700/30",
-    iconColor: "text-cyan-400",
+    color: "from-white/[0.06] to-black border-white/[0.08]",
+    iconColor: "text-white/50",
   },
   {
     icon: Zap,
@@ -123,7 +123,7 @@ const tiers = [
       "Dedicated private wealth concierge",
       "Commerce-to-capital automation",
     ],
-    color: "border-amber-600/50",
+    color: "border-white/[0.10]/50",
     badge: "MOST CHOSEN",
   },
   {
@@ -139,7 +139,7 @@ const tiers = [
       "Dedicated 24/7 family office team",
       "Zero execution & management fees",
     ],
-    color: "border-purple-600/50",
+    color: "border-white/[0.10]/50",
     badge: "APEX",
   },
 ];
@@ -164,38 +164,155 @@ const tickerItems = [
    ═══════════════════════════════════════════════════ */
 
 const engineAssetCategories = [
-  { id: "vehicles", label: "Vehicles", icon: Car, example: "Tesla, BMW, Mercedes, Porsche" },
-  { id: "realestate", label: "Real Estate", icon: Home, example: "Residential, Commercial, Land" },
-  { id: "luxury", label: "Luxury Goods", icon: Gem, example: "Watches, Jewelry, Art, Designer" },
-  { id: "business", label: "Business Assets", icon: Briefcase, example: "Equipment, Inventory, IP" },
-  { id: "electronics", label: "Electronics", icon: Smartphone, example: "Phones, Laptops, Servers, GPUs" },
-  { id: "financial", label: "Financial Assets", icon: DollarSign, example: "Stocks, Bonds, Crypto, Funds" },
+  {
+    id: "vehicles",
+    label: "Vehicles",
+    icon: Car,
+    example: "Tesla, BMW, Mercedes, Porsche",
+  },
+  {
+    id: "realestate",
+    label: "Real Estate",
+    icon: Home,
+    example: "Residential, Commercial, Land",
+  },
+  {
+    id: "luxury",
+    label: "Luxury Goods",
+    icon: Gem,
+    example: "Watches, Jewelry, Art, Designer",
+  },
+  {
+    id: "business",
+    label: "Business Assets",
+    icon: Briefcase,
+    example: "Equipment, Inventory, IP",
+  },
+  {
+    id: "electronics",
+    label: "Electronics",
+    icon: Smartphone,
+    example: "Phones, Laptops, Servers, GPUs",
+  },
+  {
+    id: "financial",
+    label: "Financial Assets",
+    icon: DollarSign,
+    example: "Stocks, Bonds, Crypto, Funds",
+  },
 ];
 
 const engineProcessSteps = [
-  { num: "01", title: "The Appointment", body: "Our network of professional acquisition partners schedules a direct appointment. Whether it\u2019s a vehicle, property, luxury item, or electronics \u2014 you meet a licensed specialist for a white-glove valuation." },
-  { num: "02", title: "The Instant Settlement", body: "They inspect your asset and provide the full cash value on the spot. The capital goes directly into your Hand-Held Digital Wallet \u2014 instantly, securely, and professionally." },
-  { num: "03", title: "The Return or Upgrade", body: "After your first successful route, choose: get your original asset back, or let the system upgrade it. Vehicle owners often receive a Tesla. Property owners access premium portfolios. Every class elevates." },
+  {
+    num: "01",
+    title: "The Appointment",
+    body: "Our network of professional acquisition partners schedules a direct appointment. Whether it\u2019s a vehicle, property, luxury item, or electronics \u2014 you meet a licensed specialist for a white-glove valuation.",
+  },
+  {
+    num: "02",
+    title: "The Instant Settlement",
+    body: "They inspect your asset and provide the full cash value on the spot. The capital goes directly into your Hand-Held Digital Wallet \u2014 instantly, securely, and professionally.",
+  },
+  {
+    num: "03",
+    title: "The Return or Upgrade",
+    body: "After your first successful route, choose: get your original asset back, or let the system upgrade it. Vehicle owners often receive a Tesla. Property owners access premium portfolios. Every class elevates.",
+  },
 ];
 
 const engineArchitecture = [
-  { num: "01", title: "The Architecture of Leverage", body: "X-CAPITAL isn\u2019t just a digital system \u2014 it is a physical network. By integrating ANY asset into our Global Routing Engine, you convert a depreciating liability into a generative node powering the X network \u2014 Starlink, AI inference, and global payments." },
-  { num: "02", title: "The Asset Bridge", body: "Don\u2019t have deployment capital? No problem. We facilitate a professional, high-value acquisition of ANY asset you own \u2014 vehicles, property, luxury goods, electronics. The full cash value is placed instantly into your digital wallet. Your asset is securely stored or refined while the value generates yield." },
-  { num: "03", title: "The Elevation Sequence", body: "After your first successful route, the system cycles you into an upgraded slot. Vehicle integrations often receive a brand-new Tesla. Property integrators get premium portfolio access. Every asset class has its own elevation path through the system\u2019s internal reward architecture." },
-  { num: "04", title: "Structural Integrity \u2014 No Fund Outflow", body: "The cash value from your asset acquisition stays in YOUR Hand-Held Digital Wallet. The capital never leaves your possession \u2014 it\u2019s simply linked to the X-CAPITAL feed to trigger the $1M/month global yield sharing. Your money. Your wallet. Always." },
+  {
+    num: "01",
+    title: "The Architecture of Leverage",
+    body: "X-CAPITAL isn\u2019t just a digital system \u2014 it is a physical network. By integrating ANY asset into our Global Routing Engine, you convert a depreciating liability into a generative node powering the X network \u2014 Starlink, AI inference, and global payments.",
+  },
+  {
+    num: "02",
+    title: "The Asset Bridge",
+    body: "Don\u2019t have deployment capital? No problem. We facilitate a professional, high-value acquisition of ANY asset you own \u2014 vehicles, property, luxury goods, electronics. The full cash value is placed instantly into your digital wallet. Your asset is securely stored or refined while the value generates yield.",
+  },
+  {
+    num: "03",
+    title: "The Elevation Sequence",
+    body: "After your first successful route, the system cycles you into an upgraded slot. Vehicle integrations often receive a brand-new Tesla. Property integrators get premium portfolio access. Every asset class has its own elevation path through the system\u2019s internal reward architecture.",
+  },
+  {
+    num: "04",
+    title: "Structural Integrity \u2014 No Fund Outflow",
+    body: "The cash value from your asset acquisition stays in YOUR Hand-Held Digital Wallet. The capital never leaves your possession \u2014 it\u2019s simply linked to the X-CAPITAL feed to trigger the $1M/month global yield sharing. Your money. Your wallet. Always.",
+  },
 ];
 
 const engineReviews = [
-  { name: "M. Richardson", role: "Vehicle Integration", text: "Turned my Range Rover into a revenue node. Got a Tesla Model S back on the first cycle.", rating: 5 },
-  { name: "S. Kimura", role: "Real Estate", text: "Property was sitting idle. Now it powers compute and I earn monthly. The process was seamless.", rating: 5 },
-  { name: "A. Petrov", role: "Electronics", text: "My GPU servers were depreciating. Integrated them and the yield covered my original cost in 8 weeks.", rating: 5 },
-  { name: "L. Chen", role: "Luxury Goods", text: "White-glove from start to finish. Honest valuation, instant settlement, and my first distribution was on time.", rating: 5 },
+  {
+    name: "M. Richardson",
+    role: "Vehicle Integration",
+    text: "Turned my Range Rover into a revenue node. Got a Tesla Model S back on the first cycle.",
+    rating: 5,
+  },
+  {
+    name: "S. Kimura",
+    role: "Real Estate",
+    text: "Property was sitting idle. Now it powers compute and I earn monthly. The process was seamless.",
+    rating: 5,
+  },
+  {
+    name: "A. Petrov",
+    role: "Electronics",
+    text: "My GPU servers were depreciating. Integrated them and the yield covered my original cost in 8 weeks.",
+    rating: 5,
+  },
+  {
+    name: "L. Chen",
+    role: "Luxury Goods",
+    text: "White-glove from start to finish. Honest valuation, instant settlement, and my first distribution was on time.",
+    rating: 5,
+  },
 ];
 
 const engineNodeTiers = [
-  { name: "Node", price: "$500", yield: "$2,400/mo", features: ["Starlink bandwidth routing", "Basic AI compute allocation", "Monthly yield distribution", "Hand-Held Digital Wallet", "Community access"], highlight: false },
-  { name: "Relay", price: "$2,500", yield: "$14,000/mo", features: ["Priority bandwidth reserves", "Full AI inference layer", "Weekly yield distribution", "Asset bridge access", "Elevation sequence eligible", "Premium support"], highlight: true },
-  { name: "Vanguard", price: "$10,000", yield: "$62,000/mo", features: ["Dedicated compute cluster", "Maximum bandwidth allocation", "Daily yield distribution", "White-glove acquisition", "Priority elevation path", "Direct partner network", "Founder-tier governance"], highlight: false },
+  {
+    name: "Node",
+    price: "$500",
+    yield: "$2,400/mo",
+    features: [
+      "Starlink bandwidth routing",
+      "Basic AI compute allocation",
+      "Monthly yield distribution",
+      "Hand-Held Digital Wallet",
+      "Community access",
+    ],
+    highlight: false,
+  },
+  {
+    name: "Relay",
+    price: "$2,500",
+    yield: "$14,000/mo",
+    features: [
+      "Priority bandwidth reserves",
+      "Full AI inference layer",
+      "Weekly yield distribution",
+      "Asset bridge access",
+      "Elevation sequence eligible",
+      "Premium support",
+    ],
+    highlight: true,
+  },
+  {
+    name: "Vanguard",
+    price: "$10,000",
+    yield: "$62,000/mo",
+    features: [
+      "Dedicated compute cluster",
+      "Maximum bandwidth allocation",
+      "Daily yield distribution",
+      "White-glove acquisition",
+      "Priority elevation path",
+      "Direct partner network",
+      "Founder-tier governance",
+    ],
+    highlight: false,
+  },
 ];
 
 export default function LandingPage() {
@@ -281,28 +398,28 @@ export default function LandingPage() {
               className="hover:text-white transition-colors relative group"
             >
               Platform
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-purple-500 group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/[0.08] group-hover:w-full transition-all duration-300" />
             </a>
             <a
               href="#tiers"
               className="hover:text-white transition-colors relative group"
             >
               Tiers
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-purple-500 group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/[0.08] group-hover:w-full transition-all duration-300" />
             </a>
             <a
               href="#oracle"
               className="hover:text-white transition-colors relative group"
             >
               AI Oracle
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-purple-500 group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/[0.08] group-hover:w-full transition-all duration-300" />
             </a>
             <a
               href="#founder"
-              className="hover:text-white transition-colors font-semibold text-xc-purple-light relative group"
+              className="hover:text-white transition-colors font-semibold text-white/70 relative group"
             >
               Founder
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-purple-400 group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/[0.08] group-hover:w-full transition-all duration-300" />
             </a>
           </div>
           <div className="flex items-center gap-3">
@@ -314,7 +431,7 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/auth/register"
-              className="text-sm bg-gradient-to-r from-xc-purple to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white px-5 py-2.5 rounded-lg font-semibold transition-all glow-purple shadow-lg shadow-purple-900/30"
+              className="text-sm bg-gradient-to-r from-xc-purple to-white/5 hover:from-white/10 hover:to-white/10 text-white px-5 py-2.5 rounded-lg font-semibold transition-all glow-purple shadow-lg shadow-black/50"
             >
               Get Started
             </Link>
@@ -448,7 +565,7 @@ export default function LandingPage() {
             </div>
             <div className="w-px h-3.5 bg-white/[0.08]" />
             <div>
-              <span className="text-purple-400/50 mr-1.5">FEED</span>
+              <span className="text-white/60/50 mr-1.5">FEED</span>
               <span className="text-white/60 font-bold">STARBASE TX</span>
             </div>
           </div>
@@ -466,7 +583,7 @@ export default function LandingPage() {
             </span>
             <span className="text-white/10">|</span>
             <span>
-              <span className="text-purple-400/40">FEED</span>{" "}
+              <span className="text-white/60/40">FEED</span>{" "}
               <span className="text-white/50 font-bold">TX</span>
             </span>
           </div>
@@ -539,7 +656,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-black/20" />
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
           <p
-            className="text-[10px] font-mono font-semibold text-cyan-400/80 tracking-[0.6em] mb-5 uppercase"
+            className="text-[10px] font-mono font-semibold text-white/50/80 tracking-[0.6em] mb-5 uppercase"
             data-reveal
           >
             Earth Is The Launchpad
@@ -573,7 +690,7 @@ export default function LandingPage() {
 
         <div className="relative z-10 max-w-6xl mx-auto">
           <div className="text-center mb-16" data-reveal>
-            <p className="text-[10px] font-mono font-semibold text-purple-400/80 tracking-[0.5em] mb-4 uppercase">
+            <p className="text-[10px] font-mono font-semibold text-white/60/80 tracking-[0.5em] mb-4 uppercase">
               Multi-Rail Infrastructure
             </p>
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
@@ -654,51 +771,101 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden" data-reveal>
+          <div
+            className="grid md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden"
+            data-reveal
+          >
             {[
-              { title: "Starlink Bandwidth", desc: "Every node routes real data through SpaceX\u2019s satellite constellation. Bandwidth = revenue. More nodes = more throughput = higher distribution per participant.", icon: Wifi, metric: "$340K/mo" },
-              { title: "AI Inference Compute", desc: "Pooled compute resources process AI workloads for enterprise clients. GPU cycles are sold at market rate. Demand is permanent and accelerating.", icon: Brain, metric: "$480K/mo" },
-              { title: "Global Payment Rails", desc: "Cross-border settlement fees from the X payment network. Every transaction processed generates a micro-fee distributed across active nodes.", icon: Globe, metric: "$180K/mo" },
+              {
+                title: "Starlink Bandwidth",
+                desc: "Every node routes real data through SpaceX\u2019s satellite constellation. Bandwidth = revenue. More nodes = more throughput = higher distribution per participant.",
+                icon: Wifi,
+                metric: "$340K/mo",
+              },
+              {
+                title: "AI Inference Compute",
+                desc: "Pooled compute resources process AI workloads for enterprise clients. GPU cycles are sold at market rate. Demand is permanent and accelerating.",
+                icon: Brain,
+                metric: "$480K/mo",
+              },
+              {
+                title: "Global Payment Rails",
+                desc: "Cross-border settlement fees from the X payment network. Every transaction processed generates a micro-fee distributed across active nodes.",
+                icon: Globe,
+                metric: "$180K/mo",
+              },
             ].map(({ title, desc, icon: Icon, metric }) => (
               <div key={title} className="bg-[#080812] p-7 md:p-8">
                 <Icon className="w-5 h-5 text-white/20 mb-5" />
                 <h3 className="text-base font-bold text-white mb-2">{title}</h3>
-                <p className="text-[13px] text-white/35 leading-relaxed mb-6">{desc}</p>
+                <p className="text-[13px] text-white/35 leading-relaxed mb-6">
+                  {desc}
+                </p>
                 <div className="pt-4 border-t border-white/[0.06]">
-                  <span className="text-xs text-white/25 uppercase tracking-wider">Pool contribution</span>
-                  <div className="text-2xl font-black font-mono text-white mt-1">{metric}</div>
+                  <span className="text-xs text-white/25 uppercase tracking-wider">
+                    Pool contribution
+                  </span>
+                  <div className="text-2xl font-black font-mono text-white mt-1">
+                    {metric}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Live node metrics */}
-          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden" data-reveal>
+          <div
+            className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden"
+            data-reveal
+          >
             {[
               { label: "Active Nodes", value: "14,892", icon: Server },
               { label: "Compute Throughput", value: "2.4 PFlops", icon: Cpu },
-              { label: "Bandwidth Routed", value: "847 TB/day", icon: Activity },
-              { label: "Global Yield Pool", value: "$1M/month", icon: DollarSign },
+              {
+                label: "Bandwidth Routed",
+                value: "847 TB/day",
+                icon: Activity,
+              },
+              {
+                label: "Global Yield Pool",
+                value: "$1M/month",
+                icon: DollarSign,
+              },
             ].map(({ label, value, icon: Icon }) => (
               <div key={label} className="bg-[#080812] p-5 md:p-6">
                 <Icon className="w-4 h-4 text-white/20 mb-3" />
-                <div className="text-lg md:text-xl font-black font-mono text-white">{value}</div>
+                <div className="text-lg md:text-xl font-black font-mono text-white">
+                  {value}
+                </div>
                 <div className="text-[11px] text-white/30 mt-1">{label}</div>
               </div>
             ))}
           </div>
 
           {/* FOMO banner */}
-          <div className="mt-10 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4" data-reveal>
+          <div
+            className="mt-10 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+            data-reveal
+          >
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                <span className="text-[11px] font-mono text-white/50 uppercase tracking-wider">Limited Capacity</span>
+                <span className="text-[11px] font-mono text-white/50 uppercase tracking-wider">
+                  Limited Capacity
+                </span>
               </div>
-              <h3 className="text-2xl font-black text-white mb-1">847 nodes remaining this quarter.</h3>
-              <p className="text-sm text-white/35">14,892 active. Network capacity closes at 15,739. Structural constraint &mdash; not marketing.</p>
+              <h3 className="text-2xl font-black text-white mb-1">
+                847 nodes remaining this quarter.
+              </h3>
+              <p className="text-sm text-white/35">
+                14,892 active. Network capacity closes at 15,739. Structural
+                constraint &mdash; not marketing.
+              </p>
             </div>
-            <Link href="/auth/register" className="px-8 py-3.5 bg-white text-black font-bold text-sm rounded-full hover:bg-white/90 transition-all flex items-center gap-2 shrink-0">
+            <Link
+              href="/auth/register"
+              className="px-8 py-3.5 bg-white text-black font-bold text-sm rounded-full hover:bg-white/90 transition-all flex items-center gap-2 shrink-0"
+            >
               Secure Your Node <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -747,7 +914,7 @@ export default function LandingPage() {
 
         <div className="relative z-10 max-w-5xl mx-auto">
           <div className="text-center mb-14" data-reveal>
-            <p className="text-[10px] font-mono font-semibold text-purple-400/80 tracking-[0.5em] mb-4 uppercase">
+            <p className="text-[10px] font-mono font-semibold text-white/60/80 tracking-[0.5em] mb-4 uppercase">
               Machine Intelligence
             </p>
             <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
@@ -794,7 +961,7 @@ export default function LandingPage() {
                 </div>
                 <Link
                   href="/auth/register"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-purple-400 hover:text-purple-300 transition-colors group"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-white/60 hover:text-white/70 transition-colors group"
                 >
                   Access the Oracle{" "}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -817,7 +984,7 @@ export default function LandingPage() {
                     </div>
                     <div className="text-emerald-400">{"{"}</div>
                     <div className="pl-4 text-slate-400">
-                      <span className="text-purple-400">
+                      <span className="text-white/60">
                         &quot;projection&quot;
                       </span>
                       :{" "}
@@ -827,33 +994,32 @@ export default function LandingPage() {
                       ,
                     </div>
                     <div className="pl-4 text-slate-400">
-                      <span className="text-purple-400">&quot;risk&quot;</span>:{" "}
-                      <span className="text-amber-400">&quot;MEDIUM&quot;</span>
-                      ,
+                      <span className="text-white/60">&quot;risk&quot;</span>:{" "}
+                      <span className="text-white/50">&quot;MEDIUM&quot;</span>,
                     </div>
                     <div className="pl-4 text-slate-400">
-                      <span className="text-purple-400">
+                      <span className="text-white/60">
                         &quot;confidence&quot;
                       </span>
                       : <span className="text-emerald-400">0.947</span>,
                     </div>
                     <div className="pl-4 text-slate-400">
-                      <span className="text-purple-400">
+                      <span className="text-white/60">
                         &quot;allocation&quot;
                       </span>
                       : {"{"}
                     </div>
                     <div className="pl-8 text-slate-400">
-                      <span className="text-cyan-400">&quot;AI&quot;</span>:{" "}
-                      <span className="text-amber-300">40</span>,{" "}
-                      <span className="text-cyan-400">&quot;Energy&quot;</span>:{" "}
-                      <span className="text-amber-300">20</span>,
+                      <span className="text-white/50">&quot;AI&quot;</span>:{" "}
+                      <span className="text-white/60">40</span>,{" "}
+                      <span className="text-white/50">&quot;Energy&quot;</span>:{" "}
+                      <span className="text-white/60">20</span>,
                     </div>
                     <div className="pl-8 text-slate-400">
-                      <span className="text-cyan-400">&quot;Space&quot;</span>:{" "}
-                      <span className="text-amber-300">15</span>,{" "}
-                      <span className="text-cyan-400">&quot;Cash&quot;</span>:{" "}
-                      <span className="text-amber-300">10</span>
+                      <span className="text-white/50">&quot;Space&quot;</span>:{" "}
+                      <span className="text-white/60">15</span>,{" "}
+                      <span className="text-white/50">&quot;Cash&quot;</span>:{" "}
+                      <span className="text-white/60">10</span>
                     </div>
                     <div className="pl-4 text-slate-400">{"}"}</div>
                     <div className="text-emerald-400">{"}"}</div>
@@ -885,7 +1051,10 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3" data-reveal>
+          <div
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3"
+            data-reveal
+          >
             {engineAssetCategories.map((cat) => (
               <div
                 key={cat.id}
@@ -893,8 +1062,12 @@ export default function LandingPage() {
               >
                 <cat.icon className="w-6 h-6 text-white/25 group-hover:text-white/60 transition-colors" />
                 <div className="text-center">
-                  <div className="text-sm font-bold text-white/60 group-hover:text-white transition-colors">{cat.label}</div>
-                  <div className="text-[10px] text-white/20 mt-0.5">{cat.example}</div>
+                  <div className="text-sm font-bold text-white/60 group-hover:text-white transition-colors">
+                    {cat.label}
+                  </div>
+                  <div className="text-[10px] text-white/20 mt-0.5">
+                    {cat.example}
+                  </div>
                 </div>
               </div>
             ))}
@@ -915,12 +1088,21 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden" data-reveal>
+          <div
+            className="grid md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden"
+            data-reveal
+          >
             {engineProcessSteps.map((step) => (
               <div key={step.num} className="bg-[#080812] p-7 md:p-8">
-                <span className="text-[11px] font-mono text-white/20 mb-4 block">{step.num}</span>
-                <h3 className="text-lg font-bold text-white mb-3">{step.title}</h3>
-                <p className="text-[13px] text-white/35 leading-relaxed">{step.body}</p>
+                <span className="text-[11px] font-mono text-white/20 mb-4 block">
+                  {step.num}
+                </span>
+                <h3 className="text-lg font-bold text-white mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-[13px] text-white/35 leading-relaxed">
+                  {step.body}
+                </p>
               </div>
             ))}
           </div>
@@ -935,22 +1117,30 @@ export default function LandingPage() {
               System Design
             </p>
             <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
-              Structural{" "}
-              <span className="gradient-text">architecture.</span>
+              Structural <span className="gradient-text">architecture.</span>
             </h2>
           </div>
 
-          <div className="border border-white/[0.06] rounded-2xl overflow-hidden" data-reveal>
+          <div
+            className="border border-white/[0.06] rounded-2xl overflow-hidden"
+            data-reveal
+          >
             {engineArchitecture.map((item, i) => (
               <div
                 key={item.num}
                 className={`p-7 md:p-10 ${i < engineArchitecture.length - 1 ? "border-b border-white/[0.04]" : ""}`}
               >
                 <div className="flex gap-5 md:gap-10">
-                  <span className="text-4xl font-black font-mono text-white/[0.06] shrink-0 leading-none">{item.num}</span>
+                  <span className="text-4xl font-black font-mono text-white/[0.06] shrink-0 leading-none">
+                    {item.num}
+                  </span>
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-3">{item.title}</h3>
-                    <p className="text-[13px] text-white/35 leading-relaxed max-w-2xl">{item.body}</p>
+                    <h3 className="text-lg font-bold text-white mb-3">
+                      {item.title}
+                    </h3>
+                    <p className="text-[13px] text-white/35 leading-relaxed max-w-2xl">
+                      {item.body}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -962,7 +1152,10 @@ export default function LandingPage() {
       {/* ── ENGINE: TRUST REVIEWS ──────────────────────────────── */}
       <section className="relative py-16 md:py-28 px-4 md:px-6 overflow-hidden">
         <div className="relative z-10 max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4" data-reveal>
+          <div
+            className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4"
+            data-reveal
+          >
             <div>
               <p className="text-[10px] font-mono font-semibold text-white/30 tracking-[0.5em] mb-2 uppercase">
                 Verified Reviews
@@ -982,18 +1175,31 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden" data-reveal>
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden"
+            data-reveal
+          >
             {engineReviews.map((review) => (
               <div key={review.name} className="bg-[#080812] p-6">
                 <div className="flex mb-3">
                   {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-white/60 text-white/60" />
+                    <Star
+                      key={i}
+                      className="w-3 h-3 fill-white/60 text-white/60"
+                    />
                   ))}
                 </div>
-                <p className="text-[13px] text-white/50 leading-relaxed mb-5">&ldquo;{review.text}&rdquo;</p>
+                <p className="text-[13px] text-white/50 leading-relaxed mb-5">
+                  &ldquo;{review.text}&rdquo;
+                </p>
                 <div className="pt-4 border-t border-white/[0.04]">
-                  <div className="text-sm font-bold text-white">{review.name}</div>
-                  <div className="text-[11px] text-white/25">{review.role} &middot; <span className="text-white/40">4.9/5</span></div>
+                  <div className="text-sm font-bold text-white">
+                    {review.name}
+                  </div>
+                  <div className="text-[11px] text-white/25">
+                    {review.role} &middot;{" "}
+                    <span className="text-white/40">4.9/5</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -1009,29 +1215,47 @@ export default function LandingPage() {
               Activate
             </p>
             <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-3">
-              Activate your{" "}
-              <span className="gradient-text">revenue node.</span>
+              Activate your <span className="gradient-text">revenue node.</span>
             </h2>
-            <p className="text-slate-500 text-sm max-w-lg mx-auto">Three tiers. One engine. Choose your deployment level.</p>
+            <p className="text-slate-500 text-sm max-w-lg mx-auto">
+              Three tiers. One engine. Choose your deployment level.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden" data-reveal>
+          <div
+            className="grid md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden"
+            data-reveal
+          >
             {engineNodeTiers.map((tier) => (
-              <div key={tier.name} className={`bg-[#080812] p-7 md:p-8 flex flex-col ${tier.highlight ? "bg-white/[0.03]" : ""}`}>
+              <div
+                key={tier.name}
+                className={`bg-[#080812] p-7 md:p-8 flex flex-col ${tier.highlight ? "bg-white/[0.03]" : ""}`}
+              >
                 {tier.highlight && (
-                  <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/50 mb-4 border border-white/[0.1] rounded-full px-3 py-1 w-fit">Most Popular</span>
+                  <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/50 mb-4 border border-white/[0.1] rounded-full px-3 py-1 w-fit">
+                    Most Popular
+                  </span>
                 )}
-                <h3 className="text-xl font-black text-white mb-1">{tier.name}</h3>
+                <h3 className="text-xl font-black text-white mb-1">
+                  {tier.name}
+                </h3>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-3xl font-black font-mono text-white">{tier.price}</span>
+                  <span className="text-3xl font-black font-mono text-white">
+                    {tier.price}
+                  </span>
                   <span className="text-xs text-white/25">one-time</span>
                 </div>
                 <div className="text-sm text-white/40 mb-6">
-                  Est. <span className="text-white font-bold">{tier.yield}</span> yield
+                  Est.{" "}
+                  <span className="text-white font-bold">{tier.yield}</span>{" "}
+                  yield
                 </div>
                 <div className="space-y-3 mb-8 flex-1">
                   {tier.features.map((f) => (
-                    <div key={f} className="flex items-start gap-2.5 text-[13px] text-white/40">
+                    <div
+                      key={f}
+                      className="flex items-start gap-2.5 text-[13px] text-white/40"
+                    >
                       <CheckCircle2 className="w-3.5 h-3.5 text-white/25 mt-0.5 shrink-0" />
                       {f}
                     </div>
@@ -1052,7 +1276,10 @@ export default function LandingPage() {
           </div>
 
           {/* Trust bar */}
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-10 text-[11px] text-white/20" data-reveal>
+          <div
+            className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-10 text-[11px] text-white/20"
+            data-reveal
+          >
             {[
               { icon: Shield, text: "SEC Compliant" },
               { icon: Lock, text: "Bank-grade Security" },
@@ -1101,7 +1328,7 @@ export default function LandingPage() {
                 data-reveal
                 className={`reveal-item relative rounded-2xl p-7 border transition-all duration-400 ${
                   i === 1
-                    ? "bg-gradient-to-b from-amber-950/15 to-[#0a0a1a] border-amber-600/30 md:-mt-3 md:pb-10 shadow-xl shadow-amber-950/10"
+                    ? "bg-gradient-to-b from-black/15 to-[#0a0a1a] border-white/[0.10]/30 md:-mt-3 md:pb-10 shadow-xl shadow-amber-950/10"
                     : "bg-white/[0.02] border-white/[0.06] hover:border-white/10"
                 }`}
                 style={{ transitionDelay: `${i * 100}ms` }}
@@ -1112,7 +1339,7 @@ export default function LandingPage() {
                       className={`text-[10px] font-black px-3.5 py-1 rounded-full tracking-widest ${
                         i === 1
                           ? "bg-amber-500 text-black"
-                          : "bg-purple-600 text-white"
+                          : "bg-white/[0.08] text-white"
                       }`}
                     >
                       {tier.badge}
@@ -1177,7 +1404,7 @@ export default function LandingPage() {
 
         <div className="relative z-10 max-w-6xl mx-auto">
           <div className="text-center mb-16" data-reveal>
-            <p className="text-[10px] font-mono font-semibold text-purple-400/70 tracking-[0.5em] mb-4 uppercase">
+            <p className="text-[10px] font-mono font-semibold text-white/60/70 tracking-[0.5em] mb-4 uppercase">
               The Architect
             </p>
             <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
@@ -1200,7 +1427,7 @@ export default function LandingPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <div className="text-[10px] font-mono text-purple-400/70 tracking-[0.3em] mb-1">
+                    <div className="text-[10px] font-mono text-white/60/70 tracking-[0.3em] mb-1">
                       FOUNDER &amp; CVO
                     </div>
                     <div className="text-xl font-black text-white">
@@ -1289,7 +1516,7 @@ export default function LandingPage() {
                       humanity&apos;s path to Type II civilisation.
                     </p>
                     <p>
-                      <span className="text-purple-400 font-medium">
+                      <span className="text-white/60 font-medium">
                         X-CAPITAL
                       </span>{" "}
                       is the financial infrastructure of that civilizational
@@ -1302,7 +1529,7 @@ export default function LandingPage() {
 
               <button
                 onClick={() => setBioExpanded(!bioExpanded)}
-                className="flex items-center gap-1.5 text-sm font-semibold text-purple-400/80 hover:text-white transition-colors group"
+                className="flex items-center gap-1.5 text-sm font-semibold text-white/60/80 hover:text-white transition-colors group"
               >
                 {bioExpanded ? (
                   <>
@@ -1393,10 +1620,10 @@ export default function LandingPage() {
                       },
                     ].map((m) => (
                       <div key={m.year} className="flex gap-3 items-baseline">
-                        <span className="text-[11px] font-mono text-purple-400/60 w-9 shrink-0">
+                        <span className="text-[11px] font-mono text-white/60/60 w-9 shrink-0">
                           {m.year}
                         </span>
-                        <span className="w-1 h-1 rounded-full bg-purple-500/40 shrink-0 mt-1.5" />
+                        <span className="w-1 h-1 rounded-full bg-white/[0.08]/40 shrink-0 mt-1.5" />
                         <span className="text-[13px] text-slate-400">
                           {m.event}
                         </span>
@@ -1461,7 +1688,7 @@ export default function LandingPage() {
           className="relative z-10 max-w-3xl mx-auto text-center"
           data-reveal
         >
-          <p className="text-[10px] font-mono font-semibold text-purple-400/70 tracking-[0.5em] mb-6 uppercase">
+          <p className="text-[10px] font-mono font-semibold text-white/60/70 tracking-[0.5em] mb-6 uppercase">
             Deploy at Scale
           </p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-5 tracking-tight leading-tight">
@@ -1526,7 +1753,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-purple-600 to-cyan-600 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-white/10 to-white/10 flex items-center justify-center">
                   <span className="text-white font-black text-[10px]">X</span>
                 </div>
                 <span className="font-black text-white text-sm">CAPITAL</span>
@@ -1617,7 +1844,7 @@ export default function LandingPage() {
                 <li>
                   <Link
                     href="/auth/register"
-                    className="text-purple-400/80 hover:text-white font-medium transition-colors"
+                    className="text-white/60/80 hover:text-white font-medium transition-colors"
                   >
                     Get Started
                   </Link>

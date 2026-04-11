@@ -351,7 +351,7 @@ export default function PortfolioPage() {
           {/* Monthly Returns */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
-              <BarChart3 className="w-4 h-4 text-purple-400" />
+              <BarChart3 className="w-4 h-4 text-white/60" />
               <h3 className="font-black text-white text-base">Monthly Returns</h3>
               <span className="text-xs text-xc-muted ml-auto">
                 2026 YTD
@@ -552,7 +552,7 @@ export default function PortfolioPage() {
         {/* ── Risk Metrics ── */}
         <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
           <div className="flex items-center gap-2 mb-5">
-            <Target className="w-4 h-4 text-amber-400" />
+            <Target className="w-4 h-4 text-white/50" />
             <h3 className="font-black text-white text-base">Risk Metrics</h3>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">

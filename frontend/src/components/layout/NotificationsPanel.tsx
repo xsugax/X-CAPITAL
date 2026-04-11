@@ -48,11 +48,11 @@ const NOTIF_STYLES: Record<
   },
   security: {
     icon: <ShieldCheck className="w-4 h-4" />,
-    color: "bg-amber-500/20 text-amber-400",
+    color: "bg-amber-500/20 text-white/50",
   },
   ai: {
     icon: <Cpu className="w-4 h-4" />,
-    color: "bg-purple-500/20 text-purple-400",
+    color: "bg-white/[0.06] text-white/60",
   },
   commerce: {
     icon: <ShoppingBag className="w-4 h-4" />,
@@ -213,7 +213,7 @@ export default function NotificationsPanel({
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-bold text-white">Notifications</h3>
           {unreadCount > 0 && (
-            <span className="text-[10px] font-bold bg-xc-purple/20 text-xc-purple-light px-1.5 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold bg-xc-purple/20 text-white/70 px-1.5 py-0.5 rounded-full">
               {unreadCount} new
             </span>
           )}

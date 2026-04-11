@@ -288,7 +288,7 @@ export default function FundsPage() {
           {/* Risk vs Return Scatter */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
-              <Target className="w-4 h-4 text-cyan-400" />
+              <Target className="w-4 h-4 text-white/50" />
               <h3 className="font-black text-white text-base">Risk vs. Return</h3>
               <span className="text-xs text-xc-muted ml-auto">
                 All funds
@@ -358,7 +358,7 @@ export default function FundsPage() {
           {/* Fund Performance Comparison */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
-              <BarChart3 className="w-4 h-4 text-purple-400" />
+              <BarChart3 className="w-4 h-4 text-white/60" />
               <h3 className="font-black text-white text-base">
                 Fund Performance Comparison
               </h3>
@@ -487,10 +487,10 @@ export default function FundsPage() {
         </div>
 
         {/* ── Accreditation note ── */}
-        <div className="flex items-start gap-4 bg-amber-950/20 border border-amber-700/30 rounded-xl p-5 text-sm">
-          <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-4 bg-white/[0.02] border border-white/[0.08] rounded-xl p-5 text-sm">
+          <AlertCircle className="w-5 h-5 text-white/50 shrink-0 mt-0.5" />
           <div>
-            <span className="text-amber-400 font-semibold">
+            <span className="text-white/50 font-semibold">
               Accredited Investors Only.
             </span>
             <span className="text-xc-muted ml-2">

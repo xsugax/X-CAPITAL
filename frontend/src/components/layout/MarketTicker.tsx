@@ -98,15 +98,7 @@ export default function MarketTicker() {
               <span
                 className={cn(
                   "text-[8px] font-mono px-1 py-px rounded",
-                  item.tag === "PRIVATE"
-                    ? "bg-purple-900/50 text-purple-400"
-                    : item.tag === "CRYPTO"
-                      ? "bg-amber-900/50 text-amber-400"
-                      : item.tag === "ETF"
-                        ? "bg-cyan-900/50 text-cyan-400"
-                        : item.tag === "COMMOD"
-                          ? "bg-yellow-900/50 text-yellow-400"
-                          : "bg-white/10 text-white/50",
+                  "bg-white/[0.06] text-white/40",
                 )}
               >
                 {item.tag}

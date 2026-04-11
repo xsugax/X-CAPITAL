@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import { useState } from "react";
@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import type { Investment } from "@/types";
 
-/* â”€â”€ per-risk config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── per-risk config ──────────────────────────────────────────────────────── */
 const RISK_CONFIG: Record<
   string,
   { label: string; variant: "success" | "warning" | "danger" }
@@ -28,7 +28,7 @@ const RISK_CONFIG: Record<
   HIGH: { label: "High Risk", variant: "danger" },
 };
 
-/* â”€â”€ per-category visual config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── per-category visual config ─────────────────────────────────────────── */
 const CAT_CONFIG: Record<
   string,
   {
@@ -42,32 +42,32 @@ const CAT_CONFIG: Record<
   }
 > = {
   SPACE: {
-    grad: "from-indigo-950/80 via-xc-card to-xc-card",
+    grad: "from-zinc-950/80 via-xc-card to-xc-card",
     border: "hover:border-indigo-500/50",
     glow: "hover:shadow-indigo-900/30",
     icon: <Rocket className="w-4 h-4 text-indigo-300" />,
     emoji: "\u{1F680}",
-    headerBg: "from-indigo-950 to-purple-950",
+    headerBg: "from-zinc-950 to-black",
     imageUrl:
       "https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=640&q=70&auto=format&fit=crop",
   },
   AI: {
-    grad: "from-purple-950/80 via-xc-card to-xc-card",
-    border: "hover:border-purple-500/50",
-    glow: "hover:shadow-purple-900/30",
-    icon: <Cpu className="w-4 h-4 text-xc-purple-light" />,
+    grad: "from-black via-xc-card to-xc-card",
+    border: "hover:border-white/[0.10]/50",
+    glow: "hover:shadow-black/50/30",
+    icon: <Cpu className="w-4 h-4 text-white/70" />,
     emoji: "\u{1F916}",
-    headerBg: "from-purple-950 to-indigo-950",
+    headerBg: "from-black to-zinc-950",
     imageUrl:
       "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=640&q=70&auto=format&fit=crop",
   },
   ENERGY: {
-    grad: "from-amber-950/70 via-xc-card to-xc-card",
-    border: "hover:border-amber-500/50",
-    glow: "hover:shadow-amber-900/30",
+    grad: "from-black/70 via-xc-card to-xc-card",
+    border: "hover:border-white/[0.10]/50",
+    glow: "hover:shadow-black/50/30",
     icon: <Zap className="w-4 h-4 text-amber-300" />,
     emoji: "\u{26A1}",
-    headerBg: "from-amber-950 to-green-950",
+    headerBg: "from-black to-green-950",
     imageUrl:
       "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=640&q=70&auto=format&fit=crop",
   },
@@ -84,7 +84,7 @@ const CAT_CONFIG: Record<
   DEFAULT: {
     grad: "from-xc-dark to-xc-card",
     border: "hover:border-xc-purple/40",
-    glow: "hover:shadow-purple-900/20",
+    glow: "hover:shadow-black/50/20",
     icon: <TrendingUp className="w-4 h-4 text-xc-muted" />,
     emoji: "\u{1F4C8}",
     headerBg: "from-xc-dark to-xc-card",
@@ -124,7 +124,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         "hover:shadow-xl",
       )}
     >
-      {/* â”€â”€ Hero image header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Hero image header ────────────────────────────────────────────── */}
       <div
         className={cn(
           "relative h-36 overflow-hidden bg-gradient-to-br",
@@ -168,13 +168,13 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
 
         {/* bottom gradient text area (fund name) */}
         <div className="absolute bottom-0 inset-x-0 px-4 pb-3">
-          <h3 className="font-black text-white text-base leading-tight group-hover:text-xc-purple-light transition-colors drop-shadow-lg">
+          <h3 className="font-black text-white text-base leading-tight group-hover:text-white/70 transition-colors drop-shadow-lg">
             {fund.name}
           </h3>
         </div>
       </div>
 
-      {/* â”€â”€ Description â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Description ──────────────────────────────────────────────────── */}
       {fund.description && (
         <div className="px-5 pt-4 pb-2">
           <p className="text-xs text-xc-muted leading-relaxed line-clamp-2">
@@ -183,7 +183,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         </div>
       )}
 
-      {/* â”€â”€ Risk + lock badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Risk + lock badges ───────────────────────────────────────────── */}
       <div className="px-5 pt-2 pb-3 flex items-center gap-2">
         <Badge variant={risk.variant} size="sm">
           {risk.label}
@@ -193,7 +193,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         </span>
       </div>
 
-      {/* â”€â”€ Metrics grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Metrics grid ─────────────────────────────────────────────────── */}
       <div className="mx-5 mb-4 grid grid-cols-2 gap-3 bg-black/20 rounded-xl px-4 py-3 border border-white/5">
         <div>
           <div className="text-[9px] uppercase tracking-widest text-xc-muted font-semibold flex items-center gap-1 mb-0.5">
@@ -227,12 +227,12 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
             <Lock className="w-2.5 h-2.5" /> Lock Period
           </div>
           <div className="font-bold text-white text-sm">
-            {fund.lockPeriodDays ? `${fund.lockPeriodDays} days` : "â€”"}
+            {fund.lockPeriodDays ? `${fund.lockPeriodDays} days` : "—"}
           </div>
         </div>
       </div>
 
-      {/* â”€â”€ Capacity bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Capacity bar ─────────────────────────────────────────────────── */}
       <div className="px-5 pb-4">
         <div className="flex items-center justify-between text-xs mb-2">
           <span className="text-xc-muted">Capacity filled</span>
@@ -242,18 +242,18 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
         </div>
         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-xc-purple via-xc-cyan to-xc-green transition-all duration-700"
+            className="h-full rounded-full bg-gradient-to-r from-white/20 via-white/10 to-xc-green transition-all duration-700"
             style={{ width: `${pctFull}%` }}
           />
         </div>
         {pctFull >= 80 && (
-          <p className="text-[10px] text-amber-400 mt-1 font-semibold">
-            âš  Near capacity â€” act soon
+          <p className="text-[10px] text-white/50 mt-1 font-semibold">
+            ⚠ Near capacity — act soon
           </p>
         )}
       </div>
 
-      {/* â”€â”€ CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── CTA ──────────────────────────────────────────────────────────── */}
       <div className="px-5 pb-5 mt-auto">
         <Button
           variant={fund.isOpen ? "primary" : "secondary"}

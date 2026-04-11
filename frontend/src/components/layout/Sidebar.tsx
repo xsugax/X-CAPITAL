@@ -32,8 +32,8 @@ const navItems = [
 
 const TIER_STYLES: Record<string, string> = {
   CORE: "bg-white/10 text-white",
-  GOLD: "bg-amber-500/20 text-amber-400 border border-amber-500/30",
-  BLACK: "bg-purple-500/20 text-purple-400 border border-purple-500/30",
+  GOLD: "bg-amber-500/20 text-white/50 border border-white/[0.10]/30",
+  BLACK: "bg-white/10 text-white border border-white/20",
 };
 
 export default function Sidebar() {
@@ -68,8 +68,8 @@ export default function Sidebar() {
             className="flex items-center gap-3"
             onClick={() => setSidebarOpen(false)}
           >
-            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center">
-              <span className="text-white font-black text-sm">X</span>
+            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-white flex items-center justify-center">
+              <span className="text-black font-black text-sm">X</span>
             </div>
             <span className="font-black text-base tracking-tight text-white md:hidden lg:inline">
               CAPITAL
@@ -117,7 +117,7 @@ export default function Sidebar() {
               onClick={() => setSidebarOpen(false)}
               className="flex items-center gap-3 px-2 py-2.5 rounded-full hover:bg-white/[0.06] transition-colors md:justify-center lg:justify-start"
             >
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-xc-purple to-xc-cyan flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 {user.profilePicture ? (
                   <Image
                     src={user.profilePicture}
@@ -135,9 +135,9 @@ export default function Sidebar() {
                 )}
               </div>
               <div className="flex-1 min-w-0 md:hidden lg:block">
-                  <span className="text-sm font-bold text-white truncate">
-                    {user.firstName} {user.lastName}
-                  </span>
+                <span className="text-sm font-bold text-white truncate">
+                  {user.firstName} {user.lastName}
+                </span>
                 <div
                   className={cn(
                     "inline-block text-xs px-2 py-0.5 rounded-full font-mono font-bold mt-0.5",

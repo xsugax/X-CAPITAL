@@ -43,16 +43,16 @@ const CAT_CONFIG: Record<string, { grad: string; glow: string; accent: string; o
     overlayGrad: 'from-red-950/70 to-transparent',
   },
   SPACE: {
-    grad: 'from-indigo-950/80 via-xc-card to-xc-card',
+    grad: 'from-zinc-950/80 via-xc-card to-xc-card',
     glow: 'hover:shadow-indigo-900/30',
     accent: 'bg-indigo-500/20 text-indigo-300 border-indigo-600/30',
-    overlayGrad: 'from-indigo-950/75 to-transparent',
+    overlayGrad: 'from-zinc-950/75 to-transparent',
   },
   AI: {
-    grad: 'from-purple-950/80 via-xc-card to-xc-card',
-    glow: 'hover:shadow-purple-900/30',
-    accent: 'bg-xc-purple/20 text-xc-purple-light border-purple-600/30',
-    overlayGrad: 'from-purple-950/75 to-transparent',
+    grad: 'from-black via-xc-card to-xc-card',
+    glow: 'hover:shadow-black/50/30',
+    accent: 'bg-xc-purple/20 text-white/70 border-white/[0.10]/30',
+    overlayGrad: 'from-black/90 to-transparent',
   },
   COMPUTING: {
     grad: 'from-blue-950/80 via-xc-card to-xc-card',
@@ -61,15 +61,15 @@ const CAT_CONFIG: Record<string, { grad: string; glow: string; accent: string; o
     overlayGrad: 'from-blue-950/75 to-transparent',
   },
   ENERGY: {
-    grad: 'from-amber-950/70 via-xc-card to-xc-card',
-    glow: 'hover:shadow-amber-900/30',
-    accent: 'bg-amber-500/20 text-amber-300 border-amber-600/30',
-    overlayGrad: 'from-amber-950/75 to-transparent',
+    grad: 'from-black/70 via-xc-card to-xc-card',
+    glow: 'hover:shadow-black/50/30',
+    accent: 'bg-amber-500/20 text-amber-300 border-white/[0.10]/30',
+    overlayGrad: 'from-black/75 to-transparent',
   },
   DEFAULT: {
     grad: 'from-xc-dark to-xc-card',
-    glow: 'hover:shadow-purple-900/20',
-    accent: 'bg-xc-purple/20 text-xc-purple-light border-purple-600/30',
+    glow: 'hover:shadow-black/50/20',
+    accent: 'bg-xc-purple/20 text-white/70 border-white/[0.10]/30',
     overlayGrad: 'from-xc-dark/80 to-transparent',
   },
 };
@@ -163,11 +163,11 @@ export default function ProductCard({ product, onCheckout }: ProductCardProps) {
 
       {/* ── Product name + tagline ───────────────────────────────────────── */}
       <div className="px-5 pt-4 pb-3">
-        <h3 className="font-black text-white text-base leading-tight group-hover:text-xc-purple-light transition-colors">
+        <h3 className="font-black text-white text-base leading-tight group-hover:text-white/70 transition-colors">
           {product.name}
         </h3>
         {product.tagline && (
-          <p className="text-xs font-semibold text-xc-purple-light mt-0.5">{product.tagline}</p>
+          <p className="text-xs font-semibold text-white/70 mt-0.5">{product.tagline}</p>
         )}
         <p className="text-xs text-xc-muted mt-1.5 line-clamp-2 leading-relaxed">{product.description}</p>
       </div>
@@ -218,7 +218,7 @@ export default function ProductCard({ product, onCheckout }: ProductCardProps) {
             Auto-invest{' '}
             <span className="text-white font-semibold">{formatCurrency(product.investmentSuggestion.amount)}</span>
             {' '}in{' '}
-            <span className="text-xc-purple-light font-semibold">
+            <span className="text-white/70 font-semibold">
               ${product.investmentSuggestion.symbol} — {product.investmentSuggestion.name}
             </span>
             {' '}simultaneously.

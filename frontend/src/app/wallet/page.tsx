@@ -94,9 +94,9 @@ const CRYPTOS = [
     symbol: "USDC",
     name: "USD Coin",
     network: "Ethereum (ERC-20)",
-    grad: "from-blue-400 to-cyan-500",
-    text: "text-cyan-400",
-    ring: "ring-cyan-500/40",
+    grad: "from-blue-400 to-white/5",
+    text: "text-white/50",
+    ring: "ring-white/15/40",
     rate: 1.0,
     min: "10 USDC",
     confs: 12,
@@ -108,9 +108,9 @@ const CRYPTOS = [
     symbol: "SOL",
     name: "Solana",
     network: "Solana Network",
-    grad: "from-purple-500 to-violet-500",
-    text: "text-violet-400",
-    ring: "ring-violet-500/40",
+    grad: "from-white/20 to-white/10",
+    text: "text-white/60",
+    ring: "ring-white/15",
     rate: 182,
     min: "0.1 SOL",
     confs: 1,
@@ -163,7 +163,7 @@ const EXCHANGES = [
     name: "Binance",
     tagline: "World's largest exchange · Industry-lowest maker fees",
     badge: "MOST VOLUME",
-    badgeClass: "text-amber-400 bg-amber-950/60 border-amber-700/40",
+    badgeClass: "text-white/50 bg-white/[0.03]/60 border-white/[0.10]/40",
     fee: "0.10%",
     link: "https://binance.com",
     coins: ["BTC", "ETH", "USDT", "USDC", "SOL", "BNB", "XRP"],
@@ -172,7 +172,7 @@ const EXCHANGES = [
     name: "Kraken",
     tagline: "Institutional-grade security · SOC 2 Type II certified",
     badge: "INSTITUTIONAL",
-    badgeClass: "text-purple-400 bg-purple-950/60 border-purple-700/40",
+    badgeClass: "text-white/60 bg-white/[0.02]/60 border-white/[0.10]",
     fee: "0.16 – 0.26%",
     link: "https://kraken.com",
     coins: ["BTC", "ETH", "USDT", "SOL", "XRP"],
@@ -190,7 +190,7 @@ const EXCHANGES = [
     name: "Gemini",
     tagline: "NY-licensed · SOC 1/2 · Zero fees on Active Trader",
     badge: "MOST SECURE",
-    badgeClass: "text-cyan-400 bg-cyan-950/60 border-cyan-700/40",
+    badgeClass: "text-white/50 bg-white/[0.02]/60 border-white/[0.08]/40",
     fee: "0.03%",
     link: "https://gemini.com",
     coins: ["BTC", "ETH", "USDT", "USDC", "SOL", "XRP"],
@@ -200,8 +200,8 @@ const EXCHANGES = [
 const TX_ICONS: Record<string, JSX.Element> = {
   DEPOSIT: <ArrowDownLeft className="w-4 h-4 text-xc-green" />,
   WITHDRAWAL: <ArrowUpRight className="w-4 h-4 text-xc-red" />,
-  TRADE: <BarChart3 className="w-4 h-4 text-xc-purple-light" />,
-  FUND_INVESTMENT: <BarChart3 className="w-4 h-4 text-amber-400" />,
+  TRADE: <BarChart3 className="w-4 h-4 text-white/70" />,
+  FUND_INVESTMENT: <BarChart3 className="w-4 h-4 text-white/50" />,
   FUND_REDEMPTION: <ArrowDownLeft className="w-4 h-4 text-xc-green" />,
   FEE: <ArrowUpRight className="w-4 h-4 text-xc-muted" />,
 };
@@ -379,7 +379,7 @@ export default function WalletPage() {
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-purple-400" />
+                <TrendingUp className="w-4 h-4 text-white/60" />
                 <h3 className="font-black text-white text-base">Balance History</h3>
               </div>
               <span className="text-xs text-xc-muted">30 days</span>
@@ -433,7 +433,7 @@ export default function WalletPage() {
           {/* Transaction Type Breakdown Pie */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
-              <Activity className="w-4 h-4 text-cyan-400" />
+              <Activity className="w-4 h-4 text-white/50" />
               <h3 className="font-black text-white text-base">Tx Breakdown</h3>
             </div>
             <div style={{ height: 160 }}>
@@ -559,19 +559,19 @@ export default function WalletPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Bank Wire */}
           <div
-            className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col gap-4 hover:border-purple-500/40 transition-colors cursor-pointer group"
+            className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col gap-4 hover:border-white/[0.10]/40 transition-colors cursor-pointer group"
             onClick={() => openModal("deposit", "wire")}
           >
             <div className="flex items-start justify-between">
-              <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                <Building2 className="w-5 h-5 text-purple-400" />
+              <div className="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center">
+                <Building2 className="w-5 h-5 text-white/60" />
               </div>
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-purple-400 bg-purple-950/60 border-purple-700/40">
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-white/60 bg-white/[0.02]/60 border-white/[0.10]">
                 WIRE TRANSFER
               </span>
             </div>
             <div>
-              <div className="font-bold text-white group-hover:text-purple-200 transition-colors">
+              <div className="font-bold text-white group-hover:text-white/80 transition-colors">
                 Bank / Wire Transfer
               </div>
               <div className="text-xs text-xc-muted mt-1">
@@ -583,15 +583,15 @@ export default function WalletPage() {
 
           {/* Cryptocurrency */}
           <div
-            className="bg-xc-card border border-amber-500/30 rounded-2xl p-5 flex flex-col gap-4 hover:border-amber-400/60 transition-colors cursor-pointer group relative overflow-hidden"
+            className="bg-xc-card border border-white/[0.10] rounded-2xl p-5 flex flex-col gap-4 hover:border-amber-400/60 transition-colors cursor-pointer group relative overflow-hidden"
             onClick={() => openModal("deposit", "crypto")}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/15/5 to-transparent pointer-events-none" />
             <div className="flex items-start justify-between">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                <Wallet className="w-5 h-5 text-amber-400" />
+              <div className="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center">
+                <Wallet className="w-5 h-5 text-white/50" />
               </div>
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-amber-400 bg-amber-950/60 border-amber-700/40 flex items-center gap-1">
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-white/50 bg-white/[0.03]/60 border-white/[0.10]/40 flex items-center gap-1">
                 <Zap className="w-2.5 h-2.5" /> INSTANT
               </span>
             </div>
@@ -609,8 +609,8 @@ export default function WalletPage() {
           {/* Debit / Credit Card — coming soon */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col gap-4 opacity-60 cursor-not-allowed">
             <div className="flex items-start justify-between">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
-                <CreditCard className="w-5 h-5 text-cyan-400" />
+              <div className="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center">
+                <CreditCard className="w-5 h-5 text-white/50" />
               </div>
               <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-xc-muted bg-white/5 border-xc-border">
                 COMING SOON
@@ -746,7 +746,7 @@ export default function WalletPage() {
               className={cn(
                 "flex-1 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2",
                 depositTab === "wire"
-                  ? "bg-purple-600 text-white shadow-lg"
+                  ? "bg-white/[0.08] text-white shadow-lg"
                   : "text-xc-muted hover:text-white",
               )}
             >
@@ -762,7 +762,7 @@ export default function WalletPage() {
               )}
             >
               <Wallet className="w-4 h-4" /> Cryptocurrency
-              <span className="text-xs bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded-full border border-amber-400/30">
+              <span className="text-xs bg-amber-400/20 text-white/60 px-1.5 py-0.5 rounded-full border border-amber-400/30">
                 INSTANT
               </span>
             </button>
@@ -833,7 +833,7 @@ export default function WalletPage() {
                   </div>
                 ))}
               </div>
-              <div className="flex items-start gap-2 text-xs text-amber-400/80 bg-amber-950/20 border border-amber-700/20 rounded-xl px-3 py-2">
+              <div className="flex items-start gap-2 text-xs text-amber-400/80 bg-white/[0.02] border border-white/[0.10]/20 rounded-xl px-3 py-2">
                 <ShieldCheck className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                 Include your reference code in the wire memo. Funds are credited
                 within 1-3 business days after confirmation.
@@ -906,8 +906,8 @@ export default function WalletPage() {
                       {selectedCrypto.address}
                     </div>
                     {selectedCrypto.tag && (
-                      <div className="bg-amber-950/40 border border-amber-700/30 rounded-xl px-3 py-2 flex items-center justify-between gap-2">
-                        <span className="text-xs text-amber-400 font-semibold">
+                      <div className="bg-white/[0.03]/40 border border-white/[0.08] rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+                        <span className="text-xs text-white/50 font-semibold">
                           MEMO / TAG Required
                         </span>
                         <span className="font-mono text-xs text-white font-bold">

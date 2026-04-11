@@ -439,7 +439,7 @@ export default function AdminPage() {
           </p>
           <button
             onClick={() => router.push("/login")}
-            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-sm font-medium transition"
+            className="px-6 py-2.5 bg-white/[0.08] hover:bg-white/[0.08] text-white rounded-lg text-sm font-medium transition"
           >
             Go to Login
           </button>
@@ -467,13 +467,13 @@ export default function AdminPage() {
       <header className="sticky top-0 z-50 bg-[#08080c]/90 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-600 to-amber-500 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center">
               <Shield size={18} className="text-white" />
             </div>
             <div>
               <h1 className="text-lg font-bold tracking-tight">
                 X-CAPITAL{" "}
-                <span className="text-purple-400 text-sm font-normal ml-1">
+                <span className="text-white/60 text-sm font-normal ml-1">
                   GOD ADMIN
                 </span>
               </h1>
@@ -502,7 +502,7 @@ export default function AdminPage() {
             label="Total Users"
             value={stats.total}
             icon={Users}
-            accent="bg-purple-600/20 text-purple-400"
+            accent="bg-white/[0.08]/20 text-white/60"
           />
           <StatCard
             label="Total Balance"
@@ -514,7 +514,7 @@ export default function AdminPage() {
             label="Frozen"
             value={stats.frozenCount}
             icon={Snowflake}
-            accent="bg-cyan-600/20 text-cyan-400"
+            accent="bg-white/[0.08]/20 text-white/50"
           />
           <StatCard
             label="Blocked"
@@ -526,7 +526,7 @@ export default function AdminPage() {
             label="Trading"
             value={stats.tradingCount}
             icon={Activity}
-            accent="bg-amber-600/20 text-amber-400"
+            accent="bg-amber-600/20 text-white/50"
           />
         </div>
 
@@ -545,7 +545,7 @@ export default function AdminPage() {
               className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition",
                 activeTab === t.key
-                  ? "bg-purple-600 text-white"
+                  ? "bg-white/[0.08] text-white"
                   : "text-gray-400 hover:text-white hover:bg-white/5",
               )}
             >
@@ -570,7 +570,7 @@ export default function AdminPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by name, email, or ID…"
-                className="w-full md:w-96 pl-10 pr-4 py-2.5 bg-[#12121a] border border-white/10 rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                className="w-full md:w-96 pl-10 pr-4 py-2.5 bg-[#12121a] border border-white/10 rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-white/20"
               />
             </div>
 
@@ -663,7 +663,7 @@ export default function AdminPage() {
                         entry.level === "success" && "bg-green-500",
                         entry.level === "warning" && "bg-yellow-500",
                         entry.level === "danger" && "bg-red-500",
-                        entry.level === "action" && "bg-purple-500",
+                        entry.level === "action" && "bg-white/[0.08]",
                         entry.level === "info" && "bg-blue-500",
                       )}
                     />
@@ -737,7 +737,7 @@ export default function AdminPage() {
               </div>
               <button
                 onClick={handleCreateUser}
-                className="w-full mt-2 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium transition"
+                className="w-full mt-2 py-2.5 bg-white/[0.08] hover:bg-white/[0.08] rounded-lg text-sm font-medium transition"
               >
                 Create User
               </button>
@@ -834,7 +834,7 @@ export default function AdminPage() {
             </div>
             <button
               onClick={handleEditSave}
-              className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium transition"
+              className="w-full py-2.5 bg-white/[0.08] hover:bg-white/[0.08] rounded-lg text-sm font-medium transition"
             >
               Save Changes
             </button>
@@ -884,8 +884,8 @@ export default function AdminPage() {
               }
               placeholder="1.0"
             />
-            <div className="bg-purple-600/10 border border-purple-500/20 rounded-lg p-3 text-xs text-gray-400">
-              <p className="font-medium text-purple-400 mb-1">How it works</p>
+            <div className="bg-white/[0.08]/10 border border-white/[0.08] rounded-lg p-3 text-xs text-gray-400">
+              <p className="font-medium text-white/60 mb-1">How it works</p>
               <p>
                 <strong>Linear</strong> — flat % added daily.{" "}
                 <strong>Compound</strong> — interest on interest.{" "}
@@ -898,7 +898,7 @@ export default function AdminPage() {
             </div>
             <button
               onClick={handleProfitSave}
-              className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium transition"
+              className="w-full py-2.5 bg-white/[0.08] hover:bg-white/[0.08] rounded-lg text-sm font-medium transition"
             >
               Apply Profit Config
             </button>
@@ -991,8 +991,8 @@ function UserRow({
     user.tier === "BLACK"
       ? "text-white bg-white/10"
       : user.tier === "GOLD"
-        ? "text-amber-400 bg-amber-500/10"
-        : "text-purple-400 bg-purple-500/10";
+        ? "text-white/50 bg-white/[0.04]"
+        : "text-white/60 bg-white/[0.04]";
 
   return (
     <div className="bg-[#12121a] border border-white/5 rounded-xl overflow-hidden">
@@ -1002,7 +1002,7 @@ function UserRow({
         onClick={onToggleExpand}
       >
         {/* Avatar */}
-        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-sm font-bold flex-shrink-0">
+        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-white/10 to-pink-500 flex items-center justify-center text-sm font-bold flex-shrink-0">
           {user.firstName?.[0]}
           {user.lastName?.[0]}
         </div>
@@ -1012,7 +1012,7 @@ function UserRow({
           <p className="text-sm font-medium text-white truncate">
             {user.firstName} {user.lastName}
             {user.role === "ADMIN" && (
-              <span className="ml-2 text-[10px] text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded font-medium">
+              <span className="ml-2 text-[10px] text-white/50 bg-white/[0.04] px-1.5 py-0.5 rounded font-medium">
                 ADMIN
               </span>
             )}
@@ -1023,7 +1023,7 @@ function UserRow({
         {/* Status badges */}
         <div className="hidden md:flex items-center gap-2">
           {user.isFrozen && (
-            <span className="text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+            <span className="text-[10px] text-white/50 bg-white/[0.04] px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
               <Snowflake size={10} /> Frozen
             </span>
           )}
@@ -1117,13 +1117,13 @@ function UserRow({
             <ActionBtn
               icon={Percent}
               label="Profit"
-              color="bg-purple-600/20 text-purple-400 hover:bg-purple-600/30"
+              color="bg-white/[0.08]/20 text-white/60 hover:bg-white/[0.08]/30"
               onClick={onProfit}
             />
             <ActionBtn
               icon={Calendar}
               label="Backdate"
-              color="bg-amber-600/20 text-amber-400 hover:bg-amber-600/30"
+              color="bg-amber-600/20 text-white/50 hover:bg-amber-600/30"
               onClick={onBackdate}
             />
             <div className="border-l border-white/10 mx-1" />
@@ -1133,7 +1133,7 @@ function UserRow({
               color={
                 user.isFrozen
                   ? "bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30"
-                  : "bg-cyan-600/20 text-cyan-400 hover:bg-cyan-600/30"
+                  : "bg-white/[0.08]/20 text-white/50 hover:bg-white/[0.08]/30"
               }
               onClick={onFreeze}
             />
@@ -1281,7 +1281,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-3 py-2 bg-[#1a1a24] border border-white/10 rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-purple-500"
+        className="w-full px-3 py-2 bg-[#1a1a24] border border-white/10 rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-white/20"
       />
     </div>
   );
@@ -1304,7 +1304,7 @@ function SelectField({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 bg-[#1a1a24] border border-white/10 rounded-lg text-sm text-white focus:outline-none focus:ring-1 focus:ring-purple-500"
+        className="w-full px-3 py-2 bg-[#1a1a24] border border-white/10 rounded-lg text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/20"
       >
         {options.map((o) => (
           <option key={o} value={o}>

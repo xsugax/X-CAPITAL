@@ -103,7 +103,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-xc-black flex items-center justify-center p-4">
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/10 via-transparent to-cyan-900/5 pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-br from-white/[0.04]/10 via-transparent to-black pointer-events-none" />
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
@@ -258,15 +258,15 @@ export default function RegisterPage() {
                 type="checkbox"
                 checked={form.agreeTerms}
                 onChange={set("agreeTerms")}
-                className="mt-0.5 accent-purple-600"
+                className="mt-0.5 accent-white"
               />
               <span className="text-xs text-xc-muted leading-relaxed">
                 I agree to X-CAPITAL&apos;s{" "}
-                <span className="text-xc-purple-light hover:text-white cursor-pointer transition-colors">
+                <span className="text-white/70 hover:text-white cursor-pointer transition-colors">
                   Terms of Service
                 </span>{" "}
                 and{" "}
-                <span className="text-xc-purple-light hover:text-white cursor-pointer transition-colors">
+                <span className="text-white/70 hover:text-white cursor-pointer transition-colors">
                   Privacy Policy
                 </span>
                 . I understand that investment products involve risk.
@@ -295,7 +295,7 @@ export default function RegisterPage() {
             Already have an account?{" "}
             <Link
               href="/auth/login"
-              className="text-xc-purple-light hover:text-white font-semibold transition-colors"
+              className="text-white/70 hover:text-white font-semibold transition-colors"
             >
               Sign in
             </Link>

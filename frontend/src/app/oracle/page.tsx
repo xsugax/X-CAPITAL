@@ -358,7 +358,7 @@ export default function OraclePage() {
           {/* Expected Return by Asset */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
-              <BarChart3 className="w-4 h-4 text-purple-400" />
+              <BarChart3 className="w-4 h-4 text-white/60" />
               <h3 className="font-black text-white text-base">
                 Predicted Returns by Asset
               </h3>
@@ -492,7 +492,7 @@ export default function OraclePage() {
                   className={cn(
                     "px-3 py-1 rounded-lg text-xs font-bold transition-all",
                     activeSymbol === sym
-                      ? "bg-xc-purple text-white"
+                      ? "bg-xc-purple text-black font-bold"
                       : "bg-white/5 text-xc-muted hover:text-white",
                   )}
                 >
@@ -511,7 +511,7 @@ export default function OraclePage() {
                         ? "text-xc-green"
                         : sentiment.score < 0.4
                           ? "text-xc-red"
-                          : "text-amber-400",
+                          : "text-white/50",
                     )}
                   >
                     {Math.round(sentiment.score * 100)}
@@ -574,7 +574,7 @@ export default function OraclePage() {
         <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4 text-cyan-400" />
+              <Activity className="w-4 h-4 text-white/50" />
               <h3 className="font-black text-white text-base">
                 Sentiment Timeline — {activeSymbol}
               </h3>

@@ -15,15 +15,15 @@
 }
 
 :root {
-  --bg: #05050d;
-  --card: #0d0d1e;
-  --border: rgba(124, 58, 237, 0.15);
-  --purple: #7c3aed;
+  --bg: #000000;
+  --card: #0a0a0a;
+  --border: rgba(255, 255, 255, 0.08);
+  --purple: #e7e9ea;
   --gold: #d97706;
   --green: #10b981;
   --red: #ef4444;
-  --text: #f1f5f9;
-  --muted: #64748b;
+  --text: #f5f5f5;
+  --muted: #525252;
 }
 
 * {
@@ -50,31 +50,31 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(124, 58, 237, 0.3);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(124, 58, 237, 0.5);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* Glassmorphism card */
 .glass {
-  background: rgba(13, 13, 30, 0.8);
+  background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #a78bfa 0%, #06b6d4 50%, #fbbf24 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 50%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-purple {
-  background: linear-gradient(135deg, #c4b5fd 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #e0e0e0 0%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -82,13 +82,13 @@ body {
 
 /* Glow effects */
 .glow-purple {
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.35);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
 }
 .glow-gold {
-  box-shadow: 0 0 20px rgba(217, 119, 6, 0.4);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
 }
 .glow-green {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
 }
 
 /* Animated gradient border */
@@ -102,9 +102,9 @@ body {
   border-radius: inherit;
   background: linear-gradient(
     135deg,
-    rgba(124, 58, 237, 0.5),
-    rgba(6, 182, 212, 0.3),
-    rgba(217, 119, 6, 0.2)
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.03)
   );
   z-index: -1;
 }
@@ -528,7 +528,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #030308;
+  background: #000000;
   overflow: hidden;
 }
 .xc-splash-exit {
@@ -561,8 +561,8 @@ body {
   inset: 0;
   z-index: 0;
   background-image:
-    linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
   animation: gridPulse 3s ease-in-out infinite;
   mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent);
@@ -595,8 +595,8 @@ body {
   width: 2px;
   height: 2px;
   border-radius: 50%;
-  background: rgba(124, 58, 237, 0.6);
-  box-shadow: 0 0 6px rgba(124, 58, 237, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.08);
   animation: splashFloat linear infinite;
 }
 @keyframes splashFloat {
@@ -636,15 +636,13 @@ body {
 .xc-splash-icon {
   width: 56px;
   height: 56px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #7c3aed, #06b6d4);
+  border-radius: 0;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    0 0 40px rgba(124, 58, 237, 0.4),
-    0 0 80px rgba(124, 58, 237, 0.15);
-  animation: iconGlow 2s ease-in-out infinite;
+  box-shadow: none;
+  animation: none;
 }
 @keyframes iconGlow {
   0%,
@@ -680,7 +678,7 @@ body {
 .xc-splash-bar-fill {
   height: 100%;
   border-radius: 4px;
-  background: linear-gradient(90deg, #7c3aed, #06b6d4, #a78bfa);
+  background: linear-gradient(90deg, #ffffff, #888888, #ffffff);
   background-size: 200% 100%;
   animation:
     barFill 2.4s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both,
@@ -709,7 +707,7 @@ body {
   font-size: 10px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(124, 58, 237, 0.5);
+  color: rgba(255, 255, 255, 0.25);
   animation: logoReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
 }
 .xc-splash-dots::after {
