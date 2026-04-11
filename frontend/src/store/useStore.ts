@@ -83,6 +83,54 @@ export interface AuditEntry {
   level: "info" | "action" | "warning" | "success" | "danger";
 }
 
+export interface PendingTransaction {
+  id: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  type: "DEPOSIT" | "WITHDRAWAL";
+  method: "wire" | "crypto" | "card";
+  amount: number;
+  currency: string;
+  details: Record<string, string>;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  createdAt: string;
+  resolvedAt?: string;
+  resolvedBy?: string;
+  rejectionReason?: string;
+}
+
+export interface UserNotification {
+  id: string;
+  userId: string;
+  title: string;
+  message: string;
+  type: "congratulations" | "reward" | "system" | "transaction";
+  externalLink?: string;
+  externalLinkLabel?: string;
+  read: boolean;
+  createdAt: string;
+}
+
+interface PendingTxState {
+  pendingTransactions: PendingTransaction[];
+  addPendingTransaction: (tx: PendingTransaction) => void;
+  approvePendingTransaction: (txId: string, adminEmail: string) => void;
+  rejectPendingTransaction: (txId: string, adminEmail: string, reason: string) => void;
+}
+
+interface NotificationState {
+  notifications: UserNotification[];
+  addNotification: (n: UserNotification) => void;
+  markNotificationRead: (id: string) => void;
+  deleteNotification: (id: string) => void;
+}
+
+interface AdminContentState {
+  termsOfService: string;
+  setTermsOfService: (content: string) => void;
+}
+
 interface UIState {
   sidebarOpen: boolean;
   toggleSidebar: () => void;
@@ -96,7 +144,43 @@ interface DataState {
   setPortfolio: (portfolio: Portfolio) => void;
 }
 
-type Store = AuthState & UIState & DataState;
+type Store = AuthState & UIState & DataState & PendingTxState & NotificationState & AdminContentState;
+
+const DEFAULT_TOS = `X-CAPITAL TERMS OF SERVICE
+
+Last Updated: January 2026
+
+1. ACCEPTANCE OF TERMS
+By accessing or using the X-Capital platform, you agree to be bound by these Terms of Service.
+
+2. ELIGIBILITY
+You must be at least 18 years of age and meet all applicable regulatory requirements in your jurisdiction.
+
+3. ACCOUNT REGISTRATION
+You agree to provide accurate, current, and complete information during registration and to update such information to keep it accurate.
+
+4. INVESTMENT RISKS
+All investments carry risk. Past performance is not indicative of future results. You may lose some or all of your invested capital.
+
+5. FEES AND CHARGES
+X-Capital may charge fees for certain services. All applicable fees will be disclosed prior to any transaction.
+
+6. PRIVACY
+Your privacy is important to us. Please review our Privacy Policy for information on how we collect and use your data.
+
+7. PROHIBITED ACTIVITIES
+You agree not to engage in any activity that violates applicable laws, regulations, or these Terms.
+
+8. LIMITATION OF LIABILITY
+X-Capital shall not be liable for any indirect, incidental, special, or consequential damages.
+
+9. MODIFICATIONS
+X-Capital reserves the right to modify these Terms at any time. Continued use constitutes acceptance of modified Terms.
+
+10. GOVERNING LAW
+These Terms shall be governed by the laws of the State of Delaware, United States.
+
+For questions, contact legal@xcapital.investments`;
 
 export const useStore = create<Store>()(
   persist(
@@ -349,6 +433,56 @@ export const useStore = create<Store>()(
       portfolio: null,
       setWallet: (wallet) => set({ wallet }),
       setPortfolio: (portfolio) => set({ portfolio }),
+
+      // ─── Pending Transactions ─────────────────────────────────────────────
+      pendingTransactions: [],
+      addPendingTransaction: (tx) => {
+        set((state) => ({
+          pendingTransactions: [tx, ...state.pendingTransactions],
+        }));
+      },
+      approvePendingTransaction: (txId, adminEmail) => {
+        set((state) => ({
+          pendingTransactions: state.pendingTransactions.map((tx) =>
+            tx.id === txId
+              ? { ...tx, status: "APPROVED" as const, resolvedAt: new Date().toISOString(), resolvedBy: adminEmail }
+              : tx,
+          ),
+        }));
+      },
+      rejectPendingTransaction: (txId, adminEmail, reason) => {
+        set((state) => ({
+          pendingTransactions: state.pendingTransactions.map((tx) =>
+            tx.id === txId
+              ? { ...tx, status: "REJECTED" as const, resolvedAt: new Date().toISOString(), resolvedBy: adminEmail, rejectionReason: reason }
+              : tx,
+          ),
+        }));
+      },
+
+      // ─── Notifications ────────────────────────────────────────────────────
+      notifications: [],
+      addNotification: (n) => {
+        set((state) => ({
+          notifications: [n, ...state.notifications],
+        }));
+      },
+      markNotificationRead: (id) => {
+        set((state) => ({
+          notifications: state.notifications.map((n) =>
+            n.id === id ? { ...n, read: true } : n,
+          ),
+        }));
+      },
+      deleteNotification: (id) => {
+        set((state) => ({
+          notifications: state.notifications.filter((n) => n.id !== id),
+        }));
+      },
+
+      // ─── Admin Content ────────────────────────────────────────────────────
+      termsOfService: DEFAULT_TOS,
+      setTermsOfService: (content) => set({ termsOfService: content }),
     }),
     {
       name: "xcapital-store",
@@ -359,6 +493,9 @@ export const useStore = create<Store>()(
         isAuthenticated: state.isAuthenticated,
         registeredUsers: state.registeredUsers,
         auditLog: state.auditLog,
+        pendingTransactions: state.pendingTransactions,
+        notifications: state.notifications,
+        termsOfService: state.termsOfService,
       }),
     },
   ),
