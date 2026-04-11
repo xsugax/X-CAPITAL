@@ -109,7 +109,7 @@ export default function OrderForm({ asset }: OrderFormProps) {
       {/* Asset header */}
       <div className="flex items-center gap-3 pb-3 border-b border-xc-border">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-white/[0.06] to-white/[0.03] flex items-center justify-center text-sm font-black text-white">
-          {asset.symbol[0]}
+          {asset.symbol?.[0] ?? "?"}
         </div>
         <div>
           <div className="font-bold text-white">{asset.symbol}</div>

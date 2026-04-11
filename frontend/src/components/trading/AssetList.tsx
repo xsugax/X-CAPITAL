@@ -182,7 +182,7 @@ export default function AssetList({
                       border: `1px solid ${getAssetTypeColor(asset.type)}44`,
                     }}
                   >
-                    {asset.symbol[0]}
+                    {asset.symbol?.[0] ?? "?"}
                     {isHot && (
                       <Flame className="w-2.5 h-2.5 text-white/50 absolute -top-1 -right-1 animate-pulse" />
                     )}

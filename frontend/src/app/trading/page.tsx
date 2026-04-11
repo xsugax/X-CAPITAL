@@ -422,7 +422,7 @@ export default function TradingPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-4">
                         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-white/10/15 to-white/10/15 border border-white/[0.08] flex items-center justify-center text-2xl font-black text-white shadow-inner">
-                          {selectedAsset.symbol[0]}
+                          {selectedAsset.symbol?.[0] ?? "?"}
                         </div>
                         <div>
                           <div className="flex items-center gap-4">
@@ -1198,7 +1198,7 @@ export default function TradingPage() {
                   className="w-full flex items-center gap-4 p-4 rounded-2xl bg-emerald-950/8 border border-emerald-800/15 hover:border-emerald-600/30 transition-all text-left group"
                 >
                   <div className="w-11 h-11 rounded-xl bg-emerald-900/30 border border-emerald-800/20 flex items-center justify-center text-sm font-black text-emerald-400 group-hover:scale-105 transition-transform">
-                    {asset.symbol[0]}
+                    {asset.symbol?.[0] ?? "?"}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-black text-white text-base">
@@ -1240,7 +1240,7 @@ export default function TradingPage() {
                   className="w-full flex items-center gap-4 p-4 rounded-2xl bg-red-950/8 border border-red-800/15 hover:border-red-600/30 transition-all text-left group"
                 >
                   <div className="w-11 h-11 rounded-xl bg-red-900/30 border border-red-800/20 flex items-center justify-center text-sm font-black text-red-400 group-hover:scale-105 transition-transform">
-                    {asset.symbol[0]}
+                    {asset.symbol?.[0] ?? "?"}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-black text-white text-base">

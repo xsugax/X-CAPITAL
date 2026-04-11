@@ -137,8 +137,8 @@ export default function SettingsPage() {
                   />
                 ) : (
                   <span className="text-white text-2xl font-black">
-                    {user.firstName[0]}
-                    {user.lastName[0]}
+                    {user.firstName?.[0] ?? ""}
+                    {user.lastName?.[0] ?? ""}
                   </span>
                 )}
               </div>

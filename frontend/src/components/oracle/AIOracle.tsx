@@ -95,7 +95,7 @@ export default function AIOracle({ allocation, forecasts = [], loading = false, 
               <div key={fc.symbol} className="flex items-center justify-between p-3.5 rounded-xl bg-xc-dark/40 border border-xc-border/60 hover:border-xc-border transition-all">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/[0.06] to-white/[0.03] flex items-center justify-center text-xs font-black text-white">
-                    {fc.symbol[0]}
+                    {fc.symbol?.[0] ?? "?"}
                   </div>
                   <div>
                     <div className="text-sm font-bold text-white">{fc.symbol}</div>

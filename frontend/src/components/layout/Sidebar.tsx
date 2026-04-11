@@ -129,8 +129,8 @@ export default function Sidebar() {
                   />
                 ) : (
                   <span className="text-white text-xs font-bold">
-                    {user.firstName[0]}
-                    {user.lastName[0]}
+                    {user.firstName?.[0] ?? ""}
+                    {user.lastName?.[0] ?? ""}
                   </span>
                 )}
               </div>
