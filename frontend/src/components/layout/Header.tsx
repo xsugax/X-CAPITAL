@@ -35,7 +35,7 @@ export default function Header({ title, subtitle }: HeaderProps) {
 
   return (
     <>
-      <header className="h-14 md:h-16 flex items-center justify-between px-4 md:px-6 border-b border-white/[0.06] bg-xc-dark/80 backdrop-blur-xl sticky top-0 z-30">
+      <header className="h-16 md:h-[72px] flex items-center justify-between px-5 md:px-8 border-b border-white/[0.08] bg-xc-dark/80 backdrop-blur-xl sticky top-0 z-30">
         <div className="flex items-center gap-3">
           {/* Mobile hamburger */}
           <button
@@ -45,10 +45,10 @@ export default function Header({ title, subtitle }: HeaderProps) {
             <Menu className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-base md:text-lg font-bold text-white">
+            <h1 className="text-lg md:text-xl font-black text-white tracking-tight">
               {title}
             </h1>
-            {subtitle && <p className="text-xs text-xc-muted">{subtitle}</p>}
+            {subtitle && <p className="text-sm text-xc-muted">{subtitle}</p>}
           </div>
         </div>
 

@@ -380,9 +380,9 @@ export default function WalletPage() {
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-purple-400" />
-                <h3 className="font-bold text-white">Balance History</h3>
+                <h3 className="font-black text-white text-base">Balance History</h3>
               </div>
-              <span className="text-[10px] text-xc-muted">30 days</span>
+              <span className="text-xs text-xc-muted">30 days</span>
             </div>
             <div style={{ height: 220 }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -434,7 +434,7 @@ export default function WalletPage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <Activity className="w-4 h-4 text-cyan-400" />
-              <h3 className="font-bold text-white">Tx Breakdown</h3>
+              <h3 className="font-black text-white text-base">Tx Breakdown</h3>
             </div>
             <div style={{ height: 160 }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -467,7 +467,7 @@ export default function WalletPage() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="space-y-1.5 mt-3">
+            <div className="space-y-3 mt-3">
               {txBreakdown.map((item, i) => (
                 <div
                   key={item.name}
@@ -498,14 +498,14 @@ export default function WalletPage() {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-emerald-400" />
-              <h3 className="font-bold text-white">Monthly Cash Flow</h3>
+              <h3 className="font-black text-white text-base">Monthly Cash Flow</h3>
             </div>
-            <div className="flex items-center gap-4 text-[10px]">
-              <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-4 text-xs">
+              <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500" />
                 <span className="text-xc-muted">Inflow</span>
               </div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-red-500" />
                 <span className="text-xc-muted">Outflow</span>
               </div>
@@ -559,14 +559,14 @@ export default function WalletPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Bank Wire */}
           <div
-            className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col gap-3 hover:border-purple-500/40 transition-colors cursor-pointer group"
+            className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col gap-4 hover:border-purple-500/40 transition-colors cursor-pointer group"
             onClick={() => openModal("deposit", "wire")}
           >
             <div className="flex items-start justify-between">
               <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
                 <Building2 className="w-5 h-5 text-purple-400" />
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-purple-400 bg-purple-950/60 border-purple-700/40">
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-purple-400 bg-purple-950/60 border-purple-700/40">
                 WIRE TRANSFER
               </span>
             </div>
@@ -583,7 +583,7 @@ export default function WalletPage() {
 
           {/* Cryptocurrency */}
           <div
-            className="bg-xc-card border border-amber-500/30 rounded-2xl p-5 flex flex-col gap-3 hover:border-amber-400/60 transition-colors cursor-pointer group relative overflow-hidden"
+            className="bg-xc-card border border-amber-500/30 rounded-2xl p-5 flex flex-col gap-4 hover:border-amber-400/60 transition-colors cursor-pointer group relative overflow-hidden"
             onClick={() => openModal("deposit", "crypto")}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent pointer-events-none" />
@@ -591,7 +591,7 @@ export default function WalletPage() {
               <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
                 <Wallet className="w-5 h-5 text-amber-400" />
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-amber-400 bg-amber-950/60 border-amber-700/40 flex items-center gap-1">
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-amber-400 bg-amber-950/60 border-amber-700/40 flex items-center gap-1">
                 <Zap className="w-2.5 h-2.5" /> INSTANT
               </span>
             </div>
@@ -607,12 +607,12 @@ export default function WalletPage() {
           </div>
 
           {/* Debit / Credit Card — coming soon */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col gap-3 opacity-60 cursor-not-allowed">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col gap-4 opacity-60 cursor-not-allowed">
             <div className="flex items-start justify-between">
               <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
                 <CreditCard className="w-5 h-5 text-cyan-400" />
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-xc-muted bg-white/5 border-xc-border">
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-xc-muted bg-white/5 border-xc-border">
                 COMING SOON
               </span>
             </div>
@@ -626,7 +626,7 @@ export default function WalletPage() {
         </div>
 
         {/* ── Action Buttons ── */}
-        <div className="flex gap-3">
+        <div className="flex gap-4">
           <Button
             variant="primary"
             size="lg"
@@ -649,7 +649,7 @@ export default function WalletPage() {
         <div className="bg-xc-card border border-xc-border rounded-2xl overflow-hidden">
           <div className="px-6 py-4 border-b border-xc-border flex items-center justify-between">
             <div>
-              <h3 className="font-bold text-white">Transaction History</h3>
+              <h3 className="font-black text-white text-base">Transaction History</h3>
               <p className="text-xs text-xc-muted mt-0.5">
                 All deposits, withdrawals &amp; trades
               </p>
@@ -762,7 +762,7 @@ export default function WalletPage() {
               )}
             >
               <Wallet className="w-4 h-4" /> Cryptocurrency
-              <span className="text-[9px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded-full border border-amber-400/30">
+              <span className="text-xs bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded-full border border-amber-400/30">
                 INSTANT
               </span>
             </button>
@@ -800,7 +800,7 @@ export default function WalletPage() {
                   </button>
                 ))}
               </div>
-              <div className="bg-xc-dark/60 border border-xc-border rounded-xl p-4 space-y-2.5">
+              <div className="bg-xc-dark/60 border border-xc-border rounded-xl p-5 space-y-3">
                 <div className="text-xs font-bold text-xc-muted uppercase tracking-wider mb-3">
                   Wire Instructions
                 </div>
@@ -845,7 +845,7 @@ export default function WalletPage() {
           {depositTab === "crypto" && (
             <div className="space-y-4">
               {/* Coin selector */}
-              <div className="grid grid-cols-7 gap-1.5">
+              <div className="grid grid-cols-7 gap-2">
                 {CRYPTOS.map((c) => (
                   <button
                     key={c.symbol}
@@ -884,7 +884,7 @@ export default function WalletPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[10px] text-xc-muted uppercase tracking-wider">
+                    <div className="text-xs text-xc-muted uppercase tracking-wider">
                       Current Rate
                     </div>
                     <div className="text-sm font-mono font-bold text-white">
@@ -965,7 +965,7 @@ export default function WalletPage() {
                       key={label}
                       className="bg-xc-dark/60 rounded-xl p-2.5 text-center"
                     >
-                      <div className="text-[10px] text-xc-muted mb-1">
+                      <div className="text-xs text-xc-muted mb-1">
                         {label}
                       </div>
                       <div className="text-xs font-semibold text-white">
@@ -992,7 +992,7 @@ export default function WalletPage() {
                       rel="noopener noreferrer"
                       className="flex items-center justify-between bg-xc-dark/60 border border-xc-border hover:border-white/20 rounded-xl px-4 py-3 transition-all group"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-4">
                         <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-xs font-black text-white">
                           {ex.name.charAt(0)}
                         </div>
@@ -1003,7 +1003,7 @@ export default function WalletPage() {
                             </span>
                             <span
                               className={cn(
-                                "text-[9px] font-bold px-1.5 py-0.5 rounded-full border",
+                                "text-xs font-bold px-1.5 py-0.5 rounded-full border",
                                 ex.badgeClass,
                               )}
                             >
@@ -1015,9 +1015,9 @@ export default function WalletPage() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-4">
                         <div className="text-right">
-                          <div className="text-[10px] text-xc-muted">
+                          <div className="text-xs text-xc-muted">
                             Maker Fee
                           </div>
                           <div className="text-xs font-mono text-white font-semibold">
@@ -1083,7 +1083,7 @@ export default function WalletPage() {
               {formatCurrency(cash)}
             </span>
           </div>
-          <div className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-4 space-y-2">
+          <div className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-5 space-y-2">
             <div className="text-xs font-bold text-xc-muted uppercase tracking-wider mb-2">
               Destination Account
             </div>

@@ -289,8 +289,8 @@ export default function FundsPage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <Target className="w-4 h-4 text-cyan-400" />
-              <h3 className="font-bold text-white">Risk vs. Return</h3>
-              <span className="text-[10px] text-xc-muted ml-auto">
+              <h3 className="font-black text-white text-base">Risk vs. Return</h3>
+              <span className="text-xs text-xc-muted ml-auto">
                 All funds
               </span>
             </div>
@@ -359,10 +359,10 @@ export default function FundsPage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <BarChart3 className="w-4 h-4 text-purple-400" />
-              <h3 className="font-bold text-white">
+              <h3 className="font-black text-white text-base">
                 Fund Performance Comparison
               </h3>
-              <span className="text-[10px] text-xc-muted ml-auto">
+              <span className="text-xs text-xc-muted ml-auto">
                 6 months
               </span>
             </div>
@@ -404,11 +404,11 @@ export default function FundsPage() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex flex-wrap gap-3 mt-4">
+            <div className="flex flex-wrap gap-4 mt-4">
               {displayFunds.slice(0, 6).map((f, i) => (
                 <div
                   key={f.id}
-                  className="flex items-center gap-1.5 text-[10px] text-xc-muted"
+                  className="flex items-center gap-2 text-xs text-xc-muted"
                 >
                   <div
                     className="w-2 h-2 rounded-full"
@@ -487,7 +487,7 @@ export default function FundsPage() {
         </div>
 
         {/* ── Accreditation note ── */}
-        <div className="flex items-start gap-3 bg-amber-950/20 border border-amber-700/30 rounded-xl p-5 text-sm">
+        <div className="flex items-start gap-4 bg-amber-950/20 border border-amber-700/30 rounded-xl p-5 text-sm">
           <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
           <div>
             <span className="text-amber-400 font-semibold">
@@ -511,7 +511,7 @@ export default function FundsPage() {
       >
         {selected && (
           <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               <div className="bg-xc-dark/60 rounded-xl p-3">
                 <div className="text-xs text-xc-muted mb-1">Target Return</div>
                 <div className="text-lg font-black text-xc-green font-mono">

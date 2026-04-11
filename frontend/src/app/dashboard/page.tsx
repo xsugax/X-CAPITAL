@@ -368,27 +368,27 @@ export default function DashboardPage() {
         {/* ─── X-Oracle Live Signals ───────────────────────────────────── */}
         <div className="bg-xc-card border border-purple-800/25 rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-3">
               <div className="w-7 h-7 rounded-lg bg-purple-900/50 flex items-center justify-center">
                 <Zap className="w-3.5 h-3.5 text-purple-400" />
               </div>
               <div>
-                <h3 className="font-bold text-white text-sm">
+                <h3 className="font-black text-white text-base">
                   X-Oracle Live Signals
                 </h3>
-                <p className="text-[10px] text-xc-muted">
+                <p className="text-xs text-xc-muted">
                   AI-generated trade intelligence — updated every 60s
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-              <span className="text-[10px] font-mono text-purple-400">
+              <span className="text-xs font-mono text-purple-400">
                 LIVE
               </span>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             {[
               {
                 symbol: "NVDA",
@@ -425,7 +425,7 @@ export default function DashboardPage() {
             ].map(({ symbol, signal, conf, proj, color }) => (
               <div
                 key={symbol}
-                className={`bg-gradient-to-br ${color === "emerald" ? "from-emerald-950/40" : color === "amber" ? "from-amber-950/30" : "from-rose-950/30"} to-transparent border border-white/5 rounded-xl p-4 hover:scale-[1.02] transition-transform`}
+                className={`bg-gradient-to-br ${color === "emerald" ? "from-emerald-950/40" : color === "amber" ? "from-amber-950/30" : "from-rose-950/30"} to-transparent border border-white/5 rounded-xl p-5 hover:scale-[1.02] transition-transform`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-black text-white">
@@ -433,7 +433,7 @@ export default function DashboardPage() {
                   </span>
                   <span
                     className={cn(
-                      "text-[10px] font-bold px-2 py-0.5 rounded-full border",
+                      "text-xs font-bold px-2 py-0.5 rounded-full border",
                       color === "emerald"
                         ? "bg-emerald-950/60 text-emerald-400 border-emerald-800/40"
                         : color === "amber"
@@ -469,7 +469,7 @@ export default function DashboardPage() {
                     style={{ width: `${conf}%` }}
                   />
                 </div>
-                <div className="text-[10px] text-xc-muted mt-1">
+                <div className="text-xs text-xc-muted mt-1">
                   {conf}% confidence
                 </div>
               </div>
@@ -483,7 +483,7 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="font-bold text-white">Portfolio Performance</h3>
+                <h3 className="font-black text-white text-base">Portfolio Performance</h3>
                 <p className="text-xs text-xc-muted mt-0.5">30-day history</p>
               </div>
               <div
@@ -547,7 +547,7 @@ export default function DashboardPage() {
           {/* AI Oracle Allocation */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-white">AI Oracle Allocation</h3>
+              <h3 className="font-black text-white text-base">AI Oracle Allocation</h3>
               <Badge variant="purple">LIVE</Badge>
             </div>
             <div className="h-48">
@@ -582,7 +582,7 @@ export default function DashboardPage() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="space-y-1.5 mt-2">
+            <div className="space-y-3 mt-2">
               {allocationData.map((item, i) => (
                 <div
                   key={item.name}
@@ -612,8 +612,8 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-cyan-400" />
-              <h3 className="font-bold text-white">Trading Volume</h3>
-              <span className="text-[10px] text-xc-muted">14-day overview</span>
+              <h3 className="font-black text-white text-base">Trading Volume</h3>
+              <span className="text-xs text-xc-muted">14-day overview</span>
             </div>
             <Badge variant="default" size="sm">
               {volumeData.reduce((s, d) => s + d.trades, 0)} trades
@@ -671,11 +671,11 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
                 <Target className="w-4 h-4 text-xc-purple-light" />
-                <h3 className="font-bold text-white text-sm">
+                <h3 className="font-black text-white text-base">
                   Capital Rails Deployment
                 </h3>
               </div>
-              <span className="text-[10px] font-mono text-xc-muted">
+              <span className="text-xs font-mono text-xc-muted">
                 LIVE ALLOCATION
               </span>
             </div>
@@ -717,14 +717,14 @@ export default function DashboardPage() {
                   tag: "X-ORACLE Managed",
                 },
               ].map(({ rail, pct, amount, color, tag }) => (
-                <div key={rail} className="flex items-center gap-3">
+                <div key={rail} className="flex items-center gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-2 min-w-0">
                         <span className="text-xs font-semibold text-white whitespace-nowrap">
                           {rail}
                         </span>
-                        <span className="text-[9px] font-mono text-xc-muted hidden sm:block">
+                        <span className="text-xs font-mono text-xc-muted hidden sm:block">
                           {tag}
                         </span>
                       </div>
@@ -751,9 +751,9 @@ export default function DashboardPage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-4">
               <Rocket className="w-4 h-4 text-xc-purple-light" />
-              <h3 className="font-bold text-white text-sm">Quick Deploy</h3>
+              <h3 className="font-black text-white text-base">Quick Deploy</h3>
             </div>
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               {[
                 {
                   label: "NVDA",
@@ -783,7 +783,7 @@ export default function DashboardPage() {
                 >
                   <div>
                     <div className="text-sm font-bold text-white">{label}</div>
-                    <div className="text-[10px] text-xc-muted">{desc}</div>
+                    <div className="text-xs text-xc-muted">{desc}</div>
                   </div>
                   <ArrowUpRight className="w-4 h-4 text-xc-muted group-hover:text-white transition-colors" />
                 </Link>
@@ -803,7 +803,7 @@ export default function DashboardPage() {
           {/* Top Assets */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-white">Market</h3>
+              <h3 className="font-black text-white text-base">Market</h3>
               <Link
                 href="/trading"
                 className="text-xs text-xc-purple-light hover:text-white transition-colors"
@@ -818,7 +818,7 @@ export default function DashboardPage() {
                     key={asset.symbol}
                     className="flex items-center justify-between"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-900 to-cyan-900 flex items-center justify-center text-xs font-black text-white">
                         {(asset.symbol ?? "?")[0]}
                       </div>
@@ -858,7 +858,7 @@ export default function DashboardPage() {
           {/* Recent Transactions */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-white">Recent Activity</h3>
+              <h3 className="font-black text-white text-base">Recent Activity</h3>
               <Link
                 href="/wallet"
                 className="text-xs text-xc-purple-light hover:text-white transition-colors"
@@ -873,7 +873,7 @@ export default function DashboardPage() {
                     key={tx.id || i}
                     className="flex items-center justify-between"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <div
                         className={cn(
                           "w-8 h-8 rounded-full flex items-center justify-center",
@@ -930,32 +930,32 @@ export default function DashboardPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/15 to-transparent pointer-events-none" />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-cyan-900/50 flex items-center justify-center">
                     <Rocket className="w-4 h-4 text-cyan-400" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-sm">
+                    <h3 className="font-black text-white text-base">
                       SpaceX Mission Control
                     </h3>
-                    <p className="text-[10px] text-xc-muted">
+                    <p className="text-xs text-xc-muted">
                       Live launch schedule · Investment catalyst events
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                  <span className="text-[10px] font-mono text-cyan-400">
+                  <span className="text-xs font-mono text-cyan-400">
                     TRACKING
                   </span>
                 </div>
               </div>
 
               {/* Next Launch Countdown */}
-              <div className="bg-gradient-to-r from-cyan-950/40 to-purple-950/30 border border-cyan-700/20 rounded-xl p-4 mb-4">
+              <div className="bg-gradient-to-r from-cyan-950/40 to-purple-950/30 border border-cyan-700/20 rounded-xl p-5 mb-4">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <div className="text-[10px] text-cyan-400 font-mono uppercase tracking-wider mb-1">
+                    <div className="text-xs text-cyan-400 font-mono uppercase tracking-wider mb-1">
                       Next Launch
                     </div>
                     <div className="text-lg font-black text-white">
@@ -966,10 +966,10 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[10px] text-xc-muted uppercase mb-1">
+                    <div className="text-xs text-xc-muted uppercase mb-1">
                       T-Minus
                     </div>
-                    <div className="flex gap-1.5">
+                    <div className="flex gap-2">
                       {[
                         { val: "02", label: "D" },
                         { val: "14", label: "H" },
@@ -982,7 +982,7 @@ export default function DashboardPage() {
                           <div className="text-lg font-black font-mono text-cyan-400">
                             {val}
                           </div>
-                          <div className="text-[8px] text-xc-muted">
+                          <div className="text-xs text-xc-muted">
                             {label}
                           </div>
                         </div>
@@ -990,7 +990,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 text-[10px]">
+                <div className="flex items-center gap-4 text-xs">
                   <span className="text-xc-muted">
                     Vehicle:{" "}
                     <span className="text-white font-semibold">
@@ -1012,15 +1012,15 @@ export default function DashboardPage() {
 
               {/* Recent Launches */}
               <div className="space-y-2">
-                <div className="text-[10px] text-xc-muted font-bold uppercase tracking-wider mb-2">
+                <div className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-2">
                   Recent Missions
                 </div>
                 {SPACEX_MISSIONS.map((m) => (
                   <div
                     key={m.name}
-                    className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0"
+                    className="flex items-center justify-between py-2 border-b border-white/[0.08] last:border-0"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <div
                         className={cn(
                           "w-2 h-2 rounded-full",
@@ -1031,13 +1031,13 @@ export default function DashboardPage() {
                         <div className="text-xs font-semibold text-white">
                           {m.name}
                         </div>
-                        <div className="text-[10px] text-xc-muted">
+                        <div className="text-xs text-xc-muted">
                           {m.vehicle} · {m.date}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-xc-muted">
+                      <span className="text-xs text-xc-muted">
                         {m.payload}
                       </span>
                       <Badge
@@ -1052,7 +1052,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Stats bar */}
-              <div className="grid grid-cols-4 gap-3 mt-4 pt-4 border-t border-white/[0.04]">
+              <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-white/[0.08]">
                 {[
                   { label: "Launches 2026", value: "28" },
                   { label: "Success Rate", value: "97.3%" },
@@ -1061,7 +1061,7 @@ export default function DashboardPage() {
                 ].map(({ label, value }) => (
                   <div key={label} className="text-center">
                     <div className="text-sm font-black text-white">{value}</div>
-                    <div className="text-[9px] text-xc-muted">{label}</div>
+                    <div className="text-xs text-xc-muted">{label}</div>
                   </div>
                 ))}
               </div>
@@ -1073,15 +1073,15 @@ export default function DashboardPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-purple-950/15 to-transparent pointer-events-none" />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-purple-900/50 flex items-center justify-center">
                     <Building2 className="w-4 h-4 text-purple-400" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-sm">
+                    <h3 className="font-black text-white text-base">
                       Musk Empire Index
                     </h3>
-                    <p className="text-[10px] text-xc-muted">
+                    <p className="text-xs text-xc-muted">
                       Combined venture exposure
                     </p>
                   </div>
@@ -1092,8 +1092,8 @@ export default function DashboardPage() {
               </div>
 
               {/* Composite Index Value */}
-              <div className="bg-purple-950/30 border border-purple-700/20 rounded-xl p-4 mb-4">
-                <div className="text-[10px] text-purple-400 font-mono uppercase tracking-wider mb-1">
+              <div className="bg-purple-950/30 border border-purple-700/20 rounded-xl p-5 mb-4">
+                <div className="text-xs text-purple-400 font-mono uppercase tracking-wider mb-1">
                   X-MEI Composite
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -1102,19 +1102,19 @@ export default function DashboardPage() {
                     +24.6%
                   </span>
                 </div>
-                <div className="text-[10px] text-xc-muted mt-1">
+                <div className="text-xs text-xc-muted mt-1">
                   YTD performance across all Musk ventures
                 </div>
               </div>
 
               {/* Companies */}
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {MUSK_VENTURES.map((v) => (
                   <div
                     key={v.name}
                     className="flex items-center justify-between py-2 px-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <div
                         className={cn(
                           "w-8 h-8 rounded-lg flex items-center justify-center",
@@ -1127,7 +1127,7 @@ export default function DashboardPage() {
                         <div className="text-xs font-bold text-white">
                           {v.name}
                         </div>
-                        <div className="text-[10px] text-xc-muted">
+                        <div className="text-xs text-xc-muted">
                           {v.role}
                         </div>
                       </div>
@@ -1138,7 +1138,7 @@ export default function DashboardPage() {
                       </div>
                       <div
                         className={cn(
-                          "text-[10px] font-bold",
+                          "text-xs font-bold",
                           v.change >= 0 ? "text-emerald-400" : "text-red-400",
                         )}
                       >
@@ -1164,15 +1164,15 @@ export default function DashboardPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Starlink Growth Tracker */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center gap-2.5 mb-5">
+            <div className="flex items-center gap-3 mb-5">
               <div className="w-8 h-8 rounded-lg bg-blue-900/50 flex items-center justify-center">
                 <Satellite className="w-4 h-4 text-blue-400" />
               </div>
               <div>
-                <h3 className="font-bold text-white text-sm">
+                <h3 className="font-black text-white text-base">
                   Starlink Network
                 </h3>
-                <p className="text-[10px] text-xc-muted">
+                <p className="text-xs text-xc-muted">
                   Global satellite internet
                 </p>
               </div>
@@ -1208,14 +1208,14 @@ export default function DashboardPage() {
                 <div key={label} className="flex items-center justify-between">
                   <div>
                     <div className="text-xs text-xc-muted">{label}</div>
-                    <div className="text-[10px] text-xc-muted/60">{sub}</div>
+                    <div className="text-xs text-xc-muted/60">{sub}</div>
                   </div>
                   <div className="text-sm font-black text-white">{value}</div>
                 </div>
               ))}
             </div>
-            <div className="mt-4 pt-4 border-t border-white/[0.04]">
-              <div className="text-[10px] text-blue-400 font-mono uppercase tracking-wider mb-2">
+            <div className="mt-4 pt-4 border-t border-white/[0.08]">
+              <div className="text-xs text-blue-400 font-mono uppercase tracking-wider mb-2">
                 Network Health
               </div>
               <div className="h-2 bg-white/5 rounded-full overflow-hidden">
@@ -1224,7 +1224,7 @@ export default function DashboardPage() {
                   style={{ width: "99.7%" }}
                 />
               </div>
-              <div className="flex justify-between text-[10px] text-xc-muted mt-1">
+              <div className="flex justify-between text-xs text-xc-muted mt-1">
                 <span>Uptime: 99.97%</span>
                 <span>Latency: 25ms avg</span>
               </div>
@@ -1234,22 +1234,22 @@ export default function DashboardPage() {
           {/* Live News Feed */}
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-amber-900/50 flex items-center justify-center">
                   <Newspaper className="w-4 h-4 text-amber-400" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white text-sm">
+                  <h3 className="font-black text-white text-base">
                     Market Intelligence Feed
                   </h3>
-                  <p className="text-[10px] text-xc-muted">
+                  <p className="text-xs text-xc-muted">
                     AI-curated · SpaceX · Tesla · xAI · Markets
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-[10px] font-mono text-amber-400">
+                <span className="text-xs font-mono text-amber-400">
                   LIVE
                 </span>
               </div>
@@ -1258,7 +1258,7 @@ export default function DashboardPage() {
               {NEWS_FEED.map((news, i) => (
                 <div
                   key={i}
-                  className="flex gap-3 p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors border border-transparent hover:border-white/[0.06]"
+                  className="flex gap-4 p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors border border-transparent hover:border-white/[0.08]"
                 >
                   <div
                     className={cn(
@@ -1273,14 +1273,14 @@ export default function DashboardPage() {
                       <div className="text-sm font-semibold text-white leading-tight">
                         {news.headline}
                       </div>
-                      <span className="text-[10px] text-xc-muted whitespace-nowrap shrink-0">
+                      <span className="text-xs text-xc-muted whitespace-nowrap shrink-0">
                         {news.time}
                       </span>
                     </div>
                     <p className="text-xs text-xc-muted mt-1 line-clamp-2">
                       {news.summary}
                     </p>
-                    <div className="flex items-center gap-3 mt-2">
+                    <div className="flex items-center gap-4 mt-2">
                       <Badge
                         variant={
                           news.sentiment === "bullish"
@@ -1293,11 +1293,11 @@ export default function DashboardPage() {
                       >
                         {news.sentiment.toUpperCase()}
                       </Badge>
-                      <span className="text-[10px] text-xc-muted">
+                      <span className="text-xs text-xc-muted">
                         {news.source}
                       </span>
                       {news.ticker && (
-                        <span className="text-[10px] font-mono font-bold text-white bg-white/10 px-1.5 py-0.5 rounded">
+                        <span className="text-xs font-mono font-bold text-white bg-white/10 px-1.5 py-0.5 rounded">
                           {news.ticker}
                         </span>
                       )}
@@ -1352,10 +1352,10 @@ export default function DashboardPage() {
                 <div className="text-white font-black text-xl tracking-tight">
                   Elon Musk
                 </div>
-                <div className="text-[10px] text-purple-400 font-mono tracking-[0.3em] uppercase mt-0.5">
+                <div className="text-xs text-purple-400 font-mono tracking-[0.3em] uppercase mt-0.5">
                   Founder · Chief Architect
                 </div>
-                <div className="text-[10px] text-xc-muted/70 mt-1">
+                <div className="text-xs text-xc-muted/70 mt-1">
                   CEO SpaceX · Tesla · xAI · X Corp
                 </div>
               </div>
@@ -1363,7 +1363,7 @@ export default function DashboardPage() {
 
             {/* Main content column */}
             <div className="flex-1 flex flex-col justify-center p-8 md:p-10">
-              <div className="text-[9px] font-mono font-bold text-purple-400/80 tracking-[0.5em] uppercase mb-4">
+              <div className="text-xs font-mono font-bold text-purple-400/80 tracking-[0.5em] uppercase mb-4">
                 X-Capital · The Multiplanetary Capital Network · Est. 2026
               </div>
               <blockquote className="text-2xl md:text-4xl font-black text-white leading-tight mb-4 max-w-2xl">
@@ -1377,7 +1377,7 @@ export default function DashboardPage() {
                 of the future, without limits, without borders, without
                 compromise.
               </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {(
                   [
                     ["Capital Deployed", "$2.4T+"],
@@ -1388,12 +1388,12 @@ export default function DashboardPage() {
                 ).map(([label, value]) => (
                   <div
                     key={label}
-                    className="bg-white/[0.04] backdrop-blur-sm rounded-xl p-3 border border-white/[0.06]"
+                    className="bg-white/[0.04] backdrop-blur-sm rounded-xl p-3 border border-white/[0.08]"
                   >
                     <div className="text-lg font-black gradient-text">
                       {value}
                     </div>
-                    <div className="text-[10px] text-xc-muted mt-0.5">
+                    <div className="text-xs text-xc-muted mt-0.5">
                       {label}
                     </div>
                   </div>
@@ -1410,7 +1410,7 @@ export default function DashboardPage() {
                 </span>
               </div>
               <div className="text-right space-y-1">
-                <div className="text-[10px] text-xc-muted uppercase tracking-wider">
+                <div className="text-xs text-xc-muted uppercase tracking-wider">
                   Platform Edition
                 </div>
                 <div className="text-sm font-black text-white">VERTEX</div>

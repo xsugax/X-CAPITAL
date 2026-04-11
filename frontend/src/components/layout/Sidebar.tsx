@@ -53,7 +53,7 @@ export default function Sidebar() {
       {/* Sidebar — slide drawer on mobile, fixed rail on desktop */}
       <aside
         className={cn(
-          "fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-xc-dark/95 backdrop-blur-xl border-r border-white/[0.06] transition-transform duration-300 ease-in-out",
+          "fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-xc-dark/95 backdrop-blur-xl border-r border-white/[0.08] transition-transform duration-300 ease-in-out",
           // Mobile: 280px drawer, slides in/out
           "w-[280px]",
           sidebarOpen ? "translate-x-0" : "-translate-x-full",
@@ -62,7 +62,7 @@ export default function Sidebar() {
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-white/[0.06]">
+        <div className="flex items-center justify-between px-4 py-5 border-b border-white/[0.08]">
           <Link
             href="/dashboard"
             className="flex items-center gap-3"
@@ -84,7 +84,7 @@ export default function Sidebar() {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 py-4 px-2.5 space-y-1 overflow-y-auto">
           {navItems.map(({ href, icon: Icon, label }) => {
             const active = pathname === href || pathname.startsWith(href + "/");
             return (
@@ -93,7 +93,7 @@ export default function Sidebar() {
                 href={href}
                 onClick={() => setSidebarOpen(false)}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-full text-[15px] font-medium transition-all md:justify-center lg:justify-start",
+                  "flex items-center gap-3 px-3.5 py-3 rounded-full text-[15px] font-medium transition-all md:justify-center lg:justify-start",
                   active
                     ? "font-bold text-white bg-white/[0.08]"
                     : "text-slate-300 hover:text-white hover:bg-white/[0.06]",
@@ -111,7 +111,7 @@ export default function Sidebar() {
 
         {/* User Section */}
         {user && (
-          <div className="border-t border-white/[0.06] p-3 space-y-1">
+          <div className="border-t border-white/[0.08] p-3 space-y-1">
             <Link
               href="/settings"
               onClick={() => setSidebarOpen(false)}
@@ -135,12 +135,12 @@ export default function Sidebar() {
                 )}
               </div>
               <div className="flex-1 min-w-0 md:hidden lg:block">
-                <div className="text-sm font-bold text-white truncate">
-                  {user.firstName} {user.lastName}
-                </div>
+                  <span className="text-sm font-bold text-white truncate">
+                    {user.firstName} {user.lastName}
+                  </span>
                 <div
                   className={cn(
-                    "inline-block text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold mt-0.5",
+                    "inline-block text-xs px-2 py-0.5 rounded-full font-mono font-bold mt-0.5",
                     TIER_STYLES[user.tier],
                   )}
                 >

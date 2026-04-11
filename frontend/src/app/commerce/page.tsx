@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -199,7 +199,7 @@ export default function CommercePage() {
         {/* â”€â”€ Tesla Ecosystem Showcase â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {teslaProducts.length > 0 && (
           <section>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-4 mb-4">
               <div className="flex items-center gap-2">
                 <Zap className="w-5 h-5 text-red-400" />
                 <h3 className="text-xl font-black text-white">
@@ -260,7 +260,7 @@ export default function CommercePage() {
         {/* â”€â”€ Space Economy Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {spaceProducts.length > 0 && (
           <section>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-4 mb-4">
               <div className="flex items-center gap-2">
                 <Rocket className="w-5 h-5 text-indigo-400" />
                 <h3 className="text-xl font-black text-white">Space Economy</h3>
@@ -321,7 +321,7 @@ export default function CommercePage() {
             <button
               key={cat.key}
               onClick={() => setActiveCategory(cat.key)}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold border transition-all duration-200 ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border transition-all duration-200 ${
                 activeCategory === cat.key
                   ? "bg-xc-purple border-purple-500 text-white shadow-lg shadow-purple-900/30"
                   : "bg-xc-dark/60 border-xc-border text-xc-muted hover:border-xc-purple/40 hover:text-white"
@@ -366,7 +366,7 @@ export default function CommercePage() {
         )}
 
         {/* â”€â”€ Disclosure â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-        <div className="flex items-start gap-3 text-xs text-xc-muted bg-xc-dark/40 border border-xc-border rounded-xl p-4">
+        <div className="flex items-start gap-4 text-xs text-xc-muted bg-xc-dark/40 border border-xc-border rounded-xl p-5">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-xc-muted" />
           <span>
             X-CAPITAL may receive referral compensation from merchant partners.
@@ -431,13 +431,13 @@ export default function CommercePage() {
 
             {/* specs if present */}
             {selected.specs && Object.keys(selected.specs).length > 0 && (
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-4">
                 {Object.entries(selected.specs).map(([k, v]) => (
                   <div
                     key={k}
                     className="bg-xc-dark/60 rounded-lg px-3 py-2 border border-xc-border"
                   >
-                    <div className="text-[9px] uppercase tracking-widest text-xc-muted font-semibold">
+                    <div className="text-xs uppercase tracking-widest text-xc-muted font-semibold">
                       {k}
                     </div>
                     <div className="text-xs font-black text-white mt-0.5">
@@ -504,7 +504,7 @@ export default function CommercePage() {
             )}
 
             {/* order summary */}
-            <div className="bg-xc-dark/40 rounded-xl p-4 space-y-2 text-sm border border-xc-border">
+            <div className="bg-xc-dark/40 rounded-xl p-5 space-y-2 text-sm border border-xc-border">
               <div className="flex justify-between">
                 <span className="text-xc-muted">Product price</span>
                 <span className="font-mono text-white">

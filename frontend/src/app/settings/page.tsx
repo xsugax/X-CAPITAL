@@ -72,7 +72,7 @@ export default function SettingsPage() {
     <DashboardLayout title="Settings" subtitle="Manage your account">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Profile Picture */}
-        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Profile</h2>
           <div className="flex flex-col sm:flex-row items-center gap-5">
             <div className="relative group">
@@ -125,7 +125,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Personal Info */}
-        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">
             Personal Information
           </h2>
@@ -170,7 +170,7 @@ export default function SettingsPage() {
                   type="email"
                   value={user.email}
                   disabled
-                  className="w-full bg-white/[0.02] border border-white/[0.06] rounded-xl pl-10 pr-4 py-2.5 text-sm text-xc-muted cursor-not-allowed"
+                  className="w-full bg-white/[0.02] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-sm text-xc-muted cursor-not-allowed"
                 />
               </div>
             </div>
@@ -210,7 +210,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Notifications */}
-        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Notifications</h2>
           <div className="space-y-3">
             <ToggleRow
@@ -241,7 +241,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Security */}
-        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Security</h2>
           <div className="space-y-4">
             <div>
@@ -277,7 +277,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Account Info */}
-        <section className="bg-xc-card border border-white/[0.06] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Account</h2>
           <div className="space-y-3">
             <InfoRow
@@ -340,7 +340,7 @@ function ToggleRow({
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
+    <div className="flex items-center justify-between py-2 border-b border-white/[0.08] last:border-0">
       <span className="text-sm text-xc-muted">{label}</span>
       <span className="text-sm font-medium text-white capitalize">
         {value.toLowerCase()}

@@ -279,8 +279,8 @@ export default function PortfolioPage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <Activity className="w-4 h-4 text-red-400" />
-              <h3 className="font-bold text-white">Drawdown Analysis</h3>
-              <span className="text-[10px] text-xc-muted ml-auto">
+              <h3 className="font-black text-white text-base">Drawdown Analysis</h3>
+              <span className="text-xs text-xc-muted ml-auto">
                 Max DD from peak
               </span>
             </div>
@@ -329,7 +329,7 @@ export default function PortfolioPage() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/[0.04] text-xs">
+            <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/[0.08] text-xs">
               <div>
                 <span className="text-xc-muted">Max Drawdown: </span>
                 <span className="text-red-400 font-bold font-mono">
@@ -352,8 +352,8 @@ export default function PortfolioPage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <BarChart3 className="w-4 h-4 text-purple-400" />
-              <h3 className="font-bold text-white">Monthly Returns</h3>
-              <span className="text-[10px] text-xc-muted ml-auto">
+              <h3 className="font-black text-white text-base">Monthly Returns</h3>
+              <span className="text-xs text-xc-muted ml-auto">
                 2026 YTD
               </span>
             </div>
@@ -396,7 +396,7 @@ export default function PortfolioPage() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/[0.04] text-xs">
+            <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/[0.08] text-xs">
               <div>
                 <span className="text-xc-muted">Best Month: </span>
                 <span className="text-emerald-400 font-bold font-mono">
@@ -423,7 +423,7 @@ export default function PortfolioPage() {
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-bold text-white text-lg">Holdings</h3>
-              <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
+              <span className="text-xs text-emerald-400 flex items-center gap-1 font-mono">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />{" "}
                 LIVE PRICES
               </span>
@@ -435,7 +435,7 @@ export default function PortfolioPage() {
 
             {/* Per-holding P&L bars */}
             {holdingsPnl.length > 0 && (
-              <div className="mt-8 pt-6 border-t border-white/[0.04]">
+              <div className="mt-8 pt-6 border-t border-white/[0.08]">
                 <h4 className="text-sm font-bold text-white mb-4">
                   Unrealized P&L by Position
                 </h4>
@@ -516,7 +516,7 @@ export default function PortfolioPage() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="space-y-2.5 mt-4">
+            <div className="space-y-3 mt-4">
               {allocationData.map((item, i) => {
                 const total = allocationData.reduce((s, d) => s + d.value, 0);
                 const pct = total > 0 ? (item.value / total) * 100 : 0;
@@ -534,7 +534,7 @@ export default function PortfolioPage() {
                       />
                       <span className="text-xc-muted">{item.name}</span>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <span className="font-mono text-white/60">
                         {formatCurrency(item.value)}
                       </span>
@@ -553,7 +553,7 @@ export default function PortfolioPage() {
         <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
           <div className="flex items-center gap-2 mb-5">
             <Target className="w-4 h-4 text-amber-400" />
-            <h3 className="font-bold text-white">Risk Metrics</h3>
+            <h3 className="font-black text-white text-base">Risk Metrics</h3>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {[
@@ -582,7 +582,7 @@ export default function PortfolioPage() {
             ].map(({ label, value, desc }) => (
               <div
                 key={label}
-                className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-4 text-center"
+                className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-5 text-center"
               >
                 <div className="text-lg font-black text-white font-mono">
                   {value}
@@ -590,7 +590,7 @@ export default function PortfolioPage() {
                 <div className="text-xs font-bold text-xc-muted mt-1">
                   {label}
                 </div>
-                <div className="text-[10px] text-xc-muted/60 mt-0.5">
+                <div className="text-xs text-xc-muted/60 mt-0.5">
                   {desc}
                 </div>
               </div>

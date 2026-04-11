@@ -274,7 +274,7 @@ export default function EnginePage() {
     >
       <div className="space-y-0">
         {/* ── HERO: AI COMPUTE + BANDWIDTH ──────────────────────────── */}
-        <section className="border-b border-white/[0.06] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-16 mb-16">
           <div className="max-w-3xl">
             <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
               X-CAPITAL INFRASTRUCTURE
@@ -315,14 +315,14 @@ export default function EnginePage() {
                 <div className="text-xl font-black font-mono text-white">
                   {value}
                 </div>
-                <div className="text-[11px] text-white/30 mt-1">{label}</div>
+                <div className="text-xs text-white/30 mt-1">{label}</div>
               </div>
             ))}
           </div>
         </section>
 
         {/* ── WHY YIELD IS STRUCTURALLY GUARANTEED ──────────────────── */}
-        <section className="border-b border-white/[0.06] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-16 mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
             YIELD ARCHITECTURE
           </p>
@@ -361,7 +361,7 @@ export default function EnginePage() {
                 <p className="text-[13px] text-white/35 leading-relaxed mb-6">
                   {desc}
                 </p>
-                <div className="pt-4 border-t border-white/[0.06]">
+                <div className="pt-4 border-t border-white/[0.08]">
                   <span className="text-xs text-white/25 uppercase tracking-wider">
                     Pool contribution
                   </span>
@@ -381,7 +381,7 @@ export default function EnginePage() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                <span className="text-[11px] font-mono text-white/50 uppercase tracking-wider">
+                <span className="text-xs font-mono text-white/50 uppercase tracking-wider">
                   Limited Capacity
                 </span>
               </div>
@@ -400,7 +400,7 @@ export default function EnginePage() {
         </section>
 
         {/* ── LIVE GLOBAL YIELD FEED ────────────────────────────────── */}
-        <section className="border-b border-white/[0.06] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-16 mb-16">
           <div className="flex items-center justify-between mb-6">
             <div>
               <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-2">
@@ -410,15 +410,15 @@ export default function EnginePage() {
                 Global Yield Feed
               </h2>
             </div>
-            <div className="flex items-center gap-2 text-[11px] font-mono text-white/40">
+            <div className="flex items-center gap-2 text-xs font-mono text-white/40">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />{" "}
               STREAMING
             </div>
           </div>
 
-          <div className="border border-white/[0.06] rounded-2xl overflow-hidden">
+          <div className="border border-white/[0.08] rounded-2xl overflow-hidden">
             {/* Header */}
-            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-6 py-3 border-b border-white/[0.04] text-[10px] font-mono uppercase tracking-wider text-white/25">
+            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-6 py-3 border-b border-white/[0.08] text-xs font-mono uppercase tracking-wider text-white/25">
               <span>Node</span>
               <span className="text-right">Yield</span>
               <span className="text-right">Time</span>
@@ -448,7 +448,7 @@ export default function EnginePage() {
                   </span>
                   <span
                     className={cn(
-                      "text-right font-mono text-[11px]",
+                      "text-right font-mono text-xs",
                       item.status === "settled"
                         ? "text-white/50"
                         : "text-white/25",
@@ -465,7 +465,7 @@ export default function EnginePage() {
         </section>
 
         {/* ── TURN ANY LIABILITY INTO A VAULT ───────────────────────── */}
-        <section className="border-b border-white/[0.06] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-16 mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
             ASSET INTEGRATION
           </p>
@@ -484,7 +484,7 @@ export default function EnginePage() {
                   key={cat.id}
                   onClick={() => handleAssetSelect(cat.id)}
                   className={cn(
-                    "w-full flex items-center gap-4 px-5 py-5 border-b border-white/[0.04] last:border-b-0 text-left transition-all",
+                    "w-full flex items-center gap-4 px-5 py-5 border-b border-white/[0.08] last:border-b-0 text-left transition-all",
                     selectedAsset === cat.id
                       ? "bg-white/[0.06]"
                       : "hover:bg-white/[0.02]",
@@ -507,7 +507,7 @@ export default function EnginePage() {
                     >
                       {cat.label}
                     </div>
-                    <div className="text-[11px] text-white/20">
+                    <div className="text-xs text-white/20">
                       {cat.example}
                     </div>
                   </div>
@@ -520,7 +520,7 @@ export default function EnginePage() {
 
             {/* Global Engine — vertical rectangle */}
             <div className="border border-white/[0.08] rounded-2xl p-8">
-              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/25 mb-8">
+              <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/25 mb-8">
                 GLOBAL ROUTING ENGINE
               </p>
 
@@ -533,7 +533,7 @@ export default function EnginePage() {
                         "flex items-center gap-4 px-6 py-5 rounded-xl border transition-all duration-500",
                         engineSyncing && selectedAsset
                           ? "border-white/20 bg-white/[0.04]"
-                          : "border-white/[0.06] bg-transparent",
+                          : "border-white/[0.08] bg-transparent",
                         engineSyncing &&
                           i === 0 &&
                           selectedAsset &&
@@ -545,7 +545,7 @@ export default function EnginePage() {
                           "w-10 h-10 rounded-xl border flex items-center justify-center transition-all duration-500",
                           engineSyncing && selectedAsset
                             ? "border-white/20 bg-white/[0.06]"
-                            : "border-white/[0.06]",
+                            : "border-white/[0.08]",
                         )}
                       >
                         <node.icon
@@ -572,7 +572,7 @@ export default function EnginePage() {
                               )?.label?.toUpperCase() ?? node.label)
                             : node.label}
                         </div>
-                        <div className="text-[11px] text-white/20">
+                        <div className="text-xs text-white/20">
                           {node.desc}
                         </div>
                       </div>
@@ -600,7 +600,7 @@ export default function EnginePage() {
 
               {/* Sync status */}
               {selectedAsset && (
-                <div className="mt-8 pt-6 border-t border-white/[0.06] flex items-center gap-3">
+                <div className="mt-8 pt-6 border-t border-white/[0.08] flex items-center gap-4">
                   {engineSyncing ? (
                     <>
                       <RefreshCw className="w-4 h-4 text-white/40 animate-spin" />
@@ -633,7 +633,7 @@ export default function EnginePage() {
         </section>
 
         {/* ── THE PROCESS ───────────────────────────────────────────── */}
-        <section className="border-b border-white/[0.06] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-16 mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
             THE PROCESS
           </p>
@@ -644,7 +644,7 @@ export default function EnginePage() {
           <div className="grid md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
             {PROCESS_STEPS.map((step) => (
               <div key={step.num} className="bg-[#080812] p-8">
-                <span className="text-[11px] font-mono text-white/20 mb-4 block">
+                <span className="text-xs font-mono text-white/20 mb-4 block">
                   {step.num}
                 </span>
                 <h3 className="text-lg font-bold text-white mb-3">
@@ -659,7 +659,7 @@ export default function EnginePage() {
         </section>
 
         {/* ── ARCHITECTURE (01-04) ──────────────────────────────────── */}
-        <section className="border-b border-white/[0.06] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-16 mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
             SYSTEM DESIGN
           </p>
@@ -667,13 +667,13 @@ export default function EnginePage() {
             Structural architecture.
           </h2>
 
-          <div className="space-y-0 border border-white/[0.06] rounded-2xl overflow-hidden">
+          <div className="space-y-0 border border-white/[0.08] rounded-2xl overflow-hidden">
             {ARCHITECTURE.map((item, i) => (
               <div
                 key={item.num}
                 className={cn(
                   "p-8 md:p-10",
-                  i < ARCHITECTURE.length - 1 && "border-b border-white/[0.04]",
+                  i < ARCHITECTURE.length - 1 && "border-b border-white/[0.08]",
                 )}
               >
                 <div className="flex gap-6 md:gap-10">
@@ -695,7 +695,7 @@ export default function EnginePage() {
         </section>
 
         {/* ── TRUST RATINGS ─────────────────────────────────────────── */}
-        <section className="border-b border-white/[0.06] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-16 mb-16">
           <div className="flex items-center justify-between mb-8">
             <div>
               <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-2">
@@ -712,7 +712,7 @@ export default function EnginePage() {
                 ))}
               </div>
               <span className="text-sm font-bold text-white ml-1">4.9/5</span>
-              <span className="text-[11px] text-white/30 ml-1">verified</span>
+              <span className="text-xs text-white/30 ml-1">verified</span>
             </div>
           </div>
 
@@ -730,11 +730,11 @@ export default function EnginePage() {
                 <p className="text-[13px] text-white/50 leading-relaxed mb-5">
                   &ldquo;{review.text}&rdquo;
                 </p>
-                <div className="pt-4 border-t border-white/[0.04]">
+                <div className="pt-4 border-t border-white/[0.08]">
                   <div className="text-sm font-bold text-white">
                     {review.name}
                   </div>
-                  <div className="text-[11px] text-white/25">
+                  <div className="text-xs text-white/25">
                     {review.role} &middot;{" "}
                     <span className="text-white/40">4.9/5</span>
                   </div>
@@ -768,7 +768,7 @@ export default function EnginePage() {
                 )}
               >
                 {tier.highlight && (
-                  <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/50 mb-4 border border-white/[0.1] rounded-full px-3 py-1 w-fit">
+                  <span className="text-xs font-mono uppercase tracking-[0.15em] text-white/50 mb-4 border border-white/[0.1] rounded-full px-3 py-1 w-fit">
                     Most Popular
                   </span>
                 )}
@@ -816,7 +816,7 @@ export default function EnginePage() {
           </div>
 
           {/* Bottom trust bar */}
-          <div className="flex items-center justify-center gap-8 mt-10 text-[11px] text-white/20">
+          <div className="flex items-center justify-center gap-8 mt-10 text-xs text-white/20">
             {[
               { icon: Shield, text: "SEC Compliant" },
               { icon: Lock, text: "Bank-grade Security" },

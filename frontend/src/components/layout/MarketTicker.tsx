@@ -80,18 +80,18 @@ export default function MarketTicker() {
   const items = [...data, ...data]; // duplicate for seamless loop
 
   return (
-    <div className="w-full bg-xc-black/90 border-b border-white/[0.04] overflow-hidden relative">
+    <div className="w-full bg-xc-black/90 border-b border-white/[0.08] overflow-hidden relative">
       {/* Fade edges */}
       <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-xc-black/90 to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-xc-black/90 to-transparent z-10 pointer-events-none" />
 
-      <div className="flex items-center animate-ticker whitespace-nowrap py-1.5">
+      <div className="flex items-center animate-ticker whitespace-nowrap py-2">
         {items.map((item, i) => (
           <div
             key={`${item.symbol}-${i}`}
-            className="inline-flex items-center gap-2 px-4 border-r border-white/[0.04] shrink-0"
+            className="inline-flex items-center gap-2.5 px-5 border-r border-white/[0.08] shrink-0"
           >
-            <span className="text-[11px] font-bold text-white/90">
+            <span className="text-xs font-bold text-white/90">
               {item.symbol}
             </span>
             {item.tag && (
@@ -112,7 +112,7 @@ export default function MarketTicker() {
                 {item.tag}
               </span>
             )}
-            <span className="text-[11px] font-mono text-white/70">
+            <span className="text-xs font-mono text-white/70">
               ${formatPrice(item.price)}
             </span>
             <span

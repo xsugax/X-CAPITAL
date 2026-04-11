@@ -359,10 +359,10 @@ export default function OraclePage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <BarChart3 className="w-4 h-4 text-purple-400" />
-              <h3 className="font-bold text-white">
+              <h3 className="font-black text-white text-base">
                 Predicted Returns by Asset
               </h3>
-              <span className="text-[10px] text-xc-muted ml-auto">
+              <span className="text-xs text-xc-muted ml-auto">
                 30-day horizon
               </span>
             </div>
@@ -417,13 +417,13 @@ export default function OraclePage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <Radio className="w-4 h-4 text-emerald-400" />
-              <h3 className="font-bold text-white">Signal Distribution</h3>
+              <h3 className="font-black text-white text-base">Signal Distribution</h3>
             </div>
             <div className="grid grid-cols-3 gap-4 mb-6">
               {signalDist.map((s) => (
                 <div
                   key={s.signal}
-                  className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-4 text-center"
+                  className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-5 text-center"
                 >
                   <div
                     className="text-3xl font-black font-mono"
@@ -443,7 +443,7 @@ export default function OraclePage() {
                 Confidence by Forecast
               </div>
               {forecasts.slice(0, 8).map((f) => (
-                <div key={f.symbol} className="flex items-center gap-3">
+                <div key={f.symbol} className="flex items-center gap-4">
                   <span className="text-xs font-bold text-white w-16">
                     {f.symbol}
                   </span>
@@ -481,7 +481,7 @@ export default function OraclePage() {
           </div>
 
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6 space-y-5">
-            <h3 className="font-bold text-white">Market Sentiment</h3>
+            <h3 className="font-black text-white text-base">Market Sentiment</h3>
 
             {/* Symbol selector */}
             <div className="flex flex-wrap gap-2">
@@ -575,11 +575,11 @@ export default function OraclePage() {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <Activity className="w-4 h-4 text-cyan-400" />
-              <h3 className="font-bold text-white">
+              <h3 className="font-black text-white text-base">
                 Sentiment Timeline — {activeSymbol}
               </h3>
             </div>
-            <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
+            <span className="text-xs text-emerald-400 flex items-center gap-1 font-mono">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />{" "}
               LIVE · 30 days
             </span>
