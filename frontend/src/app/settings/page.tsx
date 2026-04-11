@@ -27,7 +27,7 @@ const TIER_STYLES: Record<string, string> = {
 };
 
 export default function SettingsPage() {
-  const { user, updateUser } = useStore();
+  const { user, updateUser, changePassword } = useStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [firstName, setFirstName] = useState(user?.firstName ?? "");
@@ -44,6 +44,28 @@ export default function SettingsPage() {
   // Security
   const [showPassword, setShowPassword] = useState(false);
   const [twoFA, setTwoFA] = useState(false);
+  const [currentPw, setCurrentPw] = useState("");
+  const [newPw, setNewPw] = useState("");
+  const [confirmPw, setConfirmPw] = useState("");
+  const [pwMessage, setPwMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [pwLoading, setPwLoading] = useState(false);
+
+  const handleChangePassword = async () => {
+    setPwMessage(null);
+    if (!currentPw) { setPwMessage({ type: "error", text: "Enter your current password." }); return; }
+    if (newPw.length < 6) { setPwMessage({ type: "error", text: "New password must be at least 6 characters." }); return; }
+    if (newPw !== confirmPw) { setPwMessage({ type: "error", text: "Passwords do not match." }); return; }
+    setPwLoading(true);
+    try {
+      const result = await changePassword(currentPw, newPw);
+      if (result.success) {
+        setPwMessage({ type: "success", text: "Password changed successfully." });
+        setCurrentPw(""); setNewPw(""); setConfirmPw("");
+      } else {
+        setPwMessage({ type: "error", text: result.error || "Failed to change password." });
+      }
+    } finally { setPwLoading(false); }
+  };
 
   const handleProfilePicture = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -246,13 +268,15 @@ export default function SettingsPage() {
           <div className="space-y-4">
             <div>
               <label className="text-xs font-medium text-xc-muted mb-1.5 block">
-                Change Password
+                Current Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="New password"
+                  value={currentPw}
+                  onChange={(e) => setCurrentPw(e.target.value)}
+                  placeholder="Enter current password"
                   className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-10 py-2.5 text-sm text-white placeholder:text-xc-muted/50 focus:outline-none focus:ring-1 focus:ring-xc-purple/50 focus:border-xc-purple/30 transition-all"
                 />
                 <button
@@ -267,12 +291,63 @@ export default function SettingsPage() {
                 </button>
               </div>
             </div>
-            <ToggleRow
-              label="Two-factor authentication"
-              description="Add an extra layer of security"
-              checked={twoFA}
-              onChange={setTwoFA}
-            />
+            <div>
+              <label className="text-xs font-medium text-xc-muted mb-1.5 block">
+                New Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={newPw}
+                  onChange={(e) => setNewPw(e.target.value)}
+                  placeholder="New password (min 6 characters)"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-xc-muted/50 focus:outline-none focus:ring-1 focus:ring-xc-purple/50 focus:border-xc-purple/30 transition-all"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-xc-muted mb-1.5 block">
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-xc-muted" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={confirmPw}
+                  onChange={(e) => setConfirmPw(e.target.value)}
+                  placeholder="Confirm new password"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-xc-muted/50 focus:outline-none focus:ring-1 focus:ring-xc-purple/50 focus:border-xc-purple/30 transition-all"
+                />
+              </div>
+            </div>
+            {pwMessage && (
+              <div className={cn(
+                "text-xs px-3 py-2 rounded-xl border flex items-center gap-2",
+                pwMessage.type === "success" ? "bg-green-950/30 border-green-700/40 text-green-400" : "bg-red-950/30 border-red-700/40 text-red-400"
+              )}>
+                {pwMessage.type === "success" ? <Check className="w-3.5 h-3.5" /> : <Shield className="w-3.5 h-3.5" />}
+                {pwMessage.text}
+              </div>
+            )}
+            <button
+              onClick={handleChangePassword}
+              disabled={pwLoading}
+              className={cn(
+                "w-full sm:w-auto px-6 py-2.5 rounded-full text-sm font-bold transition-all",
+                "bg-gradient-to-r from-white/20 to-white/5 text-white hover:opacity-90 disabled:opacity-50",
+              )}
+            >
+              {pwLoading ? "Updating..." : "Update Password"}
+            </button>
+            <div className="pt-2">
+              <ToggleRow
+                label="Two-factor authentication"
+                description="Add an extra layer of security"
+                checked={twoFA}
+                onChange={setTwoFA}
+              />
+            </div>
           </div>
         </section>
 

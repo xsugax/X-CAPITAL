@@ -143,6 +143,8 @@ export default function AdminPage() {
   const [fundModal, setFundModal] = useState<{ userId: string; mode: "fund" | "debit" } | null>(null);
   const [fundAmount, setFundAmount] = useState("");
   const [fundNote, setFundNote] = useState("");
+  const [fundAsUser, setFundAsUser] = useState(false);
+  const [fundTxType, setFundTxType] = useState<"auto" | "DEPOSIT" | "WITHDRAWAL" | "TRADE" | "FUND_INVESTMENT" | "FUND_REDEMPTION" | "FEE">("auto");
 
   // Edit
   const [editModal, setEditModal] = useState<User | null>(null);
@@ -238,14 +240,27 @@ export default function AdminPage() {
     if (!user) return;
     const isFund = fundModal.mode === "fund";
     const newBalance = (user.balance ?? 0) + (isFund ? amount : -amount);
+
+    // Determine transaction type
+    let txType: Transaction["type"];
+    if (fundTxType === "auto") {
+      txType = isFund ? "CREDIT" : "DEBIT";
+    } else {
+      txType = fundTxType as Transaction["type"];
+    }
+
     const txn: Transaction = {
-      id: uid(), type: isFund ? "CREDIT" : "DEBIT", amount: isFund ? amount : -amount,
-      note: fundNote || (isFund ? "Admin credit" : "Admin debit"), timestamp: new Date().toISOString(), performedBy: currentUser?.email || "admin",
+      id: uid(),
+      type: txType,
+      amount: isFund ? amount : -amount,
+      note: fundNote || (isFund ? "Deposit" : "Withdrawal"),
+      timestamp: new Date().toISOString(),
+      performedBy: fundAsUser ? (user.email) : (currentUser?.email || "admin"),
     };
     updateUserById(fundModal.userId, { balance: Math.max(0, newBalance), transactions: [...(user.transactions || []), txn] });
-    audit(`${isFund ? "Funded" : "Debited"} ${formatCurrency(amount)}`, user.email, isFund ? "success" : "warning");
+    audit(`${isFund ? "Funded" : "Debited"} ${formatCurrency(amount)}${fundAsUser ? " (as user)" : ""}`, user.email, isFund ? "success" : "warning");
     showToast(`${isFund ? "Funded" : "Debited"} ${formatCurrency(amount)} ${isFund ? "to" : "from"} ${user.firstName}`);
-    setFundModal(null); setFundAmount(""); setFundNote("");
+    setFundModal(null); setFundAmount(""); setFundNote(""); setFundAsUser(false); setFundTxType("auto");
   };
 
   const handleEditSave = () => {
@@ -752,10 +767,27 @@ export default function AdminPage() {
 
       {/* Fund / Debit Modal */}
       {fundModal && (
-        <AdminModal title={fundModal.mode === "fund" ? "Fund Account" : "Debit Account"} onClose={() => { setFundModal(null); setFundAmount(""); setFundNote(""); }}>
+        <AdminModal title={fundModal.mode === "fund" ? "Fund Account" : "Debit Account"} onClose={() => { setFundModal(null); setFundAmount(""); setFundNote(""); setFundAsUser(false); setFundTxType("auto"); }}>
           <div className="space-y-4">
             <Field label="Amount (USD)" value={fundAmount} type="number" onChange={setFundAmount} placeholder="0.00" />
-            <Field label="Note" value={fundNote} onChange={setFundNote} placeholder={fundModal.mode === "fund" ? "e.g. Wire deposit" : "e.g. Withdrawal"} />
+            <Field label="Note / Description" value={fundNote} onChange={setFundNote} placeholder={fundModal.mode === "fund" ? "e.g. Wire transfer — JPMorgan Chase" : "e.g. ACH withdrawal — Chase ····8291"} />
+            <SelectField label="Transaction Type" value={fundTxType} options={["auto", "DEPOSIT", "WITHDRAWAL", "TRADE", "FUND_INVESTMENT", "FUND_REDEMPTION", "FEE"]}
+              onChange={(v) => setFundTxType(v as typeof fundTxType)} />
+
+            <div className="border-t border-white/5 pt-4">
+              <div className="flex items-center justify-between py-2">
+                <div>
+                  <p className="text-sm font-medium text-white">Show as user activity</p>
+                  <p className="text-xs text-gray-500">Hides admin identity — appears as organic user action</p>
+                </div>
+                <button onClick={() => setFundAsUser(!fundAsUser)}
+                  className={cn("relative w-11 h-6 rounded-full transition-colors", fundAsUser ? "bg-emerald-600" : "bg-white/10")}
+                >
+                  <div className={cn("absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform", fundAsUser && "translate-x-5")} />
+                </button>
+              </div>
+            </div>
+
             <button onClick={handleFundDebit} className={cn("w-full py-2.5 rounded-lg text-sm font-medium transition", fundModal.mode === "fund" ? "bg-green-600 hover:bg-green-500" : "bg-red-600 hover:bg-red-500")}>
               {fundModal.mode === "fund" ? "Credit Funds" : "Debit Funds"}
             </button>

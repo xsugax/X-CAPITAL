@@ -225,7 +225,7 @@ export default function WalletPage() {
   const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<ModalType>(null);
-  const [depositTab, setDepositTab] = useState<DepositTab>("wire");
+  const [depositTab, setDepositTab] = useState<DepositTab>("crypto");
   const [depositStep, setDepositStep] = useState<DepositStep>(1);
   const [withdrawStep, setWithdrawStep] = useState<WithdrawStep>(1);
   const [selectedCrypto, setSelectedCrypto] = useState(CRYPTOS[0]);
@@ -608,6 +608,26 @@ export default function WalletPage() {
         {/* ── Funding Methods ── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div
+            className="bg-xc-card border border-white/[0.10] rounded-2xl p-5 flex flex-col gap-4 hover:border-white/20 transition-colors cursor-pointer group relative overflow-hidden"
+            onClick={() => openModal("deposit", "crypto")}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
+            <div className="absolute top-3 right-3 text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">RECOMMENDED</div>
+            <div className="flex items-start justify-between">
+              <div className="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center">
+                <Wallet className="w-5 h-5 text-white/50" />
+              </div>
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-white/50 bg-white/[0.03] border-white/[0.10] flex items-center gap-1">
+                <Zap className="w-2.5 h-2.5" /> INSTANT
+              </span>
+            </div>
+            <div>
+              <div className="font-bold text-white group-hover:text-white/80 transition-colors">Cryptocurrency</div>
+              <div className="text-xs text-xc-muted mt-1">BTC · ETH · USDT · USDC · SOL · BNB · XRP — swift confirmation · no conversion fee</div>
+            </div>
+          </div>
+
+          <div
             className="bg-xc-card border border-xc-border rounded-2xl p-5 flex flex-col gap-4 hover:border-white/[0.10] transition-colors cursor-pointer group"
             onClick={() => openModal("deposit", "wire")}
           >
@@ -620,25 +640,6 @@ export default function WalletPage() {
             <div>
               <div className="font-bold text-white group-hover:text-white/80 transition-colors">Bank / Wire Transfer</div>
               <div className="text-xs text-xc-muted mt-1">SWIFT · SEPA · ACH — $10 min · 1–3 business days · No fee above $10k</div>
-            </div>
-          </div>
-
-          <div
-            className="bg-xc-card border border-white/[0.10] rounded-2xl p-5 flex flex-col gap-4 hover:border-white/20 transition-colors cursor-pointer group relative overflow-hidden"
-            onClick={() => openModal("deposit", "crypto")}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
-            <div className="flex items-start justify-between">
-              <div className="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center">
-                <Wallet className="w-5 h-5 text-white/50" />
-              </div>
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full border text-white/50 bg-white/[0.03] border-white/[0.10] flex items-center gap-1">
-                <Zap className="w-2.5 h-2.5" /> INSTANT
-              </span>
-            </div>
-            <div>
-              <div className="font-bold text-white group-hover:text-white/80 transition-colors">Cryptocurrency</div>
-              <div className="text-xs text-xc-muted mt-1">BTC · ETH · USDT · USDC · SOL · BNB · XRP — instant confirmation · no conversion fee</div>
             </div>
           </div>
 
@@ -661,48 +662,12 @@ export default function WalletPage() {
 
         {/* ── Action Buttons ── */}
         <div className="flex gap-4">
-          <Button variant="primary" size="lg" onClick={() => openModal("deposit")} icon={<ArrowDownLeft className="w-4 h-4" />}>
+          <Button variant="primary" size="lg" onClick={() => openModal("deposit", "crypto")} icon={<ArrowDownLeft className="w-4 h-4" />}>
             Deposit Funds
           </Button>
           <Button variant="secondary" size="lg" onClick={() => openModal("withdraw")} icon={<ArrowUpRight className="w-4 h-4" />}>
             Withdraw
           </Button>
-        </div>
-
-        {/* ── Transaction History ── */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-xc-border flex items-center justify-between">
-            <div>
-              <h3 className="font-black text-white text-base">Transaction History</h3>
-              <p className="text-xs text-xc-muted mt-0.5">All deposits, withdrawals &amp; trades</p>
-            </div>
-            <Badge variant="default" size="sm">{displayTx.length} records</Badge>
-          </div>
-          <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-4 px-6 py-3 border-b border-xc-border/50">
-            <span className="text-xs text-xc-muted uppercase tracking-wider">Type</span>
-            <span className="text-xs text-xc-muted uppercase tracking-wider">Description</span>
-            <span className="text-xs text-xc-muted uppercase tracking-wider text-right">Amount</span>
-            <span className="text-xs text-xc-muted uppercase tracking-wider text-right">Status</span>
-            <span className="text-xs text-xc-muted uppercase tracking-wider text-right">Date</span>
-          </div>
-          <div>
-            {displayTx.map((tx, i) => (
-              <div key={tx.id || i} className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-4 px-6 py-4 items-center border-b border-xc-border/20 hover:bg-white/[0.02] transition-colors">
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                  {TX_ICONS[tx.type] ?? <BarChart3 className="w-4 h-4 text-xc-muted" />}
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-white">{String(tx.metadata?.description ?? tx.type.replace(/_/g, " "))}</div>
-                  {tx.reference && <div className="text-xs text-xc-muted font-mono">{tx.reference}</div>}
-                </div>
-                <span className={cn("text-sm font-mono font-bold text-right", TX_COLOR[tx.type] ?? "text-white")}>
-                  {TX_COLOR[tx.type] === "text-xc-red" ? "−" : "+"}{formatCurrency(Number(tx.amount))}
-                </span>
-                <Badge variant={tx.status === "COMPLETED" ? "success" : tx.status === "FAILED" ? "danger" : "warning"} size="sm">{tx.status}</Badge>
-                <span className="text-xs text-xc-muted text-right whitespace-nowrap">{tx.createdAt ? new Date(tx.createdAt).toLocaleDateString() : "—"}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 

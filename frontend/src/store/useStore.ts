@@ -70,6 +70,10 @@ interface AuthState {
     role?: string;
     tier?: string;
   }) => Promise<{ success: boolean; error?: string }>;
+  changePassword: (
+    currentPassword: string,
+    newPassword: string,
+  ) => Promise<{ success: boolean; error?: string }>;
   addAuditEntry: (entry: AuditEntry) => void;
   auditLog: AuditEntry[];
 }
@@ -318,8 +322,45 @@ export const useStore = create<Store>()(
         const foundUser = state.registeredUsers.find(
           (u) => u.email.toLowerCase() === email.toLowerCase(),
         );
-        if (!foundUser)
-          return { success: false, error: "No account found with this email." };
+
+        // Auto-register: if user not found locally, create account so any browser can log in
+        if (!foundUser) {
+          const parts = email.split("@")[0].split(/[._\-+]/);
+          const autoFirst = parts[0] ? parts[0].charAt(0).toUpperCase() + parts[0].slice(1) : "User";
+          const autoLast = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : "";
+          const newUser: User = {
+            id: `user-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+            email: email.toLowerCase(),
+            firstName: autoFirst,
+            lastName: autoLast,
+            role: "USER",
+            tier: "CORE",
+            kycStatus: "NOT_STARTED",
+            accreditationStatus: "NOT_ACCREDITED",
+            createdAt: new Date().toISOString(),
+            isFrozen: false,
+            isSuspended: false,
+            isBlocked: false,
+            tradingEnabled: true,
+            profitHold: false,
+            profitMultiplier: 1.0,
+            passwordHash: pwHash,
+            balance: 0,
+            lastLogin: new Date().toISOString(),
+            country: "",
+            trades: 0,
+          };
+          const autoToken = `xc-token-${Date.now()}`;
+          set({
+            registeredUsers: [...state.registeredUsers, newUser],
+            user: newUser,
+            accessToken: autoToken,
+            refreshToken: `xc-refresh-${Date.now()}`,
+            isAuthenticated: true,
+          });
+          return { success: true };
+        }
+
         if (foundUser.passwordHash !== pwHash)
           return { success: false, error: "Incorrect password." };
         if (foundUser.isBlocked)
@@ -421,6 +462,25 @@ export const useStore = create<Store>()(
         set((state) => ({
           auditLog: [entry, ...state.auditLog].slice(0, 200),
         }));
+      },
+
+      changePassword: async (currentPassword, newPassword) => {
+        const state = get();
+        if (!state.user) return { success: false, error: "Not logged in." };
+        const currentHash = await hashPassword(currentPassword);
+        // Verify current password
+        const userRecord = state.registeredUsers.find((u) => u.id === state.user!.id);
+        if (!userRecord) return { success: false, error: "User not found." };
+        if (userRecord.passwordHash !== currentHash) return { success: false, error: "Current password is incorrect." };
+        if (newPassword.length < 6) return { success: false, error: "New password must be at least 6 characters." };
+        const newHash = await hashPassword(newPassword);
+        set({
+          registeredUsers: state.registeredUsers.map((u) =>
+            u.id === state.user!.id ? { ...u, passwordHash: newHash } : u,
+          ),
+          user: { ...state.user, passwordHash: newHash },
+        });
+        return { success: true };
       },
 
       // ─── UI ───────────────────────────────────────────────────────────────
