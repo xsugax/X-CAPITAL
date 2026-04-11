@@ -170,7 +170,6 @@ export default function AdminPage() {
   const {
     user: currentUser,
     isAuthenticated,
-    _hasHydrated,
     registeredUsers,
     updateUserById,
     deleteUserById,
@@ -644,7 +643,6 @@ export default function AdminPage() {
   };
 
   // ── If not admin ──────────────────────────────────────────────────────────
-  if (!_hasHydrated) return null;
   if (!isAdmin) {
     return (
       <div className="min-h-screen bg-[#08080c] flex items-center justify-center">

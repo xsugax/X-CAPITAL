@@ -184,7 +184,6 @@ interface UIState {
   setSidebarOpen: (open: boolean) => void;
   theme: "black" | "light";
   setTheme: (theme: "black" | "light") => void;
-  _hasHydrated: boolean;
 }
 
 interface DataState {
@@ -559,7 +558,6 @@ export const useStore = create<Store>()(
       },
 
       // ─── UI ───────────────────────────────────────────────────────────────
-      _hasHydrated: false,
       sidebarOpen: true,
       toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
@@ -721,14 +719,7 @@ export const useStore = create<Store>()(
         theme: state.theme,
       }),
       onRehydrateStorage: () => (state) => {
-        if (typeof window === "undefined") {
-          useStore.setState({ _hasHydrated: true });
-          return;
-        }
-        if (!state) {
-          useStore.setState({ _hasHydrated: true });
-          return;
-        }
+        if (typeof window === "undefined" || !state) return;
         const remembered = localStorage.getItem("xc_remember_me") === "1";
         const sessionActive =
           sessionStorage.getItem("xc_session_active") === "1";
@@ -745,8 +736,6 @@ export const useStore = create<Store>()(
         if (state.theme) {
           document.documentElement.setAttribute("data-theme", state.theme);
         }
-        // Signal hydration complete
-        useStore.setState({ _hasHydrated: true });
       },
     },
   ),

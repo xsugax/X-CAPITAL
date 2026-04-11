@@ -7,7 +7,7 @@ import { Shield, Eye, EyeOff, Lock, Mail, AlertCircle } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const { loginUser, user, _hasHydrated } = useStore();
+  const { loginUser, user } = useStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
@@ -16,7 +16,7 @@ export default function AdminLoginPage() {
 
   // If already logged in as admin, redirect
   const isAdmin = user && (user.role === "GOD_ADMIN" || user.role === "ADMIN");
-  if (_hasHydrated && isAdmin) {
+  if (isAdmin) {
     router.push("/admin");
     return null;
   }
