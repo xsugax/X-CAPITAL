@@ -62,15 +62,20 @@ import type {
 } from "@/types";
 import Link from "next/link";
 
-// ─── Mock performance data for chart ─────────────────────────────────────────
+// ─── Deterministic performance data for chart (seeded, no random flicker) ────
 function generatePerformanceData(baseValue: number, days: number) {
   const data = [];
   let value = baseValue * 0.75;
   const now = new Date();
+  // Deterministic seed sequence
+  const seeds = [0.53, 0.61, 0.42, 0.58, 0.47, 0.66, 0.39, 0.71, 0.44, 0.55,
+    0.62, 0.48, 0.57, 0.63, 0.41, 0.68, 0.52, 0.59, 0.46, 0.64,
+    0.54, 0.60, 0.43, 0.67, 0.50, 0.56, 0.65, 0.45, 0.69, 0.51, 0.58];
   for (let i = days; i >= 0; i--) {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
-    value *= 1 + (Math.random() - 0.47) * 0.025;
+    const s = seeds[(days - i) % seeds.length];
+    value *= 1 + (s - 0.47) * 0.025;
     data.push({
       date: date.toLocaleDateString("en-US", {
         month: "short",
@@ -208,32 +213,38 @@ export default function DashboardPage() {
         .map(([name, value]) => ({ name, value: Number(value) }))
     : [];
 
-  // ── Live price drift on perf chart ──
+  // ── Live price drift on perf chart (deterministic micro-oscillation) ──
   useEffect(() => {
+    let tick = 0;
+    const driftSequence = [0.52, 0.49, 0.54, 0.48, 0.53, 0.50, 0.51, 0.47, 0.55, 0.49];
     const interval = setInterval(() => {
+      const drift = driftSequence[tick % driftSequence.length];
+      tick++;
       setPerfData((prev) => {
         if (!prev.length) return prev;
         const last = prev[prev.length - 1];
         return [
           ...prev.slice(0, -1),
-          { ...last, value: last.value * (1 + (Math.random() - 0.48) * 0.003) },
+          { ...last, value: last.value * (1 + (drift - 0.48) * 0.003) },
         ];
       });
     }, 4000);
     return () => clearInterval(interval);
   }, []);
 
-  // ── Volume data for dashboard volume chart ──
+  // ── Volume data for dashboard volume chart (deterministic to avoid hydration mismatch) ──
   const volumeData = useMemo(() => {
+    const seed = [0.72, 0.31, 0.89, 0.44, 0.67, 0.18, 0.93, 0.56, 0.38, 0.81, 0.25, 0.64, 0.47, 0.76, 0.53];
     const data = [];
     const now = new Date();
     for (let i = 14; i >= 0; i--) {
       const d = new Date(now);
       d.setDate(d.getDate() - i);
+      const s = seed[14 - i];
       data.push({
         date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-        volume: Math.round(Math.random() * 500000 + 100000),
-        trades: Math.round(Math.random() * 80 + 20),
+        volume: Math.round(s * 500000 + 100000),
+        trades: Math.round(s * 80 + 20),
       });
     }
     return data;

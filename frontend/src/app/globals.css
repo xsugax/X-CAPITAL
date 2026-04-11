@@ -6,7 +6,7 @@
 
 /* Hero video responsive framing — show the rocket, not just smoke */
 .hero-video {
-  object-position: center 20%; /* mobile: focus higher up where rocket is */
+  object-position: center bottom; /* mobile: rocket centered at bottom with contain */
 }
 @media (min-width: 768px) {
   .hero-video {
