@@ -184,6 +184,7 @@ interface UIState {
   setSidebarOpen: (open: boolean) => void;
   theme: "black" | "light";
   setTheme: (theme: "black" | "light") => void;
+  _hasHydrated: boolean;
 }
 
 interface DataState {
@@ -558,6 +559,7 @@ export const useStore = create<Store>()(
       },
 
       // ─── UI ───────────────────────────────────────────────────────────────
+      _hasHydrated: false,
       sidebarOpen: true,
       toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
@@ -736,6 +738,8 @@ export const useStore = create<Store>()(
         if (state.theme) {
           document.documentElement.setAttribute("data-theme", state.theme);
         }
+        // Signal hydration complete
+        useStore.setState({ _hasHydrated: true });
       },
     },
   ),

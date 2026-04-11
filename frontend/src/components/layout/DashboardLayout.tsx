@@ -20,15 +20,16 @@ export default function DashboardLayout({
   title,
   subtitle,
 }: DashboardLayoutProps) {
-  const { isAuthenticated } = useStore();
+  const { isAuthenticated, _hasHydrated } = useStore();
   const router = useRouter();
   const [showFab, setShowFab] = useState(false);
 
   useEffect(() => {
+    if (!_hasHydrated) return; // Wait for store rehydration
     if (!isAuthenticated) {
       router.push("/auth/login");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, _hasHydrated, router]);
 
   useEffect(() => {
     const onScroll = () => setShowFab(window.scrollY > 120);
@@ -36,7 +37,7 @@ export default function DashboardLayout({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (!isAuthenticated) return null;
+  if (!_hasHydrated || !isAuthenticated) return null;
 
   return (
     <div className="min-h-screen bg-xc-black">
