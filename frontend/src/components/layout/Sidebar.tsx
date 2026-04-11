@@ -14,6 +14,7 @@ import {
   LogOut,
   Settings,
   X,
+  Zap,
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { cn } from "@/lib/utils";
@@ -25,6 +26,7 @@ const navItems = [
   { href: "/funds", icon: Globe, label: "Funds & SPVs" },
   { href: "/commerce", icon: ShoppingBag, label: "Commerce" },
   { href: "/oracle", icon: Cpu, label: "AI Oracle" },
+  { href: "/engine", icon: Zap, label: "The Engine" },
   { href: "/wallet", icon: Wallet, label: "Wallet" },
 ];
 
