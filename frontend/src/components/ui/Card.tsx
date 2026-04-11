@@ -48,7 +48,9 @@ export function StatCard({
           <p className="text-[11px] font-bold text-xc-muted uppercase tracking-widest mb-2">
             {title}
           </p>
-          <p className="text-2xl font-black text-white font-num tracking-tight">{value}</p>
+          <p className="text-2xl font-black text-white font-num tracking-tight">
+            {value}
+          </p>
           {subtitle && <p className="text-sm text-xc-muted mt-1">{subtitle}</p>}
           {change !== undefined && (
             <span

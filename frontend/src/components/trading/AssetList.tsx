@@ -9,6 +9,7 @@ import {
   getAssetTypeColor,
 } from "@/lib/utils";
 import { Search, ArrowUpRight, ArrowDownRight, Flame } from "lucide-react";
+import { useMarketPrices } from "@/hooks/useMarketPrices";
 import type { Asset } from "@/types";
 
 const ASSET_TYPES = [
@@ -50,20 +51,41 @@ export default function AssetList({
     load();
   }, []);
 
-  // Live price tick every 2s
+  const { prices: livePrices } = useMarketPrices({ refreshInterval: 30_000 });
+
+  // Overlay live prices onto assets
+  useEffect(() => {
+    if (Object.keys(livePrices).length === 0) return;
+    setAssets((prev) =>
+      prev.map((a) => {
+        const live = livePrices[a.symbol];
+        if (!live) return a;
+        return {
+          ...a,
+          price: live.price,
+          priceChange24h: live.changePercent24h,
+        };
+      }),
+    );
+  }, [livePrices]);
+
+  // Micro-fluctuations only for assets without live data (private tokens etc)
   useEffect(() => {
     const interval = setInterval(() => {
       setAssets((prev) =>
-        prev.map((a) => ({
-          ...a,
-          price: Number(a.price) * (1 + (Math.random() - 0.48) * 0.004),
-          priceChange24h:
-            Number(a.priceChange24h ?? 0) + (Math.random() - 0.48) * 0.08,
-        })),
+        prev.map((a) => {
+          if (livePrices[a.symbol]) return a; // skip live-priced
+          return {
+            ...a,
+            price: Number(a.price) * (1 + (Math.random() - 0.48) * 0.004),
+            priceChange24h:
+              Number(a.priceChange24h ?? 0) + (Math.random() - 0.48) * 0.08,
+          };
+        }),
       );
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [livePrices]);
 
   const filtered = assets.filter((a) => {
     const matchSearch =

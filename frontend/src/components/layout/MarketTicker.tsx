@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMarketPrices } from "@/hooks/useMarketPrices";
 
 interface TickerItem {
   symbol: string;
@@ -11,7 +12,7 @@ interface TickerItem {
   tag?: string;
 }
 
-const TICKER_DATA: TickerItem[] = [
+const TICKER_SEED: TickerItem[] = [
   { symbol: "TSLA", price: 342.18, change: 3.12, tag: "NYSE" },
   { symbol: "SpaceX", price: 252.0, change: 6.84, tag: "PRIVATE" },
   { symbol: "NVDA", price: 875.39, change: 2.41 },
@@ -61,21 +62,41 @@ function formatPrice(price: number): string {
 }
 
 export default function MarketTicker() {
-  const [data, setData] = useState(TICKER_DATA);
+  const [data, setData] = useState(TICKER_SEED);
+  const { prices } = useMarketPrices({ refreshInterval: 30_000 });
 
-  // Simulate micro price fluctuations
+  // Overlay live prices onto ticker items whenever prices update
+  useEffect(() => {
+    if (Object.keys(prices).length === 0) return;
+    setData((prev) =>
+      prev.map((item) => {
+        const live = prices[item.symbol];
+        if (!live) return item;
+        return {
+          ...item,
+          price: live.price,
+          change: live.changePercent24h,
+        };
+      })
+    );
+  }, [prices]);
+
+  // Micro-fluctuations for items without live data (private tokens, commodities)
   useEffect(() => {
     const interval = setInterval(() => {
       setData((prev) =>
-        prev.map((item) => ({
-          ...item,
-          price: item.price * (1 + (Math.random() - 0.5) * 0.002),
-          change: item.change + (Math.random() - 0.5) * 0.15,
-        })),
+        prev.map((item) => {
+          if (prices[item.symbol]) return item; // skip live-priced items
+          return {
+            ...item,
+            price: item.price * (1 + (Math.random() - 0.5) * 0.002),
+            change: item.change + (Math.random() - 0.5) * 0.15,
+          };
+        }),
       );
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [prices]);
 
   const items = [...data, ...data]; // duplicate for seamless loop
 

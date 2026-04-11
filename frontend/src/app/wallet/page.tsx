@@ -47,6 +47,7 @@ import {
 } from "lucide-react";
 import type { WalletTransaction } from "@/types";
 import { useStore, type PendingTransaction } from "@/store/useStore";
+import { useMarketPrices } from "@/hooks/useMarketPrices";
 
 type ModalType = "deposit" | "withdraw" | null;
 type DepositTab = "wire" | "crypto" | "card";
@@ -262,6 +263,36 @@ export default function WalletPage() {
   const [withdrawAddress, setWithdrawAddress] = useState("");
 
   const wireRef = useMemo(() => "XCAP-" + uid().toUpperCase(), []);
+
+  // Live crypto prices from CoinGecko
+  const { prices: livePrices } = useMarketPrices({
+    stocks: false,
+    etfs: false,
+    refreshInterval: 30_000,
+  });
+
+  // Overlay live rates onto the CRYPTOS array
+  const liveCryptos = useMemo(
+    () =>
+      CRYPTOS.map((c) => {
+        const live = livePrices[c.symbol];
+        return live ? { ...c, rate: live.price } : c;
+      }),
+    [livePrices],
+  );
+
+  // Keep selectedCrypto / withdrawCrypto in sync with live rates
+  useEffect(() => {
+    const updated = liveCryptos.find((c) => c.symbol === selectedCrypto.symbol);
+    if (updated && updated.rate !== selectedCrypto.rate)
+      setSelectedCrypto(updated);
+  }, [liveCryptos, selectedCrypto.symbol, selectedCrypto.rate]);
+
+  useEffect(() => {
+    const updated = liveCryptos.find((c) => c.symbol === withdrawCrypto.symbol);
+    if (updated && updated.rate !== withdrawCrypto.rate)
+      setWithdrawCrypto(updated);
+  }, [liveCryptos, withdrawCrypto.symbol, withdrawCrypto.rate]);
 
   // My pending txns
   const myPending = useMemo(
@@ -1145,7 +1176,7 @@ export default function WalletPage() {
                   {depositStep === 1 && (
                     <div className="space-y-4">
                       <div className="grid grid-cols-7 gap-2">
-                        {CRYPTOS.map((c) => (
+                        {liveCryptos.map((c) => (
                           <button
                             key={c.symbol}
                             onClick={() => {
@@ -1913,7 +1944,7 @@ export default function WalletPage() {
               ) : (
                 <div className="space-y-3">
                   <div className="grid grid-cols-4 gap-2">
-                    {CRYPTOS.slice(0, 4).map((c) => (
+                    {liveCryptos.slice(0, 4).map((c) => (
                       <button
                         key={c.symbol}
                         onClick={() => setWithdrawCrypto(c)}

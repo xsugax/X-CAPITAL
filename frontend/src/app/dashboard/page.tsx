@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
@@ -46,6 +46,7 @@ import {
   Building2,
 } from "lucide-react";
 import { portfolioAPI, walletAPI, oracleAPI, tradingAPI } from "@/lib/api";
+import { useMarketPrices } from "@/hooks/useMarketPrices";
 import {
   formatCurrency,
   formatPercent,
@@ -68,9 +69,11 @@ function generatePerformanceData(baseValue: number, days: number) {
   let value = baseValue * 0.75;
   const now = new Date();
   // Deterministic seed sequence
-  const seeds = [0.53, 0.61, 0.42, 0.58, 0.47, 0.66, 0.39, 0.71, 0.44, 0.55,
-    0.62, 0.48, 0.57, 0.63, 0.41, 0.68, 0.52, 0.59, 0.46, 0.64,
-    0.54, 0.60, 0.43, 0.67, 0.50, 0.56, 0.65, 0.45, 0.69, 0.51, 0.58];
+  const seeds = [
+    0.53, 0.61, 0.42, 0.58, 0.47, 0.66, 0.39, 0.71, 0.44, 0.55, 0.62, 0.48,
+    0.57, 0.63, 0.41, 0.68, 0.52, 0.59, 0.46, 0.64, 0.54, 0.6, 0.43, 0.67, 0.5,
+    0.56, 0.65, 0.45, 0.69, 0.51, 0.58,
+  ];
   for (let i = days; i >= 0; i--) {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
@@ -216,7 +219,9 @@ export default function DashboardPage() {
   // â”€â”€ Live price drift on perf chart (deterministic micro-oscillation) â”€â”€
   useEffect(() => {
     let tick = 0;
-    const driftSequence = [0.52, 0.49, 0.54, 0.48, 0.53, 0.50, 0.51, 0.47, 0.55, 0.49];
+    const driftSequence = [
+      0.52, 0.49, 0.54, 0.48, 0.53, 0.5, 0.51, 0.47, 0.55, 0.49,
+    ];
     const interval = setInterval(() => {
       const drift = driftSequence[tick % driftSequence.length];
       tick++;
@@ -232,9 +237,38 @@ export default function DashboardPage() {
     return () => clearInterval(interval);
   }, []);
 
+  // Live market prices
+  const { prices: livePrices } = useMarketPrices({ refreshInterval: 30_000 });
+
+  useEffect(() => {
+    if (Object.keys(livePrices).length === 0) return;
+    setTopAssets((prev) =>
+      prev.map((a) => {
+        const live = livePrices[a.symbol];
+        return live
+          ? { ...a, price: live.price, priceChange24h: live.changePercent24h }
+          : a;
+      }),
+    );
+  }, [livePrices]);
+
+  const liveDemoAssets = useMemo(
+    () =>
+      DEMO_ASSETS.map((a) => {
+        const live = livePrices[a.symbol ?? ""];
+        return live
+          ? { ...a, price: live.price, priceChange24h: live.changePercent24h }
+          : a;
+      }),
+    [livePrices],
+  );
+
   // â”€â”€ Volume data for dashboard volume chart (deterministic to avoid hydration mismatch) â”€â”€
   const volumeData = useMemo(() => {
-    const seed = [0.72, 0.31, 0.89, 0.44, 0.67, 0.18, 0.93, 0.56, 0.38, 0.81, 0.25, 0.64, 0.47, 0.76, 0.53];
+    const seed = [
+      0.72, 0.31, 0.89, 0.44, 0.67, 0.18, 0.93, 0.56, 0.38, 0.81, 0.25, 0.64,
+      0.47, 0.76, 0.53,
+    ];
     const data = [];
     const now = new Date();
     for (let i = 14; i >= 0; i--) {
@@ -394,9 +428,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-white/[0.08] animate-pulse" />
-              <span className="text-xs font-mono text-white/60">
-                LIVE
-              </span>
+              <span className="text-xs font-mono text-white/60">LIVE</span>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -494,7 +526,9 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="font-black text-white text-base">Portfolio Performance</h3>
+                <h3 className="font-black text-white text-base">
+                  Portfolio Performance
+                </h3>
                 <p className="text-xs text-xc-muted mt-0.5">30-day history</p>
               </div>
               <div
@@ -558,7 +592,9 @@ export default function DashboardPage() {
           {/* AI Oracle Allocation */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-black text-white text-base">AI Oracle Allocation</h3>
+              <h3 className="font-black text-white text-base">
+                AI Oracle Allocation
+              </h3>
               <Badge variant="purple">LIVE</Badge>
             </div>
             <div className="h-48">
@@ -623,7 +659,9 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-white/50" />
-              <h3 className="font-black text-white text-base">Trading Volume</h3>
+              <h3 className="font-black text-white text-base">
+                Trading Volume
+              </h3>
               <span className="text-xs text-xc-muted">14-day overview</span>
             </div>
             <Badge variant="default" size="sm">
@@ -823,53 +861,56 @@ export default function DashboardPage() {
               </Link>
             </div>
             <div className="space-y-3">
-              {(topAssets.length > 0 ? topAssets.slice(0, 6) : DEMO_ASSETS).map(
-                (asset) => (
-                  <div
-                    key={asset.symbol}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/[0.04] to-black flex items-center justify-center text-xs font-black text-white">
-                        {(asset.symbol ?? "?")[0]}
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-white">
-                          {asset.symbol}
-                        </div>
-                        <div className="text-xs text-xc-muted truncate max-w-[120px]">
-                          {asset.name}
-                        </div>
-                      </div>
+              {(topAssets.length > 0
+                ? topAssets.slice(0, 6)
+                : liveDemoAssets
+              ).map((asset) => (
+                <div
+                  key={asset.symbol}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/[0.04] to-black flex items-center justify-center text-xs font-black text-white">
+                      {(asset.symbol ?? "?")[0]}
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-mono font-bold text-white">
-                        {formatCurrency(Number(asset.price))}
+                    <div>
+                      <div className="text-sm font-semibold text-white">
+                        {asset.symbol}
                       </div>
-                      <div
-                        className={cn(
-                          "text-xs font-semibold flex items-center justify-end gap-0.5",
-                          getChangeColor(Number(asset.priceChange24h ?? 0)),
-                        )}
-                      >
-                        {(asset.priceChange24h ?? 0) >= 0 ? (
-                          <ArrowUpRight className="w-3 h-3" />
-                        ) : (
-                          <ArrowDownRight className="w-3 h-3" />
-                        )}
-                        {formatPercent(Number(asset.priceChange24h ?? 0))}
+                      <div className="text-xs text-xc-muted truncate max-w-[120px]">
+                        {asset.name}
                       </div>
                     </div>
                   </div>
-                ),
-              )}
+                  <div className="text-right">
+                    <div className="text-sm font-mono font-bold text-white">
+                      {formatCurrency(Number(asset.price))}
+                    </div>
+                    <div
+                      className={cn(
+                        "text-xs font-semibold flex items-center justify-end gap-0.5",
+                        getChangeColor(Number(asset.priceChange24h ?? 0)),
+                      )}
+                    >
+                      {(asset.priceChange24h ?? 0) >= 0 ? (
+                        <ArrowUpRight className="w-3 h-3" />
+                      ) : (
+                        <ArrowDownRight className="w-3 h-3" />
+                      )}
+                      {formatPercent(Number(asset.priceChange24h ?? 0))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Recent Transactions */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-black text-white text-base">Recent Activity</h3>
+              <h3 className="font-black text-white text-base">
+                Recent Activity
+              </h3>
               <Link
                 href="/wallet"
                 className="text-xs text-white/70 hover:text-white transition-colors"
@@ -993,9 +1034,7 @@ export default function DashboardPage() {
                           <div className="text-lg font-black font-mono text-white/50">
                             {val}
                           </div>
-                          <div className="text-xs text-xc-muted">
-                            {label}
-                          </div>
+                          <div className="text-xs text-xc-muted">{label}</div>
                         </div>
                       ))}
                     </div>
@@ -1048,9 +1087,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-xc-muted">
-                        {m.payload}
-                      </span>
+                      <span className="text-xs text-xc-muted">{m.payload}</span>
                       <Badge
                         variant={m.success ? "success" : "warning"}
                         size="sm"
@@ -1138,9 +1175,7 @@ export default function DashboardPage() {
                         <div className="text-xs font-bold text-white">
                           {v.name}
                         </div>
-                        <div className="text-xs text-xc-muted">
-                          {v.role}
-                        </div>
+                        <div className="text-xs text-xc-muted">{v.role}</div>
                       </div>
                     </div>
                     <div className="text-right">
@@ -1260,9 +1295,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-xs font-mono text-white/50">
-                  LIVE
-                </span>
+                <span className="text-xs font-mono text-white/50">LIVE</span>
               </div>
             </div>
             <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1">
@@ -1404,9 +1437,7 @@ export default function DashboardPage() {
                     <div className="text-lg font-black gradient-text">
                       {value}
                     </div>
-                    <div className="text-xs text-xc-muted mt-0.5">
-                      {label}
-                    </div>
+                    <div className="text-xs text-xc-muted mt-0.5">{label}</div>
                   </div>
                 ))}
               </div>

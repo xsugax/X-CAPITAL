@@ -5,6 +5,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import AIOracle from "@/components/oracle/AIOracle";
 import { StatCard } from "@/components/ui/Card";
 import { oracleAPI, tradingAPI } from "@/lib/api";
+import { useMarketPrices } from "@/hooks/useMarketPrices";
 import { formatCurrency, cn } from "@/lib/utils";
 import {
   AreaChart,
@@ -213,6 +214,19 @@ export default function OraclePage() {
     return () => clearInterval(interval);
   }, []);
 
+  // Live market prices — overlay onto forecasts' currentPrice
+  const { prices: livePrices } = useMarketPrices({ refreshInterval: 30_000 });
+  useEffect(() => {
+    if (Object.keys(livePrices).length === 0) return;
+    setForecasts((prev) =>
+      prev.map((f) => {
+        const live = livePrices[f.symbol];
+        if (!live) return f;
+        return { ...f, currentPrice: live.price };
+      }),
+    );
+  }, [livePrices]);
+
   const bullishCount = forecasts.filter((f) => f.signal === "BUY").length;
   const avgReturn = forecasts.length
     ? forecasts.reduce((s, f) => s + f.expectedReturn, 0) / forecasts.length
@@ -417,7 +431,9 @@ export default function OraclePage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <Radio className="w-4 h-4 text-emerald-400" />
-              <h3 className="font-black text-white text-base">Signal Distribution</h3>
+              <h3 className="font-black text-white text-base">
+                Signal Distribution
+              </h3>
             </div>
             <div className="grid grid-cols-3 gap-4 mb-6">
               {signalDist.map((s) => (
@@ -481,7 +497,9 @@ export default function OraclePage() {
           </div>
 
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6 space-y-5">
-            <h3 className="font-black text-white text-base">Market Sentiment</h3>
+            <h3 className="font-black text-white text-base">
+              Market Sentiment
+            </h3>
 
             {/* Symbol selector */}
             <div className="flex flex-wrap gap-2">

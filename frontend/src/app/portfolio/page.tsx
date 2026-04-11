@@ -6,6 +6,7 @@ import { StatCard } from "@/components/ui/Card";
 import PortfolioChart from "@/components/portfolio/PortfolioChart";
 import HoldingsList from "@/components/portfolio/HoldingsList";
 import { portfolioAPI } from "@/lib/api";
+import { useMarketPrices } from "@/hooks/useMarketPrices";
 import { formatCurrency, formatPercent, cn } from "@/lib/utils";
 import {
   AreaChart,
@@ -152,12 +153,46 @@ export default function PortfolioPage() {
     setMonthlyReturns(generateMonthlyReturns());
   }, []);
 
-  // Live price ticks for holdings
+  const { prices: livePrices } = useMarketPrices({ refreshInterval: 30_000 });
+
+  // Overlay live prices onto holdings
+  useEffect(() => {
+    if (Object.keys(livePrices).length === 0) return;
+    setPortfolio((prev) => {
+      if (!prev || !prev.holdings?.length) return prev;
+      let anyChanged = false;
+      const updatedHoldings = prev.holdings.map((h) => {
+        const live = livePrices[h.asset?.symbol ?? ""];
+        if (!live) return h;
+        anyChanged = true;
+        const newValue = h.quantity * live.price;
+        return {
+          ...h,
+          currentValue: newValue,
+          unrealizedPnL: newValue - h.quantity * h.avgCost,
+          asset: h.asset ? { ...h.asset, price: live.price } : h.asset,
+        };
+      });
+      if (!anyChanged) return prev;
+      const totalVal =
+        updatedHoldings.reduce((s, h) => s + Number(h.currentValue), 0) +
+        (prev.cashBalance ?? 0);
+      return {
+        ...prev,
+        holdings: updatedHoldings,
+        totalValue: totalVal,
+        totalPnL: totalVal - (prev.totalCost ?? 0),
+      };
+    });
+  }, [livePrices]);
+
+  // Micro-fluctuations for assets without live data
   useEffect(() => {
     const interval = setInterval(() => {
       setPortfolio((prev) => {
         if (!prev || !prev.holdings?.length) return prev;
         const updatedHoldings = prev.holdings.map((h) => {
+          if (livePrices[h.asset?.symbol ?? ""]) return h; // skip live-priced
           const priceChange = (Math.random() - 0.48) * 0.005;
           const newPrice = Number(h.asset?.price ?? 0) * (1 + priceChange);
           const newValue = h.quantity * newPrice;
@@ -180,7 +215,7 @@ export default function PortfolioPage() {
       });
     }, 2500);
     return () => clearInterval(interval);
-  }, []);
+  }, [livePrices]);
 
   const pnlPct =
     portfolio && portfolio.totalCost > 0
@@ -279,7 +314,9 @@ export default function PortfolioPage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <Activity className="w-4 h-4 text-red-400" />
-              <h3 className="font-black text-white text-base">Drawdown Analysis</h3>
+              <h3 className="font-black text-white text-base">
+                Drawdown Analysis
+              </h3>
               <span className="text-xs text-xc-muted ml-auto">
                 Max DD from peak
               </span>
@@ -352,10 +389,10 @@ export default function PortfolioPage() {
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-5">
               <BarChart3 className="w-4 h-4 text-white/60" />
-              <h3 className="font-black text-white text-base">Monthly Returns</h3>
-              <span className="text-xs text-xc-muted ml-auto">
-                2026 YTD
-              </span>
+              <h3 className="font-black text-white text-base">
+                Monthly Returns
+              </h3>
+              <span className="text-xs text-xc-muted ml-auto">2026 YTD</span>
             </div>
             <div style={{ height: 200 }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -590,9 +627,7 @@ export default function PortfolioPage() {
                 <div className="text-xs font-bold text-xc-muted mt-1">
                   {label}
                 </div>
-                <div className="text-xs text-xc-muted/60 mt-0.5">
-                  {desc}
-                </div>
+                <div className="text-xs text-xc-muted/60 mt-0.5">{desc}</div>
               </div>
             ))}
           </div>

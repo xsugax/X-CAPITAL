@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AssetList from "@/components/trading/AssetList";
 import OrderForm from "@/components/trading/OrderForm";
 import { tradingAPI } from "@/lib/api";
+import { useMarketPrices } from "@/hooks/useMarketPrices";
 import { formatCurrency, cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 import {
@@ -57,6 +58,42 @@ export default function TradingPage() {
   const [hotSignals, setHotSignals] = useState(HOT_SIGNALS);
   const [marketOverview, setMarketOverview] = useState(MARKET_SECTORS);
   const [heatmapData, setHeatmapData] = useState(HEATMAP_DATA);
+
+  // ─── Live market prices ────────────────────────────────────────────────────
+  const { prices: livePrices } = useMarketPrices({ refreshInterval: 30_000 });
+
+  // Overlay live data onto heatmap changes
+  useEffect(() => {
+    if (Object.keys(livePrices).length === 0) return;
+    setHeatmapData((prev) =>
+      prev.map((item) => {
+        const live = livePrices[item.symbol];
+        return live ? { ...item, change: live.changePercent24h } : item;
+      }),
+    );
+  }, [livePrices]);
+
+  // Live-overlaid signal & quick pick assets
+  const liveSignalAssets = useMemo(
+    () =>
+      SIGNAL_ASSETS.map((a) => {
+        const live = livePrices[a.symbol];
+        return live
+          ? { ...a, price: live.price, priceChange24h: live.changePercent24h }
+          : a;
+      }),
+    [livePrices],
+  );
+  const liveQuickPicks = useMemo(
+    () =>
+      QUICK_PICKS.map((p) => {
+        const live = livePrices[p.symbol];
+        return live
+          ? { ...p, price: live.price, priceChange24h: live.changePercent24h }
+          : p;
+      }),
+    [livePrices],
+  );
 
   useEffect(() => {
     if (!selectedAsset) return;
@@ -216,7 +253,7 @@ export default function TradingPage() {
                   <button
                     key={signal.symbol}
                     onClick={() => {
-                      const a = SIGNAL_ASSETS.find(
+                      const a = liveSignalAssets.find(
                         (a) => a.symbol === signal.symbol,
                       );
                       if (a) setSelectedAsset(a as Asset);
@@ -340,7 +377,7 @@ export default function TradingPage() {
                 <button
                   key={item.symbol}
                   onClick={() => {
-                    const a = SIGNAL_ASSETS.find(
+                    const a = liveSignalAssets.find(
                       (sa) => sa.symbol === item.symbol,
                     );
                     if (a) setSelectedAsset(a as Asset);
@@ -607,7 +644,7 @@ export default function TradingPage() {
                     private tokens, commodities, and SPVs.
                   </p>
                   <div className="flex flex-wrap gap-4 justify-center">
-                    {QUICK_PICKS.map((pick) => (
+                    {liveQuickPicks.map((pick) => (
                       <button
                         key={pick.symbol}
                         onClick={() => setSelectedAsset(pick as Asset)}
@@ -1126,7 +1163,9 @@ export default function TradingPage() {
                   </ResponsiveContainer>
                 </div>
                 <div className="flex items-center justify-between mt-3">
-                  <span className="text-[11px] font-bold text-white/50">{sector.assets.toLocaleString()} assets</span>
+                  <span className="text-[11px] font-bold text-white/50">
+                    {sector.assets.toLocaleString()} assets
+                  </span>
                   <span className="text-[11px] font-black font-mono text-white/70">
                     {formatCurrency(sector.value, true)}
                   </span>
