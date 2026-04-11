@@ -721,7 +721,14 @@ export const useStore = create<Store>()(
         theme: state.theme,
       }),
       onRehydrateStorage: () => (state) => {
-        if (typeof window === "undefined" || !state) return;
+        if (typeof window === "undefined") {
+          useStore.setState({ _hasHydrated: true });
+          return;
+        }
+        if (!state) {
+          useStore.setState({ _hasHydrated: true });
+          return;
+        }
         const remembered = localStorage.getItem("xc_remember_me") === "1";
         const sessionActive =
           sessionStorage.getItem("xc_session_active") === "1";
