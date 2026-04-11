@@ -58,7 +58,7 @@ function generateFundPerformance(funds: typeof DEMO_FUNDS) {
   return months.map((m) => {
     const entry: Record<string, string | number> = { month: m };
     funds.slice(0, 6).forEach((f) => {
-      entry[f.name.split(" ").slice(0, 2).join(" ")] = Number(
+      entry[(f.name ?? "Fund").split(" ").slice(0, 2).join(" ")] = Number(
         ((Math.random() - 0.3) * 15).toFixed(2),
       );
     });
@@ -175,7 +175,7 @@ export default function FundsPage() {
 
   // Risk/Return scatter data
   const scatterData = displayFunds.map((f) => ({
-    name: f.name.split(" ").slice(0, 2).join(" "),
+    name: (f.name ?? "Fund").split(" ").slice(0, 2).join(" "),
     risk:
       f.riskLevel === "HIGH"
         ? 75 + Math.random() * 20
@@ -395,7 +395,7 @@ export default function FundsPage() {
                   {displayFunds.slice(0, 6).map((f, i) => (
                     <Bar
                       key={f.id}
-                      dataKey={f.name.split(" ").slice(0, 2).join(" ")}
+                      dataKey={(f.name ?? "Fund").split(" ").slice(0, 2).join(" ")}
                       fill={FUND_COLORS[i]}
                       opacity={0.7}
                       radius={[2, 2, 0, 0]}
@@ -414,7 +414,7 @@ export default function FundsPage() {
                     className="w-2 h-2 rounded-full"
                     style={{ background: FUND_COLORS[i] }}
                   />
-                  {f.name.split(" ").slice(0, 2).join(" ")}
+                  {(f.name ?? "Fund").split(" ").slice(0, 2).join(" ")}
                 </div>
               ))}
             </div>

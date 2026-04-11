@@ -98,7 +98,7 @@ export default function HoldingsList({
 
               {/* Quantity */}
               <span className="text-sm font-black font-mono tabular-nums text-white text-right">
-                {Number(holding.quantity).toLocaleString(undefined, {
+                {Number(holding.quantity ?? 0).toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 4,
                 })}
@@ -106,7 +106,7 @@ export default function HoldingsList({
 
               {/* Avg cost */}
               <span className="text-sm font-bold font-mono tabular-nums text-white/60 text-right hidden sm:block">
-                {formatCurrency(Number(holding.avgCost))}
+                {formatCurrency(Number(holding.avgCost ?? 0))}
               </span>
 
               {/* Current value */}

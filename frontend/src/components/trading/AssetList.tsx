@@ -90,8 +90,8 @@ export default function AssetList({
   const filtered = assets.filter((a) => {
     const matchSearch =
       !search ||
-      a.symbol.toLowerCase().includes(search.toLowerCase()) ||
-      a.name.toLowerCase().includes(search.toLowerCase());
+      (a.symbol ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (a.name ?? "").toLowerCase().includes(search.toLowerCase());
     const matchType = activeType === "ALL" || a.type === activeType;
     return matchSearch && matchType;
   });
