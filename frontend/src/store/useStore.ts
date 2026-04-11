@@ -120,7 +120,11 @@ interface PendingTxState {
   pendingTransactions: PendingTransaction[];
   addPendingTransaction: (tx: PendingTransaction) => void;
   approvePendingTransaction: (txId: string, adminEmail: string) => void;
-  rejectPendingTransaction: (txId: string, adminEmail: string, reason: string) => void;
+  rejectPendingTransaction: (
+    txId: string,
+    adminEmail: string,
+    reason: string,
+  ) => void;
 }
 
 interface NotificationState {
@@ -148,7 +152,12 @@ interface DataState {
   setPortfolio: (portfolio: Portfolio) => void;
 }
 
-type Store = AuthState & UIState & DataState & PendingTxState & NotificationState & AdminContentState;
+type Store = AuthState &
+  UIState &
+  DataState &
+  PendingTxState &
+  NotificationState &
+  AdminContentState;
 
 const DEFAULT_TOS = `X-CAPITAL TERMS OF SERVICE
 
@@ -214,6 +223,8 @@ export const useStore = create<Store>()(
         if (typeof window !== "undefined") {
           localStorage.removeItem("xc_access_token");
           localStorage.removeItem("xc_refresh_token");
+          localStorage.removeItem("xc_remember_me");
+          sessionStorage.removeItem("xc_session_active");
         }
         set({
           user: null,
@@ -326,8 +337,12 @@ export const useStore = create<Store>()(
         // Auto-register: if user not found locally, create account so any browser can log in
         if (!foundUser) {
           const parts = email.split("@")[0].split(/[._\-+]/);
-          const autoFirst = parts[0] ? parts[0].charAt(0).toUpperCase() + parts[0].slice(1) : "User";
-          const autoLast = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : "";
+          const autoFirst = parts[0]
+            ? parts[0].charAt(0).toUpperCase() + parts[0].slice(1)
+            : "User";
+          const autoLast = parts[1]
+            ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1)
+            : "";
           const newUser: User = {
             id: `user-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
             email: email.toLowerCase(),
@@ -469,10 +484,17 @@ export const useStore = create<Store>()(
         if (!state.user) return { success: false, error: "Not logged in." };
         const currentHash = await hashPassword(currentPassword);
         // Verify current password
-        const userRecord = state.registeredUsers.find((u) => u.id === state.user!.id);
+        const userRecord = state.registeredUsers.find(
+          (u) => u.id === state.user!.id,
+        );
         if (!userRecord) return { success: false, error: "User not found." };
-        if (userRecord.passwordHash !== currentHash) return { success: false, error: "Current password is incorrect." };
-        if (newPassword.length < 6) return { success: false, error: "New password must be at least 6 characters." };
+        if (userRecord.passwordHash !== currentHash)
+          return { success: false, error: "Current password is incorrect." };
+        if (newPassword.length < 6)
+          return {
+            success: false,
+            error: "New password must be at least 6 characters.",
+          };
         const newHash = await hashPassword(newPassword);
         set({
           registeredUsers: state.registeredUsers.map((u) =>
@@ -505,7 +527,12 @@ export const useStore = create<Store>()(
         set((state) => ({
           pendingTransactions: state.pendingTransactions.map((tx) =>
             tx.id === txId
-              ? { ...tx, status: "APPROVED" as const, resolvedAt: new Date().toISOString(), resolvedBy: adminEmail }
+              ? {
+                  ...tx,
+                  status: "APPROVED" as const,
+                  resolvedAt: new Date().toISOString(),
+                  resolvedBy: adminEmail,
+                }
               : tx,
           ),
         }));
@@ -514,7 +541,13 @@ export const useStore = create<Store>()(
         set((state) => ({
           pendingTransactions: state.pendingTransactions.map((tx) =>
             tx.id === txId
-              ? { ...tx, status: "REJECTED" as const, resolvedAt: new Date().toISOString(), resolvedBy: adminEmail, rejectionReason: reason }
+              ? {
+                  ...tx,
+                  status: "REJECTED" as const,
+                  resolvedAt: new Date().toISOString(),
+                  resolvedBy: adminEmail,
+                  rejectionReason: reason,
+                }
               : tx,
           ),
         }));
@@ -557,6 +590,20 @@ export const useStore = create<Store>()(
         notifications: state.notifications,
         termsOfService: state.termsOfService,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (typeof window === "undefined" || !state) return;
+        const remembered = localStorage.getItem("xc_remember_me") === "1";
+        const sessionActive = sessionStorage.getItem("xc_session_active") === "1";
+        if (!remembered && !sessionActive && state.isAuthenticated) {
+          state.user = null;
+          state.accessToken = null;
+          state.refreshToken = null;
+          state.isAuthenticated = false;
+        }
+        if (state.isAuthenticated && !remembered) {
+          sessionStorage.setItem("xc_session_active", "1");
+        }
+      },
     },
   ),
 );

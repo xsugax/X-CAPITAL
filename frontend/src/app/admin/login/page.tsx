@@ -36,7 +36,10 @@ export default function AdminLoginPage() {
       // Check if the logged-in user is actually an admin
       const store = useStore.getState();
       const loggedInUser = store.user;
-      if (!loggedInUser || (loggedInUser.role !== "GOD_ADMIN" && loggedInUser.role !== "ADMIN")) {
+      if (
+        !loggedInUser ||
+        (loggedInUser.role !== "GOD_ADMIN" && loggedInUser.role !== "ADMIN")
+      ) {
         // Not an admin — log them out and show error
         store.logout();
         setError("Access restricted to administrators only.");
@@ -54,9 +57,12 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-[#08080c] flex items-center justify-center p-4">
       {/* Subtle grid background */}
-      <div className="fixed inset-0 pointer-events-none" style={{
-        backgroundImage: `radial-gradient(circle at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 50%)`,
-      }} />
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(circle at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 50%)`,
+        }}
+      />
 
       <div className="w-full max-w-sm relative">
         {/* Brand */}
@@ -65,9 +71,14 @@ export default function AdminLoginPage() {
             <Shield size={26} className="text-white" />
           </div>
           <h1 className="text-xl font-black text-white tracking-tight">
-            X-CAPITAL <span className="text-white/40 font-normal text-sm ml-1">ADMIN</span>
+            X-CAPITAL{" "}
+            <span className="text-white/40 font-normal text-sm ml-1">
+              ADMIN
+            </span>
           </h1>
-          <p className="text-gray-500 text-xs mt-1">Authorized personnel only</p>
+          <p className="text-gray-500 text-xs mt-1">
+            Authorized personnel only
+          </p>
         </div>
 
         {/* Form */}
@@ -114,7 +125,11 @@ export default function AdminLoginPage() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-white transition-colors"
                   tabIndex={-1}
                 >
-                  {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPw ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -135,8 +150,20 @@ export default function AdminLoginPage() {
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
                   </svg>
                   Authenticating...
                 </span>

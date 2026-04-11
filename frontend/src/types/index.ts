@@ -72,7 +72,17 @@ export interface User {
 
 export interface Transaction {
   id: string;
-  type: "CREDIT" | "DEBIT" | "PROFIT" | "FEE" | "ADJUSTMENT" | "DEPOSIT" | "WITHDRAWAL" | "TRADE" | "FUND_INVESTMENT" | "FUND_REDEMPTION";
+  type:
+    | "CREDIT"
+    | "DEBIT"
+    | "PROFIT"
+    | "FEE"
+    | "ADJUSTMENT"
+    | "DEPOSIT"
+    | "WITHDRAWAL"
+    | "TRADE"
+    | "FUND_INVESTMENT"
+    | "FUND_REDEMPTION";
   amount: number;
   note: string;
   timestamp: string;

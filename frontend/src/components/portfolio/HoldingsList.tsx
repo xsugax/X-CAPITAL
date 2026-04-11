@@ -72,27 +72,27 @@ export default function HoldingsList({ holdings, loading = false }: HoldingsList
               </div>
 
               {/* Quantity */}
-              <span className="text-sm font-mono text-white text-right">
-                {Number(holding.quantity).toFixed(4)}
+              <span className="text-sm font-black font-mono tabular-nums text-white text-right">
+                {Number(holding.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })}
               </span>
 
               {/* Avg cost */}
-              <span className="text-sm font-mono text-xc-muted text-right">
+              <span className="text-sm font-bold font-mono tabular-nums text-white/60 text-right">
                 {formatCurrency(Number(holding.avgCost))}
               </span>
 
               {/* Current value */}
-              <span className="text-sm font-mono font-bold text-white text-right">
+              <span className="text-base font-black font-mono tabular-nums text-white text-right">
                 {formatCurrency(Number(holding.currentValue))}
               </span>
 
               {/* P&L */}
-              <div className={cn('text-sm font-bold flex flex-col items-end', getChangeColor(pnl))}>
-                <span className="flex items-center gap-0.5">
-                  {pnl >= 0 ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
+              <div className={cn('flex flex-col items-end', getChangeColor(pnl))}>
+                <span className="flex items-center gap-0.5 text-sm font-black tabular-nums">
+                  {pnl >= 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                   {formatCurrency(Math.abs(pnl))}
                 </span>
-                <span className="text-xs font-semibold">{formatPercent(pnlPct)}</span>
+                <span className="text-xs font-black tabular-nums opacity-80">{formatPercent(pnlPct)}</span>
               </div>
             </div>
           );

@@ -47,24 +47,49 @@ export default function SettingsPage() {
   const [currentPw, setCurrentPw] = useState("");
   const [newPw, setNewPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
-  const [pwMessage, setPwMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [pwMessage, setPwMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
   const [pwLoading, setPwLoading] = useState(false);
 
   const handleChangePassword = async () => {
     setPwMessage(null);
-    if (!currentPw) { setPwMessage({ type: "error", text: "Enter your current password." }); return; }
-    if (newPw.length < 6) { setPwMessage({ type: "error", text: "New password must be at least 6 characters." }); return; }
-    if (newPw !== confirmPw) { setPwMessage({ type: "error", text: "Passwords do not match." }); return; }
+    if (!currentPw) {
+      setPwMessage({ type: "error", text: "Enter your current password." });
+      return;
+    }
+    if (newPw.length < 6) {
+      setPwMessage({
+        type: "error",
+        text: "New password must be at least 6 characters.",
+      });
+      return;
+    }
+    if (newPw !== confirmPw) {
+      setPwMessage({ type: "error", text: "Passwords do not match." });
+      return;
+    }
     setPwLoading(true);
     try {
       const result = await changePassword(currentPw, newPw);
       if (result.success) {
-        setPwMessage({ type: "success", text: "Password changed successfully." });
-        setCurrentPw(""); setNewPw(""); setConfirmPw("");
+        setPwMessage({
+          type: "success",
+          text: "Password changed successfully.",
+        });
+        setCurrentPw("");
+        setNewPw("");
+        setConfirmPw("");
       } else {
-        setPwMessage({ type: "error", text: result.error || "Failed to change password." });
+        setPwMessage({
+          type: "error",
+          text: result.error || "Failed to change password.",
+        });
       }
-    } finally { setPwLoading(false); }
+    } finally {
+      setPwLoading(false);
+    }
   };
 
   const handleProfilePicture = (e: ChangeEvent<HTMLInputElement>) => {
@@ -322,11 +347,19 @@ export default function SettingsPage() {
               </div>
             </div>
             {pwMessage && (
-              <div className={cn(
-                "text-xs px-3 py-2 rounded-xl border flex items-center gap-2",
-                pwMessage.type === "success" ? "bg-green-950/30 border-green-700/40 text-green-400" : "bg-red-950/30 border-red-700/40 text-red-400"
-              )}>
-                {pwMessage.type === "success" ? <Check className="w-3.5 h-3.5" /> : <Shield className="w-3.5 h-3.5" />}
+              <div
+                className={cn(
+                  "text-xs px-3 py-2 rounded-xl border flex items-center gap-2",
+                  pwMessage.type === "success"
+                    ? "bg-green-950/30 border-green-700/40 text-green-400"
+                    : "bg-red-950/30 border-red-700/40 text-red-400",
+                )}
+              >
+                {pwMessage.type === "success" ? (
+                  <Check className="w-3.5 h-3.5" />
+                ) : (
+                  <Shield className="w-3.5 h-3.5" />
+                )}
                 {pwMessage.text}
               </div>
             )}

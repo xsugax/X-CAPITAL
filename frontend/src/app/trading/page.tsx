@@ -1072,12 +1072,12 @@ export default function TradingPage() {
                 className="bg-white/[0.02] border border-white/[0.08] rounded-2xl p-5 hover:border-white/[0.08] transition-all group"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-bold text-white group-hover:text-white">
+                  <span className="text-xs font-black text-white tracking-tight">
                     {sector.name}
                   </span>
                   <span
                     className={cn(
-                      "text-xs font-bold font-mono",
+                      "text-sm font-black font-mono tabular-nums",
                       sector.change >= 0 ? "text-emerald-400" : "text-red-400",
                     )}
                   >
@@ -1125,10 +1125,10 @@ export default function TradingPage() {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="flex items-center justify-between mt-3 text-xs text-white/25">
-                  <span>{sector.assets} assets</span>
-                  <span className="font-mono">
-                    {formatCurrency(sector.value)}
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-[11px] font-bold text-white/50">{sector.assets.toLocaleString()} assets</span>
+                  <span className="text-[11px] font-black font-mono text-white/70">
+                    {formatCurrency(sector.value, true)}
                   </span>
                 </div>
               </div>

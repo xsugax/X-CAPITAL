@@ -45,19 +45,19 @@ export function StatCard({
     <Card className={cn("relative overflow-hidden", className)}>
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-semibold text-xc-muted uppercase tracking-wider mb-1.5">
+          <p className="text-[11px] font-bold text-xc-muted uppercase tracking-widest mb-2">
             {title}
           </p>
-          <p className="text-2xl font-black text-white font-num">{value}</p>
+          <p className="text-2xl font-black text-white font-num tracking-tight">{value}</p>
           {subtitle && <p className="text-sm text-xc-muted mt-1">{subtitle}</p>}
           {change !== undefined && (
             <span
               className={cn(
-                "text-sm font-semibold mt-1 inline-block",
+                "text-sm font-black mt-1.5 inline-flex items-center gap-1 tabular-nums",
                 positive ? "text-xc-green" : "text-xc-red",
               )}
             >
-              {positive ? "+" : ""}
+              {positive ? "▲" : "▼"} {positive ? "+" : ""}
               {change.toFixed(2)}%
             </span>
           )}

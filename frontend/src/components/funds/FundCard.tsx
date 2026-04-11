@@ -216,7 +216,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
           <div className="text-[9px] uppercase tracking-widest text-xc-muted font-semibold flex items-center gap-1 mb-0.5">
             <Users className="w-2.5 h-2.5" /> AUM
           </div>
-          <div className="font-bold text-white font-mono text-sm">
+          <div className="font-black text-white font-mono text-sm tabular-nums leading-none">
             {Number(fund.currentAUM) >= 1_000_000
               ? `$${(Number(fund.currentAUM) / 1_000_000).toFixed(1)}M`
               : formatCurrency(Number(fund.currentAUM))}

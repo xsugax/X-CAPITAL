@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [rememberMe, setRememberMe] = useState(true);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +25,12 @@ export default function LoginPage() {
     try {
       const result = await loginUser(email, password);
       if (result.success) {
+        if (rememberMe) {
+          localStorage.setItem("xc_remember_me", "1");
+        } else {
+          localStorage.removeItem("xc_remember_me");
+          sessionStorage.setItem("xc_session_active", "1");
+        }
         router.push("/dashboard");
       } else {
         setError(result.error || "Invalid credentials. Please try again.");
@@ -121,6 +128,28 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
+
+            {/* Remember Me */}
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <button
+                  type="button"
+                  onClick={() => setRememberMe(!rememberMe)}
+                  className={`w-4 h-4 rounded border transition-colors flex items-center justify-center ${
+                    rememberMe
+                      ? "bg-white/90 border-white/90"
+                      : "bg-transparent border-xc-border hover:border-white/40"
+                  }`}
+                >
+                  {rememberMe && (
+                    <svg className="w-3 h-3 text-black" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </button>
+                <span className="text-xs text-xc-muted">Remember me</span>
+              </label>
+            </div>
 
             <Button
               type="submit"
