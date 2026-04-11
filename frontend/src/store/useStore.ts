@@ -323,6 +323,7 @@ export const useStore = create<Store>()(
         });
         if (typeof window !== "undefined") {
           localStorage.setItem("xc_access_token", token);
+          sessionStorage.setItem("xc_session_active", "1");
         }
         return { success: true };
       },
@@ -368,6 +369,9 @@ export const useStore = create<Store>()(
             refreshToken: `xc-refresh-${Date.now()}`,
             isAuthenticated: true,
           });
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem("xc_session_active", "1");
+          }
           return { success: true };
         }
 
@@ -415,6 +419,9 @@ export const useStore = create<Store>()(
             refreshToken: `xc-refresh-${Date.now()}`,
             isAuthenticated: true,
           });
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem("xc_session_active", "1");
+          }
           return { success: true };
         }
 
@@ -445,6 +452,9 @@ export const useStore = create<Store>()(
           refreshToken: `xc-refresh-${Date.now()}`,
           isAuthenticated: true,
         });
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("xc_session_active", "1");
+        }
         return { success: true };
       },
 
