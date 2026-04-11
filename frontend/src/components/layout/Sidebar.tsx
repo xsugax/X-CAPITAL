@@ -54,24 +54,24 @@ export default function Sidebar() {
       <aside
         className={cn(
           "fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-xc-dark/95 backdrop-blur-xl border-r border-white/[0.08] transition-transform duration-300 ease-in-out",
-          // Mobile: 280px drawer, slides in/out
-          "w-[280px]",
+          // Mobile: 260px drawer, slides in/out
+          "w-[260px]",
           sidebarOpen ? "translate-x-0" : "-translate-x-full",
-          // Desktop: always visible, icon rail (68px) expanding to full on lg
-          "md:translate-x-0 md:w-[68px] lg:w-[240px]",
+          // Desktop: always visible, icon rail (60px) expanding to full on lg
+          "md:translate-x-0 md:w-[60px] lg:w-[200px]",
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-5 border-b border-white/[0.08]">
+        <div className="flex items-center justify-between px-3 py-4 border-b border-white/[0.08]">
           <Link
             href="/dashboard"
             className="flex items-center gap-3"
             onClick={() => setSidebarOpen(false)}
           >
-            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-white flex items-center justify-center">
-              <span className="text-black font-black text-sm">X</span>
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white flex items-center justify-center">
+              <span className="text-black font-black text-xs">X</span>
             </div>
-            <span className="font-black text-base tracking-tight text-white md:hidden lg:inline">
+            <span className="font-black text-sm tracking-tight text-white md:hidden lg:inline">
               CAPITAL
             </span>
           </Link>
@@ -84,7 +84,7 @@ export default function Sidebar() {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 py-4 px-2.5 space-y-1 overflow-y-auto">
+        <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
           {navItems.map(({ href, icon: Icon, label }) => {
             const active = pathname === href || pathname.startsWith(href + "/");
             return (
@@ -93,14 +93,14 @@ export default function Sidebar() {
                 href={href}
                 onClick={() => setSidebarOpen(false)}
                 className={cn(
-                  "flex items-center gap-3 px-3.5 py-3 rounded-full text-[15px] font-medium transition-all md:justify-center lg:justify-start",
+                  "flex items-center gap-2.5 px-3 py-2.5 rounded-full text-[13px] font-medium transition-all md:justify-center lg:justify-start",
                   active
                     ? "font-bold text-white bg-white/[0.08]"
                     : "text-slate-300 hover:text-white hover:bg-white/[0.06]",
                 )}
               >
                 <Icon
-                  className={cn("w-[22px] h-[22px] flex-shrink-0")}
+                  className={cn("w-[18px] h-[18px] flex-shrink-0")}
                   strokeWidth={active ? 2.5 : 1.8}
                 />
                 <span className="md:hidden lg:inline">{label}</span>
@@ -111,19 +111,19 @@ export default function Sidebar() {
 
         {/* User Section */}
         {user && (
-          <div className="border-t border-white/[0.08] p-3 space-y-1">
+          <div className="border-t border-white/[0.08] p-2.5 space-y-0.5">
             <Link
               href="/settings"
               onClick={() => setSidebarOpen(false)}
-              className="flex items-center gap-3 px-2 py-2.5 rounded-full hover:bg-white/[0.06] transition-colors md:justify-center lg:justify-start"
+              className="flex items-center gap-2.5 px-2 py-2 rounded-full hover:bg-white/[0.06] transition-colors md:justify-center lg:justify-start"
             >
-              <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 {user.profilePicture ? (
                   <Image
                     src={user.profilePicture}
                     alt="Profile"
-                    width={36}
-                    height={36}
+                    width={32}
+                    height={32}
                     className="w-full h-full object-cover"
                     unoptimized
                   />
@@ -135,7 +135,7 @@ export default function Sidebar() {
                 )}
               </div>
               <div className="flex-1 min-w-0 md:hidden lg:block">
-                <span className="text-sm font-bold text-white truncate">
+                <span className="text-xs font-bold text-white truncate">
                   {user.firstName} {user.lastName}
                 </span>
                 <div

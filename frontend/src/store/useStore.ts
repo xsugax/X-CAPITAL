@@ -134,6 +134,45 @@ interface NotificationState {
   deleteNotification: (id: string) => void;
 }
 
+export interface KYCSubmission {
+  id: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  // Personal
+  firstName: string;
+  lastName: string;
+  maidenName: string;
+  dateOfBirth: string;
+  nationality: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  // Identity
+  ssn: string; // last 4 displayed, full stored
+  idType: "drivers_license" | "passport" | "national_id";
+  idNumber: string;
+  idFrontImage: string; // base64 data URL
+  idBackImage?: string;
+  selfieImage: string;
+  // Status
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  submittedAt: string;
+  reviewedAt?: string;
+  reviewedBy?: string;
+  rejectionReason?: string;
+}
+
+interface KYCState {
+  kycSubmissions: KYCSubmission[];
+  submitKYC: (submission: KYCSubmission) => void;
+  approveKYC: (submissionId: string, adminEmail: string) => void;
+  rejectKYC: (submissionId: string, adminEmail: string, reason: string) => void;
+}
+
 interface AdminContentState {
   termsOfService: string;
   setTermsOfService: (content: string) => void;
@@ -159,6 +198,7 @@ type Store = AuthState &
   DataState &
   PendingTxState &
   NotificationState &
+  KYCState &
   AdminContentState;
 
 const DEFAULT_TOS = `X-CAPITAL TERMS OF SERVICE
@@ -582,6 +622,73 @@ export const useStore = create<Store>()(
         }));
       },
 
+      // ─── KYC Submissions ──────────────────────────────────────────────────
+      kycSubmissions: [],
+      submitKYC: (submission) => {
+        const state = get();
+        set({
+          kycSubmissions: [submission, ...state.kycSubmissions],
+          registeredUsers: state.registeredUsers.map((u) =>
+            u.id === submission.userId
+              ? { ...u, kycStatus: "PENDING" as const }
+              : u,
+          ),
+          user:
+            state.user?.id === submission.userId
+              ? { ...state.user, kycStatus: "PENDING" as const }
+              : state.user,
+        });
+      },
+      approveKYC: (submissionId, adminEmail) => {
+        const state = get();
+        const sub = state.kycSubmissions.find((s) => s.id === submissionId);
+        if (!sub) return;
+        set({
+          kycSubmissions: state.kycSubmissions.map((s) =>
+            s.id === submissionId
+              ? {
+                  ...s,
+                  status: "APPROVED" as const,
+                  reviewedAt: new Date().toISOString(),
+                  reviewedBy: adminEmail,
+                }
+              : s,
+          ),
+          registeredUsers: state.registeredUsers.map((u) =>
+            u.id === sub.userId ? { ...u, kycStatus: "APPROVED" as const } : u,
+          ),
+          user:
+            state.user?.id === sub.userId
+              ? { ...state.user, kycStatus: "APPROVED" as const }
+              : state.user,
+        });
+      },
+      rejectKYC: (submissionId, adminEmail, reason) => {
+        const state = get();
+        const sub = state.kycSubmissions.find((s) => s.id === submissionId);
+        if (!sub) return;
+        set({
+          kycSubmissions: state.kycSubmissions.map((s) =>
+            s.id === submissionId
+              ? {
+                  ...s,
+                  status: "REJECTED" as const,
+                  reviewedAt: new Date().toISOString(),
+                  reviewedBy: adminEmail,
+                  rejectionReason: reason,
+                }
+              : s,
+          ),
+          registeredUsers: state.registeredUsers.map((u) =>
+            u.id === sub.userId ? { ...u, kycStatus: "REJECTED" as const } : u,
+          ),
+          user:
+            state.user?.id === sub.userId
+              ? { ...state.user, kycStatus: "REJECTED" as const }
+              : state.user,
+        });
+      },
+
       // ─── Admin Content ────────────────────────────────────────────────────
       termsOfService: DEFAULT_TOS,
       setTermsOfService: (content) => set({ termsOfService: content }),
@@ -597,13 +704,15 @@ export const useStore = create<Store>()(
         auditLog: state.auditLog,
         pendingTransactions: state.pendingTransactions,
         notifications: state.notifications,
+        kycSubmissions: state.kycSubmissions,
         termsOfService: state.termsOfService,
         theme: state.theme,
       }),
       onRehydrateStorage: () => (state) => {
         if (typeof window === "undefined" || !state) return;
         const remembered = localStorage.getItem("xc_remember_me") === "1";
-        const sessionActive = sessionStorage.getItem("xc_session_active") === "1";
+        const sessionActive =
+          sessionStorage.getItem("xc_session_active") === "1";
         if (!remembered && !sessionActive && state.isAuthenticated) {
           state.user = null;
           state.accessToken = null;

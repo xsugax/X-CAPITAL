@@ -2,6 +2,7 @@
 
 import { useState, useRef, ChangeEvent } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import {
   Camera,
@@ -388,7 +389,9 @@ export default function SettingsPage() {
         {/* Appearance */}
         <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Appearance</h2>
-          <p className="text-xs text-xc-muted mb-4">Choose your preferred theme for the entire platform.</p>
+          <p className="text-xs text-xc-muted mb-4">
+            Choose your preferred theme for the entire platform.
+          </p>
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => setTheme("black")}
@@ -396,7 +399,7 @@ export default function SettingsPage() {
                 "relative flex flex-col items-center gap-3 rounded-xl border-2 p-5 transition-all",
                 theme === "black"
                   ? "border-white bg-white/[0.06]"
-                  : "border-white/[0.08] bg-white/[0.02] hover:border-white/20"
+                  : "border-white/[0.08] bg-white/[0.02] hover:border-white/20",
               )}
             >
               <div className="w-12 h-12 rounded-full bg-black border-2 border-white/20 flex items-center justify-center">
@@ -418,7 +421,7 @@ export default function SettingsPage() {
                 "relative flex flex-col items-center gap-3 rounded-xl border-2 p-5 transition-all",
                 theme === "light"
                   ? "border-white bg-white/[0.06]"
-                  : "border-white/[0.08] bg-white/[0.02] hover:border-white/20"
+                  : "border-white/[0.08] bg-white/[0.02] hover:border-white/20",
               )}
             >
               <div className="w-12 h-12 rounded-full bg-white border-2 border-black/10 flex items-center justify-center">
@@ -441,10 +444,33 @@ export default function SettingsPage() {
         <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
           <h2 className="text-base font-bold text-white mb-5">Account</h2>
           <div className="space-y-3">
-            <InfoRow
-              label="KYC Status"
-              value={user.kycStatus.replace(/_/g, " ")}
-            />
+            <div className="flex items-center justify-between py-2">
+              <div>
+                <p className="text-xs text-xc-muted">KYC Status</p>
+                <p
+                  className={`text-sm font-semibold mt-0.5 ${
+                    user.kycStatus === "APPROVED"
+                      ? "text-emerald-400"
+                      : user.kycStatus === "PENDING"
+                        ? "text-amber-400"
+                        : user.kycStatus === "REJECTED"
+                          ? "text-red-400"
+                          : "text-white/60"
+                  }`}
+                >
+                  {user.kycStatus.replace(/_/g, " ")}
+                </p>
+              </div>
+              {user.kycStatus !== "APPROVED" && (
+                <Link
+                  href="/settings/kyc"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-amber-600 hover:bg-amber-500 text-white transition-colors"
+                >
+                  <Shield className="w-3.5 h-3.5" />
+                  {user.kycStatus === "PENDING" ? "View Status" : "Verify Now"}
+                </Link>
+              )}
+            </div>
             <InfoRow
               label="Accreditation"
               value={user.accreditationStatus.replace(/_/g, " ")}

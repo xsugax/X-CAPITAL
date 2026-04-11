@@ -41,15 +41,17 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-xc-black">
       <Sidebar />
-      <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 md:ml-[68px] lg:ml-[240px]">
+      <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 md:ml-[60px] lg:ml-[200px]">
         <MarketTicker />
         <Header title={title} subtitle={subtitle} />
-        <main className="flex-1 p-3 md:p-5 lg:p-6 pb-24 md:pb-6">{children}</main>
+        <main className="flex-1 p-3 md:p-5 lg:p-6 pb-24 md:pb-6">
+          {children}
+        </main>
       </div>
 
       {/* Floating Action Bar — appears on scroll */}
       <div
-        className={`fixed bottom-0 inset-x-0 md:left-[68px] lg:left-[240px] z-40 transition-all duration-300 ${
+        className={`fixed bottom-0 inset-x-0 md:left-[60px] lg:left-[200px] z-40 transition-all duration-300 ${
           showFab ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
         }`}
       >

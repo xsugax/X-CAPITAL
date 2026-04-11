@@ -7,6 +7,7 @@ import {
   type AuditEntry,
   type PendingTransaction,
   type UserNotification,
+  type KYCSubmission,
 } from "@/store/useStore";
 import { cn, formatCurrency } from "@/lib/utils";
 import type { User, Transaction } from "@/types";
@@ -64,6 +65,7 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 type AdminTab =
   | "transactions"
   | "users"
+  | "kyc"
   | "notifications"
   | "tos"
   | "audit"
@@ -183,6 +185,9 @@ export default function AdminPage() {
     deleteNotification,
     termsOfService,
     setTermsOfService,
+    kycSubmissions,
+    approveKYC,
+    rejectKYC,
   } = useStore();
 
   const isAdmin =
@@ -755,6 +760,19 @@ export default function AdminPage() {
             },
             { key: "users" as const, label: "Users", icon: Users },
             {
+              key: "kyc" as const,
+              label: "KYC Review",
+              icon: Shield,
+              badge:
+                kycSubmissions.filter(
+                  (s: KYCSubmission) => s.status === "PENDING",
+                ).length > 0
+                  ? kycSubmissions.filter(
+                      (s: KYCSubmission) => s.status === "PENDING",
+                    ).length
+                  : undefined,
+            },
+            {
               key: "notifications" as const,
               label: "Notifications",
               icon: Bell,
@@ -1028,6 +1046,98 @@ export default function AdminPage() {
                   />
                 ))}
               </div>
+            )}
+          </div>
+        )}
+
+        {/* ═══════════════════════════════════════════════════════════════════ */}
+        {/* KYC REVIEW TAB                                                    */}
+        {/* ═══════════════════════════════════════════════════════════════════ */}
+        {activeTab === "kyc" && (
+          <div className="space-y-4">
+            {kycSubmissions.length === 0 ? (
+              <div className="bg-[#12121a] border border-white/5 rounded-xl p-12 text-center">
+                <Shield size={40} className="text-gray-600 mx-auto mb-3" />
+                <p className="text-gray-400 text-sm">No KYC submissions yet</p>
+                <p className="text-gray-600 text-xs mt-1">
+                  Submissions will appear here when users verify their identity.
+                </p>
+              </div>
+            ) : (
+              <>
+                {/* Pending first, then reviewed */}
+                {kycSubmissions
+                  .slice()
+                  .sort((a: KYCSubmission, b: KYCSubmission) => {
+                    if (a.status === "PENDING" && b.status !== "PENDING")
+                      return -1;
+                    if (a.status !== "PENDING" && b.status === "PENDING")
+                      return 1;
+                    return (
+                      new Date(b.submittedAt).getTime() -
+                      new Date(a.submittedAt).getTime()
+                    );
+                  })
+                  .map((sub: KYCSubmission) => (
+                    <KYCReviewCard
+                      key={sub.id}
+                      submission={sub}
+                      onApprove={() => {
+                        approveKYC(sub.id, currentUser?.email || "admin");
+                        addAuditEntry({
+                          id: uid(),
+                          time: new Date().toISOString(),
+                          actor: currentUser?.email || "admin",
+                          action: "KYC_APPROVED",
+                          target: `Approved KYC for ${sub.userEmail}`,
+                          level: "success",
+                        });
+                        addNotification({
+                          id: uid(),
+                          userId: sub.userId,
+                          title: "KYC Approved",
+                          message:
+                            "Your identity has been verified. Full platform access is now unlocked.",
+                          type: "system",
+                          read: false,
+                          createdAt: new Date().toISOString(),
+                        });
+                        setToast({
+                          message: `KYC approved for ${sub.userEmail}`,
+                          type: "success",
+                        });
+                      }}
+                      onReject={(reason: string) => {
+                        rejectKYC(
+                          sub.id,
+                          currentUser?.email || "admin",
+                          reason,
+                        );
+                        addAuditEntry({
+                          id: uid(),
+                          time: new Date().toISOString(),
+                          actor: currentUser?.email || "admin",
+                          action: "KYC_REJECTED",
+                          target: `Rejected KYC for ${sub.userEmail}: ${reason}`,
+                          level: "danger",
+                        });
+                        addNotification({
+                          id: uid(),
+                          userId: sub.userId,
+                          title: "KYC Rejected",
+                          message: `Your identity verification was not approved. Reason: ${reason}. Please resubmit.`,
+                          type: "system",
+                          read: false,
+                          createdAt: new Date().toISOString(),
+                        });
+                        setToast({
+                          message: `KYC rejected for ${sub.userEmail}`,
+                          type: "error",
+                        });
+                      }}
+                    />
+                  ))}
+              </>
             )}
           </div>
         )}
@@ -2037,5 +2147,278 @@ function SelectField({
         ))}
       </select>
     </div>
+  );
+}
+
+// ── KYC Review Card ─────────────────────────────────────────────────────────
+function KYCReviewCard({
+  submission,
+  onApprove,
+  onReject,
+}: {
+  submission: KYCSubmission;
+  onApprove: () => void;
+  onReject: (reason: string) => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const [rejecting, setRejecting] = useState(false);
+  const [reason, setReason] = useState("");
+  const [imageModal, setImageModal] = useState<string | null>(null);
+
+  const statusColor =
+    submission.status === "PENDING"
+      ? "bg-amber-500/20 text-amber-400 border-amber-500/30"
+      : submission.status === "APPROVED"
+        ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+        : "bg-red-500/20 text-red-400 border-red-500/30";
+
+  return (
+    <>
+      <div className="bg-[#12121a] border border-white/5 rounded-xl overflow-hidden">
+        {/* Header */}
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="w-full flex items-center gap-4 px-5 py-4 hover:bg-white/[0.02] transition text-left"
+        >
+          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+            <Shield size={18} className="text-white/50" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-semibold text-white">
+                {submission.userName}
+              </span>
+              <span className="text-xs text-gray-500">
+                {submission.userEmail}
+              </span>
+            </div>
+            <div className="flex items-center gap-3 mt-1">
+              <span className="text-xs text-gray-500">
+                Submitted {new Date(submission.submittedAt).toLocaleString()}
+              </span>
+              <span
+                className={cn(
+                  "text-[10px] px-2 py-0.5 rounded-full font-bold border",
+                  statusColor,
+                )}
+              >
+                {submission.status}
+              </span>
+            </div>
+          </div>
+          {expanded ? (
+            <ChevronUp size={16} className="text-gray-500" />
+          ) : (
+            <ChevronDown size={16} className="text-gray-500" />
+          )}
+        </button>
+
+        {/* Expanded Details */}
+        {expanded && (
+          <div className="px-5 pb-5 border-t border-white/5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 text-xs">
+              <InfoCell
+                label="Full Name"
+                value={`${submission.firstName} ${submission.lastName}`}
+              />
+              {submission.maidenName && (
+                <InfoCell label="Maiden Name" value={submission.maidenName} />
+              )}
+              <InfoCell label="Date of Birth" value={submission.dateOfBirth} />
+              <InfoCell label="Nationality" value={submission.nationality} />
+              <InfoCell label="Phone" value={submission.phone} />
+              <InfoCell
+                label="SSN"
+                value={`***-**-${submission.ssn.replace(/\D/g, "").slice(-4)}`}
+              />
+              <InfoCell
+                label="ID Type"
+                value={submission.idType.replace(/_/g, " ").toUpperCase()}
+              />
+              <InfoCell label="ID Number" value={submission.idNumber} />
+              <InfoCell
+                label="Address"
+                value={`${submission.address}, ${submission.city}`}
+              />
+              <InfoCell
+                label="State/ZIP"
+                value={`${submission.state} ${submission.zipCode}`}
+              />
+              <InfoCell label="Country" value={submission.country} />
+            </div>
+
+            {/* Document Images */}
+            <div className="mt-2 mb-4">
+              <p className="text-[10px] text-gray-600 uppercase tracking-wider mb-2">
+                Uploaded Documents
+              </p>
+              <div className="flex gap-3 flex-wrap">
+                {submission.idFrontImage && (
+                  <button
+                    onClick={() => setImageModal(submission.idFrontImage)}
+                    className="w-32 h-20 rounded-lg overflow-hidden border border-white/10 hover:border-white/30 transition relative group"
+                  >
+                    <img
+                      src={submission.idFrontImage}
+                      alt="ID Front"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                      <span className="text-[10px] text-white font-medium">
+                        ID Front
+                      </span>
+                    </div>
+                  </button>
+                )}
+                {submission.idBackImage && (
+                  <button
+                    onClick={() => setImageModal(submission.idBackImage!)}
+                    className="w-32 h-20 rounded-lg overflow-hidden border border-white/10 hover:border-white/30 transition relative group"
+                  >
+                    <img
+                      src={submission.idBackImage}
+                      alt="ID Back"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                      <span className="text-[10px] text-white font-medium">
+                        ID Back
+                      </span>
+                    </div>
+                  </button>
+                )}
+                {submission.selfieImage && (
+                  <button
+                    onClick={() => setImageModal(submission.selfieImage)}
+                    className="w-32 h-20 rounded-lg overflow-hidden border border-white/10 hover:border-white/30 transition relative group"
+                  >
+                    <img
+                      src={submission.selfieImage}
+                      alt="Selfie"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                      <span className="text-[10px] text-white font-medium">
+                        Selfie
+                      </span>
+                    </div>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Review link */}
+            <div className="mb-4 bg-white/[0.03] rounded-lg px-4 py-3">
+              <p className="text-[10px] text-gray-600 uppercase tracking-wider mb-1">
+                Direct Link to User
+              </p>
+              <p className="text-xs text-blue-400 font-mono break-all">
+                /admin → Users → {submission.userEmail}
+              </p>
+            </div>
+
+            {submission.reviewedAt && (
+              <div className="mb-4 text-xs text-gray-500">
+                Reviewed by{" "}
+                <span className="text-white/60">{submission.reviewedBy}</span>{" "}
+                on {new Date(submission.reviewedAt).toLocaleString()}
+                {submission.rejectionReason && (
+                  <span className="block mt-1 text-red-400">
+                    Reason: {submission.rejectionReason}
+                  </span>
+                )}
+              </div>
+            )}
+
+            {/* Actions */}
+            {submission.status === "PENDING" && (
+              <div className="flex flex-wrap gap-2 pt-2 border-t border-white/5">
+                {!rejecting ? (
+                  <>
+                    <button
+                      onClick={onApprove}
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 transition"
+                    >
+                      <CheckCircle size={14} />
+                      Approve KYC
+                    </button>
+                    <button
+                      onClick={() => setRejecting(true)}
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-red-600/20 text-red-400 hover:bg-red-600/30 transition"
+                    >
+                      <XCircle size={14} />
+                      Reject
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex-1 space-y-2">
+                    <input
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
+                      placeholder="Rejection reason (required)..."
+                      className="w-full px-3 py-2 bg-[#1a1a24] border border-white/10 rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-red-500/30"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          if (reason.trim()) {
+                            onReject(reason.trim());
+                            setRejecting(false);
+                            setReason("");
+                          }
+                        }}
+                        disabled={!reason.trim()}
+                        className={cn(
+                          "px-4 py-1.5 rounded-lg text-xs font-bold transition",
+                          reason.trim()
+                            ? "bg-red-600 text-white hover:bg-red-500"
+                            : "bg-red-600/20 text-red-400/50 cursor-not-allowed",
+                        )}
+                      >
+                        Confirm Reject
+                      </button>
+                      <button
+                        onClick={() => {
+                          setRejecting(false);
+                          setReason("");
+                        }}
+                        className="px-4 py-1.5 rounded-lg text-xs font-medium text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 transition"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Image modal */}
+      {imageModal && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setImageModal(null)}
+        >
+          <div
+            className="relative max-w-3xl max-h-[80vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={imageModal}
+              alt="Document"
+              className="max-w-full max-h-[80vh] rounded-xl"
+            />
+            <button
+              onClick={() => setImageModal(null)}
+              className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-black/80 border border-white/20 flex items-center justify-center text-white hover:bg-black transition"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
