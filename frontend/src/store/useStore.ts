@@ -143,6 +143,8 @@ interface UIState {
   sidebarOpen: boolean;
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
+  theme: "black" | "light";
+  setTheme: (theme: "black" | "light") => void;
 }
 
 interface DataState {
@@ -509,6 +511,13 @@ export const useStore = create<Store>()(
       sidebarOpen: true,
       toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
+      theme: "black" as const,
+      setTheme: (theme) => {
+        set({ theme });
+        if (typeof document !== "undefined") {
+          document.documentElement.setAttribute("data-theme", theme);
+        }
+      },
 
       // ─── App Data ─────────────────────────────────────────────────────────
       wallet: null,
@@ -589,6 +598,7 @@ export const useStore = create<Store>()(
         pendingTransactions: state.pendingTransactions,
         notifications: state.notifications,
         termsOfService: state.termsOfService,
+        theme: state.theme,
       }),
       onRehydrateStorage: () => (state) => {
         if (typeof window === "undefined" || !state) return;
@@ -602,6 +612,10 @@ export const useStore = create<Store>()(
         }
         if (state.isAuthenticated && !remembered) {
           sessionStorage.setItem("xc_session_active", "1");
+        }
+        // Apply persisted theme
+        if (state.theme) {
+          document.documentElement.setAttribute("data-theme", state.theme);
         }
       },
     },

@@ -209,7 +209,7 @@ export default function PortfolioPage() {
       title="Portfolio"
       subtitle="Performance, holdings &amp; allocation — live data"
     >
-      <div className="space-y-8">
+      <div className="space-y-5">
         {/* ── Stats Row ── */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <StatCard

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
@@ -62,7 +62,7 @@ import type {
 } from "@/types";
 import Link from "next/link";
 
-// ─── Deterministic performance data for chart (seeded, no random flicker) ────
+// â”€â”€â”€ Deterministic performance data for chart (seeded, no random flicker) â”€â”€â”€â”€
 function generatePerformanceData(baseValue: number, days: number) {
   const data = [];
   let value = baseValue * 0.75;
@@ -213,7 +213,7 @@ export default function DashboardPage() {
         .map(([name, value]) => ({ name, value: Number(value) }))
     : [];
 
-  // ── Live price drift on perf chart (deterministic micro-oscillation) ──
+  // â”€â”€ Live price drift on perf chart (deterministic micro-oscillation) â”€â”€
   useEffect(() => {
     let tick = 0;
     const driftSequence = [0.52, 0.49, 0.54, 0.48, 0.53, 0.50, 0.51, 0.47, 0.55, 0.49];
@@ -232,7 +232,7 @@ export default function DashboardPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // ── Volume data for dashboard volume chart (deterministic to avoid hydration mismatch) ──
+  // â”€â”€ Volume data for dashboard volume chart (deterministic to avoid hydration mismatch) â”€â”€
   const volumeData = useMemo(() => {
     const seed = [0.72, 0.31, 0.89, 0.44, 0.67, 0.18, 0.93, 0.56, 0.38, 0.81, 0.25, 0.64, 0.47, 0.76, 0.53];
     const data = [];
@@ -255,8 +255,8 @@ export default function DashboardPage() {
       title="Dashboard"
       subtitle={`Welcome back, ${user?.firstName ?? "Investor"}`}
     >
-      <div className="space-y-8">
-        {/* ─── KYC Banner ─────────────────────────────────────────────────── */}
+      <div className="space-y-5">
+        {/* â”€â”€â”€ KYC Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {user?.kycStatus !== "APPROVED" && (
           <div className="flex items-center justify-between bg-white/[0.03] border border-white/[0.10]/40 rounded-xl px-5 py-3">
             <div>
@@ -264,7 +264,7 @@ export default function DashboardPage() {
                 KYC Verification Required
               </span>
               <span className="text-xc-muted text-sm ml-2">
-                — Complete identity verification to unlock trading.
+                â€” Complete identity verification to unlock trading.
               </span>
             </div>
             <Link
@@ -276,7 +276,7 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* ─── Stats Row ─────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€ Stats Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Portfolio Value"
@@ -314,7 +314,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* ─── Daily / Weekly / Monthly Returns ───────────────────────────── */}
+        {/* â”€â”€â”€ Daily / Weekly / Monthly Returns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {(
             [
@@ -332,7 +332,7 @@ export default function DashboardPage() {
                 value: weeklyRet,
                 pct: "+4.91%",
                 icon: <Calendar className="w-4 h-4" />,
-                period: "Mar 17 – 23, 2026",
+                period: "Mar 17 â€“ 23, 2026",
                 border: "border-white/[0.06]/25",
                 glow: "from-white/[0.03]/15",
               },
@@ -376,7 +376,7 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* ─── X-Oracle Live Signals ───────────────────────────────────── */}
+        {/* â”€â”€â”€ X-Oracle Live Signals â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="bg-xc-card border border-white/[0.08]/25 rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -388,7 +388,7 @@ export default function DashboardPage() {
                   X-Oracle Live Signals
                 </h3>
                 <p className="text-xs text-xc-muted">
-                  AI-generated trade intelligence — updated every 60s
+                  AI-generated trade intelligence â€” updated every 60s
                 </p>
               </div>
             </div>
@@ -488,8 +488,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ─── Main Content Grid ──────────────────────────────────────────── */}
-        <div className="grid lg:grid-cols-3 gap-6">
+        {/* â”€â”€â”€ Main Content Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        <div className="grid lg:grid-cols-3 gap-4">
           {/* Performance Chart */}
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
@@ -618,7 +618,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ─── Trading Volume Chart ─────────────────────────────────────── */}
+        {/* â”€â”€â”€ Trading Volume Chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
@@ -675,8 +675,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ─── Capital Rails + Quick Deploy ──────────────────────────────── */}
-        <div className="grid lg:grid-cols-3 gap-6 items-start">
+        {/* â”€â”€â”€ Capital Rails + Quick Deploy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        <div className="grid lg:grid-cols-3 gap-4 items-start">
           {/* Capital Rails */}
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-5">
             <div className="flex items-center justify-between mb-5">
@@ -697,28 +697,28 @@ export default function DashboardPage() {
                   pct: 38.6,
                   amount: 48200,
                   color: "#7c3aed",
-                  tag: "NASDAQ · NYSE · LSE",
+                  tag: "NASDAQ Â· NYSE Â· LSE",
                 },
                 {
                   rail: "Private Equity",
                   pct: 24.8,
                   amount: 30976,
                   color: "#06b6d4",
-                  tag: "SPVs · Pre-IPO",
+                  tag: "SPVs Â· Pre-IPO",
                 },
                 {
                   rail: "Tokenized Assets",
                   pct: 15.0,
                   amount: 18720,
                   color: "#d97706",
-                  tag: "Polygon · ERC-3643",
+                  tag: "Polygon Â· ERC-3643",
                 },
                 {
                   rail: "Commerce Capital",
                   pct: 9.9,
                   amount: 12355,
                   color: "#10b981",
-                  tag: "Tesla · SpaceX Merch",
+                  tag: "Tesla Â· SpaceX Merch",
                 },
                 {
                   rail: "AI Hedge",
@@ -768,17 +768,17 @@ export default function DashboardPage() {
               {[
                 {
                   label: "NVDA",
-                  desc: "BUY · AI 94% conf.",
+                  desc: "BUY Â· AI 94% conf.",
                   cls: "border-white/[0.10] hover:border-white/[0.10]/60 hover:bg-white/[0.02]/20",
                 },
                 {
                   label: "TSLA",
-                  desc: "BUY · AI 87% conf.",
+                  desc: "BUY Â· AI 87% conf.",
                   cls: "border-emerald-700/40 hover:border-emerald-500/60 hover:bg-emerald-950/20",
                 },
                 {
                   label: "BTC",
-                  desc: "HOLD · Monitor",
+                  desc: "HOLD Â· Monitor",
                   cls: "border-white/[0.10]/40 hover:border-white/[0.10]/50 hover:bg-white/[0.03]/15",
                 },
                 {
@@ -809,8 +809,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ─── Bottom Row ─────────────────────────────────────────────────── */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        {/* â”€â”€â”€ Bottom Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        <div className="grid lg:grid-cols-2 gap-4">
           {/* Top Assets */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
@@ -819,7 +819,7 @@ export default function DashboardPage() {
                 href="/trading"
                 className="text-xs text-white/70 hover:text-white transition-colors"
               >
-                View all →
+                View all â†’
               </Link>
             </div>
             <div className="space-y-3">
@@ -874,7 +874,7 @@ export default function DashboardPage() {
                 href="/wallet"
                 className="text-xs text-white/70 hover:text-white transition-colors"
               >
-                View all →
+                View all â†’
               </Link>
             </div>
             <div className="space-y-3">
@@ -934,9 +934,9 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ─── SpaceX Mission Control & Musk Empire ─────────────────────── */}
-        <div className="grid lg:grid-cols-5 gap-6">
-          {/* SpaceX Mission Control — 3-col */}
+        {/* â”€â”€â”€ SpaceX Mission Control & Musk Empire â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        <div className="grid lg:grid-cols-5 gap-4">
+          {/* SpaceX Mission Control â€” 3-col */}
           <div className="lg:col-span-3 bg-xc-card border border-white/[0.06]/25 rounded-2xl p-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
             <div className="relative z-10">
@@ -950,7 +950,7 @@ export default function DashboardPage() {
                       SpaceX Mission Control
                     </h3>
                     <p className="text-xs text-xc-muted">
-                      Live launch schedule · Investment catalyst events
+                      Live launch schedule Â· Investment catalyst events
                     </p>
                   </div>
                 </div>
@@ -973,7 +973,7 @@ export default function DashboardPage() {
                       Starship Flight 12
                     </div>
                     <div className="text-xs text-xc-muted mt-0.5">
-                      Starbase, TX · Orbital flight test
+                      Starbase, TX Â· Orbital flight test
                     </div>
                   </div>
                   <div className="text-right">
@@ -1043,7 +1043,7 @@ export default function DashboardPage() {
                           {m.name}
                         </div>
                         <div className="text-xs text-xc-muted">
-                          {m.vehicle} · {m.date}
+                          {m.vehicle} Â· {m.date}
                         </div>
                       </div>
                     </div>
@@ -1079,7 +1079,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Musk Empire Ventures — 2-col */}
+          {/* Musk Empire Ventures â€” 2-col */}
           <div className="lg:col-span-2 bg-xc-card border border-white/[0.08]/25 rounded-2xl p-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-black/15 to-transparent pointer-events-none" />
             <div className="relative z-10">
@@ -1171,8 +1171,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ─── Starlink & Live News Feed ──────────────────────────────────── */}
-        <div className="grid lg:grid-cols-3 gap-6">
+        {/* â”€â”€â”€ Starlink & Live News Feed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        <div className="grid lg:grid-cols-3 gap-4">
           {/* Starlink Growth Tracker */}
           <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-5">
@@ -1254,7 +1254,7 @@ export default function DashboardPage() {
                     Market Intelligence Feed
                   </h3>
                   <p className="text-xs text-xc-muted">
-                    AI-curated · SpaceX · Tesla · xAI · Markets
+                    AI-curated Â· SpaceX Â· Tesla Â· xAI Â· Markets
                   </p>
                 </div>
               </div>
@@ -1320,7 +1320,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ─── Founder Vision — Elon Musk at the Bottom ───────────────────── */}
+        {/* â”€â”€â”€ Founder Vision â€” Elon Musk at the Bottom â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="relative rounded-3xl overflow-hidden border border-white/[0.06] shadow-[0_0_80px_-20px_rgba(124,58,237,0.4)]">
           {/* Starship background */}
           <div className="absolute inset-0">
@@ -1352,7 +1352,7 @@ export default function DashboardPage() {
               <div className="relative w-48 h-64 rounded-2xl overflow-hidden ring-2 ring-white/20/50 shadow-2xl shadow-black/80">
                 <Image
                   src="/images/elon-musk.jpg"
-                  alt="Elon Musk — Founder & Chief Architect, X-CAPITAL"
+                  alt="Elon Musk â€” Founder & Chief Architect, X-CAPITAL"
                   fill
                   sizes="192px"
                   className="object-cover object-top"
@@ -1364,10 +1364,10 @@ export default function DashboardPage() {
                   Elon Musk
                 </div>
                 <div className="text-xs text-white/60 font-mono tracking-[0.3em] uppercase mt-0.5">
-                  Founder · Chief Architect
+                  Founder Â· Chief Architect
                 </div>
                 <div className="text-xs text-xc-muted/70 mt-1">
-                  CEO SpaceX · Tesla · xAI · X Corp
+                  CEO SpaceX Â· Tesla Â· xAI Â· X Corp
                 </div>
               </div>
             </div>
@@ -1375,7 +1375,7 @@ export default function DashboardPage() {
             {/* Main content column */}
             <div className="flex-1 flex flex-col justify-center p-8 md:p-10">
               <div className="text-xs font-mono font-bold text-white/60/80 tracking-[0.5em] uppercase mb-4">
-                X-Capital · The Multiplanetary Capital Network · Est. 2026
+                X-Capital Â· The Multiplanetary Capital Network Â· Est. 2026
               </div>
               <blockquote className="text-2xl md:text-4xl font-black text-white leading-tight mb-4 max-w-2xl">
                 &ldquo;X-CAPITAL is the financial infrastructure
@@ -1384,7 +1384,7 @@ export default function DashboardPage() {
               </blockquote>
               <p className="text-sm text-white/50 leading-relaxed max-w-xl mb-8">
                 Every dollar deployed here bends the arc of civilization toward
-                the stars. From Wall Street to Starbase — capital at the speed
+                the stars. From Wall Street to Starbase â€” capital at the speed
                 of the future, without limits, without borders, without
                 compromise.
               </p>
@@ -1437,7 +1437,7 @@ export default function DashboardPage() {
   );
 }
 
-// ─── Demo data ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Demo data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const DEMO_ASSETS: Partial<Asset>[] = [
   { symbol: "TSLA", name: "Tesla, Inc.", price: 248.42, priceChange24h: 3.21 },
   {
@@ -1500,7 +1500,7 @@ const DEMO_TRANSACTIONS = [
   },
 ] as WalletTransaction[];
 
-// ─── SpaceX Missions ─────────────────────────────────────────────────────────
+// â”€â”€â”€ SpaceX Missions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const SPACEX_MISSIONS = [
   {
     name: "Starship Flight 11",
@@ -1510,14 +1510,14 @@ const SPACEX_MISSIONS = [
     success: true,
   },
   {
-    name: "Falcon 9 · Transporter-14",
+    name: "Falcon 9 Â· Transporter-14",
     vehicle: "Falcon 9 Block 5",
     date: "Mar 22, 2026",
     payload: "Rideshare 112 sats",
     success: true,
   },
   {
-    name: "Falcon Heavy · USSF-67",
+    name: "Falcon Heavy Â· USSF-67",
     vehicle: "Falcon Heavy",
     date: "Mar 15, 2026",
     payload: "NRO Classified",
@@ -1531,7 +1531,7 @@ const SPACEX_MISSIONS = [
     success: true,
   },
   {
-    name: "Falcon 9 · CRS-32",
+    name: "Falcon 9 Â· CRS-32",
     vehicle: "Falcon 9 Block 5",
     date: "Feb 27, 2026",
     payload: "ISS Dragon Resupply",
@@ -1539,11 +1539,11 @@ const SPACEX_MISSIONS = [
   },
 ];
 
-// ─── Musk Empire Ventures ────────────────────────────────────────────────────
+// â”€â”€â”€ Musk Empire Ventures â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const MUSK_VENTURES = [
   {
     name: "Tesla",
-    role: "CEO · Technoking",
+    role: "CEO Â· Technoking",
     valuation: "$1.2T",
     change: 18.4,
     icon: Car,
@@ -1552,7 +1552,7 @@ const MUSK_VENTURES = [
   },
   {
     name: "SpaceX",
-    role: "CEO · Chief Engineer",
+    role: "CEO Â· Chief Engineer",
     valuation: "$350B",
     change: 32.1,
     icon: Rocket,
@@ -1561,7 +1561,7 @@ const MUSK_VENTURES = [
   },
   {
     name: "xAI",
-    role: "Founder · CEO",
+    role: "Founder Â· CEO",
     valuation: "$80B",
     change: 124.5,
     icon: BrainCircuit,
@@ -1597,7 +1597,7 @@ const MUSK_VENTURES = [
   },
 ];
 
-// ─── News Feed ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ News Feed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 type NewsSentiment = "bullish" | "bearish" | "neutral";
 const NEWS_FEED: Array<{
   headline: string;
@@ -1612,7 +1612,7 @@ const NEWS_FEED: Array<{
 }> = [
   {
     headline:
-      "Starship Flight 12 scheduled for April 9 — full orbital attempt with 40 V3 Starlinks",
+      "Starship Flight 12 scheduled for April 9 â€” full orbital attempt with 40 V3 Starlinks",
     summary:
       "SpaceX targeting full orbital insertion and booster catch. If successful, this will be the first operational Starlink V3 deployment via Starship.",
     time: "2h ago",
@@ -1625,7 +1625,7 @@ const NEWS_FEED: Array<{
   },
   {
     headline:
-      "Tesla Q1 2026 deliveries surge 38% to 614,000 units — Cybertruck ramp accelerates",
+      "Tesla Q1 2026 deliveries surge 38% to 614,000 units â€” Cybertruck ramp accelerates",
     summary:
       "Tesla exceeded Wall Street consensus by 12%. Cybertruck production hit 8,200/week run rate at Gigafactory Texas. Model 2 production begins Q3.",
     time: "5h ago",
@@ -1638,7 +1638,7 @@ const NEWS_FEED: Array<{
   },
   {
     headline:
-      "xAI Grok-4 benchmark crushes GPT-5 on MMLU-Pro and ARC-AGI — valuation jumps to $80B",
+      "xAI Grok-4 benchmark crushes GPT-5 on MMLU-Pro and ARC-AGI â€” valuation jumps to $80B",
     summary:
       "xAI's latest foundation model achieves 94.2% on MMLU-Pro. Enterprise API launch expected May 2026. Memphis supercluster now at 200,000 H100 GPUs.",
     time: "8h ago",
@@ -1651,7 +1651,7 @@ const NEWS_FEED: Array<{
   },
   {
     headline:
-      "Neuralink PRIME study — 8th patient implanted, full cursor control achieved in 72 hours",
+      "Neuralink PRIME study â€” 8th patient implanted, full cursor control achieved in 72 hours",
     summary:
       "FDA expanded access approval for N2 chip. Patients demonstrating thought-to-text at 62 words/minute. IPO speculation intensifies.",
     time: "12h ago",
@@ -1664,7 +1664,7 @@ const NEWS_FEED: Array<{
   },
   {
     headline:
-      "Starlink surpasses 5 million subscribers — direct-to-cell beta in 14 countries",
+      "Starlink surpasses 5 million subscribers â€” direct-to-cell beta in 14 countries",
     summary:
       "Starlink's direct-to-cell service now covers 94% of the globe. Partnership deals with T-Mobile, Vodafone, and Jio accelerating subscriber growth.",
     time: "1d ago",
@@ -1677,7 +1677,7 @@ const NEWS_FEED: Array<{
   },
   {
     headline:
-      "NVIDIA cuts Q2 guidance on supply constraints — AI capex remains strong",
+      "NVIDIA cuts Q2 guidance on supply constraints â€” AI capex remains strong",
     summary:
       "Supply bottleneck for B200 GPUs delays shipments by 4-6 weeks. Demand remains at 2x supply. xAI and Tesla among largest buyers.",
     time: "1d ago",

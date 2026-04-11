@@ -11,6 +11,7 @@ import {
   Shield,
   Bell,
   Moon,
+  Sun,
   Eye,
   EyeOff,
   ChevronRight,
@@ -27,7 +28,7 @@ const TIER_STYLES: Record<string, string> = {
 };
 
 export default function SettingsPage() {
-  const { user, updateUser, changePassword } = useStore();
+  const { user, updateUser, changePassword, theme, setTheme } = useStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [firstName, setFirstName] = useState(user?.firstName ?? "");
@@ -381,6 +382,58 @@ export default function SettingsPage() {
                 onChange={setTwoFA}
               />
             </div>
+          </div>
+        </section>
+
+        {/* Appearance */}
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
+          <h2 className="text-base font-bold text-white mb-5">Appearance</h2>
+          <p className="text-xs text-xc-muted mb-4">Choose your preferred theme for the entire platform.</p>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => setTheme("black")}
+              className={cn(
+                "relative flex flex-col items-center gap-3 rounded-xl border-2 p-5 transition-all",
+                theme === "black"
+                  ? "border-white bg-white/[0.06]"
+                  : "border-white/[0.08] bg-white/[0.02] hover:border-white/20"
+              )}
+            >
+              <div className="w-12 h-12 rounded-full bg-black border-2 border-white/20 flex items-center justify-center">
+                <Moon className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <div className="text-sm font-bold text-white">Pure Black</div>
+                <div className="text-xs text-xc-muted">Default dark theme</div>
+              </div>
+              {theme === "black" && (
+                <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-white flex items-center justify-center">
+                  <Check className="w-3 h-3 text-black" />
+                </div>
+              )}
+            </button>
+            <button
+              onClick={() => setTheme("light")}
+              className={cn(
+                "relative flex flex-col items-center gap-3 rounded-xl border-2 p-5 transition-all",
+                theme === "light"
+                  ? "border-white bg-white/[0.06]"
+                  : "border-white/[0.08] bg-white/[0.02] hover:border-white/20"
+              )}
+            >
+              <div className="w-12 h-12 rounded-full bg-white border-2 border-black/10 flex items-center justify-center">
+                <Sun className="w-5 h-5 text-black" />
+              </div>
+              <div>
+                <div className="text-sm font-bold text-white">Light Mode</div>
+                <div className="text-xs text-xc-muted">Clean & bright</div>
+              </div>
+              {theme === "light" && (
+                <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-white flex items-center justify-center">
+                  <Check className="w-3 h-3 text-black" />
+                </div>
+              )}
+            </button>
           </div>
         </section>
 

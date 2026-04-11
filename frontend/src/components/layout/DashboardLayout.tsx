@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import MarketTicker from "./MarketTicker";
 import { useStore } from "@/store/useStore";
+import { BarChart3, ArrowDownLeft, Wallet } from "lucide-react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -20,12 +22,19 @@ export default function DashboardLayout({
 }: DashboardLayoutProps) {
   const { isAuthenticated } = useStore();
   const router = useRouter();
+  const [showFab, setShowFab] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/auth/login");
     }
   }, [isAuthenticated, router]);
+
+  useEffect(() => {
+    const onScroll = () => setShowFab(window.scrollY > 120);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   if (!isAuthenticated) return null;
 
@@ -35,7 +44,38 @@ export default function DashboardLayout({
       <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 md:ml-[68px] lg:ml-[240px]">
         <MarketTicker />
         <Header title={title} subtitle={subtitle} />
-        <main className="flex-1 p-5 md:p-8 lg:p-10">{children}</main>
+        <main className="flex-1 p-3 md:p-5 lg:p-6 pb-24 md:pb-6">{children}</main>
+      </div>
+
+      {/* Floating Action Bar — appears on scroll */}
+      <div
+        className={`fixed bottom-0 inset-x-0 md:left-[68px] lg:left-[240px] z-40 transition-all duration-300 ${
+          showFab ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+        }`}
+      >
+        <div className="bg-xc-dark/95 backdrop-blur-xl border-t border-white/[0.08] px-4 py-2.5 flex items-center justify-center gap-3">
+          <Link
+            href="/trading"
+            className="flex items-center gap-2 bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.10] text-white text-xs font-bold px-5 py-2.5 rounded-full transition-all"
+          >
+            <BarChart3 className="w-4 h-4" />
+            Trade
+          </Link>
+          <Link
+            href="/wallet"
+            className="flex items-center gap-2 bg-white text-black text-xs font-bold px-5 py-2.5 rounded-full hover:bg-slate-100 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+          >
+            <ArrowDownLeft className="w-4 h-4" />
+            Deposit
+          </Link>
+          <Link
+            href="/wallet"
+            className="flex items-center gap-2 bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.10] text-white text-xs font-bold px-5 py-2.5 rounded-full transition-all"
+          >
+            <Wallet className="w-4 h-4" />
+            Wallet
+          </Link>
+        </div>
       </div>
     </div>
   );
