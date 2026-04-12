@@ -718,23 +718,31 @@ export const useStore = create<Store>()(
         termsOfService: state.termsOfService,
         theme: state.theme,
       }),
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => (state, error) => {
+        if (error) {
+          console.error("[Store] Rehydration error:", error);
+          return;
+        }
         if (typeof window === "undefined" || !state) return;
-        const remembered = localStorage.getItem("xc_remember_me") === "1";
-        const sessionActive =
-          sessionStorage.getItem("xc_session_active") === "1";
-        if (!remembered && !sessionActive && state.isAuthenticated) {
-          state.user = null;
-          state.accessToken = null;
-          state.refreshToken = null;
-          state.isAuthenticated = false;
-        }
-        if (state.isAuthenticated && !remembered) {
-          sessionStorage.setItem("xc_session_active", "1");
-        }
-        // Apply persisted theme
-        if (state.theme) {
-          document.documentElement.setAttribute("data-theme", state.theme);
+        try {
+          const remembered = localStorage.getItem("xc_remember_me") === "1";
+          const sessionActive =
+            sessionStorage.getItem("xc_session_active") === "1";
+          if (!remembered && !sessionActive && state.isAuthenticated) {
+            state.user = null;
+            state.accessToken = null;
+            state.refreshToken = null;
+            state.isAuthenticated = false;
+          }
+          if (state.isAuthenticated && !remembered) {
+            sessionStorage.setItem("xc_session_active", "1");
+          }
+          // Apply persisted theme
+          if (state.theme) {
+            document.documentElement.setAttribute("data-theme", state.theme);
+          }
+        } catch (e) {
+          console.error("[Store] Rehydration callback error:", e);
         }
       },
     },
