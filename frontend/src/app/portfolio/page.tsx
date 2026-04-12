@@ -354,7 +354,7 @@ export default function PortfolioPage() {
                       borderRadius: 8,
                       fontSize: 12,
                     }}
-                    formatter={(v: number) => [`${v.toFixed(2)}%`, "Drawdown"]}
+                    formatter={(v: number) => [`${Number(v ?? 0).toFixed(2)}%`, "Drawdown"]}
                   />
                   <Area
                     type="monotone"
@@ -370,7 +370,7 @@ export default function PortfolioPage() {
               <div>
                 <span className="text-xc-muted">Max Drawdown: </span>
                 <span className="text-red-400 font-bold font-mono">
-                  {Math.min(...drawdownData.map((d) => d.drawdown)).toFixed(2)}%
+                  {Number(Math.min(...drawdownData.map((d) => d.drawdown)) || 0).toFixed(2)}%
                 </span>
               </div>
               <div>
@@ -419,7 +419,7 @@ export default function PortfolioPage() {
                       borderRadius: 8,
                       fontSize: 12,
                     }}
-                    formatter={(v: number) => [`${v.toFixed(2)}%`, "Return"]}
+                    formatter={(v: number) => [`${Number(v ?? 0).toFixed(2)}%`, "Return"]}
                   />
                   <Bar dataKey="return" radius={[4, 4, 0, 0]}>
                     {monthlyReturns.map((entry, i) => (
@@ -437,16 +437,16 @@ export default function PortfolioPage() {
               <div>
                 <span className="text-xc-muted">Best Month: </span>
                 <span className="text-emerald-400 font-bold font-mono">
-                  +{Math.max(...monthlyReturns.map((m) => m.return)).toFixed(2)}
+                  +{Number(Math.max(...monthlyReturns.map((m) => m.return)) || 0).toFixed(2)}
                   %
                 </span>
               </div>
               <div>
                 <span className="text-xc-muted">Avg Monthly: </span>
                 <span className="text-white font-bold font-mono">
-                  {(
+                  {Number(
                     monthlyReturns.reduce((s, m) => s + m.return, 0) /
-                    monthlyReturns.length
+                    (monthlyReturns.length || 1)
                   ).toFixed(2)}
                   %
                 </span>
@@ -613,7 +613,7 @@ export default function PortfolioPage() {
               { label: "Volatility", value: "18.2%", desc: "Annualized" },
               {
                 label: "Max Drawdown",
-                value: `${Math.min(...drawdownData.map((d) => d.drawdown)).toFixed(1)}%`,
+                value: `${Number(Math.min(...drawdownData.map((d) => d.drawdown)) || 0).toFixed(1)}%`,
                 desc: "90-day period",
               },
             ].map(({ label, value, desc }) => (

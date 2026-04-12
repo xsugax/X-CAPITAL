@@ -574,7 +574,7 @@ export default function DashboardPage() {
                     tick={{ fill: "#64748b", fontSize: 10 }}
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                    tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Area
@@ -685,7 +685,7 @@ export default function DashboardPage() {
                   tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                  tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
                 />
                 <Tooltip
                   contentStyle={{
@@ -695,7 +695,7 @@ export default function DashboardPage() {
                     fontSize: 12,
                   }}
                   formatter={(v: number, name: string) => [
-                    name === "volume" ? formatCurrency(v) : v,
+                    name === "volume" ? formatCurrency(Number(v ?? 0)) : v,
                     name === "volume" ? "Volume" : "Trades",
                   ]}
                 />

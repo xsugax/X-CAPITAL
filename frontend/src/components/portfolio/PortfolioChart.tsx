@@ -93,7 +93,7 @@ export default function PortfolioChart({ data, height = 200 }: PortfolioChartPro
               tick={{ fill: '#64748b', fontSize: 10 }}
               axisLine={false}
               tickLine={false}
-              tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+              tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
               domain={['auto', 'auto']}
               width={48}
             />

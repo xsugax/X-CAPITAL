@@ -60,7 +60,7 @@ export function StatCard({
               )}
             >
               {positive ? "▲" : "▼"} {positive ? "+" : ""}
-              {change.toFixed(2)}%
+              {Number(change ?? 0).toFixed(2)}%
             </span>
           )}
         </div>

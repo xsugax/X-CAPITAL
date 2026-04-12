@@ -340,7 +340,7 @@ export default function OraclePage() {
                   tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `${v}%`}
+                  tickFormatter={(v) => `${Number(v ?? 0)}%`}
                   domain={[50, 100]}
                 />
                 <Tooltip
@@ -351,7 +351,7 @@ export default function OraclePage() {
                     fontSize: 12,
                   }}
                   formatter={(v: number, name: string) => [
-                    name === "accuracy" ? `${v}%` : v,
+                    name === "accuracy" ? `${Number(v ?? 0)}%` : v,
                     name === "accuracy" ? "Accuracy" : "Predictions",
                   ]}
                 />
@@ -409,7 +409,7 @@ export default function OraclePage() {
                       fontSize: 12,
                     }}
                     formatter={(v: number) => [
-                      `${v.toFixed(1)}%`,
+                      `${Number(v ?? 0).toFixed(1)}%`,
                       "Expected Return",
                     ]}
                   />
@@ -626,7 +626,7 @@ export default function OraclePage() {
                   axisLine={false}
                   tickLine={false}
                   domain={[0, 1]}
-                  tickFormatter={(v) => `${(v * 100).toFixed(0)}`}
+                  tickFormatter={(v) => `${(Number(v ?? 0) * 100).toFixed(0)}`}
                 />
                 <Tooltip
                   contentStyle={{
@@ -636,7 +636,7 @@ export default function OraclePage() {
                     fontSize: 12,
                   }}
                   formatter={(v: number) => [
-                    `${(v * 100).toFixed(1)}`,
+                    `${(Number(v ?? 0) * 100).toFixed(1)}`,
                     "Sentiment Score",
                   ]}
                 />

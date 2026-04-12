@@ -52,13 +52,14 @@ const TICKER_SEED: TickerItem[] = [
 ];
 
 function formatPrice(price: number): string {
-  if (price >= 1000)
-    return price.toLocaleString("en-US", {
+  const p = Number(price ?? 0);
+  if (p >= 1000)
+    return p.toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
-  if (price < 1) return price.toFixed(4);
-  return price.toFixed(2);
+  if (p < 1) return p.toFixed(4);
+  return p.toFixed(2);
 }
 
 export default function MarketTicker() {
@@ -140,7 +141,7 @@ export default function MarketTicker() {
                 <TrendingDown className="w-2.5 h-2.5" />
               )}
               {item.change >= 0 ? "+" : ""}
-              {item.change.toFixed(2)}%
+              {Number(item.change ?? 0).toFixed(2)}%
             </span>
           </div>
         ))}

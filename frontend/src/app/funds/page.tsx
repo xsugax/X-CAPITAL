@@ -260,7 +260,7 @@ export default function FundsPage() {
                   tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `$${(v / 1e6).toFixed(0)}M`}
+                  tickFormatter={(v) => `$${(Number(v ?? 0) / 1e6).toFixed(0)}M`}
                 />
                 <Tooltip
                   contentStyle={{
@@ -269,7 +269,7 @@ export default function FundsPage() {
                     borderRadius: 8,
                     fontSize: 12,
                   }}
-                  formatter={(v: number) => [formatCurrency(v), "AUM"]}
+                  formatter={(v: number) => [formatCurrency(Number(v ?? 0)), "AUM"]}
                 />
                 <Area
                   type="monotone"
@@ -341,8 +341,8 @@ export default function FundsPage() {
                       name === "Return"
                         ? `${v}%`
                         : name === "Risk"
-                          ? v.toFixed(0)
-                          : formatCurrency(v),
+                          ? Number(v ?? 0).toFixed(0)
+                          : formatCurrency(Number(v ?? 0)),
                       name,
                     ]}
                     labelFormatter={(_, payload) =>

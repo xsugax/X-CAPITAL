@@ -702,7 +702,7 @@ export default function TradingPage() {
                         tick={{ fill: "#475569", fontSize: 9 }}
                         axisLine={false}
                         tickLine={false}
-                        tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`}
+                        tickFormatter={(v) => `${(Number(v ?? 0) / 1e6).toFixed(0)}M`}
                       />
                       <Tooltip
                         contentStyle={{

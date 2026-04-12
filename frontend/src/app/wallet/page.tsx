@@ -660,7 +660,7 @@ export default function WalletPage() {
                     tick={{ fill: "#64748b", fontSize: 10 }}
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                    tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
                   />
                   <Tooltip
                     contentStyle={{
@@ -669,7 +669,7 @@ export default function WalletPage() {
                       borderRadius: 8,
                       fontSize: 12,
                     }}
-                    formatter={(v: number) => [formatCurrency(v), "Balance"]}
+                    formatter={(v: number) => [formatCurrency(Number(v ?? 0)), "Balance"]}
                   />
                   <Area
                     type="monotone"
@@ -714,7 +714,7 @@ export default function WalletPage() {
                       borderRadius: 8,
                       fontSize: 11,
                     }}
-                    formatter={(v: number) => [formatCurrency(v)]}
+                    formatter={(v: number) => [formatCurrency(Number(v ?? 0))]}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -781,7 +781,7 @@ export default function WalletPage() {
                   tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                  tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
                 />
                 <Tooltip
                   contentStyle={{
@@ -790,7 +790,7 @@ export default function WalletPage() {
                     borderRadius: 8,
                     fontSize: 12,
                   }}
-                  formatter={(v: number) => [formatCurrency(v)]}
+                  formatter={(v: number) => [formatCurrency(Number(v ?? 0))]}
                 />
                 <Bar
                   dataKey="inflow"
