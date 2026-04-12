@@ -246,7 +246,7 @@ export default function PortfolioPage() {
     >
       <div className="space-y-5">
         {/* ── Stats Row ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4">
           <StatCard
             title="Total Value"
             value={formatCurrency(portfolio?.totalValue ?? 0)}
@@ -279,49 +279,49 @@ export default function PortfolioPage() {
         </div>
 
         {/* ── Performance Chart (full width, tall) ── */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6 lg:p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-2">
             <div>
-              <h3 className="font-black text-white text-lg">
+              <h3 className="font-black text-white text-base md:text-lg">
                 Portfolio Performance
               </h3>
-              <p className="text-sm text-xc-muted mt-1">
+              <p className="text-xs md:text-sm text-xc-muted mt-1">
                 90-day history · Updated live
               </p>
             </div>
             <div
               className={cn(
-                "flex items-center gap-2 text-lg font-black",
+                "flex items-center gap-2 text-base md:text-lg font-black",
                 pnlPct >= 0 ? "text-emerald-400" : "text-red-400",
               )}
             >
               {pnlPct >= 0 ? (
-                <TrendingUp className="w-5 h-5" />
+                <TrendingUp className="w-4 h-4 md:w-5 md:h-5" />
               ) : (
-                <TrendingDown className="w-5 h-5" />
+                <TrendingDown className="w-4 h-4 md:w-5 md:h-5" />
               )}
               {formatPercent(pnlPct)}
             </div>
           </div>
-          <div style={{ height: 320 }}>
+          <div className="h-[220px] md:h-[280px] lg:h-[320px]">
             <PortfolioChart data={perfData} height={320} />
           </div>
         </div>
 
         {/* ── Drawdown Chart + Monthly Returns (side by side) ── */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
           {/* Drawdown */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
             <div className="flex items-center gap-2 mb-5">
               <Activity className="w-4 h-4 text-red-400" />
-              <h3 className="font-black text-white text-base">
+              <h3 className="font-black text-white text-sm md:text-base">
                 Drawdown Analysis
               </h3>
-              <span className="text-xs text-xc-muted ml-auto">
+              <span className="text-xs text-xc-muted ml-auto hidden sm:inline">
                 Max DD from peak
               </span>
             </div>
-            <div style={{ height: 200 }}>
+            <div className="h-[160px] md:h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={drawdownData}
@@ -354,7 +354,10 @@ export default function PortfolioPage() {
                       borderRadius: 8,
                       fontSize: 12,
                     }}
-                    formatter={(v: number) => [`${Number(v ?? 0).toFixed(2)}%`, "Drawdown"]}
+                    formatter={(v: number) => [
+                      `${Number(v ?? 0).toFixed(2)}%`,
+                      "Drawdown",
+                    ]}
                   />
                   <Area
                     type="monotone"
@@ -370,7 +373,10 @@ export default function PortfolioPage() {
               <div>
                 <span className="text-xc-muted">Max Drawdown: </span>
                 <span className="text-red-400 font-bold font-mono">
-                  {Number(Math.min(...drawdownData.map((d) => d.drawdown)) || 0).toFixed(2)}%
+                  {Number(
+                    Math.min(...drawdownData.map((d) => d.drawdown)) || 0,
+                  ).toFixed(2)}
+                  %
                 </span>
               </div>
               <div>
@@ -386,15 +392,15 @@ export default function PortfolioPage() {
           </div>
 
           {/* Monthly Returns */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
             <div className="flex items-center gap-2 mb-5">
               <BarChart3 className="w-4 h-4 text-white/60" />
-              <h3 className="font-black text-white text-base">
+              <h3 className="font-black text-white text-sm md:text-base">
                 Monthly Returns
               </h3>
               <span className="text-xs text-xc-muted ml-auto">2026 YTD</span>
             </div>
-            <div style={{ height: 200 }}>
+            <div className="h-[160px] md:h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={monthlyReturns}
@@ -419,7 +425,10 @@ export default function PortfolioPage() {
                       borderRadius: 8,
                       fontSize: 12,
                     }}
-                    formatter={(v: number) => [`${Number(v ?? 0).toFixed(2)}%`, "Return"]}
+                    formatter={(v: number) => [
+                      `${Number(v ?? 0).toFixed(2)}%`,
+                      "Return",
+                    ]}
                   />
                   <Bar dataKey="return" radius={[4, 4, 0, 0]}>
                     {monthlyReturns.map((entry, i) => (
@@ -437,7 +446,10 @@ export default function PortfolioPage() {
               <div>
                 <span className="text-xc-muted">Best Month: </span>
                 <span className="text-emerald-400 font-bold font-mono">
-                  +{Number(Math.max(...monthlyReturns.map((m) => m.return)) || 0).toFixed(2)}
+                  +
+                  {Number(
+                    Math.max(...monthlyReturns.map((m) => m.return)) || 0,
+                  ).toFixed(2)}
                   %
                 </span>
               </div>
@@ -446,7 +458,7 @@ export default function PortfolioPage() {
                 <span className="text-white font-bold font-mono">
                   {Number(
                     monthlyReturns.reduce((s, m) => s + m.return, 0) /
-                    (monthlyReturns.length || 1)
+                      (monthlyReturns.length || 1),
                   ).toFixed(2)}
                   %
                 </span>
@@ -456,10 +468,12 @@ export default function PortfolioPage() {
         </div>
 
         {/* ── Holdings Table + Per-Holding P&L Chart ── */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="font-bold text-white text-lg">Holdings</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
+          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+            <div className="flex items-center justify-between mb-4 md:mb-5">
+              <h3 className="font-bold text-white text-base md:text-lg">
+                Holdings
+              </h3>
               <span className="text-xs text-emerald-400 flex items-center gap-1 font-mono">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />{" "}
                 LIVE PRICES
@@ -523,9 +537,9 @@ export default function PortfolioPage() {
           </div>
 
           {/* Allocation Pie */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <h3 className="font-bold text-white mb-5">Allocation</h3>
-            <div style={{ height: 260 }}>
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+            <h3 className="font-bold text-white mb-4 md:mb-5">Allocation</h3>
+            <div className="h-[200px] md:h-[260px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -587,12 +601,14 @@ export default function PortfolioPage() {
         </div>
 
         {/* ── Risk Metrics ── */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-          <div className="flex items-center gap-2 mb-5">
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+          <div className="flex items-center gap-2 mb-4 md:mb-5">
             <Target className="w-4 h-4 text-white/50" />
-            <h3 className="font-black text-white text-base">Risk Metrics</h3>
+            <h3 className="font-black text-white text-sm md:text-base">
+              Risk Metrics
+            </h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3 lg:gap-4">
             {[
               {
                 label: "Sharpe Ratio",
@@ -619,9 +635,9 @@ export default function PortfolioPage() {
             ].map(({ label, value, desc }) => (
               <div
                 key={label}
-                className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-5 text-center"
+                className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-3 md:p-4 lg:p-5 text-center"
               >
-                <div className="text-lg font-black text-white font-mono">
+                <div className="text-base md:text-lg font-black text-white font-mono">
                   {value}
                 </div>
                 <div className="text-xs font-bold text-xc-muted mt-1">

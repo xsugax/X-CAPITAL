@@ -119,9 +119,9 @@ export default function SettingsPage() {
 
   return (
     <DashboardLayout title="Settings" subtitle="Manage your account">
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="max-w-2xl mx-auto space-y-4 md:space-y-6">
         {/* Profile Picture */}
-        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-4 md:p-6">
           <h2 className="text-base font-bold text-white mb-5">Profile</h2>
           <div className="flex flex-col sm:flex-row items-center gap-5">
             <div className="relative group">
@@ -174,7 +174,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Personal Info */}
-        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-4 md:p-6">
           <h2 className="text-base font-bold text-white mb-5">
             Personal Information
           </h2>
@@ -259,7 +259,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Notifications */}
-        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-4 md:p-6">
           <h2 className="text-base font-bold text-white mb-5">Notifications</h2>
           <div className="space-y-3">
             <ToggleRow
@@ -290,7 +290,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Security */}
-        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-4 md:p-6">
           <h2 className="text-base font-bold text-white mb-5">Security</h2>
           <div className="space-y-4">
             <div>
@@ -387,7 +387,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Appearance */}
-        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-4 md:p-6">
           <h2 className="text-base font-bold text-white mb-5">Appearance</h2>
           <p className="text-xs text-xc-muted mb-4">
             Choose your preferred theme for the entire platform.
@@ -441,7 +441,7 @@ export default function SettingsPage() {
         </section>
 
         {/* Account Info */}
-        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-6">
+        <section className="bg-xc-card border border-white/[0.08] rounded-2xl p-4 md:p-6">
           <h2 className="text-base font-bold text-white mb-5">Account</h2>
           <div className="space-y-3">
             <div className="flex items-center justify-between py-2">

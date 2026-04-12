@@ -316,7 +316,7 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
   let itemCounter = 0;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-[8vh] sm:pt-[15vh]">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -324,7 +324,7 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
       />
 
       {/* Panel */}
-      <div className="relative w-full max-w-xl mx-4 bg-xc-card border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/60 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-xl mx-3 sm:mx-4 bg-xc-card border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/60 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         {/* Search input */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.06]">
           <Search className="w-5 h-5 text-xc-muted flex-shrink-0" />
@@ -350,7 +350,10 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
         </div>
 
         {/* Results */}
-        <div ref={listRef} className="max-h-[50vh] overflow-y-auto py-2">
+        <div
+          ref={listRef}
+          className="max-h-[60vh] sm:max-h-[50vh] overflow-y-auto py-2"
+        >
           {flatList.length === 0 ? (
             <div className="px-4 py-8 text-center text-sm text-xc-muted">
               No results for &ldquo;{query}&rdquo;

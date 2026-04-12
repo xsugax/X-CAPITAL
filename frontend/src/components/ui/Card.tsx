@@ -12,7 +12,7 @@ export function Card({ children, className, glow, onClick }: CardProps) {
     <div
       onClick={onClick}
       className={cn(
-        "rounded-2xl p-7 bg-xc-card border border-xc-border/80",
+        "rounded-2xl p-4 sm:p-5 lg:p-7 bg-xc-card border border-xc-border/80",
         glow && "glow-purple border-white/10",
         onClick && "cursor-pointer hover:border-white/20 transition-all",
         className,
@@ -48,7 +48,7 @@ export function StatCard({
           <p className="text-[11px] font-bold text-xc-muted uppercase tracking-widest mb-2">
             {title}
           </p>
-          <p className="text-2xl font-black text-white font-num tracking-tight">
+          <p className="text-xl sm:text-2xl font-black text-white font-num tracking-tight truncate">
             {value}
           </p>
           {subtitle && <p className="text-sm text-xc-muted mt-1">{subtitle}</p>}

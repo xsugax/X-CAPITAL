@@ -191,9 +191,9 @@ export default function FundsPage() {
       title="Funds &amp; SPVs"
       subtitle="Institutional-grade private investments · Live AUM tracking"
     >
-      <div className="space-y-8">
+      <div className="space-y-4 md:space-y-6 lg:space-y-8">
         {/* ── Stats ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4">
           <StatCard
             title="Total Platform AUM"
             value={formatCurrency(totalAUM)}
@@ -219,18 +219,18 @@ export default function FundsPage() {
         </div>
 
         {/* ── AUM Growth Chart (full width, tall) ── */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6 lg:p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-2">
             <div>
-              <h3 className="font-black text-white text-lg">
+              <h3 className="font-black text-white text-base md:text-lg">
                 Platform AUM Growth
               </h3>
-              <p className="text-sm text-xc-muted mt-1">
+              <p className="text-xs md:text-sm text-xc-muted mt-1">
                 12-month assets under management · Live
               </p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-black text-white font-mono">
+              <div className="text-xl md:text-2xl font-black text-white font-mono">
                 {formatCurrency(totalAUM)}
               </div>
               <div className="text-sm text-emerald-400 font-bold">
@@ -260,7 +260,9 @@ export default function FundsPage() {
                   tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `$${(Number(v ?? 0) / 1e6).toFixed(0)}M`}
+                  tickFormatter={(v) =>
+                    `$${(Number(v ?? 0) / 1e6).toFixed(0)}M`
+                  }
                 />
                 <Tooltip
                   contentStyle={{
@@ -269,7 +271,10 @@ export default function FundsPage() {
                     borderRadius: 8,
                     fontSize: 12,
                   }}
-                  formatter={(v: number) => [formatCurrency(Number(v ?? 0)), "AUM"]}
+                  formatter={(v: number) => [
+                    formatCurrency(Number(v ?? 0)),
+                    "AUM",
+                  ]}
                 />
                 <Area
                   type="monotone"
@@ -284,17 +289,19 @@ export default function FundsPage() {
         </div>
 
         {/* ── Risk/Return Scatter + Fund Performance Comparison ── */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
           {/* Risk vs Return Scatter */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
             <div className="flex items-center gap-2 mb-5">
               <Target className="w-4 h-4 text-white/50" />
-              <h3 className="font-black text-white text-base">Risk vs. Return</h3>
-              <span className="text-xs text-xc-muted ml-auto">
+              <h3 className="font-black text-white text-sm md:text-base">
+                Risk vs. Return
+              </h3>
+              <span className="text-xs text-xc-muted ml-auto hidden sm:inline">
                 All funds
               </span>
             </div>
-            <div style={{ height: 280 }}>
+            <div className="h-[220px] md:h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <ScatterChart
                   margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -356,17 +363,17 @@ export default function FundsPage() {
           </div>
 
           {/* Fund Performance Comparison */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-5">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+            <div className="flex items-center gap-2 mb-4 md:mb-5">
               <BarChart3 className="w-4 h-4 text-white/60" />
-              <h3 className="font-black text-white text-base">
+              <h3 className="font-black text-white text-sm md:text-base">
                 Fund Performance Comparison
               </h3>
-              <span className="text-xs text-xc-muted ml-auto">
+              <span className="text-xs text-xc-muted ml-auto hidden sm:inline">
                 6 months
               </span>
             </div>
-            <div style={{ height: 280 }}>
+            <div className="h-[220px] md:h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={perfData}
@@ -395,7 +402,10 @@ export default function FundsPage() {
                   {displayFunds.slice(0, 6).map((f, i) => (
                     <Bar
                       key={f.id}
-                      dataKey={(f.name ?? "Fund").split(" ").slice(0, 2).join(" ")}
+                      dataKey={(f.name ?? "Fund")
+                        .split(" ")
+                        .slice(0, 2)
+                        .join(" ")}
                       fill={FUND_COLORS[i]}
                       opacity={0.7}
                       radius={[2, 2, 0, 0]}
@@ -423,15 +433,15 @@ export default function FundsPage() {
 
         {/* ── My investments ── */}
         {myInvestments.length > 0 && (
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <h3 className="font-bold text-white mb-5 text-lg">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+            <h3 className="font-bold text-white mb-4 md:mb-5 text-base md:text-lg">
               My Investments
             </h3>
             <div className="space-y-3">
               {myInvestments.map((inv) => (
                 <div
                   key={inv.id}
-                  className="flex items-center justify-between p-4 rounded-xl bg-xc-dark/40 border border-xc-border/60"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 md:p-4 rounded-xl bg-xc-dark/40 border border-xc-border/60 gap-2"
                 >
                   <div>
                     <div className="font-semibold text-white text-sm">
@@ -469,7 +479,7 @@ export default function FundsPage() {
             </span>
           </div>
           {loading ? (
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div
                   key={i}
@@ -478,7 +488,7 @@ export default function FundsPage() {
               ))}
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
               {displayFunds.map((fund) => (
                 <FundCard key={fund.id} fund={fund} onInvest={openInvest} />
               ))}
@@ -487,7 +497,7 @@ export default function FundsPage() {
         </div>
 
         {/* ── Accreditation note ── */}
-        <div className="flex items-start gap-4 bg-white/[0.02] border border-white/[0.08] rounded-xl p-5 text-sm">
+        <div className="flex items-start gap-3 md:gap-4 bg-white/[0.02] border border-white/[0.08] rounded-xl p-3 md:p-5 text-xs md:text-sm">
           <AlertCircle className="w-5 h-5 text-white/50 shrink-0 mt-0.5" />
           <div>
             <span className="text-white/50 font-semibold">

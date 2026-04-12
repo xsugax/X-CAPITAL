@@ -93,8 +93,8 @@ export default function OrderForm({ asset }: OrderFormProps) {
 
   if (!asset) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center py-20">
-        <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4">
+      <div className="flex flex-col items-center justify-center h-full text-center py-10 md:py-20">
+        <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-3 md:mb-4">
           <TrendingUp className="w-7 h-7 text-xc-muted" />
         </div>
         <p className="text-xc-muted text-sm">
@@ -105,10 +105,10 @@ export default function OrderForm({ asset }: OrderFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 md:gap-4">
       {/* Asset header */}
-      <div className="flex items-center gap-3 pb-3 border-b border-xc-border">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-white/[0.06] to-white/[0.03] flex items-center justify-center text-sm font-black text-white">
+      <div className="flex items-center gap-2 md:gap-3 pb-2 md:pb-3 border-b border-xc-border">
+        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-white/[0.06] to-white/[0.03] flex items-center justify-center text-sm font-black text-white">
           {asset.symbol?.[0] ?? "?"}
         </div>
         <div>

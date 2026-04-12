@@ -127,7 +127,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
       {/* ── Hero image header ────────────────────────────────────────────── */}
       <div
         className={cn(
-          "relative h-36 overflow-hidden bg-gradient-to-br",
+          "relative h-28 md:h-36 overflow-hidden bg-gradient-to-br",
           cat.headerBg,
         )}
       >
@@ -176,7 +176,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
 
       {/* ── Description ──────────────────────────────────────────────────── */}
       {fund.description && (
-        <div className="px-5 pt-4 pb-2">
+        <div className="px-3 md:px-5 pt-3 md:pt-4 pb-2">
           <p className="text-xs text-xc-muted leading-relaxed line-clamp-2">
             {fund.description}
           </p>
@@ -184,7 +184,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
       )}
 
       {/* ── Risk + lock badges ───────────────────────────────────────────── */}
-      <div className="px-5 pt-2 pb-3 flex items-center gap-2">
+      <div className="px-3 md:px-5 pt-2 pb-3 flex items-center gap-2">
         <Badge variant={risk.variant} size="sm">
           {risk.label}
         </Badge>
@@ -194,12 +194,12 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
       </div>
 
       {/* ── Metrics grid ─────────────────────────────────────────────────── */}
-      <div className="mx-5 mb-4 grid grid-cols-2 gap-3 bg-black/20 rounded-xl px-4 py-3 border border-white/5">
+      <div className="mx-3 md:mx-5 mb-3 md:mb-4 grid grid-cols-2 gap-2 md:gap-3 bg-black/20 rounded-xl px-3 md:px-4 py-2.5 md:py-3 border border-white/5">
         <div>
           <div className="text-[9px] uppercase tracking-widest text-xc-muted font-semibold flex items-center gap-1 mb-0.5">
             <TrendingUp className="w-2.5 h-2.5" /> Target Return
           </div>
-          <div className="font-black text-xc-green text-lg font-mono leading-none">
+          <div className="font-black text-xc-green text-base md:text-lg font-mono leading-none">
             {formatPercent(Number(fund.targetReturn))}
             <span className="text-[10px] font-normal text-xc-muted"> /yr</span>
           </div>
@@ -233,7 +233,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
       </div>
 
       {/* ── Capacity bar ─────────────────────────────────────────────────── */}
-      <div className="px-5 pb-4">
+      <div className="px-3 md:px-5 pb-3 md:pb-4">
         <div className="flex items-center justify-between text-xs mb-2">
           <span className="text-xc-muted">Capacity filled</span>
           <span className="font-mono font-bold text-white">
@@ -254,7 +254,7 @@ export default function FundCard({ fund, onInvest }: FundCardProps) {
       </div>
 
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
-      <div className="px-5 pb-5 mt-auto">
+      <div className="px-3 md:px-5 pb-4 md:pb-5 mt-auto">
         <Button
           variant={fund.isOpen ? "primary" : "secondary"}
           fullWidth

@@ -274,7 +274,7 @@ export default function EnginePage() {
     >
       <div className="space-y-0">
         {/* ── HERO: AI COMPUTE + BANDWIDTH ──────────────────────────── */}
-        <section className="border-b border-white/[0.08] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-10 md:pb-16 mb-10 md:mb-16">
           <div className="max-w-3xl">
             <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
               X-CAPITAL INFRASTRUCTURE
@@ -286,7 +286,7 @@ export default function EnginePage() {
               <br />
               <span className="text-white/40">Structural Yield.</span>
             </h1>
-            <p className="text-base text-white/40 leading-relaxed max-w-xl mb-10">
+            <p className="text-sm md:text-base text-white/40 leading-relaxed max-w-xl mb-6 md:mb-10">
               Every node in the X-CAPITAL network routes real bandwidth through
               Starlink infrastructure, processes AI inference workloads, and
               distributes revenue globally. The yield isn&apos;t speculative
@@ -310,9 +310,9 @@ export default function EnginePage() {
                 icon: DollarSign,
               },
             ].map(({ label, value, icon: Icon }) => (
-              <div key={label} className="bg-[#080812] p-6">
+              <div key={label} className="bg-[#080812] p-4 md:p-6">
                 <Icon className="w-4 h-4 text-white/20 mb-3" />
-                <div className="text-xl font-black font-mono text-white">
+                <div className="text-lg md:text-xl font-black font-mono text-white">
                   {value}
                 </div>
                 <div className="text-xs text-white/30 mt-1">{label}</div>
@@ -322,14 +322,14 @@ export default function EnginePage() {
         </section>
 
         {/* ── WHY YIELD IS STRUCTURALLY GUARANTEED ──────────────────── */}
-        <section className="border-b border-white/[0.08] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-10 md:pb-16 mb-10 md:mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
             YIELD ARCHITECTURE
           </p>
-          <h2 className="text-3xl font-black text-white tracking-tight mb-3">
+          <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">
             Why the yield is structurally guaranteed.
           </h2>
-          <p className="text-sm text-white/35 max-w-2xl mb-10">
+          <p className="text-sm text-white/35 max-w-2xl mb-6 md:mb-10">
             Revenue flows from three convergent infrastructure layers. Each
             generates independently. Together, they compound.
           </p>
@@ -355,13 +355,13 @@ export default function EnginePage() {
                 metric: "$180K/mo",
               },
             ].map(({ title, desc, icon: Icon, metric }) => (
-              <div key={title} className="bg-[#080812] p-8">
-                <Icon className="w-5 h-5 text-white/20 mb-5" />
+              <div key={title} className="bg-[#080812] p-5 md:p-8">
+                <Icon className="w-5 h-5 text-white/20 mb-3 md:mb-5" />
                 <h3 className="text-base font-bold text-white mb-2">{title}</h3>
-                <p className="text-[13px] text-white/35 leading-relaxed mb-6">
+                <p className="text-[13px] text-white/35 leading-relaxed mb-4 md:mb-6">
                   {desc}
                 </p>
-                <div className="pt-4 border-t border-white/[0.08]">
+                <div className="pt-3 md:pt-4 border-t border-white/[0.08]">
                   <span className="text-xs text-white/25 uppercase tracking-wider">
                     Pool contribution
                   </span>
@@ -375,7 +375,7 @@ export default function EnginePage() {
         </section>
 
         {/* ── FOMO BANNER ───────────────────────────────────────────── */}
-        <section className="border border-white/[0.08] rounded-2xl p-8 mb-16 relative overflow-hidden">
+        <section className="border border-white/[0.08] rounded-2xl p-5 md:p-8 mb-10 md:mb-16 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-transparent pointer-events-none" />
           <div className="relative flex items-center justify-between flex-wrap gap-6">
             <div>
@@ -385,22 +385,22 @@ export default function EnginePage() {
                   Limited Capacity
                 </span>
               </div>
-              <h3 className="text-2xl font-black text-white mb-1">
+              <h3 className="text-xl md:text-2xl font-black text-white mb-1">
                 847 nodes remaining this quarter.
               </h3>
-              <p className="text-sm text-white/35">
+              <p className="text-xs md:text-sm text-white/35">
                 14,892 active. Network capacity closes at 15,739. Structural
                 constraint &mdash; not marketing.
               </p>
             </div>
-            <button className="px-8 py-3.5 bg-white text-black font-bold text-sm rounded-full hover:bg-white/90 transition-all flex items-center gap-2 shrink-0">
+            <button className="px-6 md:px-8 py-3 md:py-3.5 bg-white text-black font-bold text-sm rounded-full hover:bg-white/90 transition-all flex items-center gap-2 shrink-0 w-full sm:w-auto justify-center">
               Secure Your Node <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </section>
 
         {/* ── LIVE GLOBAL YIELD FEED ────────────────────────────────── */}
-        <section className="border-b border-white/[0.08] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-10 md:pb-16 mb-10 md:mb-16">
           <div className="flex items-center justify-between mb-6">
             <div>
               <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-2">
@@ -418,22 +418,19 @@ export default function EnginePage() {
 
           <div className="border border-white/[0.08] rounded-2xl overflow-hidden">
             {/* Header */}
-            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-6 py-3 border-b border-white/[0.08] text-xs font-mono uppercase tracking-wider text-white/25">
+            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 md:gap-4 px-3 md:px-6 py-3 border-b border-white/[0.08] text-xs font-mono uppercase tracking-wider text-white/25">
               <span>Node</span>
               <span className="text-right">Yield</span>
               <span className="text-right">Time</span>
               <span className="text-right">Status</span>
             </div>
             {/* Feed */}
-            <div
-              style={{ height: 360, overflowY: "auto" }}
-              className="custom-scrollbar"
-            >
+            <div className="h-[280px] md:h-[360px] overflow-y-auto custom-scrollbar">
               {yieldFeed.map((item, i) => (
                 <div
                   key={item.id}
                   className={cn(
-                    "grid grid-cols-[1fr_auto_auto_auto] gap-4 px-6 py-3 border-b border-white/[0.02] text-[13px] transition-colors",
+                    "grid grid-cols-[1fr_auto_auto_auto] gap-2 md:gap-4 px-3 md:px-6 py-3 border-b border-white/[0.02] text-[13px] transition-colors",
                     i === 0 && "bg-white/[0.02]",
                   )}
                 >
@@ -465,18 +462,18 @@ export default function EnginePage() {
         </section>
 
         {/* ── TURN ANY LIABILITY INTO A VAULT ───────────────────────── */}
-        <section className="border-b border-white/[0.08] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-10 md:pb-16 mb-10 md:mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
             ASSET INTEGRATION
           </p>
-          <h2 className="text-3xl font-black text-white tracking-tight mb-3">
+          <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">
             Turn any liability into a vault.
           </h2>
-          <p className="text-sm text-white/35 max-w-xl mb-10">
+          <p className="text-sm text-white/35 max-w-xl mb-6 md:mb-10">
             Select your asset class. The engine syncs.
           </p>
 
-          <div className="grid md:grid-cols-[280px_1fr] gap-10">
+          <div className="grid md:grid-cols-[280px_1fr] gap-6 md:gap-10">
             {/* Asset categories — vertical rectangle table */}
             <div className="border border-white/[0.08] rounded-2xl overflow-hidden">
               {ASSET_CATEGORIES.map((cat) => (
@@ -507,9 +504,7 @@ export default function EnginePage() {
                     >
                       {cat.label}
                     </div>
-                    <div className="text-xs text-white/20">
-                      {cat.example}
-                    </div>
+                    <div className="text-xs text-white/20">{cat.example}</div>
                   </div>
                   {selectedAsset === cat.id && (
                     <ChevronRight className="w-4 h-4 text-white/40 ml-auto" />
@@ -519,7 +514,7 @@ export default function EnginePage() {
             </div>
 
             {/* Global Engine — vertical rectangle */}
-            <div className="border border-white/[0.08] rounded-2xl p-8">
+            <div className="border border-white/[0.08] rounded-2xl p-5 md:p-8">
               <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/25 mb-8">
                 GLOBAL ROUTING ENGINE
               </p>
@@ -572,9 +567,7 @@ export default function EnginePage() {
                               )?.label?.toUpperCase() ?? node.label)
                             : node.label}
                         </div>
-                        <div className="text-xs text-white/20">
-                          {node.desc}
-                        </div>
+                        <div className="text-xs text-white/20">{node.desc}</div>
                       </div>
                       {engineSyncing && (
                         <RefreshCw className="w-3.5 h-3.5 text-white/30 ml-auto animate-spin" />
@@ -633,17 +626,17 @@ export default function EnginePage() {
         </section>
 
         {/* ── THE PROCESS ───────────────────────────────────────────── */}
-        <section className="border-b border-white/[0.08] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-10 md:pb-16 mb-10 md:mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
             THE PROCESS
           </p>
-          <h2 className="text-3xl font-black text-white tracking-tight mb-12">
+          <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-8 md:mb-12">
             How any asset becomes your engine.
           </h2>
 
           <div className="grid md:grid-cols-3 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
             {PROCESS_STEPS.map((step) => (
-              <div key={step.num} className="bg-[#080812] p-8">
+              <div key={step.num} className="bg-[#080812] p-5 md:p-8">
                 <span className="text-xs font-mono text-white/20 mb-4 block">
                   {step.num}
                 </span>
@@ -659,11 +652,11 @@ export default function EnginePage() {
         </section>
 
         {/* ── ARCHITECTURE (01-04) ──────────────────────────────────── */}
-        <section className="border-b border-white/[0.08] pb-16 mb-16">
+        <section className="border-b border-white/[0.08] pb-10 md:pb-16 mb-10 md:mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
             SYSTEM DESIGN
           </p>
-          <h2 className="text-3xl font-black text-white tracking-tight mb-12">
+          <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-8 md:mb-12">
             Structural architecture.
           </h2>
 
@@ -695,8 +688,8 @@ export default function EnginePage() {
         </section>
 
         {/* ── TRUST RATINGS ─────────────────────────────────────────── */}
-        <section className="border-b border-white/[0.08] pb-16 mb-16">
-          <div className="flex items-center justify-between mb-8">
+        <section className="border-b border-white/[0.08] pb-10 md:pb-16 mb-10 md:mb-16">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 md:mb-8 gap-2">
             <div>
               <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-2">
                 VERIFIED REVIEWS
@@ -705,10 +698,13 @@ export default function EnginePage() {
                 Trusted by integrators worldwide.
               </h2>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-2 md:mt-0">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-white text-white" />
+                  <Star
+                    key={i}
+                    className="w-3.5 h-3.5 md:w-4 md:h-4 fill-white text-white"
+                  />
                 ))}
               </div>
               <span className="text-sm font-bold text-white ml-1">4.9/5</span>
@@ -718,7 +714,7 @@ export default function EnginePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
             {REVIEWS.map((review) => (
-              <div key={review.name} className="bg-[#080812] p-6">
+              <div key={review.name} className="bg-[#080812] p-4 md:p-6">
                 <div className="flex mb-3">
                   {[...Array(review.rating)].map((_, i) => (
                     <Star
@@ -746,11 +742,11 @@ export default function EnginePage() {
 
         {/* ── ACTIVATE YOUR REVENUE NODE — TIERS ────────────────────── */}
         <section className="pb-16">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 md:mb-12">
             <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">
               ACTIVATE
             </p>
-            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-3">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tight mb-3">
               Activate your revenue node.
             </h2>
             <p className="text-sm text-white/35 max-w-lg mx-auto">
@@ -763,7 +759,7 @@ export default function EnginePage() {
               <div
                 key={tier.name}
                 className={cn(
-                  "bg-[#080812] p-8 flex flex-col",
+                  "bg-[#080812] p-5 md:p-8 flex flex-col",
                   tier.highlight && "bg-white/[0.03]",
                 )}
               >
@@ -816,7 +812,7 @@ export default function EnginePage() {
           </div>
 
           {/* Bottom trust bar */}
-          <div className="flex items-center justify-center gap-8 mt-10 text-xs text-white/20">
+          <div className="flex items-center justify-center gap-4 md:gap-8 mt-8 md:mt-10 text-xs text-white/20 flex-wrap">
             {[
               { icon: Shield, text: "SEC Compliant" },
               { icon: Lock, text: "Bank-grade Security" },

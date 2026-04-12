@@ -78,7 +78,7 @@ export default function MarketTicker() {
           price: live.price,
           change: live.changePercent24h,
         };
-      })
+      }),
     );
   }, [prices]);
 

@@ -25,7 +25,9 @@ export default function DashboardLayout({
   const [showFab, setShowFab] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (mounted && !isAuthenticated) {
@@ -47,7 +49,7 @@ export default function DashboardLayout({
       <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 md:ml-[60px] lg:ml-[200px]">
         <MarketTicker />
         <Header title={title} subtitle={subtitle} />
-        <main className="flex-1 p-3 md:p-5 lg:p-6 pb-24 md:pb-6">
+        <main className="flex-1 p-3 md:p-5 lg:p-6 pb-28 md:pb-6 overflow-x-hidden">
           {children}
         </main>
       </div>

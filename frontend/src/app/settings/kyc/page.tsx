@@ -238,7 +238,7 @@ export default function KYCPage() {
         subtitle="Identity verification"
       >
         <div className="max-w-lg mx-auto mt-12">
-          <div className="bg-xc-card border border-white/[0.08] rounded-2xl p-8 text-center">
+          <div className="bg-xc-card border border-white/[0.08] rounded-2xl p-5 md:p-8 text-center">
             {status === "PENDING" && (
               <>
                 <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
@@ -353,7 +353,7 @@ export default function KYCPage() {
         <div className="bg-xc-card border border-white/[0.08] rounded-2xl overflow-hidden">
           {/* ═══ Step 1: Personal Information ═══ */}
           {step === 1 && (
-            <div className="p-6 space-y-5">
+            <div className="p-4 md:p-6 space-y-5">
               <div className="flex items-center gap-3 mb-2">
                 <User className="w-5 h-5 text-white/40" />
                 <div>
@@ -481,7 +481,7 @@ export default function KYCPage() {
 
           {/* ═══ Step 2: Identity Documents ═══ */}
           {step === 2 && (
-            <div className="p-6 space-y-5">
+            <div className="p-4 md:p-6 space-y-5">
               <div className="flex items-center gap-3 mb-2">
                 <CreditCard className="w-5 h-5 text-white/40" />
                 <div>
@@ -606,7 +606,7 @@ export default function KYCPage() {
 
           {/* ═══ Step 3: Selfie ═══ */}
           {step === 3 && (
-            <div className="p-6 space-y-5">
+            <div className="p-4 md:p-6 space-y-5">
               <div className="flex items-center gap-3 mb-2">
                 <Camera className="w-5 h-5 text-white/40" />
                 <div>
@@ -664,7 +664,7 @@ export default function KYCPage() {
 
           {/* ═══ Step 4: Review ═══ */}
           {step === 4 && (
-            <div className="p-6 space-y-5">
+            <div className="p-4 md:p-6 space-y-5">
               <div className="flex items-center gap-3 mb-2">
                 <FileCheck className="w-5 h-5 text-white/40" />
                 <div>

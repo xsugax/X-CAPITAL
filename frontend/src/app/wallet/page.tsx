@@ -546,9 +546,9 @@ export default function WalletPage() {
       title="Wallet"
       subtitle="Balances, deposits &amp; withdrawals — live tracking"
     >
-      <div className="space-y-8">
+      <div className="space-y-4 md:space-y-6 lg:space-y-8">
         {/* ── Stat Cards ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4">
           <StatCard
             title="Available Cash"
             value={formatCurrency(cash)}
@@ -575,8 +575,8 @@ export default function WalletPage() {
 
         {/* ── Pending Transactions Banner ── */}
         {myPending.length > 0 && (
-          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4">
-            <div className="flex items-center gap-3 mb-3">
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
               <Clock className="w-5 h-5 text-amber-400" />
               <h3 className="text-sm font-bold text-amber-400">
                 Pending Admin Approval
@@ -589,7 +589,7 @@ export default function WalletPage() {
               {myPending.map((tx) => (
                 <div
                   key={tx.id}
-                  className="flex items-center justify-between bg-black/20 rounded-xl px-4 py-3 text-sm"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-black/20 rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm gap-2 sm:gap-0"
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -622,8 +622,8 @@ export default function WalletPage() {
         )}
 
         {/* ── Balance History + Tx Breakdown Charts ── */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
+          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-white/60" />
@@ -633,7 +633,7 @@ export default function WalletPage() {
               </div>
               <span className="text-xs text-xc-muted">30 days</span>
             </div>
-            <div style={{ height: 220 }}>
+            <div className="h-[180px] md:h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={balanceHistory}
@@ -660,7 +660,9 @@ export default function WalletPage() {
                     tick={{ fill: "#64748b", fontSize: 10 }}
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
+                    tickFormatter={(v) =>
+                      `$${(Number(v ?? 0) / 1000).toFixed(0)}k`
+                    }
                   />
                   <Tooltip
                     contentStyle={{
@@ -669,7 +671,10 @@ export default function WalletPage() {
                       borderRadius: 8,
                       fontSize: 12,
                     }}
-                    formatter={(v: number) => [formatCurrency(Number(v ?? 0)), "Balance"]}
+                    formatter={(v: number) => [
+                      formatCurrency(Number(v ?? 0)),
+                      "Balance",
+                    ]}
                   />
                   <Area
                     type="monotone"
@@ -683,12 +688,12 @@ export default function WalletPage() {
             </div>
           </div>
 
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-5">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+            <div className="flex items-center gap-2 mb-4 md:mb-5">
               <Activity className="w-4 h-4 text-white/50" />
               <h3 className="font-black text-white text-base">Tx Breakdown</h3>
             </div>
-            <div style={{ height: 160 }}>
+            <div className="h-[130px] md:h-[160px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -746,8 +751,8 @@ export default function WalletPage() {
         </div>
 
         {/* ── Monthly Cash Flow ── */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-5">
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-5">
             <div className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-emerald-400" />
               <h3 className="font-black text-white text-base">
@@ -765,7 +770,7 @@ export default function WalletPage() {
               </div>
             </div>
           </div>
-          <div style={{ height: 200 }}>
+          <div className="h-[160px] md:h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={flowData}
@@ -781,7 +786,9 @@ export default function WalletPage() {
                   tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
+                  tickFormatter={(v) =>
+                    `$${(Number(v ?? 0) / 1000).toFixed(0)}k`
+                  }
                 />
                 <Tooltip
                   contentStyle={{
@@ -810,7 +817,7 @@ export default function WalletPage() {
         </div>
 
         {/* ── Funding Methods ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <div
             className="bg-xc-card border border-white/[0.10] rounded-2xl p-5 flex flex-col gap-4 hover:border-white/20 transition-colors cursor-pointer group relative overflow-hidden"
             onClick={() => openModal("deposit", "crypto")}

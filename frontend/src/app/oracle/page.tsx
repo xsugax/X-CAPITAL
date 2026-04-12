@@ -265,9 +265,9 @@ export default function OraclePage() {
       title="AI Oracle"
       subtitle="LSTM · Monte Carlo · Sentiment Analysis · Live Intelligence"
     >
-      <div className="space-y-8">
+      <div className="space-y-4 md:space-y-6 lg:space-y-8">
         {/* ── Stats ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4">
           <StatCard
             title="Bullish Signals"
             value={`${bullishCount}/${forecasts.length}`}
@@ -300,24 +300,24 @@ export default function OraclePage() {
         </div>
 
         {/* ── Forecast Accuracy Chart (full width) ── */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6 lg:p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-2">
             <div>
-              <h3 className="font-black text-white text-lg">
+              <h3 className="font-black text-white text-base md:text-lg">
                 Forecast Accuracy
               </h3>
-              <p className="text-sm text-xc-muted mt-1">
+              <p className="text-xs md:text-sm text-xc-muted mt-1">
                 20-week rolling accuracy · All models combined
               </p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-black text-emerald-400 font-mono">
+              <div className="text-xl md:text-2xl font-black text-emerald-400 font-mono">
                 {avgAccuracy.toFixed(1)}%
               </div>
               <div className="text-xs text-xc-muted">avg accuracy</div>
             </div>
           </div>
-          <div style={{ height: 260 }}>
+          <div className="h-[200px] md:h-[260px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={accuracyData}
@@ -368,19 +368,19 @@ export default function OraclePage() {
         </div>
 
         {/* ── Return Distribution + Signal Distribution ── */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
           {/* Expected Return by Asset */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
             <div className="flex items-center gap-2 mb-5">
               <BarChart3 className="w-4 h-4 text-white/60" />
-              <h3 className="font-black text-white text-base">
+              <h3 className="font-black text-white text-sm md:text-base">
                 Predicted Returns by Asset
               </h3>
-              <span className="text-xs text-xc-muted ml-auto">
+              <span className="text-xs text-xc-muted ml-auto hidden sm:inline">
                 30-day horizon
               </span>
             </div>
-            <div style={{ height: 280 }}>
+            <div className="h-[220px] md:h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={returnDist}
@@ -428,21 +428,21 @@ export default function OraclePage() {
           </div>
 
           {/* Signal Distribution */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-5">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+            <div className="flex items-center gap-2 mb-4 md:mb-5">
               <Radio className="w-4 h-4 text-emerald-400" />
-              <h3 className="font-black text-white text-base">
+              <h3 className="font-black text-white text-sm md:text-base">
                 Signal Distribution
               </h3>
             </div>
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-3 gap-2 md:gap-4 mb-4 md:mb-6">
               {signalDist.map((s) => (
                 <div
                   key={s.signal}
-                  className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-5 text-center"
+                  className="bg-xc-dark/40 border border-xc-border/60 rounded-xl p-3 md:p-5 text-center"
                 >
                   <div
-                    className="text-3xl font-black font-mono"
+                    className="text-2xl md:text-3xl font-black font-mono"
                     style={{ color: s.color }}
                   >
                     {s.count}
@@ -486,8 +486,8 @@ export default function OraclePage() {
         </div>
 
         {/* ── Oracle Widget + Sentiment Panel ── */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
+          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
             <AIOracle
               allocation={allocation}
               forecasts={forecasts}
@@ -496,13 +496,13 @@ export default function OraclePage() {
             />
           </div>
 
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6 space-y-5">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6 space-y-4 md:space-y-5">
             <h3 className="font-black text-white text-base">
               Market Sentiment
             </h3>
 
             {/* Symbol selector */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 md:gap-2">
               {SYMBOLS.map((sym) => (
                 <button
                   key={sym}
@@ -524,7 +524,7 @@ export default function OraclePage() {
                 <div className="text-center py-4">
                   <div
                     className={cn(
-                      "text-5xl font-black mb-2",
+                      "text-4xl md:text-5xl font-black mb-2",
                       sentiment.score > 0.5
                         ? "text-xc-green"
                         : sentiment.score < 0.4
@@ -589,11 +589,11 @@ export default function OraclePage() {
         </div>
 
         {/* ── Sentiment Timeline Chart (full width) ── */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-5">
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-5 gap-2">
             <div className="flex items-center gap-2">
               <Activity className="w-4 h-4 text-white/50" />
-              <h3 className="font-black text-white text-base">
+              <h3 className="font-black text-white text-sm md:text-base">
                 Sentiment Timeline — {activeSymbol}
               </h3>
             </div>
@@ -602,7 +602,7 @@ export default function OraclePage() {
               LIVE · 30 days
             </span>
           </div>
-          <div style={{ height: 200 }}>
+          <div className="h-[160px] md:h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={sentimentTimeline}

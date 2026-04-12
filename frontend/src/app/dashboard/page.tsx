@@ -292,7 +292,7 @@ export default function DashboardPage() {
       <div className="space-y-5">
         {/* â”€â”€â”€ KYC Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {user?.kycStatus !== "APPROVED" && (
-          <div className="flex items-center justify-between bg-white/[0.03] border border-white/[0.10]/40 rounded-xl px-5 py-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/[0.03] border border-white/[0.10]/40 rounded-xl px-4 sm:px-5 py-3">
             <div>
               <span className="text-white/50 font-semibold text-sm">
                 KYC Verification Required
@@ -303,7 +303,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/settings/kyc"
-              className="text-xs bg-amber-600 hover:bg-amber-500 text-white px-4 py-1.5 rounded-lg font-bold transition-colors"
+              className="text-xs bg-amber-600 hover:bg-amber-500 text-white px-4 py-1.5 rounded-lg font-bold transition-colors shrink-0 self-start sm:self-center"
             >
               Verify Now
             </Link>
@@ -523,7 +523,7 @@ export default function DashboardPage() {
         {/* â”€â”€â”€ Main Content Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="grid lg:grid-cols-3 gap-4">
           {/* Performance Chart */}
-          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-4 sm:p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="font-black text-white text-base">
@@ -545,11 +545,11 @@ export default function DashboardPage() {
                 {formatPercent(pnlPct)}
               </div>
             </div>
-            <div style={{ height: 280 }}>
+            <div style={{ height: 280 }} className="-mx-2 sm:mx-0">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={perfData}
-                  margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
+                  margin={{ top: 5, right: 5, bottom: 5, left: 0 }}
                 >
                   <defs>
                     <linearGradient
@@ -574,7 +574,9 @@ export default function DashboardPage() {
                     tick={{ fill: "#64748b", fontSize: 10 }}
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
+                    tickFormatter={(v) =>
+                      `$${(Number(v ?? 0) / 1000).toFixed(0)}k`
+                    }
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Area
@@ -590,7 +592,7 @@ export default function DashboardPage() {
           </div>
 
           {/* AI Oracle Allocation */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-black text-white text-base">
                 AI Oracle Allocation
@@ -655,7 +657,7 @@ export default function DashboardPage() {
         </div>
 
         {/* â”€â”€â”€ Trading Volume Chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-4 sm:p-6">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-white/50" />
@@ -685,7 +687,9 @@ export default function DashboardPage() {
                   tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `$${(Number(v ?? 0) / 1000).toFixed(0)}k`}
+                  tickFormatter={(v) =>
+                    `$${(Number(v ?? 0) / 1000).toFixed(0)}k`
+                  }
                 />
                 <Tooltip
                   contentStyle={{
@@ -850,7 +854,7 @@ export default function DashboardPage() {
         {/* â”€â”€â”€ Bottom Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="grid lg:grid-cols-2 gap-4">
           {/* Top Assets */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-black text-white text-base">Market</h3>
               <Link
@@ -906,7 +910,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Recent Transactions */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-black text-white text-base">
                 Recent Activity
@@ -978,7 +982,7 @@ export default function DashboardPage() {
         {/* â”€â”€â”€ SpaceX Mission Control & Musk Empire â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="grid lg:grid-cols-5 gap-4">
           {/* SpaceX Mission Control â€” 3-col */}
-          <div className="lg:col-span-3 bg-xc-card border border-white/[0.06]/25 rounded-2xl p-6 relative overflow-hidden">
+          <div className="lg:col-span-3 bg-xc-card border border-white/[0.06]/25 rounded-2xl p-4 sm:p-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-5">
@@ -1005,7 +1009,7 @@ export default function DashboardPage() {
 
               {/* Next Launch Countdown */}
               <div className="bg-gradient-to-r from-white/[0.04] to-black/30 border border-white/[0.08]/20 rounded-xl p-5 mb-4">
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
                   <div>
                     <div className="text-xs text-white/50 font-mono uppercase tracking-wider mb-1">
                       Next Launch
@@ -1040,7 +1044,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 text-xs">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs">
                   <span className="text-xc-muted">
                     Vehicle:{" "}
                     <span className="text-white font-semibold">
@@ -1100,7 +1104,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Stats bar */}
-              <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-white/[0.08]">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-4 pt-4 border-t border-white/[0.08]">
                 {[
                   { label: "Launches 2026", value: "28" },
                   { label: "Success Rate", value: "97.3%" },
@@ -1117,7 +1121,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Musk Empire Ventures â€” 2-col */}
-          <div className="lg:col-span-2 bg-xc-card border border-white/[0.08]/25 rounded-2xl p-6 relative overflow-hidden">
+          <div className="lg:col-span-2 bg-xc-card border border-white/[0.08]/25 rounded-2xl p-4 sm:p-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-black/15 to-transparent pointer-events-none" />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-5">
@@ -1209,7 +1213,7 @@ export default function DashboardPage() {
         {/* â”€â”€â”€ Starlink & Live News Feed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="grid lg:grid-cols-3 gap-4">
           {/* Starlink Growth Tracker */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 sm:p-6">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-8 h-8 rounded-lg bg-blue-900/50 flex items-center justify-center">
                 <Satellite className="w-4 h-4 text-blue-400" />
@@ -1278,7 +1282,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Live News Feed */}
-          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-4 sm:p-6">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center">
@@ -1381,8 +1385,8 @@ export default function DashboardPage() {
 
           <div className="relative z-10 flex flex-col md:flex-row items-center md:items-stretch gap-0">
             {/* Portrait column */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-end gap-4 p-8 md:p-10 md:border-r md:border-white/5">
-              <div className="relative w-48 h-64 rounded-2xl overflow-hidden ring-2 ring-white/20/50 shadow-2xl shadow-black/80">
+            <div className="flex-shrink-0 flex flex-col items-center justify-end gap-4 p-5 sm:p-8 md:p-10 md:border-r md:border-white/5">
+              <div className="relative w-36 h-48 sm:w-48 sm:h-64 rounded-2xl overflow-hidden ring-2 ring-white/20/50 shadow-2xl shadow-black/80">
                 <Image
                   src="/images/elon-musk.jpg"
                   alt="Elon Musk â€” Founder & Chief Architect, X-CAPITAL"
@@ -1406,11 +1410,11 @@ export default function DashboardPage() {
             </div>
 
             {/* Main content column */}
-            <div className="flex-1 flex flex-col justify-center p-8 md:p-10">
-              <div className="text-xs font-mono font-bold text-white/60/80 tracking-[0.5em] uppercase mb-4">
+            <div className="flex-1 flex flex-col justify-center p-5 sm:p-8 md:p-10">
+              <div className="text-[10px] sm:text-xs font-mono font-bold text-white/60/80 tracking-[0.2em] sm:tracking-[0.5em] uppercase mb-4">
                 X-Capital Â· The Multiplanetary Capital Network Â· Est. 2026
               </div>
-              <blockquote className="text-2xl md:text-4xl font-black text-white leading-tight mb-4 max-w-2xl">
+              <blockquote className="text-xl sm:text-2xl md:text-4xl font-black text-white leading-tight mb-4 max-w-2xl">
                 &ldquo;X-CAPITAL is the financial infrastructure
                 <br />
                 for the multiplanetary economy.&rdquo;
@@ -1421,7 +1425,7 @@ export default function DashboardPage() {
                 of the future, without limits, without borders, without
                 compromise.
               </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                 {(
                   [
                     ["Capital Deployed", "$2.4T+"],

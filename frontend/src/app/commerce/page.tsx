@@ -127,7 +127,7 @@ export default function CommercePage() {
       title="Commerce"
       subtitle="Buy world-class products Â· Invest in the companies behind them"
     >
-      <div className="space-y-8">
+      <div className="space-y-4 md:space-y-6 lg:space-y-8">
         {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="relative overflow-hidden rounded-2xl border border-xc-border min-h-[200px]">
           {/* background image */}
@@ -143,8 +143,8 @@ export default function CommercePage() {
             <div className="absolute inset-0 bg-gradient-to-r from-xc-black/95 via-xc-black/70 to-xc-black/30" />
           </div>
           {/* content */}
-          <div className="relative z-10 px-8 py-8">
-            <div className="flex items-center gap-2 mb-3">
+          <div className="relative z-10 px-4 md:px-8 py-5 md:py-8">
+            <div className="flex items-center gap-2 mb-2 md:mb-3">
               <ShoppingCart className="w-5 h-5 text-white/70" />
               <span className="text-sm font-bold text-white/70 tracking-wide uppercase">
                 Commerce + Investment Rail
@@ -153,7 +153,7 @@ export default function CommercePage() {
                 LIVE
               </Badge>
             </div>
-            <h2 className="text-3xl font-black text-white mb-3 leading-tight">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-white mb-2 md:mb-3 leading-tight">
               Buy Real Products.
               <br />
               <span className="text-white/70">
@@ -167,16 +167,18 @@ export default function CommercePage() {
               terminal is a stake in the space economy â€” all settled in one
               transaction.
             </p>
-            <div className="flex flex-wrap items-center gap-6 mt-5">
+            <div className="flex flex-wrap items-center gap-4 md:gap-6 mt-3 md:mt-5">
               <div className="text-center">
-                <div className="text-2xl font-black text-white">{evCount}</div>
+                <div className="text-lg md:text-2xl font-black text-white">
+                  {evCount}
+                </div>
                 <div className="text-xs text-white/50 uppercase tracking-wider">
                   Tesla Models
                 </div>
               </div>
               <div className="w-px h-8 bg-white/10" />
               <div className="text-center">
-                <div className="text-2xl font-black text-white">
+                <div className="text-lg md:text-2xl font-black text-white">
                   {spaceCount}
                 </div>
                 <div className="text-xs text-white/50 uppercase tracking-wider">
@@ -185,7 +187,7 @@ export default function CommercePage() {
               </div>
               <div className="w-px h-8 bg-white/10" />
               <div className="text-center">
-                <div className="text-2xl font-black text-white">
+                <div className="text-lg md:text-2xl font-black text-white">
                   {sourceProducts.length}
                 </div>
                 <div className="text-xs text-white/50 uppercase tracking-wider">
@@ -199,10 +201,10 @@ export default function CommercePage() {
         {/* â”€â”€ Tesla Ecosystem Showcase â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {teslaProducts.length > 0 && (
           <section>
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-2 md:gap-4 mb-4 flex-wrap">
               <div className="flex items-center gap-2">
                 <Zap className="w-5 h-5 text-red-400" />
-                <h3 className="text-xl font-black text-white">
+                <h3 className="text-lg md:text-xl font-black text-white">
                   Tesla Ecosystem
                 </h3>
               </div>
@@ -215,7 +217,7 @@ export default function CommercePage() {
             </div>
 
             {/* Wide panoramic Tesla banner */}
-            <div className="relative h-48 rounded-2xl overflow-hidden mb-5 border border-red-900/20">
+            <div className="relative h-36 md:h-48 rounded-2xl overflow-hidden mb-4 md:mb-5 border border-red-900/20">
               <Image
                 src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=640&q=70&auto=format&fit=crop"
                 alt="Tesla Model S on the road"
@@ -224,10 +226,10 @@ export default function CommercePage() {
                 unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-r from-red-950/85 to-transparent" />
-              <div className="absolute inset-0 flex items-center px-8">
+              <div className="absolute inset-0 flex items-center px-4 md:px-8">
                 <div>
-                  <p className="text-xs font-bold text-red-300 uppercase tracking-widest mb-1">
-                    Tesla, Inc. â€” NASDAQ: TSLA
+                  <p className="text-xs text-red-300 font-mono tracking-widest mb-1">
+                    X-CAPITAL — NASDAQ: TSLA
                   </p>
                   <h4 className="text-2xl font-black text-white">
                     Every Purchase.
@@ -260,10 +262,12 @@ export default function CommercePage() {
         {/* â”€â”€ Space Economy Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {spaceProducts.length > 0 && (
           <section>
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-2 md:gap-4 mb-4 flex-wrap">
               <div className="flex items-center gap-2">
                 <Rocket className="w-5 h-5 text-indigo-400" />
-                <h3 className="text-xl font-black text-white">Space Economy</h3>
+                <h3 className="text-lg md:text-xl font-black text-white">
+                  Space Economy
+                </h3>
               </div>
               <span className="text-xs bg-indigo-950/40 text-indigo-300 border border-indigo-700/30 px-2.5 py-0.5 rounded-full font-bold">
                 {spaceCount} Space Products
@@ -274,7 +278,7 @@ export default function CommercePage() {
             </div>
 
             {/* Rocket launch panoramic banner */}
-            <div className="relative h-44 rounded-2xl overflow-hidden mb-5 border border-indigo-900/20">
+            <div className="relative h-32 md:h-44 rounded-2xl overflow-hidden mb-4 md:mb-5 border border-indigo-900/20">
               <Image
                 src="https://images.unsplash.com/photo-1457364559154-aa2644600ebb?w=640&q=70&auto=format&fit=crop"
                 alt="SpaceX rocket launch"
@@ -283,10 +287,10 @@ export default function CommercePage() {
                 unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/90 to-transparent" />
-              <div className="absolute inset-0 flex items-center px-8">
+              <div className="absolute inset-0 flex items-center px-4 md:px-8">
                 <div>
-                  <p className="text-xs font-bold text-indigo-300 uppercase tracking-widest mb-1">
-                    Space Infrastructure Â· Connectivity
+                  <p className="text-xs text-indigo-300 font-mono tracking-widest mb-1">
+                    STARLINK · Connectivity
                   </p>
                   <h4 className="text-2xl font-black text-white">
                     The Final Frontier.
@@ -315,7 +319,7 @@ export default function CommercePage() {
         )}
 
         {/* â”€â”€ Category Filter Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
           <Filter className="w-4 h-4 text-xc-muted" />
           {CATEGORIES.map((cat) => (
             <button
@@ -340,7 +344,7 @@ export default function CommercePage() {
 
         {/* â”€â”€ Product Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
@@ -366,7 +370,7 @@ export default function CommercePage() {
         )}
 
         {/* â”€â”€ Disclosure â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-        <div className="flex items-start gap-4 text-xs text-xc-muted bg-xc-dark/40 border border-xc-border rounded-xl p-5">
+        <div className="flex items-start gap-3 md:gap-4 text-xs text-xc-muted bg-xc-dark/40 border border-xc-border rounded-xl p-3 md:p-5">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-xc-muted" />
           <span>
             X-CAPITAL may receive referral compensation from merchant partners.

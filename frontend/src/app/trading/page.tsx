@@ -220,7 +220,7 @@ export default function TradingPage() {
         <section className="relative">
           {/* Outer glow ring */}
           <div className="absolute -inset-px rounded-3xl bg-gradient-to-r from-white/10/20 via-transparent to-emerald-600/20 blur-sm pointer-events-none" />
-          <div className="relative bg-gradient-to-br from-black/50 via-[#0a0a18] to-emerald-950/30 border border-white/[0.10]/20 rounded-3xl p-8 overflow-hidden">
+          <div className="relative bg-gradient-to-br from-black/50 via-[#0a0a18] to-emerald-950/30 border border-white/[0.10]/20 rounded-3xl p-4 sm:p-6 lg:p-8 overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(217,119,6,0.06),transparent_60%)] pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(16,185,129,0.05),transparent_60%)] pointer-events-none" />
 
@@ -248,7 +248,7 @@ export default function TradingPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5">
+              <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-5">
                 {hotSignals.slice(0, 8).map((signal) => (
                   <button
                     key={signal.symbol}
@@ -345,8 +345,8 @@ export default function TradingPage() {
         {/* ═══════════════════════════════════════════════════════════════════
             SECTION 2 — MARKET HEATMAP
             ═══════════════════════════════════════════════════════════════════ */}
-        <section className="bg-[#080814] border border-white/[0.08] rounded-3xl p-8 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
-          <div className="flex items-center justify-between mb-7">
+        <section className="bg-[#080814] border border-white/[0.08] rounded-3xl p-4 sm:p-6 lg:p-8 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 sm:mb-7">
             <div className="flex items-center gap-4">
               <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
                 <Globe className="w-4 h-4 text-white/50" />
@@ -366,7 +366,7 @@ export default function TradingPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-2 sm:gap-4">
             {heatmapData.map((item) => {
               const intensity = Math.min(1, Math.abs(item.change) / 8);
               const bg =
@@ -418,8 +418,8 @@ export default function TradingPage() {
               {selectedAsset ? (
                 <div className="relative z-10">
                   {/* Chart header bar */}
-                  <div className="px-8 pt-7 pb-5 border-b border-white/[0.03]">
-                    <div className="flex items-start justify-between">
+                  <div className="px-4 sm:px-8 pt-7 pb-5 border-b border-white/[0.03]">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                       <div className="flex items-center gap-4">
                         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-white/10/15 to-white/10/15 border border-white/[0.08] flex items-center justify-center text-2xl font-black text-white shadow-inner">
                           {selectedAsset.symbol?.[0] ?? "?"}
@@ -447,7 +447,7 @@ export default function TradingPage() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-4xl font-black font-mono text-white price-shimmer tracking-tight">
+                        <div className="text-2xl sm:text-4xl font-black font-mono text-white price-shimmer tracking-tight">
                           {formatCurrency(Number(selectedAsset.price))}
                         </div>
                         <div
@@ -474,7 +474,7 @@ export default function TradingPage() {
                   </div>
 
                   {/* Chart controls + metrics */}
-                  <div className="px-8 py-4 flex items-center justify-between border-b border-white/[0.02]">
+                  <div className="px-4 sm:px-8 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.02]">
                     <div className="flex gap-2 bg-white/[0.03] rounded-xl p-1">
                       {(["1D", "1W", "1M", "3M"] as const).map((p) => (
                         <button
@@ -511,7 +511,7 @@ export default function TradingPage() {
                   </div>
 
                   {/* Chart canvas */}
-                  <div className="px-8 pt-6 pb-4">
+                  <div className="px-4 sm:px-8 pt-6 pb-4">
                     <div style={{ height: 320 }}>
                       {chartLoading ? (
                         <div className="h-full w-full rounded-2xl bg-white/[0.02] animate-pulse" />
@@ -589,8 +589,8 @@ export default function TradingPage() {
                   </div>
 
                   {/* Stats footer bar */}
-                  <div className="px-8 py-4 border-t border-white/[0.03] bg-white/[0.01]">
-                    <div className="flex items-center justify-between">
+                  <div className="px-4 sm:px-8 py-4 border-t border-white/[0.03] bg-white/[0.01]">
+                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 sm:gap-0">
                       {[
                         {
                           label: "Open",
@@ -702,7 +702,9 @@ export default function TradingPage() {
                         tick={{ fill: "#475569", fontSize: 9 }}
                         axisLine={false}
                         tickLine={false}
-                        tickFormatter={(v) => `${(Number(v ?? 0) / 1e6).toFixed(0)}M`}
+                        tickFormatter={(v) =>
+                          `${(Number(v ?? 0) / 1e6).toFixed(0)}M`
+                        }
                       />
                       <Tooltip
                         contentStyle={{
@@ -870,8 +872,8 @@ export default function TradingPage() {
             )}
 
             {/* Trust badges — inset panel */}
-            <div className="bg-[#080814] border border-white/[0.08] rounded-3xl p-6 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
-              <div className="flex items-center justify-around text-center">
+            <div className="bg-[#080814] border border-white/[0.08] rounded-3xl p-4 sm:p-6 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+              <div className="flex items-center justify-around text-center gap-4">
                 {[
                   {
                     icon: ShieldCheck,
@@ -925,9 +927,9 @@ export default function TradingPage() {
                 </div>
               </div>
             </div>
-            <div className="p-7">
+            <div className="p-4 sm:p-7">
               {selectedAsset ? (
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                   <div>
                     <div className="flex justify-between text-xs text-white/30 mb-4 uppercase font-bold tracking-wider">
                       <span>Bid Price</span>
@@ -1026,53 +1028,55 @@ export default function TradingPage() {
                 </span>
               </div>
             </div>
-            <div className="p-7">
-              <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-x-5 gap-y-1.5 text-xs">
-                <span className="text-xs text-white/25 font-bold uppercase pb-3 tracking-wider">
-                  Side
-                </span>
-                <span className="text-xs text-white/25 font-bold uppercase pb-3 tracking-wider">
-                  Asset
-                </span>
-                <span className="text-xs text-white/25 font-bold uppercase pb-3 text-right tracking-wider">
-                  Price
-                </span>
-                <span className="text-xs text-white/25 font-bold uppercase pb-3 text-right tracking-wider">
-                  Amount
-                </span>
-                <span className="text-xs text-white/25 font-bold uppercase pb-3 text-right tracking-wider">
-                  Time
-                </span>
+            <div className="p-4 sm:p-7">
+              <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+                <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-x-3 sm:gap-x-5 gap-y-1.5 text-xs min-w-[400px]">
+                  <span className="text-xs text-white/25 font-bold uppercase pb-3 tracking-wider">
+                    Side
+                  </span>
+                  <span className="text-xs text-white/25 font-bold uppercase pb-3 tracking-wider">
+                    Asset
+                  </span>
+                  <span className="text-xs text-white/25 font-bold uppercase pb-3 text-right tracking-wider">
+                    Price
+                  </span>
+                  <span className="text-xs text-white/25 font-bold uppercase pb-3 text-right tracking-wider">
+                    Amount
+                  </span>
+                  <span className="text-xs text-white/25 font-bold uppercase pb-3 text-right tracking-wider">
+                    Time
+                  </span>
 
-                {liveFeed.slice(0, 14).map((trade, i) => (
-                  <div
-                    key={trade.id}
-                    className={cn("contents", i === 0 ? "trade-flash" : "")}
-                  >
-                    <span
-                      className={cn(
-                        "font-bold py-1.5",
-                        trade.side === "BUY"
-                          ? "text-emerald-400"
-                          : "text-red-400",
-                      )}
+                  {liveFeed.slice(0, 14).map((trade, i) => (
+                    <div
+                      key={trade.id}
+                      className={cn("contents", i === 0 ? "trade-flash" : "")}
                     >
-                      {trade.side}
-                    </span>
-                    <span className="font-bold text-white py-1.5">
-                      {trade.symbol}
-                    </span>
-                    <span className="font-mono text-white/50 py-1.5 text-right">
-                      ${trade.price.toFixed(2)}
-                    </span>
-                    <span className="font-mono text-white/60 py-1.5 text-right">
-                      {formatCurrency(trade.amount)}
-                    </span>
-                    <span className="text-white/25 font-mono py-1.5 text-right">
-                      {trade.time}
-                    </span>
-                  </div>
-                ))}
+                      <span
+                        className={cn(
+                          "font-bold py-1.5",
+                          trade.side === "BUY"
+                            ? "text-emerald-400"
+                            : "text-red-400",
+                        )}
+                      >
+                        {trade.side}
+                      </span>
+                      <span className="font-bold text-white py-1.5">
+                        {trade.symbol}
+                      </span>
+                      <span className="font-mono text-white/50 py-1.5 text-right">
+                        ${trade.price.toFixed(2)}
+                      </span>
+                      <span className="font-mono text-white/60 py-1.5 text-right">
+                        {formatCurrency(trade.amount)}
+                      </span>
+                      <span className="text-white/25 font-mono py-1.5 text-right">
+                        {trade.time}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -1081,8 +1085,8 @@ export default function TradingPage() {
         {/* ═══════════════════════════════════════════════════════════════════
             SECTION 5 — SECTOR PERFORMANCE (spacious grid with charts)
             ═══════════════════════════════════════════════════════════════════ */}
-        <section className="bg-[#080814] border border-white/[0.08] rounded-3xl p-8 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
-          <div className="flex items-center justify-between mb-8">
+        <section className="bg-[#080814] border border-white/[0.08] rounded-3xl p-4 sm:p-6 lg:p-8 shadow-[0_4px_60px_-12px_rgba(0,0,0,0.5)]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 sm:mb-8">
             <div className="flex items-center gap-4">
               <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
                 <LineChart className="w-4 h-4 text-white/60" />
@@ -1190,7 +1194,7 @@ export default function TradingPage() {
                 <span className="ml-auto text-xs text-white/25">24h</span>
               </div>
             </div>
-            <div className="p-7 space-y-3">
+            <div className="p-4 sm:p-7 space-y-3">
               {TOP_GAINERS.map((asset) => (
                 <button
                   key={asset.symbol}
@@ -1232,7 +1236,7 @@ export default function TradingPage() {
                 <span className="ml-auto text-xs text-white/25">24h</span>
               </div>
             </div>
-            <div className="p-7 space-y-3">
+            <div className="p-4 sm:p-7 space-y-3">
               {TOP_LOSERS.map((asset) => (
                 <button
                   key={asset.symbol}
