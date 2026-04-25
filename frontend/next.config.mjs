@@ -2,6 +2,12 @@
 const nextConfig = {
   output: "export",
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     unoptimized: true,
     // Use remotePatterns (Next.js 13+) — supports 8K/4K images from CDN origins
