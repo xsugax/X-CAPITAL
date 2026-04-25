@@ -1,0 +1,13 @@
+{
+  "name": "x-capital-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "cd frontend && npm install",
+    "build": "cd frontend && npm run build"
+  },
+  "dependencies": {
+    "prisma": "latest",
+    "@prisma/client": "latest"
+  }
+}

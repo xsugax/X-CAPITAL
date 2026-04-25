@@ -1,0 +1,309 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// X-CAPITAL — Prisma Schema
+// Multi-Rail Capital Execution System
+// ─────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum UserTier {
+  CORE
+  GOLD
+  BLACK
+}
+
+enum KYCStatus {
+  NOT_STARTED
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AccreditationStatus {
+  NOT_ACCREDITED
+  PENDING
+  ACCREDITED
+}
+
+enum AssetType {
+  STOCK
+  ETF
+  CRYPTO
+  TOKEN
+  FUND
+  PRIVATE_EQUITY
+  INFRASTRUCTURE
+  COMMODITY
+  REAL_ESTATE
+}
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  FILLED
+  PARTIALLY_FILLED
+  CANCELLED
+  REJECTED
+}
+
+enum ExecutionSource {
+  BROKER
+  BLOCKCHAIN
+  INTERNAL
+  SECONDARY_MARKET
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRADE
+  DIVIDEND
+  FEE
+  CONVERSION
+  FUND_INVESTMENT
+  FUND_REDEMPTION
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum InvestmentCategory {
+  SPACE_ECONOMY
+  AI_INFRASTRUCTURE
+  ENERGY_SYSTEMS
+  PRIVATE_EQUITY
+  VENTURE_FUND
+  REAL_ESTATE
+  SECONDARY_MARKET
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model User {
+  id                  String              @id @default(cuid())
+  email               String              @unique
+  passwordHash        String
+  firstName           String
+  lastName            String
+  phone               String?
+  kycStatus           KYCStatus           @default(NOT_STARTED)
+  kycProviderId       String?
+  accreditationStatus AccreditationStatus @default(NOT_ACCREDITED)
+  tier                UserTier            @default(CORE)
+  walletAddress       String?
+  isActive            Boolean             @default(true)
+  lastLoginAt         DateTime?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  wallet         Wallet?
+  orders         Order[]
+  portfolio      Portfolio?
+  transactions   Transaction[]
+  investments    UserInvestment[]
+  refreshTokens  RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model Wallet {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  fiatBalance   Decimal  @default(0) @db.Decimal(18, 2)
+  cryptoBalance Decimal  @default(0) @db.Decimal(18, 8)
+  lockedBalance Decimal  @default(0) @db.Decimal(18, 2)
+  walletAddress String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+
+  @@map("wallets")
+}
+
+model Asset {
+  id             String    @id @default(cuid())
+  symbol         String    @unique
+  name           String
+  type           AssetType
+  price          Decimal   @db.Decimal(18, 8)
+  priceChange24h Decimal?  @db.Decimal(8, 4)
+  priceChange7d  Decimal?  @db.Decimal(8, 4)
+  volume24h      Decimal?  @db.Decimal(24, 2)
+  marketCap      Decimal?  @db.Decimal(24, 2)
+  liquidityScore Decimal?  @db.Decimal(5, 2)
+  description    String?
+  imageUrl       String?
+  sector         String?
+  exchange       String?
+  isTradable     Boolean   @default(true)
+  isActive       Boolean   @default(true)
+  metadata       Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  orders   Order[]
+  holdings PortfolioHolding[]
+
+  @@map("assets")
+}
+
+model Order {
+  id              String          @id @default(cuid())
+  userId          String
+  assetId         String
+  type            OrderType
+  amount          Decimal         @db.Decimal(18, 2)
+  quantity        Decimal?        @db.Decimal(18, 8)
+  price           Decimal?        @db.Decimal(18, 8)
+  filledPrice     Decimal?        @db.Decimal(18, 8)
+  status          OrderStatus     @default(PENDING)
+  executionSource ExecutionSource @default(BROKER)
+  brokerOrderId   String?
+  txHash          String?
+  notes           String?
+  filledAt        DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id])
+  asset Asset @relation(fields: [assetId], references: [id])
+
+  @@map("orders")
+}
+
+model Portfolio {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  totalValue     Decimal  @default(0) @db.Decimal(18, 2)
+  totalCost      Decimal  @default(0) @db.Decimal(18, 2)
+  totalPnL       Decimal  @default(0) @db.Decimal(18, 2)
+  riskScore      Decimal? @db.Decimal(5, 2)
+  performanceYTD Decimal? @db.Decimal(8, 4)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user     User               @relation(fields: [userId], references: [id])
+  holdings PortfolioHolding[]
+
+  @@map("portfolios")
+}
+
+model PortfolioHolding {
+  id           String   @id @default(cuid())
+  portfolioId  String
+  assetId      String
+  quantity     Decimal  @db.Decimal(18, 8)
+  avgCost      Decimal  @db.Decimal(18, 8)
+  currentValue Decimal  @db.Decimal(18, 2)
+  unrealizedPnL Decimal? @db.Decimal(18, 2)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  portfolio Portfolio @relation(fields: [portfolioId], references: [id])
+  asset     Asset     @relation(fields: [assetId], references: [id])
+
+  @@unique([portfolioId, assetId])
+  @@map("portfolio_holdings")
+}
+
+model Investment {
+  id             String             @id @default(cuid())
+  name           String
+  description    String?
+  category       InvestmentCategory
+  minInvestment  Decimal            @db.Decimal(18, 2)
+  lockPeriodDays Int
+  targetReturn   Decimal            @db.Decimal(5, 2)
+  currentAUM     Decimal            @default(0) @db.Decimal(18, 2)
+  maxCapacity    Decimal?           @db.Decimal(18, 2)
+  isOpen         Boolean            @default(true)
+  riskLevel      String
+  imageUrl       String?
+  highlights     Json?
+  allocation     Json?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  userInvestments UserInvestment[]
+
+  @@map("investments")
+}
+
+model UserInvestment {
+  id           String    @id @default(cuid())
+  userId       String
+  investmentId String
+  amount       Decimal   @db.Decimal(18, 2)
+  status       String    @default("ACTIVE")
+  investedAt   DateTime  @default(now())
+  maturesAt    DateTime?
+  redeemedAt   DateTime?
+  updatedAt    DateTime  @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id])
+  investment Investment @relation(fields: [investmentId], references: [id])
+
+  @@map("user_investments")
+}
+
+model Transaction {
+  id        String            @id @default(cuid())
+  userId    String
+  walletId  String
+  amount    Decimal           @db.Decimal(18, 2)
+  type      TransactionType
+  status    TransactionStatus @default(PENDING)
+  reference String?
+  metadata  Json?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  wallet Wallet @relation(fields: [walletId], references: [id])
+
+  @@map("transactions")
+}
+
+model MarketData {
+  id        String   @id @default(cuid())
+  symbol    String
+  open      Decimal  @db.Decimal(18, 8)
+  high      Decimal  @db.Decimal(18, 8)
+  low       Decimal  @db.Decimal(18, 8)
+  close     Decimal  @db.Decimal(18, 8)
+  volume    Decimal  @db.Decimal(24, 2)
+  timestamp DateTime
+
+  @@unique([symbol, timestamp])
+  @@map("market_data")
+}
