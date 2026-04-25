@@ -6,8 +6,8 @@
     "postinstall": "cd frontend && npm install",
     "build": "cd frontend && npm run build"
   },
-  "dependencies": {
-    "prisma": "latest",
-    "@prisma/client": "latest"
+  "devDependencies": {
+    "@prisma/client": "^5.10.2",
+    "prisma": "^5.10.2"
   }
 }
