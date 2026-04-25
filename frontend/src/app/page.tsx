@@ -377,20 +377,25 @@ export default function LandingPage() {
       <nav className="fixed top-0 inset-x-0 z-50 px-6 py-4 glass border-b border-white/5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-black to-zinc-900 border border-white/20 flex items-center justify-center shadow-lg shadow-purple-950/40">
-              <svg
-                viewBox="0 0 24 24"
-                fill="white"
-                width="16"
-                height="16"
-                aria-label="X"
-              >
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
+            <div className="hero-x-logo w-9 h-9 rounded-xl bg-gradient-to-br from-black to-zinc-900 border border-white/20 flex items-center justify-center shadow-lg shadow-emerald-950/30">
+              <div className="x-logo relative">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  width="16"
+                  height="16"
+                  aria-label="X"
+                  style={{ filter: "drop-shadow(0 0 6px rgba(16,185,129,0.4))" }}
+                >
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                <div className="x-crossing" style={{ width: "140%", left: "-20%" }} />
+              </div>
             </div>
-            <span className="font-black text-lg tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+            <span className="font-black text-lg tracking-tight brand-xc">
               CAPITAL
             </span>
+            <span className="profit-signal hidden sm:inline-flex">Profit Signal Active</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm text-xc-muted">
             <a
@@ -750,6 +755,176 @@ export default function LandingPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════ */}
+      {/* ══ STARLINK CONSTELLATION SHOWCASE — EXTRAORDINARY ═══════════ */}
+      {/* ════════════════════════════════════════════════════════════════ */}
+      <section className="relative py-16 md:py-28 px-4 md:px-6 overflow-hidden bg-[#050508]">
+        <div className="constellation-mesh absolute inset-0 opacity-20" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-emerald-500/3 blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="text-center mb-12 md:mb-16" data-reveal>
+            <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
+              <span className="profit-signal">Profit Signal Active</span>
+              <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">
+                Orbital Infrastructure
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight">
+              <span className="brand-xc">X-CAPITAL</span> Starlink
+              <br />
+              <span className="text-emerald-400/80">Constellation Network.</span>
+            </h2>
+            <p className="text-slate-500 text-base max-w-2xl mx-auto">
+              The world's first satellite-linked capital deployment network.
+              7,200+ active satellites. Sub-25ms latency. Orbital-grade redundancy.
+              Your trades never touch terrestrial bottlenecks.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left: Stats & Info */}
+            <div className="space-y-6 order-2 lg:order-1">
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { label: "Active Satellites", value: "7,200+", sub: "LEO Constellation", trend: "+340/mo" },
+                  { label: "Global Coverage", value: "105+", sub: "Countries Served", trend: "Expanding" },
+                  { label: "Daily Throughput", value: "847 TB", sub: "Bandwidth Routed", trend: "+12% QoQ" },
+                  { label: "Node Yield", value: "$2.4K+", sub: "Monthly Per Node", trend: "$1M/mo Pool" },
+                ].map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="starlink-card rounded-xl p-4 hover:border-emerald-500/30 transition-all group"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-bold text-xc-muted uppercase tracking-wider">
+                        {stat.label}
+                      </span>
+                      <span className="text-[9px] font-mono text-emerald-500/70 bg-emerald-950/40 px-1.5 py-0.5 rounded-full">
+                        {stat.trend}
+                      </span>
+                    </div>
+                    <div className="font-black text-white font-mono text-lg profit-number">
+                      {stat.value}
+                    </div>
+                    <div className="text-[10px] text-xc-muted/60 mt-0.5">
+                      {stat.sub}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Live metrics strip */}
+              <div className="grid grid-cols-4 gap-2">
+                {[
+                  { label: "Uptime", value: "99.97%" },
+                  { label: "Latency", value: "<25ms" },
+                  { label: "Relays", value: "14,892" },
+                  { label: "Coverage", value: "Polar" },
+                ].map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="bg-white/[0.02] border border-white/[0.04] rounded-lg p-2 text-center hover:border-emerald-500/20 transition-all"
+                  >
+                    <div className="text-xs font-black text-white font-mono">
+                      {metric.value}
+                    </div>
+                    <div className="text-[9px] text-xc-muted/50">{metric.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Signal strength */}
+              <div className="flex items-center justify-between bg-white/[0.02] border border-white/[0.04] rounded-lg px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <div className="signal-bars">
+                    <div className="signal-bar" />
+                    <div className="signal-bar" />
+                    <div className="signal-bar" />
+                    <div className="signal-bar" />
+                  </div>
+                  <span className="text-[10px] font-bold text-emerald-400/80 uppercase tracking-wider">
+                    XLINK Uplink Active
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-xc-muted/50">
+                  SAT-A7 · ORBIT 342
+                </span>
+              </div>
+
+              <p className="text-sm text-white/30 leading-relaxed">
+                Every X-CAPITAL node contributes bandwidth to the Starlink mesh,
+                generating real yield from actual data transmission. This is not
+                theoretical — it is orbital infrastructure producing tangible
+                returns.
+              </p>
+
+              <Link
+                href="/trading"
+                className="inline-flex items-center gap-2.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-bold px-6 py-3 rounded-xl text-sm hover:bg-emerald-500/20 transition-all group"
+              >
+                Access Satellite-Linked Markets
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            {/* Right: Orbital Visual */}
+            <div className="flex items-center justify-center order-1 lg:order-2">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-[220px] h-[220px] md:w-[300px] md:h-[300px] rounded-full border border-emerald-500/10 animate-pulse" />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-[180px] h-[180px] md:w-[240px] md:h-[240px] rounded-full border border-emerald-500/5" />
+                </div>
+                
+                {/* Import and use the orbital component */}
+                <div className="relative z-10">
+                  <div className="w-[280px] h-[280px] md:w-[360px] md:h-[360px] flex items-center justify-center">
+                    <div className="constellation-mesh absolute inset-0 rounded-full opacity-40" />
+                    <div className="orbit-core" />
+                    <div className="orbit-signal" style={{ animationDelay: "0s", width: 40, height: 40 }} />
+                    <div className="orbit-signal" style={{ animationDelay: "1.3s", width: 40, height: 40, background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)" }} />
+                    
+                    {/* Orbital rings */}
+                    {[
+                      { size: 100, speed: "orbit-1" },
+                      { size: 160, speed: "orbit-3" },
+                      { size: 220, speed: "orbit-5" },
+                    ].map((ring, i) => (
+                      <div
+                        key={i}
+                        className={`orbit-ring orbit-ring-enhanced ${ring.speed}`}
+                        style={{ width: ring.size, height: ring.size }}
+                      >
+                        <div className="orbit-satellite" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Floating data points */}
+                <div className="absolute -top-2 right-0 md:right-4 bg-black/70 border border-white/10 rounded-lg px-2 py-1 backdrop-blur-sm">
+                  <div className="data-stream">7,200+ SATs</div>
+                </div>
+                <div className="absolute top-1/3 -left-2 md:-left-4 bg-black/70 border border-white/10 rounded-lg px-2 py-1 backdrop-blur-sm">
+                  <div className="data-stream">{'<'}25ms</div>
+                </div>
+                <div className="absolute bottom-8 right-0 md:right-2 bg-black/70 border border-emerald-500/20 rounded-lg px-3 py-2 backdrop-blur-sm">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <div className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">XLINK Live</div>
+                  </div>
+                  <div className="text-lg font-black text-white font-mono profit-number">
+                    $95.25 <span className="text-emerald-400 text-sm">+4.22%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1753,10 +1928,15 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-white/10 to-white/10 flex items-center justify-center">
-                  <span className="text-white font-black text-[10px]">X</span>
+                <div className="hero-x-logo w-6 h-6 rounded-md bg-gradient-to-br from-white/10 to-white/10 flex items-center justify-center">
+                  <div className="x-logo relative">
+                    <svg viewBox="0 0 24 24" fill="white" width="12" height="12" style={{ filter: "drop-shadow(0 0 4px rgba(16,185,129,0.4))" }}>
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                    <div className="x-crossing" style={{ width: "140%", left: "-20%", height: "1.5px" }} />
+                  </div>
                 </div>
-                <span className="font-black text-white text-sm">CAPITAL</span>
+                <span className="font-black text-white text-sm brand-xc">CAPITAL</span>
               </div>
               <p className="text-[11px] text-slate-600 leading-relaxed">
                 Multiplanetary capital deployment. Five rails. One command

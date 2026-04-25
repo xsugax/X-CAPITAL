@@ -33,6 +33,9 @@ import {
   Target,
   Flame,
   Zap,
+  Satellite,
+  Rocket,
+  BrainCircuit,
 } from "lucide-react";
 import type { Investment, UserInvestment } from "@/types";
 import { useStore } from "@/store/useStore";
@@ -470,6 +473,123 @@ export default function FundsPage() {
           </div>
         )}
 
+        {/* ═══ STARLINK GROWTH INVESTMENT ═══ */}
+        <div className="relative overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-slate-900/40 via-emerald-900/20 to-slate-900/40 backdrop-blur-xl p-8 md:p-12 lg:p-16">
+          {/* Animated gradient background */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full mix-blend-screen blur-3xl animate-pulse" />
+          </div>
+          
+          <div className="relative z-10">
+            {/* Header */}
+            <div className="flex items-start justify-between gap-6 mb-8">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-3">
+                  <Satellite className="w-8 h-8 text-emerald-400" />
+                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Next Generation Growth</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3">
+                  Starlink Growth Acceleration
+                </h2>
+                <p className="text-base md:text-lg text-emerald-100 max-w-2xl leading-relaxed">
+                  Direct exposure to global satellite internet dominance. 5M+ subscribers. 105+ countries. Real-time investment flow tracking with AI-powered growth projections.
+                </p>
+              </div>
+              <div className="hidden lg:block text-right">
+                <div className="text-4xl font-black text-emerald-400 font-mono mb-2">42%</div>
+                <p className="text-sm text-xc-muted">Target Annual Return</p>
+              </div>
+            </div>
+
+            {/* Stats Row */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="bg-white/5 border border-emerald-500/20 rounded-xl p-4">
+                <p className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-1">AUM</p>
+                <p className="text-xl md:text-2xl font-black text-white">$120M</p>
+              </div>
+              <div className="bg-white/5 border border-emerald-500/20 rounded-xl p-4">
+                <p className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-1">Min Investment</p>
+                <p className="text-xl md:text-2xl font-black text-white">$50K</p>
+              </div>
+              <div className="bg-white/5 border border-emerald-500/20 rounded-xl p-4">
+                <p className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-1">Lock Period</p>
+                <p className="text-xl md:text-2xl font-black text-white">2 Years</p>
+              </div>
+              <div className="bg-white/5 border border-emerald-500/20 rounded-xl p-4">
+                <p className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-1">Capacity</p>
+                <p className="text-xl md:text-2xl font-black text-white">$500M</p>
+              </div>
+            </div>
+
+            {/* Trading Plans */}
+            <div className="mb-8">
+              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <Flame className="w-5 h-5 text-emerald-400" />
+                Premium Trading Plans
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Plan 1 */}
+                <div className="group bg-gradient-to-br from-emerald-600/10 to-emerald-900/10 border border-emerald-500/40 rounded-2xl p-6 hover:border-emerald-400/80 hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 cursor-pointer">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-bold text-white">Momentum</h4>
+                    <Rocket className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <p className="text-sm text-xc-muted mb-4">Ideal for aggressive growth seekers</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-xc-muted">Initial Allocation:</span><span className="text-white font-bold">100%</span></div>
+                    <div className="flex justify-between"><span className="text-xc-muted">Rebalance:</span><span className="text-white font-bold">Quarterly</span></div>
+                    <div className="flex justify-between"><span className="text-xc-muted">Projected APY:</span><span className="text-emerald-400 font-bold">42%</span></div>
+                  </div>
+                  <button className="w-full mt-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg transition-colors">
+                    Select Plan
+                  </button>
+                </div>
+
+                {/* Plan 2 */}
+                <div className="group relative bg-gradient-to-br from-emerald-500/20 to-emerald-900/20 border border-emerald-400/60 rounded-2xl p-6 hover:border-emerald-300/80 hover:shadow-lg hover:shadow-emerald-400/40 transition-all duration-300 cursor-pointer ring-1 ring-emerald-500/30">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full">MOST POPULAR</div>
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-bold text-white">Compounding</h4>
+                    <Zap className="w-5 h-5 text-emerald-300" />
+                  </div>
+                  <p className="text-sm text-emerald-100 mb-4 font-semibold">Balanced growth with reinvestment</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-xc-muted">Initial Allocation:</span><span className="text-white font-bold">80%</span></div>
+                    <div className="flex justify-between"><span className="text-xc-muted">Reinvestment:</span><span className="text-white font-bold">20% Monthly</span></div>
+                    <div className="flex justify-between"><span className="text-xc-muted">Projected APY:</span><span className="text-emerald-300 font-bold text-lg">56%</span></div>
+                  </div>
+                  <button className="w-full mt-4 bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 text-slate-900 font-bold py-2 rounded-lg transition-all">
+                    Select Plan
+                  </button>
+                </div>
+
+                {/* Plan 3 */}
+                <div className="group bg-gradient-to-br from-emerald-600/10 to-emerald-900/10 border border-emerald-500/40 rounded-2xl p-6 hover:border-emerald-400/80 hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 cursor-pointer">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-bold text-white">Precision</h4>
+                    <BrainCircuit className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <p className="text-sm text-xc-muted mb-4">AI-optimized allocation strategy</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-xc-muted">Strategy:</span><span className="text-white font-bold">AI-Driven</span></div>
+                    <div className="flex justify-between"><span className="text-xc-muted">Rebalance:</span><span className="text-white font-bold">Real-time</span></div>
+                    <div className="flex justify-between"><span className="text-xc-muted">Projected APY:</span><span className="text-emerald-400 font-bold">48%</span></div>
+                  </div>
+                  <button className="w-full mt-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg transition-colors">
+                    Select Plan
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Real-time tracking badge */}
+            <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg px-4 py-3 w-fit">
+              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+              <span className="text-sm text-emerald-100 font-semibold">Real-time investment flow tracking • AI insights • Live updates</span>
+            </div>
+          </div>
+        </div>
+
         {/* ── Fund Grid ── */}
         <div>
           <div className="flex items-center justify-between mb-5">
@@ -656,7 +776,7 @@ const DEMO_FUNDS = [
     id: "5",
     name: "Starlink Growth SPV",
     description:
-      "Direct exposure to SpaceX's Starlink division — the world's largest satellite internet constellation serving 5M+ subscribers across 105 countries.",
+      "Direct exposure to SpaceX's Starlink division — the world's largest satellite internet constellation serving 5M+ subscribers across 105 countries. Now enhanced with real-time investment flow analytics and AI-driven insights.",
     category: "SPACE",
     minInvestment: 50000,
     lockPeriodDays: 730,
@@ -665,6 +785,11 @@ const DEMO_FUNDS = [
     maxCapacity: 500000000,
     isOpen: true,
     riskLevel: "HIGH",
+    features: [
+      "Real-time money flow visualization",
+      "AI-driven investment insights",
+      "Dynamic risk assessment",
+    ],
   },
   {
     id: "6",

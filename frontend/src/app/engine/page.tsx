@@ -461,6 +461,108 @@ export default function EnginePage() {
           </div>
         </section>
 
+        {/* ═══════════════════════════════════════════════════════════════════
+            STARLINK INFRASTRUCTURE INVESTMENT — Orbital Edition
+            ═══════════════════════════════════════════════════════════════════ */}
+        <section className="relative group overflow-hidden rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-[#080c0a] via-[#0a0a0a] to-[#080c0a] p-6 md:p-10 mb-10 md:mb-16">
+          <div className="constellation-mesh absolute inset-0 opacity-20" />
+          <div className="relative z-10">
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+              {/* Orbital visual */}
+              <div className="shrink-0 order-1 lg:order-1">
+                <div className="relative">
+                  <div className="orbit-card-glow rounded-full w-[260px] h-[260px] flex items-center justify-center">
+                    <div
+                      className="orbit-ring orbit-1"
+                      style={{ width: 80, height: 80 }}
+                    >
+                      <div className="orbit-satellite" />
+                    </div>
+                    <div
+                      className="orbit-ring orbit-3"
+                      style={{ width: 140, height: 140 }}
+                    >
+                      <div className="orbit-satellite dim" />
+                    </div>
+                    <div
+                      className="orbit-ring orbit-5"
+                      style={{ width: 200, height: 200 }}
+                    >
+                      <div className="orbit-satellite" />
+                    </div>
+                    <div
+                      className="orbit-ring orbit-2"
+                      style={{ width: 240, height: 240 }}
+                    >
+                      <div className="orbit-satellite dim" />
+                    </div>
+                    <div className="orbit-core" />
+                    <div
+                      className="orbit-signal"
+                      style={{ animationDelay: "0s" }}
+                    />
+                    <div
+                      className="orbit-signal"
+                      style={{
+                        animationDelay: "1.3s",
+                        background:
+                          "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)",
+                      }}
+                    />
+                  </div>
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-emerald-950/80 border border-emerald-500/30 rounded-lg px-3 py-1 backdrop-blur-sm">
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
+                      Network Online
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 order-2 lg:order-2">
+                <div className="flex items-center gap-3 mb-4">
+                  <Wifi className="w-5 h-5 text-emerald-400" />
+                  <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+                    Starlink Global Network
+                  </span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-black text-white mb-3 leading-tight">
+                  Deploy Satellite Infrastructure
+                </h3>
+                <p className="text-sm text-white/40 max-w-xl mb-6 leading-relaxed">
+                  Integrated Starlink bandwidth routing converts your X-CAPITAL
+                  node into a satellite edge compute terminal. Real throughput.
+                  Real revenue. Real yield from global data transmission and AI
+                  inference processing on SpaceX infrastructure.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                  {[
+                    { label: "Monthly Yield", value: "$2.4K+" },
+                    { label: "Network Nodes", value: "14.8K" },
+                    { label: "Active Countries", value: "105+" },
+                    { label: "Throughput", value: "847 TB" },
+                  ].map(({ label, value }) => (
+                    <div
+                      key={label}
+                      className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 hover:border-emerald-500/20 transition-colors"
+                    >
+                      <p className="text-[10px] text-xc-muted font-bold uppercase tracking-wider mb-1">
+                        {label}
+                      </p>
+                      <p className="text-lg font-black text-emerald-400 font-mono">
+                        {value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <button className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-sm font-black rounded-xl transition-all shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40">
+                  Deploy Node Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ── TURN ANY LIABILITY INTO A VAULT ───────────────────────── */}
         <section className="border-b border-white/[0.08] pb-10 md:pb-16 mb-10 md:mb-16">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 mb-4">

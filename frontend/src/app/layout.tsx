@@ -147,6 +147,28 @@ export default function RootLayout({
             }),
           }}
         />
+        {/* ═══ TAWK.TO LIVE CHAT WIDGET ═══
+            CONFIGURATION REQUIRED:
+            1. Sign up at https://tawk.to and create a property
+            2. Go to Administration → Channels → Chat Widget → Install
+            3. Replace YOUR_TAWKTO_PROPERTY_ID and YOUR_TAWKTO_WIDGET_ID below
+            4. Optional: Customize colors, greeting, position in tawk.to dashboard
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+              (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/YOUR_TAWKTO_PROPERTY_ID/YOUR_TAWKTO_WIDGET_ID';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="bg-xc-black text-xc-text antialiased min-h-screen">
         {/* ═══ FUTURISTIC SPLASH SCREEN ═══ */}
@@ -170,11 +192,13 @@ export default function RootLayout({
             </div>
             {/* Logo */}
             <div className="xc-splash-logo">
-              <div className="xc-splash-icon">
-                <svg viewBox="0 0 24 24" fill="white" width="48" height="48">
+              <div className="xc-splash-icon x-logo" style={{ width: 56, height: 56 }}>
+                <svg viewBox="0 0 24 24" fill="white" width="48" height="48" style={{ filter: "drop-shadow(0 0 12px rgba(16,185,129,0.4))" }}>
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
+                <div className="x-crossing" />
               </div>
+              <span className="xc-splash-title brand-xc">CAPITAL</span>
             </div>
             {/* Loading bar */}
             <div className="xc-splash-bar-track">

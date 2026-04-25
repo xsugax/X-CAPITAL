@@ -41,33 +41,87 @@
 }
 
 /* Light theme overrides for Tailwind custom colors */
-[data-theme="light"] .bg-xc-black { background-color: #f5f5f5; }
-[data-theme="light"] .bg-xc-dark { background-color: #ebebeb; }
-[data-theme="light"] .bg-xc-card { background-color: #ffffff; }
-[data-theme="light"] .border-xc-border { border-color: rgba(0, 0, 0, 0.1); }
-[data-theme="light"] .text-white { color: #111111; }
-[data-theme="light"] .text-xc-text { color: #111111; }
-[data-theme="light"] .text-xc-muted { color: #6b7280; }
-[data-theme="light"] .text-slate-200\/90 { color: #374151; }
-[data-theme="light"] .text-slate-300 { color: #4b5563; }
-[data-theme="light"] .bg-white\/\[0\.02\] { background-color: rgba(0, 0, 0, 0.02); }
-[data-theme="light"] .bg-white\/\[0\.03\] { background-color: rgba(0, 0, 0, 0.03); }
-[data-theme="light"] .bg-white\/\[0\.04\] { background-color: rgba(0, 0, 0, 0.04); }
-[data-theme="light"] .bg-white\/\[0\.06\] { background-color: rgba(0, 0, 0, 0.04); }
-[data-theme="light"] .bg-white\/\[0\.08\] { background-color: rgba(0, 0, 0, 0.06); }
-[data-theme="light"] .bg-white\/10 { background-color: rgba(0, 0, 0, 0.06); }
-[data-theme="light"] .bg-white\/20 { background-color: rgba(0, 0, 0, 0.08); }
-[data-theme="light"] .border-white\/\[0\.06\] { border-color: rgba(0, 0, 0, 0.08); }
-[data-theme="light"] .border-white\/\[0\.08\] { border-color: rgba(0, 0, 0, 0.1); }
-[data-theme="light"] .border-white\/\[0\.10\] { border-color: rgba(0, 0, 0, 0.12); }
-[data-theme="light"] .border-white\/5 { border-color: rgba(0, 0, 0, 0.06); }
-[data-theme="light"] .border-white\/10 { border-color: rgba(0, 0, 0, 0.08); }
-[data-theme="light"] .border-white\/20 { border-color: rgba(0, 0, 0, 0.12); }
-[data-theme="light"] .text-white\/50 { color: rgba(0, 0, 0, 0.5); }
-[data-theme="light"] .text-white\/60 { color: rgba(0, 0, 0, 0.55); }
-[data-theme="light"] .text-white\/70 { color: rgba(0, 0, 0, 0.65); }
-[data-theme="light"] .ring-white\/10 { --tw-ring-color: rgba(0, 0, 0, 0.08); }
-[data-theme="light"] .ring-white\/20 { --tw-ring-color: rgba(0, 0, 0, 0.1); }
+[data-theme="light"] .bg-xc-black {
+  background-color: #f5f5f5;
+}
+[data-theme="light"] .bg-xc-dark {
+  background-color: #ebebeb;
+}
+[data-theme="light"] .bg-xc-card {
+  background-color: #ffffff;
+}
+[data-theme="light"] .border-xc-border {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+[data-theme="light"] .text-white {
+  color: #111111;
+}
+[data-theme="light"] .text-xc-text {
+  color: #111111;
+}
+[data-theme="light"] .text-xc-muted {
+  color: #6b7280;
+}
+[data-theme="light"] .text-slate-200\/90 {
+  color: #374151;
+}
+[data-theme="light"] .text-slate-300 {
+  color: #4b5563;
+}
+[data-theme="light"] .bg-white\/\[0\.02\] {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+[data-theme="light"] .bg-white\/\[0\.03\] {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+[data-theme="light"] .bg-white\/\[0\.04\] {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+[data-theme="light"] .bg-white\/\[0\.06\] {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+[data-theme="light"] .bg-white\/\[0\.08\] {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .bg-white\/20 {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .border-white\/\[0\.06\] {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .border-white\/\[0\.08\] {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+[data-theme="light"] .border-white\/\[0\.10\] {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+[data-theme="light"] .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+[data-theme="light"] .text-white\/50 {
+  color: rgba(0, 0, 0, 0.5);
+}
+[data-theme="light"] .text-white\/60 {
+  color: rgba(0, 0, 0, 0.55);
+}
+[data-theme="light"] .text-white\/70 {
+  color: rgba(0, 0, 0, 0.65);
+}
+[data-theme="light"] .ring-white\/10 {
+  --tw-ring-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .ring-white\/20 {
+  --tw-ring-color: rgba(0, 0, 0, 0.1);
+}
 [data-theme="light"] .glass {
   background: rgba(255, 255, 255, 0.85);
   border-color: rgba(0, 0, 0, 0.08);
@@ -78,9 +132,15 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-[data-theme="light"] .bg-black { background-color: #f5f5f5; }
-[data-theme="light"] .bg-black\/40 { background-color: rgba(255, 255, 255, 0.4); }
-[data-theme="light"] .bg-black\/60 { background-color: rgba(255, 255, 255, 0.6); }
+[data-theme="light"] .bg-black {
+  background-color: #f5f5f5;
+}
+[data-theme="light"] .bg-black\/40 {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+[data-theme="light"] .bg-black\/60 {
+  background-color: rgba(255, 255, 255, 0.6);
+}
 
 /* Light theme scrollbar */
 [data-theme="light"] ::-webkit-scrollbar-thumb {
@@ -153,6 +213,267 @@ body {
 }
 .glow-green {
   box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* ═══ GREEN PROFIT SIGNAL — X CROSSING BRAND SYSTEM ═════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* The iconic X with green profit crossing */
+.x-logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.x-logo svg {
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.3));
+}
+
+/* Animated green crossing line */
+.x-crossing {
+  position: absolute;
+  width: 140%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(16, 185, 129, 0.9) 20%,
+    rgba(34, 197, 94, 1) 50%,
+    rgba(16, 185, 129, 0.9) 80%,
+    transparent 100%
+  );
+  transform: rotate(-45deg);
+  animation: xCrossingPulse 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.x-crossing::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(16, 185, 129, 0.4) 20%,
+    rgba(34, 197, 94, 0.6) 50%,
+    rgba(16, 185, 129, 0.4) 80%,
+    transparent 100%
+  );
+  filter: blur(4px);
+}
+
+@keyframes xCrossingPulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: rotate(-45deg) scaleX(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(-45deg) scaleX(1);
+    filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.8));
+  }
+}
+
+/* Profit signal badge */
+.profit-signal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(16, 185, 129, 0.9);
+  animation: profitSignalPulse 3s ease-in-out infinite;
+}
+
+.profit-signal::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.9);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  animation: profitDotBlink 2s ease-in-out infinite;
+}
+
+@keyframes profitSignalPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 16px 2px rgba(16, 185, 129, 0.2);
+  }
+}
+
+@keyframes profitDotBlink {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.9);
+  }
+}
+
+/* X-CAPITAL brand text with gradient */
+.brand-xc {
+  background: linear-gradient(135deg, #ffffff 0%, #e5e5e5 40%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Large hero X with green accent */
+.hero-x-logo {
+  position: relative;
+  display: inline-flex;
+}
+
+.hero-x-logo::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.hero-x-logo:hover::after {
+  opacity: 1;
+}
+
+/* Profit number styling */
+.profit-number {
+  color: #10b981;
+  text-shadow: 0 0 20px rgba(16, 185, 129, 0.3), 0 0 40px rgba(16, 185, 129, 0.1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* ═══ ENHANCED STARLINK ORBITAL SYSTEM ══════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* Constellation mesh background */
+.constellation-mesh {
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(34, 197, 94, 0.02) 0%, transparent 50%);
+}
+
+/* Starlink card glow */
+.starlink-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(16, 185, 129, 0.02) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  overflow: hidden;
+}
+
+.starlink-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), transparent);
+  animation: starlinkScan 4s linear infinite;
+}
+
+@keyframes starlinkScan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Satellite beam connection */
+.satellite-beam {
+  position: absolute;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(16, 185, 129, 0.4), transparent);
+  animation: beamPulse 3s ease-in-out infinite;
+}
+
+@keyframes beamPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* Orbital ring enhancements */
+.orbit-ring-enhanced {
+  border: 1px solid rgba(16, 185, 129, 0.08);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.05), inset 0 0 20px rgba(16, 185, 129, 0.02);
+}
+
+/* Starlink data stream */
+.data-stream {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: rgba(16, 185, 129, 0.6);
+  letter-spacing: 0.05em;
+}
+
+/* Signal strength bars */
+.signal-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.signal-bar {
+  width: 3px;
+  border-radius: 1px;
+  background: rgba(16, 185, 129, 0.9);
+  animation: signalBarWave 1.5s ease-in-out infinite;
+}
+
+.signal-bar:nth-child(1) { height: 25%; animation-delay: 0s; }
+.signal-bar:nth-child(2) { height: 50%; animation-delay: 0.1s; }
+.signal-bar:nth-child(3) { height: 75%; animation-delay: 0.2s; }
+.signal-bar:nth-child(4) { height: 100%; animation-delay: 0.3s; }
+
+@keyframes signalBarWave {
+  0%, 100% { opacity: 0.4; transform: scaleY(0.8); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* ═══ RESPONSIVE UTILITIES ══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  .x-crossing {
+    width: 120%;
+    height: 1.5px;
+  }
+  
+  .profit-signal {
+    padding: 3px 8px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+  
+  .starlink-card::before {
+    animation-duration: 3s;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .profit-signal {
+    font-size: 9px;
+  }
 }
 
 /* Animated gradient border */
@@ -811,4 +1132,235 @@ img[data-loaded="true"] {
     opacity 0.4s ease,
     filter 0.4s ease,
     transform 0.4s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* ═══ STARLINK ORBITAL CONSTELLATION VISUAL SYSTEM ═══════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* Core orbital ring — rotates its container so child satellites orbit */
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.orbit-satellite {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.9);
+  box-shadow:
+    0 0 8px rgba(16, 185, 129, 0.5),
+    0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.orbit-satellite.dim {
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+}
+
+@keyframes orbit-cw {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@keyframes orbit-ccw {
+  from {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
+.orbit-1 {
+  animation: orbit-cw 12s linear infinite;
+}
+.orbit-2 {
+  animation: orbit-ccw 18s linear infinite;
+}
+.orbit-3 {
+  animation: orbit-cw 24s linear infinite;
+}
+.orbit-4 {
+  animation: orbit-ccw 30s linear infinite;
+}
+.orbit-5 {
+  animation: orbit-cw 20s linear infinite;
+}
+.orbit-6 {
+  animation: orbit-ccw 15s linear infinite;
+}
+
+/* Central node — the Earth / ground station */
+.orbit-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow:
+    0 0 24px rgba(16, 185, 129, 0.25),
+    inset 0 0 12px rgba(16, 185, 129, 0.1);
+  animation: corePulse 3s ease-in-out infinite;
+}
+
+@keyframes corePulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Signal sweep — radial beam emanating outward */
+.orbit-signal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(16, 185, 129, 0.12) 0%,
+    transparent 70%
+  );
+  animation: signalExpand 4s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes signalExpand {
+  0% {
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+  }
+  100% {
+    width: 280px;
+    height: 280px;
+    opacity: 0;
+  }
+}
+
+/* Constellation mesh — faint connecting lines between static nodes */
+.constellation-mesh {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(16, 185, 129, 0.15) 0%,
+      transparent 2%
+    ),
+    radial-gradient(
+      circle at 70% 20%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 1.5%
+    ),
+    radial-gradient(
+      circle at 50% 70%,
+      rgba(16, 185, 129, 0.12) 0%,
+      transparent 2%
+    ),
+    radial-gradient(
+      circle at 80% 60%,
+      rgba(255, 255, 255, 0.06) 0%,
+      transparent 1.5%
+    ),
+    radial-gradient(
+      circle at 30% 80%,
+      rgba(16, 185, 129, 0.1) 0%,
+      transparent 2%
+    );
+  animation: meshPulse 6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes meshPulse {
+  0% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+/* Data packet traveling along a path (SVG-free) */
+.data-packet {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.9);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  animation: packetTravel 3s linear infinite;
+}
+
+@keyframes packetTravel {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* Orbital card glow — emerald aura for Starlink sections */
+.orbit-card-glow {
+  position: relative;
+  overflow: hidden;
+}
+.orbit-card-glow::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(16, 185, 129, 0.06) 0%,
+    transparent 60%
+  );
+  animation: orbitGlowRotate 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes orbitGlowRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
