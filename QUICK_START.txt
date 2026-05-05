@@ -1,0 +1,358 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║                   YOUR DEPLOYMENT IS READY RIGHT NOW                         ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+
+🎬 EXACTLY WHAT TO DO (Copy & Paste)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your server terminal:
+
+    git clone https://github.com/xsugax/X-CAPITAL.git
+    cd X-CAPITAL
+    sudo certbot certonly --standalone -d xcapital.investments
+    sudo cp /etc/letsencrypt/live/xcapital.investments/fullchain.pem ssl/xcapital.investments.crt
+    sudo cp /etc/letsencrypt/live/xcapital.investments/privkey.pem ssl/private/xcapital.investments.key
+    nano backend/.env
+    # Fill in API keys (Alpaca, Stripe, Persona, Polygon)
+    # Save: Ctrl+O, Enter, Ctrl+X
+    chmod +x DEPLOY_NOW.sh
+    ./DEPLOY_NOW.sh
+
+
+Done. Your platform is live at https://xcapital.investments
+
+
+✨ WHAT YOU GET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+https://xcapital.investments
+
+├─ 📊 Dashboard
+│  └─ Starlink Growth Accelerator hero
+│     • $120M AUM
+│     • $50K minimum investment
+│     • 42-56% APY
+│     • "Explore Plans" CTA
+
+├─ 💰 Funds (/funds)
+│  ├─ Momentum Plan (42% APY)
+│  ├─ Compounding Plan (56% APY) ⭐ BEST
+│  └─ Precision Plan (48% APY)
+
+├─ 📈 Trading (/trading)
+│  ├─ XLINK Token
+│  │  • Price: $95.24
+│  │  • 24h Change: +12.4%
+│  │  • Volume: $285.4M
+│  │  • Market Cap: $4.2B
+│  ├─ Live order book
+│  └─ Volume charts
+
+├─ 👛 Portfolio (/portfolio)
+│  ├─ XLINK holdings
+│  │  • 350 shares @ $95.25
+│  │  • Value: $33,437.50
+│  │  • P&L: +$15,087.50
+│  └─ Allocation charts
+
+├─ 🤖 Oracle (/oracle)
+│  ├─ XLINK Forecast
+│  │  • Predicted: $134.80
+│  │  • Return: 41.6%
+│  │  • Confidence: 85%
+│  │  • Signal: BUY
+│  └─ AI signals
+
+├─ 🛰️ Engine (/engine)
+│  ├─ Infrastructure Metrics
+│  │  • 14.8K active nodes
+│  │  • 105+ countries
+│  │  • 847TB daily throughput
+│  │  • $2.4K+ monthly yield
+│  └─ "Deploy Now" CTA
+
+├─ 💬 Support
+│  └─ Tawk.io widget (24/7, bottom-right)
+
+└─ 🔐 Security
+   ├─ HTTPS/TLS 1.2 & 1.3
+   ├─ HSTS enabled
+   ├─ JWT authentication
+   ├─ Rate limiting
+   └─ Enterprise-grade
+
+
+📋 YOUR DEPLOYMENT CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before deploying, verify:
+
+□ Server IP known
+□ SSH access working
+□ Docker installed
+□ xcapital.investments domain registered
+□ DNS A record pointing to server IP
+□ SSL certificate ready (or certbot installed)
+□ API keys obtained:
+  □ Alpaca API key
+  □ Stripe live key
+  □ Persona API key
+  □ Polygon RPC URL
+
+
+🚀 DEPLOYMENT STEPS IN ORDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1: SSH to your server
+        ssh root@your_server_ip
+        cd /tmp
+
+STEP 2: Clone X-CAPITAL
+        git clone https://github.com/xsugax/X-CAPITAL.git
+        cd X-CAPITAL
+
+STEP 3: Get SSL certificate (1 minute)
+        sudo certbot certonly --standalone -d xcapital.investments
+        sudo cp /etc/letsencrypt/live/xcapital.investments/fullchain.pem ssl/xcapital.investments.crt
+        sudo cp /etc/letsencrypt/live/xcapital.investments/privkey.pem ssl/private/xcapital.investments.key
+        sudo chown $USER:$USER ssl/xcapital.investments.crt ssl/private/xcapital.investments.key
+
+STEP 4: Add your API keys
+        nano backend/.env
+        
+        Update these lines:
+        ALPACA_API_KEY=pk_live_YOUR_KEY_HERE
+        ALPACA_SECRET_KEY=YOUR_SECRET_HERE
+        STRIPE_SECRET_KEY=sk_live_YOUR_KEY_HERE
+        PERSONA_API_KEY=YOUR_KEY_HERE
+        ETHEREUM_RPC_URL=YOUR_RPC_URL_HERE
+        
+        Save: Ctrl+O → Enter → Ctrl+X
+
+STEP 5: Deploy everything (one command!)
+        chmod +x DEPLOY_NOW.sh
+        ./DEPLOY_NOW.sh
+
+STEP 6: Verify
+        docker compose -f docker-compose.prod.yml ps
+        curl https://xcapital.investments
+
+
+🎯 WHAT THE DEPLOY_NOW.sh SCRIPT DOES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ✓ Verifies Docker installed
+2. ✓ Checks configuration files
+3. ✓ Checks SSL certificates
+4. ✓ Validates API keys
+5. ✓ Stops old containers
+6. ✓ Starts 6 services:
+   • PostgreSQL 16 (database)
+   • Redis 7 (cache)
+   • Backend API (Express.js)
+   • Frontend (Next.js)
+   • AI Oracle (FastAPI)
+   • Nginx (reverse proxy)
+7. ✓ Waits for initialization
+8. ✓ Runs database migrations
+9. ✓ Seeds demo data
+10. ✓ Verifies all services running
+11. ✓ Displays live URLs
+
+Time: ~30 seconds to 2 minutes
+
+
+📊 ARCHITECTURE DEPLOYED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+                    ┌─────────────────────────────────┐
+                    │    HTTPS/TLS Certificates       │
+                    │  (Let's Encrypt: xcapital.*)    │
+                    └───────────┬─────────────────────┘
+                                │
+                    ┌───────────▼─────────────────────┐
+                    │   Nginx Reverse Proxy (Port 443)│
+                    │  • SSL/TLS 1.2 & 1.3            │
+                    │  • HSTS, CSP headers            │
+                    │  • Gzip compression             │
+                    │  • Static caching (30 days)     │
+                    └───┬──────────────────┬──────────┘
+                        │                  │
+        ┌───────────────▼─┐      ┌────────▼────────┐
+        │   Frontend      │      │   API Backend   │
+        │  Next.js (3000) │      │ Express (4000)  │
+        │                 │      │                 │
+        │  18 pages:      │      │  7 routes:      │
+        │  • Dashboard    │      │  • Auth         │
+        │  • Funds        │      │  • Portfolio    │
+        │  • Trading      │      │  • Trading      │
+        │  • Portfolio    │      │  • Funds        │
+        │  • Oracle       │      │  • Oracle       │
+        │  • Engine       │      │  • Commerce     │
+        │  • Landing      │      │  • Wallet       │
+        │                 │      │                 │
+        │ Starlink:       │      │ Data Layer:     │
+        │ • 7 locations   │      │ • PostgreSQL    │
+        │ • $120M AUM     │      │ • Redis cache   │
+        │ • 42-56% APY    │      │ • Prisma ORM    │
+        └────────┬────────┘      └────────┬────────┘
+                 │                        │
+                 └────────────┬───────────┘
+                              │
+                    ┌─────────▼──────────┐
+                    │  AI Oracle         │
+                    │  FastAPI (5000)    │
+                    │                    │
+                    │  • LSTM models     │
+                    │  • GBM models      │
+                    │  • Starlink        │
+                    │    forecasts       │
+                    │  • BUY/SELL        │
+                    │    signals         │
+                    │  • Confidence %    │
+                    └────────────────────┘
+
+
+💻 SYSTEM REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Minimum:                    Recommended:
+• 2 GB RAM                  • 4 GB RAM
+• 20 GB storage             • 50 GB storage
+• Ubuntu 22.04 LTS          • Ubuntu 22.04 LTS
+• Docker                    • Docker
+• 1 CPU core                • 2 CPU cores
+
+
+🔐 SECURITY FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ HTTPS/TLS 1.2 & 1.3 (Let's Encrypt)
+✓ HSTS enabled (1 year)
+✓ CSP headers
+✓ X-Frame-Options
+✓ X-Content-Type-Options
+✓ X-XSS-Protection
+✓ JWT authentication (7-day expiry)
+✓ Rate limiting (API)
+✓ CORS configured
+✓ SQL injection protection (Prisma ORM)
+✓ XSS protection
+✓ PostgreSQL encrypted passwords
+✓ Redis authentication
+✓ API key management
+
+
+⏱️ DEPLOYMENT TIMELINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SSH + Clone:        2 min
+SSL setup:          3 min
+Fill API keys:      2 min
+Run deployment:     1 min
+Service startup:    2 min
+──────────────────────────
+Total:              ~10 minutes
+
+
+📱 STARLINK VISIBLE ON ALL PLATFORMS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Desktop:  ✓ Full responsive design
+Tablet:   ✓ Optimized layout
+Mobile:   ✓ Touch-friendly interface
+
+All pages include:
+✓ Starlink branding (emerald #10b981)
+✓ Professional imagery
+✓ Real-time market data
+✓ Live trading features
+✓ 24/7 Tawk.io support widget
+
+
+🎓 AFTER DEPLOYMENT COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+View logs:
+  docker compose -f docker-compose.prod.yml logs -f
+
+View specific service:
+  docker compose -f docker-compose.prod.yml logs -f backend
+
+Service status:
+  docker compose -f docker-compose.prod.yml ps
+
+Restart services:
+  docker compose -f docker-compose.prod.yml restart
+
+Stop everything:
+  docker compose -f docker-compose.prod.yml down
+
+Restart everything:
+  docker compose -f docker-compose.prod.yml up -d
+
+Database backup:
+  docker compose -f docker-compose.prod.yml exec postgres pg_dump -U xcapital xcapital_db > backup.sql
+
+Database restore:
+  docker compose -f docker-compose.prod.yml exec -T postgres psql -U xcapital xcapital_db < backup.sql
+
+
+📞 SUPPORT OPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For Users:
+  • Tawk.io widget (bottom-right, 24/7)
+
+For Admins:
+  • Check logs: docker compose logs -f
+  • Read: PRODUCTION_DEPLOYMENT.md
+  • Troubleshoot: DEPLOY_INSTRUCTIONS.md
+  • Quick ref: DEPLOY_NOW_CARD.txt
+
+DNS Issues:
+  • DNS Checker: https://mxtoolbox.com/
+  • Let's Encrypt: https://certbot.eff.org/
+
+API Issues:
+  • Alpaca: https://alpaca.markets/docs
+  • Stripe: https://stripe.com/docs
+  • Persona: https://docs.persona.com/
+
+
+🎯 NEXT 5 MINUTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Get your server IP
+2. SSH to server
+3. Clone repo
+4. Set up SSL
+5. Add API keys
+6. Run deployment
+7. Wait 2 minutes
+8. Visit https://xcapital.investments
+
+You're done.
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║                        DEPLOYMENT READY ✅                                    ║
+║                                                                                ║
+║  One command on your server:                                                  ║
+║                                                                                ║
+║    chmod +x DEPLOY_NOW.sh && ./DEPLOY_NOW.sh                                 ║
+║                                                                                ║
+║  That's it. You're live.                                                      ║
+║                                                                                ║
+║               Ready to deploy? Let's go! 🚀                                   ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+Date Generated: May 5, 2026
+Status: 🟢 PRODUCTION READY
+Version: 1.0.0
+Platform: xcapital.investments

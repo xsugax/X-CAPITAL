@@ -485,6 +485,83 @@ export default function OraclePage() {
           </div>
         </div>
 
+        {/* ═══════════════════════════════════════════════════════════════════
+            STARLINK FORECAST SPOTLIGHT - Highest Confidence BUY Signal
+            ═══════════════════════════════════════════════════════════════════ */}
+        {(() => {
+          const xlinkForecast = forecasts.find((f) => f.symbol === "XLINK");
+          return xlinkForecast ? (
+            <section className="relative group overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-900/25 to-slate-900/25 border border-emerald-500/50 p-6 md:p-8 mb-6">
+              <div className="absolute -top-40 -right-40 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative z-10">
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                      <Radio className="w-6 h-6 text-emerald-400 animate-pulse" />
+                      <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+                        AI Oracle Top Signal
+                      </span>
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-black text-white mb-2">
+                      {xlinkForecast.symbol} — $
+                      {xlinkForecast.currentPrice.toFixed(2)}
+                    </h3>
+                    <p className="text-base text-emerald-50 max-w-xl mb-4">
+                      {xlinkForecast.symbol} shows exceptional bullish momentum
+                      with {xlinkForecast.confidence}% model confidence.
+                      Predicted price: $
+                      {xlinkForecast.predictedPrice.toFixed(2)} in{" "}
+                      {xlinkForecast.horizon}.
+                    </p>
+                    \n{" "}
+                    <div className="flex flex-wrap gap-3">
+                      <div className="bg-emerald-500/20 border border-emerald-500/40 rounded-lg px-4 py-2">
+                        <p className="text-xs text-xc-muted">Signal</p>
+                        <p className="font-black text-emerald-400">
+                          {xlinkForecast.signal}
+                        </p>
+                      </div>
+                      <div className="bg-emerald-500/20 border border-emerald-500/40 rounded-lg px-4 py-2">
+                        <p className="text-xs text-xc-muted">Expected Return</p>
+                        <p className="font-black text-emerald-400">
+                          +{xlinkForecast.expectedReturn.toFixed(1)}%
+                        </p>
+                      </div>
+                      <div className="bg-emerald-500/20 border border-emerald-500/40 rounded-lg px-4 py-2">
+                        <p className="text-xs text-xc-muted">Confidence</p>
+                        <p className="font-black text-emerald-400">
+                          {xlinkForecast.confidence}%
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full lg:w-auto lg:min-w-[240px]">
+                    <div className="bg-white/5 border border-emerald-500/30 rounded-xl p-6 text-center">
+                      <p className="text-xs text-xc-muted font-bold mb-2">
+                        PRICE TARGET
+                      </p>
+                      <p className="text-3xl font-black text-emerald-400 font-mono mb-3">
+                        ${xlinkForecast.predictedPrice.toFixed(2)}
+                      </p>
+                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden mb-3">
+                        <div
+                          className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                          style={{
+                            width: `${Math.min(100, (xlinkForecast.predictedPrice / xlinkForecast.currentPrice - 1) * 5 + 50)}%`,
+                          }}
+                        />
+                      </div>
+                      <button className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black py-2 rounded-lg transition-all">
+                        Execute Order
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          ) : null;
+        })()}
+
         {/* ── Oracle Widget + Sentiment Panel ── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
           <div className="lg:col-span-2 bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
@@ -733,5 +810,14 @@ const DEMO_FORECASTS = [
     horizon: "30d",
     confidence: 70,
     signal: "HOLD" as const,
+  },
+  {
+    symbol: "XLINK",
+    currentPrice: 95.25,
+    predictedPrice: 134.8,
+    expectedReturn: 41.6,
+    horizon: "30d",
+    confidence: 85,
+    signal: "BUY" as const,
   },
 ];

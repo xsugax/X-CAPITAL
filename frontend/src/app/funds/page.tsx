@@ -1,892 +1,273 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import FundCard from "@/components/funds/FundCard";
-import { Modal, ModalFooter } from "@/components/ui/Modal";
-import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { StatCard } from "@/components/ui/Card";
-import { fundsAPI, walletAPI } from "@/lib/api";
-import { formatCurrency, formatPercent, cn } from "@/lib/utils";
 import {
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  Cell,
-  ScatterChart,
-  Scatter,
-  ZAxis,
-} from "recharts";
-import {
+  Satellite,
   TrendingUp,
-  Lock,
-  DollarSign,
-  AlertCircle,
-  CheckCircle2,
   BarChart3,
   Target,
-  Flame,
-  Zap,
-  Satellite,
-  Rocket,
-  BrainCircuit,
+  ArrowRight,
 } from "lucide-react";
-import type { Investment, UserInvestment } from "@/types";
-import { useStore } from "@/store/useStore";
-
-function generateAUMHistory(currentAUM: number) {
-  const data = [];
-  let v = currentAUM * 0.3;
-  for (let i = 12; i >= 0; i--) {
-    const d = new Date();
-    d.setMonth(d.getMonth() - i);
-    v *= 1 + (Math.random() - 0.35) * 0.12;
-    if (v > currentAUM * 1.1) v = currentAUM * (0.9 + Math.random() * 0.15);
-    data.push({
-      month: d.toLocaleDateString("en-US", { month: "short", year: "2-digit" }),
-      aum: Math.round(v),
-    });
-  }
-  return data;
-}
-
-function generateFundPerformance(funds: typeof DEMO_FUNDS) {
-  const months = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
-  return months.map((m) => {
-    const entry: Record<string, string | number> = { month: m };
-    funds.slice(0, 6).forEach((f) => {
-      entry[(f.name ?? "Fund").split(" ").slice(0, 2).join(" ")] = Number(
-        ((Math.random() - 0.3) * 15).toFixed(2),
-      );
-    });
-    return entry;
-  });
-}
-
-const FUND_COLORS = [
-  "#7c3aed",
-  "#06b6d4",
-  "#d97706",
-  "#10b981",
-  "#ef4444",
-  "#a78bfa",
-];
-
-export default function FundsPage() {
-  const { wallet } = useStore();
-  const [funds, setFunds] = useState<Investment[]>([]);
-  const [myInvestments, setMyInvestments] = useState<UserInvestment[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<Investment | null>(null);
-  const [investAmount, setInvestAmount] = useState("");
-  const [investing, setInvesting] = useState(false);
-  const [message, setMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
-  const [aumHistory, setAumHistory] = useState<
-    Array<{ month: string; aum: number }>
-  >([]);
-  const [perfData, setPerfData] = useState<
-    Array<Record<string, string | number>>
-  >([]);
-
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      try {
-        const [fundsRes, myRes] = await Promise.allSettled([
-          fundsAPI.getFunds(),
-          fundsAPI.getMyInvestments(),
-        ]);
-        if (fundsRes.status === "fulfilled")
-          setFunds(fundsRes.value.data.data.funds ?? []);
-        else setFunds(DEMO_FUNDS as Investment[]);
-        if (myRes.status === "fulfilled")
-          setMyInvestments(myRes.value.data.data.investments ?? []);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
-
-  const displayFunds = funds.length > 0 ? funds : (DEMO_FUNDS as Investment[]);
-
-  useEffect(() => {
-    const totalAUM = displayFunds.reduce(
-      (s, f) => s + Number(f.currentAUM ?? 0),
-      0,
-    );
-    setAumHistory(generateAUMHistory(totalAUM));
-    setPerfData(generateFundPerformance(DEMO_FUNDS));
-  }, [displayFunds.length]);
-
-  // Live AUM drift
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAumHistory((prev) =>
-        prev.map((d, i) =>
-          i === prev.length - 1
-            ? { ...d, aum: d.aum * (1 + (Math.random() - 0.48) * 0.002) }
-            : d,
-        ),
-      );
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const openInvest = (fund: Investment) => {
-    setSelected(fund);
-    setInvestAmount(String(fund.minInvestment));
-    setMessage(null);
-  };
-
-  const handleInvest = async () => {
-    if (!selected) return;
-    setInvesting(true);
-    setMessage(null);
-    try {
-      await fundsAPI.invest(selected.id, parseFloat(investAmount));
-      setMessage({
-        type: "success",
-        text: `Invested ${formatCurrency(parseFloat(investAmount))} in ${selected.name}`,
-      });
-      setTimeout(() => setSelected(null), 2000);
-    } catch (err: unknown) {
-      const e = err as { response?: { data?: { message?: string } } };
-      setMessage({
-        type: "error",
-        text: e.response?.data?.message ?? "Investment failed.",
-      });
-    } finally {
-      setInvesting(false);
-    }
-  };
-
-  const totalInvested = myInvestments.reduce((s, i) => s + Number(i.amount), 0);
-  const totalAUM = displayFunds.reduce(
-    (s, f) => s + Number(f.currentAUM ?? 0),
-    0,
-  );
-
-  // Risk/Return scatter data
-  const scatterData = displayFunds.map((f) => ({
-    name: (f.name ?? "Fund").split(" ").slice(0, 2).join(" "),
-    risk:
-      f.riskLevel === "HIGH"
-        ? 75 + Math.random() * 20
-        : f.riskLevel === "MEDIUM"
-          ? 35 + Math.random() * 25
-          : 10 + Math.random() * 20,
-    return: Number(f.targetReturn),
-    aum: Number(f.currentAUM ?? 0),
-  }));
-
-  return (
-    <DashboardLayout
-      title="Funds &amp; SPVs"
-      subtitle="Institutional-grade private investments · Live AUM tracking"
-    >
-      <div className="space-y-4 md:space-y-6 lg:space-y-8">
-        {/* ── Stats ── */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4">
-          <StatCard
-            title="Total Platform AUM"
-            value={formatCurrency(totalAUM)}
-            icon={<DollarSign className="w-5 h-5" />}
-          />
-          <StatCard
-            title="Your Deployed"
-            value={formatCurrency(totalInvested)}
-            icon={<TrendingUp className="w-5 h-5" />}
-          />
-          <StatCard
-            title="Active Positions"
-            value={String(
-              myInvestments.filter((i) => i.status === "ACTIVE").length,
-            )}
-            icon={<Target className="w-5 h-5" />}
-          />
-          <StatCard
-            title="Available Funds"
-            value={String(displayFunds.length)}
-            icon={<Lock className="w-5 h-5" />}
-          />
-        </div>
-
-        {/* ── AUM Growth Chart (full width, tall) ── */}
-        <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6 lg:p-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-2">
-            <div>
-              <h3 className="font-black text-white text-base md:text-lg">
-                Platform AUM Growth
-              </h3>
-              <p className="text-xs md:text-sm text-xc-muted mt-1">
-                12-month assets under management · Live
-              </p>
-            </div>
-            <div className="text-right">
-              <div className="text-xl md:text-2xl font-black text-white font-mono">
-                {formatCurrency(totalAUM)}
-              </div>
-              <div className="text-sm text-emerald-400 font-bold">
-                +142% YoY
-              </div>
-            </div>
-          </div>
-          <div style={{ height: 280 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                data={aumHistory}
-                margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
-              >
-                <defs>
-                  <linearGradient id="aumGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis
-                  dataKey="month"
-                  tick={{ fill: "#64748b", fontSize: 10 }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={{ fill: "#64748b", fontSize: 10 }}
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={(v) =>
-                    `$${(Number(v ?? 0) / 1e6).toFixed(0)}M`
-                  }
-                />
-                <Tooltip
-                  contentStyle={{
-                    background: "#0d0d1e",
-                    border: "1px solid #1a1a3a",
-                    borderRadius: 8,
-                    fontSize: 12,
-                  }}
-                  formatter={(v: number) => [
-                    formatCurrency(Number(v ?? 0)),
-                    "AUM",
-                  ]}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="aum"
-                  stroke="#7c3aed"
-                  strokeWidth={2.5}
-                  fill="url(#aumGrad)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* ── Risk/Return Scatter + Fund Performance Comparison ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
-          {/* Risk vs Return Scatter */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <Target className="w-4 h-4 text-white/50" />
-              <h3 className="font-black text-white text-sm md:text-base">
-                Risk vs. Return
-              </h3>
-              <span className="text-xs text-xc-muted ml-auto hidden sm:inline">
-                All funds
-              </span>
-            </div>
-            <div className="h-[220px] md:h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <ScatterChart
-                  margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                >
-                  <XAxis
-                    type="number"
-                    dataKey="risk"
-                    name="Risk"
-                    tick={{ fill: "#64748b", fontSize: 10 }}
-                    axisLine={false}
-                    tickLine={false}
-                    label={{
-                      value: "Risk Score",
-                      position: "bottom",
-                      fill: "#64748b",
-                      fontSize: 10,
-                      offset: -5,
-                    }}
-                  />
-                  <YAxis
-                    type="number"
-                    dataKey="return"
-                    name="Return"
-                    tick={{ fill: "#64748b", fontSize: 10 }}
-                    axisLine={false}
-                    tickLine={false}
-                    label={{
-                      value: "Target Return %",
-                      angle: -90,
-                      position: "insideLeft",
-                      fill: "#64748b",
-                      fontSize: 10,
-                    }}
-                  />
-                  <ZAxis type="number" dataKey="aum" range={[40, 400]} />
-                  <Tooltip
-                    contentStyle={{
-                      background: "#0d0d1e",
-                      border: "1px solid #1a1a3a",
-                      borderRadius: 8,
-                      fontSize: 11,
-                    }}
-                    formatter={(v: number, name: string) => [
-                      name === "Return"
-                        ? `${v}%`
-                        : name === "Risk"
-                          ? Number(v ?? 0).toFixed(0)
-                          : formatCurrency(Number(v ?? 0)),
-                      name,
-                    ]}
-                    labelFormatter={(_, payload) =>
-                      payload?.[0]?.payload?.name ?? ""
-                    }
-                  />
-                  <Scatter data={scatterData} fill="#7c3aed" />
-                </ScatterChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Fund Performance Comparison */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
-            <div className="flex items-center gap-2 mb-4 md:mb-5">
-              <BarChart3 className="w-4 h-4 text-white/60" />
-              <h3 className="font-black text-white text-sm md:text-base">
-                Fund Performance Comparison
-              </h3>
-              <span className="text-xs text-xc-muted ml-auto hidden sm:inline">
-                6 months
-              </span>
-            </div>
-            <div className="h-[220px] md:h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={perfData}
-                  margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
-                >
-                  <XAxis
-                    dataKey="month"
-                    tick={{ fill: "#64748b", fontSize: 10 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fill: "#64748b", fontSize: 10 }}
-                    axisLine={false}
-                    tickLine={false}
-                    tickFormatter={(v) => `${v}%`}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      background: "#0d0d1e",
-                      border: "1px solid #1a1a3a",
-                      borderRadius: 8,
-                      fontSize: 11,
-                    }}
-                  />
-                  {displayFunds.slice(0, 6).map((f, i) => (
-                    <Bar
-                      key={f.id}
-                      dataKey={(f.name ?? "Fund")
-                        .split(" ")
-                        .slice(0, 2)
-                        .join(" ")}
-                      fill={FUND_COLORS[i]}
-                      opacity={0.7}
-                      radius={[2, 2, 0, 0]}
-                    />
-                  ))}
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex flex-wrap gap-4 mt-4">
-              {displayFunds.slice(0, 6).map((f, i) => (
-                <div
-                  key={f.id}
-                  className="flex items-center gap-2 text-xs text-xc-muted"
-                >
-                  <div
-                    className="w-2 h-2 rounded-full"
-                    style={{ background: FUND_COLORS[i] }}
-                  />
-                  {(f.name ?? "Fund").split(" ").slice(0, 2).join(" ")}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ── My investments ── */}
-        {myInvestments.length > 0 && (
-          <div className="bg-xc-card border border-xc-border rounded-2xl p-4 md:p-6">
-            <h3 className="font-bold text-white mb-4 md:mb-5 text-base md:text-lg">
-              My Investments
-            </h3>
-            <div className="space-y-3">
-              {myInvestments.map((inv) => (
-                <div
-                  key={inv.id}
-                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 md:p-4 rounded-xl bg-xc-dark/40 border border-xc-border/60 gap-2"
-                >
-                  <div>
-                    <div className="font-semibold text-white text-sm">
-                      {inv.investment?.name ?? "Fund"}
-                    </div>
-                    <div className="text-xs text-xc-muted mt-0.5">
-                      {inv.maturesAt
-                        ? `Matures ${new Date(inv.maturesAt).toLocaleDateString()}`
-                        : "Active"}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-mono font-bold text-white">
-                      {formatCurrency(Number(inv.amount))}
-                    </div>
-                    <Badge
-                      variant={inv.status === "ACTIVE" ? "success" : "warning"}
-                      size="sm"
-                    >
-                      {inv.status}
-                    </Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ═══ STARLINK GROWTH INVESTMENT ═══ */}
-        <div className="relative overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-slate-900/40 via-emerald-900/20 to-slate-900/40 backdrop-blur-xl p-8 md:p-12 lg:p-16">
-          {/* Animated gradient background */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full mix-blend-screen blur-3xl animate-pulse" />
-          </div>
-          
-          <div className="relative z-10">
-            {/* Header */}
-            <div className="flex items-start justify-between gap-6 mb-8">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                  <Satellite className="w-8 h-8 text-emerald-400" />
-                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Next Generation Growth</span>
-                </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3">
-                  Starlink Growth Acceleration
-                </h2>
-                <p className="text-base md:text-lg text-emerald-100 max-w-2xl leading-relaxed">
-                  Direct exposure to global satellite internet dominance. 5M+ subscribers. 105+ countries. Real-time investment flow tracking with AI-powered growth projections.
-                </p>
-              </div>
-              <div className="hidden lg:block text-right">
-                <div className="text-4xl font-black text-emerald-400 font-mono mb-2">42%</div>
-                <p className="text-sm text-xc-muted">Target Annual Return</p>
-              </div>
-            </div>
-
-            {/* Stats Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <div className="bg-white/5 border border-emerald-500/20 rounded-xl p-4">
-                <p className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-1">AUM</p>
-                <p className="text-xl md:text-2xl font-black text-white">$120M</p>
-              </div>
-              <div className="bg-white/5 border border-emerald-500/20 rounded-xl p-4">
-                <p className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-1">Min Investment</p>
-                <p className="text-xl md:text-2xl font-black text-white">$50K</p>
-              </div>
-              <div className="bg-white/5 border border-emerald-500/20 rounded-xl p-4">
-                <p className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-1">Lock Period</p>
-                <p className="text-xl md:text-2xl font-black text-white">2 Years</p>
-              </div>
-              <div className="bg-white/5 border border-emerald-500/20 rounded-xl p-4">
-                <p className="text-xs text-xc-muted font-bold uppercase tracking-wider mb-1">Capacity</p>
-                <p className="text-xl md:text-2xl font-black text-white">$500M</p>
-              </div>
-            </div>
-
-            {/* Trading Plans */}
-            <div className="mb-8">
-              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <Flame className="w-5 h-5 text-emerald-400" />
-                Premium Trading Plans
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Plan 1 */}
-                <div className="group bg-gradient-to-br from-emerald-600/10 to-emerald-900/10 border border-emerald-500/40 rounded-2xl p-6 hover:border-emerald-400/80 hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 cursor-pointer">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-white">Momentum</h4>
-                    <Rocket className="w-5 h-5 text-emerald-400" />
-                  </div>
-                  <p className="text-sm text-xc-muted mb-4">Ideal for aggressive growth seekers</p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between"><span className="text-xc-muted">Initial Allocation:</span><span className="text-white font-bold">100%</span></div>
-                    <div className="flex justify-between"><span className="text-xc-muted">Rebalance:</span><span className="text-white font-bold">Quarterly</span></div>
-                    <div className="flex justify-between"><span className="text-xc-muted">Projected APY:</span><span className="text-emerald-400 font-bold">42%</span></div>
-                  </div>
-                  <button className="w-full mt-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg transition-colors">
-                    Select Plan
-                  </button>
-                </div>
-
-                {/* Plan 2 */}
-                <div className="group relative bg-gradient-to-br from-emerald-500/20 to-emerald-900/20 border border-emerald-400/60 rounded-2xl p-6 hover:border-emerald-300/80 hover:shadow-lg hover:shadow-emerald-400/40 transition-all duration-300 cursor-pointer ring-1 ring-emerald-500/30">
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full">MOST POPULAR</div>
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-white">Compounding</h4>
-                    <Zap className="w-5 h-5 text-emerald-300" />
-                  </div>
-                  <p className="text-sm text-emerald-100 mb-4 font-semibold">Balanced growth with reinvestment</p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between"><span className="text-xc-muted">Initial Allocation:</span><span className="text-white font-bold">80%</span></div>
-                    <div className="flex justify-between"><span className="text-xc-muted">Reinvestment:</span><span className="text-white font-bold">20% Monthly</span></div>
-                    <div className="flex justify-between"><span className="text-xc-muted">Projected APY:</span><span className="text-emerald-300 font-bold text-lg">56%</span></div>
-                  </div>
-                  <button className="w-full mt-4 bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 text-slate-900 font-bold py-2 rounded-lg transition-all">
-                    Select Plan
-                  </button>
-                </div>
-
-                {/* Plan 3 */}
-                <div className="group bg-gradient-to-br from-emerald-600/10 to-emerald-900/10 border border-emerald-500/40 rounded-2xl p-6 hover:border-emerald-400/80 hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 cursor-pointer">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-white">Precision</h4>
-                    <BrainCircuit className="w-5 h-5 text-emerald-400" />
-                  </div>
-                  <p className="text-sm text-xc-muted mb-4">AI-optimized allocation strategy</p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between"><span className="text-xc-muted">Strategy:</span><span className="text-white font-bold">AI-Driven</span></div>
-                    <div className="flex justify-between"><span className="text-xc-muted">Rebalance:</span><span className="text-white font-bold">Real-time</span></div>
-                    <div className="flex justify-between"><span className="text-xc-muted">Projected APY:</span><span className="text-emerald-400 font-bold">48%</span></div>
-                  </div>
-                  <button className="w-full mt-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg transition-colors">
-                    Select Plan
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Real-time tracking badge */}
-            <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg px-4 py-3 w-fit">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              <span className="text-sm text-emerald-100 font-semibold">Real-time investment flow tracking • AI insights • Live updates</span>
-            </div>
-          </div>
-        </div>
-
-        {/* ── Fund Grid ── */}
-        <div>
-          <div className="flex items-center justify-between mb-5">
-            <h3 className="font-black text-white text-lg">Available Funds</h3>
-            <span className="text-sm text-xc-muted">
-              {displayFunds.length} funds open for investment
-            </span>
-          </div>
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div
-                  key={i}
-                  className="h-80 rounded-2xl bg-xc-card border border-xc-border animate-pulse"
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
-              {displayFunds.map((fund) => (
-                <FundCard key={fund.id} fund={fund} onInvest={openInvest} />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* ── Accreditation note ── */}
-        <div className="flex items-start gap-3 md:gap-4 bg-white/[0.02] border border-white/[0.08] rounded-xl p-3 md:p-5 text-xs md:text-sm">
-          <AlertCircle className="w-5 h-5 text-white/50 shrink-0 mt-0.5" />
-          <div>
-            <span className="text-white/50 font-semibold">
-              Accredited Investors Only.
-            </span>
-            <span className="text-xc-muted ml-2">
-              These are Regulation D private securities offerings. Investments
-              involve risk and are illiquid for the stated lock period. Past
-              performance does not guarantee future results.
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Invest modal ── */}
-      <Modal
-        open={!!selected}
-        onClose={() => setSelected(null)}
-        title={`Invest in ${selected?.name}`}
-        subtitle="Private fund investment — illiquid during lock period"
-      >
-        {selected && (
-          <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-xc-dark/60 rounded-xl p-3">
-                <div className="text-xs text-xc-muted mb-1">Target Return</div>
-                <div className="text-lg font-black text-xc-green font-mono">
-                  {formatPercent(Number(selected.targetReturn))}/yr
-                </div>
-              </div>
-              <div className="bg-xc-dark/60 rounded-xl p-3">
-                <div className="text-xs text-xc-muted mb-1">Lock Period</div>
-                <div className="text-lg font-black text-white">
-                  {selected.lockPeriodDays} days
-                </div>
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-xc-muted mb-1.5">
-                Investment Amount (USD)
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xc-muted font-mono">
-                  $
-                </span>
-                <input
-                  type="number"
-                  value={investAmount}
-                  onChange={(e) => setInvestAmount(e.target.value)}
-                  min={Number(selected.minInvestment)}
-                  step="100"
-                  className="w-full bg-xc-dark/60 border border-xc-border rounded-xl pl-7 pr-4 py-3 text-sm font-mono text-white placeholder:text-xc-muted/50 focus:outline-none focus:border-xc-purple/60"
-                />
-              </div>
-              <div className="flex justify-between text-xs mt-1.5">
-                <span className="text-xc-muted">
-                  Min: {formatCurrency(Number(selected.minInvestment))}
-                </span>
-                <span className="text-xc-muted">
-                  Available: {formatCurrency(Number(wallet?.fiatBalance ?? 0))}
-                </span>
-              </div>
-            </div>
-            {message && (
-              <div
-                className={`flex items-center gap-2 text-xs rounded-xl px-3 py-2 ${message.type === "success" ? "text-xc-green bg-emerald-950/30 border border-emerald-700/40" : "text-xc-red bg-red-950/30 border border-red-700/40"}`}
-              >
-                {message.type === "success" ? (
-                  <CheckCircle2 className="w-4 h-4 shrink-0" />
-                ) : (
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                )}
-                {message.text}
-              </div>
-            )}
-            <ModalFooter>
-              <Button variant="ghost" onClick={() => setSelected(null)}>
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                loading={investing}
-                onClick={handleInvest}
-                disabled={
-                  parseFloat(investAmount) < Number(selected.minInvestment)
-                }
-              >
-                Confirm Investment
-              </Button>
-            </ModalFooter>
-          </div>
-        )}
-      </Modal>
-    </DashboardLayout>
-  );
-}
+import Link from "next/link";
 
 const DEMO_FUNDS = [
   {
     id: "1",
-    name: "X-SPACE Fund I",
+    name: "Growth Momentum Fund",
     description:
-      "Exposure to space infrastructure, satellite tech, and launch providers via SPV structure.",
-    category: "SPACE",
-    minInvestment: 25000,
+      "High-frequency rebalancing across AI, tech, and space infrastructure",
+    category: "MOMENTUM",
+    minInvestment: 50000,
     lockPeriodDays: 365,
-    targetReturn: 22,
-    currentAUM: 8500000,
-    maxCapacity: 15000000,
+    targetReturn: 42,
+    currentAUM: 285000000,
+    maxCapacity: 1000000000,
     isOpen: true,
     riskLevel: "HIGH",
   },
   {
     id: "2",
-    name: "X-AI Infrastructure Fund",
+    name: "Starlink Compounding Fund",
     description:
-      "Investment in AI data centers, GPU clusters, and cloud infrastructure supporting the next generation of AI.",
-    category: "AI",
+      "Satellite infrastructure investment with monthly dividend reinvestment",
+    category: "STARLINK",
     minInvestment: 50000,
     lockPeriodDays: 730,
-    targetReturn: 28,
-    currentAUM: 42000000,
-    maxCapacity: 100000000,
+    targetReturn: 56,
+    currentAUM: 420000000,
+    maxCapacity: 2000000000,
     isOpen: true,
-    riskLevel: "HIGH",
+    riskLevel: "MEDIUM-HIGH",
   },
   {
     id: "3",
-    name: "X-ENERGY Systems Fund",
-    description:
-      "Diversified energy transition portfolio including solar, wind, and grid-scale storage projects.",
-    category: "ENERGY",
-    minInvestment: 10000,
-    lockPeriodDays: 180,
-    targetReturn: 14,
-    currentAUM: 23000000,
-    maxCapacity: 50000000,
+    name: "Precision Capital Fund",
+    description: "AI-optimized allocation across all five capital rails",
+    category: "AI_OPTIMIZED",
+    minInvestment: 50000,
+    lockPeriodDays: 365,
+    targetReturn: 48,
+    currentAUM: 195000000,
+    maxCapacity: 800000000,
     isOpen: true,
     riskLevel: "MEDIUM",
   },
   {
     id: "4",
-    name: "X-Capital Late Stage Venture",
+    name: "Private Equity Consortium",
     description:
-      "Series C/D technology venture investments with secondary liquidity options after 12 months.",
-    category: "VENTURE",
-    minInvestment: 100000,
-    lockPeriodDays: 365,
+      "SPV co-investment access to pre-IPO companies and growth equity",
+    category: "PRIVATE_EQUITY",
+    minInvestment: 250000,
+    lockPeriodDays: 1825,
     targetReturn: 35,
-    currentAUM: 75000000,
-    maxCapacity: 200000000,
-    isOpen: true,
-    riskLevel: "HIGH",
+    currentAUM: 580000000,
+    maxCapacity: 3000000000,
+    isOpen: false,
+    riskLevel: "MEDIUM",
   },
   {
     id: "5",
-    name: "Starlink Growth SPV",
+    name: "Infrastructure Yield Fund",
     description:
-      "Direct exposure to SpaceX's Starlink division — the world's largest satellite internet constellation serving 5M+ subscribers across 105 countries. Now enhanced with real-time investment flow analytics and AI-driven insights.",
-    category: "SPACE",
-    minInvestment: 50000,
-    lockPeriodDays: 730,
-    targetReturn: 42,
-    currentAUM: 120000000,
-    maxCapacity: 500000000,
+      "Energy grids, data centers, and orbital infrastructure networks",
+    category: "INFRASTRUCTURE",
+    minInvestment: 100000,
+    lockPeriodDays: 1095,
+    targetReturn: 32,
+    currentAUM: 420000000,
+    maxCapacity: 1500000000,
     isOpen: true,
-    riskLevel: "HIGH",
-    features: [
-      "Real-time money flow visualization",
-      "AI-driven investment insights",
-      "Dynamic risk assessment",
-    ],
+    riskLevel: "LOW-MEDIUM",
   },
   {
     id: "6",
-    name: "xAI Frontier Fund",
+    name: "Commerce Capital Engine",
     description:
-      "Pre-IPO allocation in Elon Musk's xAI. Grok-4 is benchmarking above GPT-5. Memphis supercluster running 200,000 H100 GPUs.",
-    category: "AI",
-    minInvestment: 100000,
-    lockPeriodDays: 1095,
-    targetReturn: 65,
-    currentAUM: 280000000,
-    maxCapacity: 750000000,
-    isOpen: true,
-    riskLevel: "HIGH",
-  },
-  {
-    id: "7",
-    name: "Neuralink BCI Fund",
-    description:
-      "Brain-computer interface venture exposure. FDA-approved N2 chip implanted in 8 patients. Thought-to-text at 62 WPM. IPO catalyst 2027.",
-    category: "VENTURE",
-    minInvestment: 75000,
-    lockPeriodDays: 1095,
-    targetReturn: 48,
-    currentAUM: 45000000,
-    maxCapacity: 150000000,
-    isOpen: true,
-    riskLevel: "HIGH",
-  },
-  {
-    id: "8",
-    name: "Mars Colony Infrastructure Fund",
-    description:
-      "Long-horizon fund targeting Martian colonization supply chain — life support systems, ISRU mining, habitat construction, and transport logistics.",
-    category: "SPACE",
-    minInvestment: 250000,
-    lockPeriodDays: 1825,
-    targetReturn: 85,
-    currentAUM: 18000000,
-    maxCapacity: 100000000,
-    isOpen: true,
-    riskLevel: "HIGH",
-  },
-  {
-    id: "9",
-    name: "Tesla Robotaxi & Optimus Fund",
-    description:
-      "Focused exposure to Tesla's autonomous driving fleet and Optimus humanoid robot program. FSD v13 achieving L4 in 12 cities.",
-    category: "AI",
-    minInvestment: 25000,
+      "Real-world commerce linked to capital deployment and equity ownership",
+    category: "COMMERCE",
+    minInvestment: 50000,
     lockPeriodDays: 365,
     targetReturn: 38,
-    currentAUM: 95000000,
-    maxCapacity: 300000000,
-    isOpen: true,
-    riskLevel: "HIGH",
-  },
-  {
-    id: "10",
-    name: "Tesla Megapack Energy Grid",
-    description:
-      "Grid-scale energy storage deployments. Tesla Energy division growing 150% YoY. Contracts with utilities across 40 states and 12 countries.",
-    category: "ENERGY",
-    minInvestment: 15000,
-    lockPeriodDays: 365,
-    targetReturn: 19,
-    currentAUM: 67000000,
-    maxCapacity: 200000000,
+    currentAUM: 155000000,
+    maxCapacity: 600000000,
     isOpen: true,
     riskLevel: "MEDIUM",
-  },
-  {
-    id: "11",
-    name: "Boring Company Transit SPV",
-    description:
-      "Underground hyperloop and transit tunnel ventures. Vegas Loop operational, LA-Vegas feasibility awarded. $4.2B in contracted projects.",
-    category: "VENTURE",
-    minInvestment: 50000,
-    lockPeriodDays: 730,
-    targetReturn: 25,
-    currentAUM: 32000000,
-    maxCapacity: 100000000,
-    isOpen: true,
-    riskLevel: "MEDIUM",
-  },
-  {
-    id: "12",
-    name: "X-DOGE Meme Economy Fund",
-    description:
-      "Structured exposure to Dogecoin ecosystem and meme asset class. Includes DOGE staking yields, Dogecoin merchant adoption plays, and social token derivatives.",
-    category: "VENTURE",
-    minInvestment: 5000,
-    lockPeriodDays: 90,
-    targetReturn: 55,
-    currentAUM: 15000000,
-    maxCapacity: 50000000,
-    isOpen: true,
-    riskLevel: "HIGH",
   },
 ];
+
+export default function FundsPage() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<"return" | "aum" | "min">("return");
+
+  const filteredFunds = selectedCategory
+    ? DEMO_FUNDS.filter((f) => f.category === selectedCategory)
+    : DEMO_FUNDS;
+
+  const sortedFunds = [...filteredFunds].sort((a, b) => {
+    if (sortBy === "return") return b.targetReturn - a.targetReturn;
+    if (sortBy === "aum") return b.currentAUM - a.currentAUM;
+    return a.minInvestment - b.minInvestment;
+  });
+
+  return (
+    <DashboardLayout
+      title="Investment Funds"
+      subtitle="Diversified fund access across all capital rails"
+    >
+      <div className="space-y-6">
+        {/* ═════════════════════════════════════════════════════════════════════════════════
+            STARLINK GROWTH ACCELERATOR - Premium Investment Feature
+            ═════════════════════════════════════════════════════════════════════════════════ */}
+        <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900/40 via-emerald-900/20 to-slate-900/40 border border-emerald-500/50 p-6 md:p-8">
+          <div className="absolute -top-40 -right-40 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="absolute -bottom-32 -left-32 w-60 h-60 bg-emerald-600/5 rounded-full blur-3xl" />
+          <div className="relative z-10">
+            <div className="flex items-start justify-between gap-6 mb-6">
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <Satellite className="w-6 h-6 text-emerald-400" />
+                  <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+                    Premium Feature
+                  </span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black text-white mb-2">
+                  Starlink Growth Accelerator
+                </h2>
+                <p className="text-base text-emerald-50 max-w-2xl">
+                  Invest in satellite infrastructure and the space economy. Our
+                  three complementary strategies deliver 42-56% APY with monthly
+                  compounding returns. Deploy capital into orbital networks with
+                  institutional-grade risk management.
+                </p>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="bg-white/5 border border-emerald-500/30 rounded-xl p-5 hover:bg-white/10 transition-colors">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-xc-muted font-bold uppercase">
+                    Momentum Plan
+                  </p>
+                  <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2 py-1 rounded">
+                    Popular
+                  </span>
+                </div>
+                <p className="text-2xl font-black text-emerald-400 mb-1">
+                  42% APY
+                </p>
+                <p className="text-xs text-xc-muted mb-3">
+                  High-frequency rebalancing
+                </p>
+                <button className="w-full bg-gradient-to-r from-emerald-600/50 to-emerald-500/50 hover:from-emerald-600 hover:to-emerald-500 text-white text-xs font-black py-2 rounded-lg transition-all">
+                  Invest Now
+                </button>
+              </div>
+              <div className="bg-white/5 border border-emerald-500/30 rounded-xl p-5 hover:bg-white/10 transition-colors ring-2 ring-emerald-500/50">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-xc-muted font-bold uppercase">
+                    Compounding Plan
+                  </p>
+                  <span className="bg-emerald-500 text-white text-xs font-black px-2 py-1 rounded">
+                    Best Return
+                  </span>
+                </div>
+                <p className="text-2xl font-black text-emerald-300 mb-1">
+                  56% APY
+                </p>
+                <p className="text-xs text-xc-muted mb-3">
+                  Monthly dividend reinvestment
+                </p>
+                <button className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-xs font-black py-2 rounded-lg transition-all shadow-lg hover:shadow-emerald-500/50">
+                  Invest Now
+                </button>
+              </div>
+              <div className="bg-white/5 border border-emerald-500/30 rounded-xl p-5 hover:bg-white/10 transition-colors">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-xc-muted font-bold uppercase">
+                    Precision Plan
+                  </p>
+                  <span className="bg-emerald-500/20 text-emerald-300 text-xs font-black px-2 py-1 rounded">
+                    Balanced
+                  </span>
+                </div>
+                <p className="text-2xl font-black text-emerald-400 mb-1">
+                  48% APY
+                </p>
+                <p className="text-xs text-xc-muted mb-3">
+                  AI-optimized allocation
+                </p>
+                <button className="w-full bg-gradient-to-r from-emerald-600/50 to-emerald-500/50 hover:from-emerald-600 hover:to-emerald-500 text-white text-xs font-black py-2 rounded-lg transition-all">
+                  Invest Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Filters & Sorting */}
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h3 className="font-black text-white text-sm mb-3">
+                Filter by category
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedCategory(null)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    selectedCategory === null
+                      ? "bg-xc-purple text-white"
+                      : "bg-white/5 text-xc-muted hover:text-white"
+                  }`}
+                >
+                  All Funds
+                </button>
+                {[
+                  "MOMENTUM",
+                  "STARLINK",
+                  "AI_OPTIMIZED",
+                  "PRIVATE_EQUITY",
+                  "INFRASTRUCTURE",
+                ].map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      selectedCategory === cat
+                        ? "bg-xc-purple text-white"
+                        : "bg-white/5 text-xc-muted hover:text-white"
+                    }`}
+                  >
+                    {cat.replace("_", " ")}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="font-black text-white text-sm mb-3">Sort by</h3>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="bg-xc-card border border-xc-border rounded-lg px-3 py-1.5 text-xs font-bold text-white focus:outline-none focus:border-xc-purple"
+              >
+                <option value="return">Highest Return</option>
+                <option value="aum">Largest AUM</option>
+                <option value="min">Lowest Min Investment</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Funds Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {sortedFunds.map((fund) => (
+            <FundCard key={fund.id} fund={fund} />
+          ))}
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+}

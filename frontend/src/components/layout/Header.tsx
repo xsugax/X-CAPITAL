@@ -37,7 +37,7 @@ export default function Header({ title, subtitle }: HeaderProps) {
     // Initialize Tawk.to with X-CAPITAL professional branding
     (window as any).Tawk_API = (window as any).Tawk_API || {};
     (window as any).Tawk_LoadStart = new Date();
-    
+
     const tawkScript = document.createElement("script");
     tawkScript.src = "https://embed.tawk.to/YOUR_PROPERTY_ID/1h9v7p3b1";
     tawkScript.async = true;

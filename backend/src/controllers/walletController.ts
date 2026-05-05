@@ -80,27 +80,24 @@ export const depositFunds = async (
     // In production, integrate Stripe payment intent here
     // const paymentIntent = await stripe.paymentIntents.create({ amount: amount * 100, currency: 'usd' });
 
-    const transaction = await prisma.$transaction(async (tx) => {
-      await tx.wallet.update({
-        where: { userId },
-        data: { fiatBalance: { increment: amount } },
-      });
-
-      return tx.transaction.create({
-        data: {
-          userId,
-          walletId: wallet.id,
-          amount,
-          type: "DEPOSIT",
-          status: "COMPLETED",
-          metadata: { paymentMethodId },
+    const transaction = await prisma.transaction.create({
+      data: {
+        userId,
+        walletId: wallet.id,
+        amount,
+        type: "DEPOSIT",
+        status: "PENDING",
+        metadata: {
+          paymentMethodId,
+          requestedAt: new Date().toISOString(),
         },
-      });
+      },
     });
 
     res.json({
       success: true,
-      message: `$${amount} deposited successfully`,
+      message:
+        "Deposit request created and sent for admin approval. Funds will be available once the request is approved.",
       data: transaction,
     });
   } catch (error) {

@@ -27,6 +27,8 @@ import {
   CheckCircle2,
   Users,
   Eye,
+  Satellite,
+  Rocket,
 } from "lucide-react";
 
 const stats = [
@@ -90,6 +92,15 @@ const features = [
     tag: "REAL ASSETS",
     color: "from-indigo-600/20 to-indigo-900/10 border-indigo-700/30",
     iconColor: "text-indigo-400",
+  },
+  {
+    icon: Satellite,
+    title: "Starlink Growth Accelerator",
+    description:
+      "Invest in satellite infrastructure with 42-56% APY. Direct exposure to orbital economy networks and space-based commerce.",
+    tag: "SPACE ECONOMY",
+    color: "from-emerald-600/20 to-emerald-900/10 border-emerald-700/30",
+    iconColor: "text-emerald-400",
   },
 ];
 
@@ -385,17 +396,24 @@ export default function LandingPage() {
                   width="16"
                   height="16"
                   aria-label="X"
-                  style={{ filter: "drop-shadow(0 0 6px rgba(16,185,129,0.4))" }}
+                  style={{
+                    filter: "drop-shadow(0 0 6px rgba(16,185,129,0.4))",
+                  }}
                 >
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
-                <div className="x-crossing" style={{ width: "140%", left: "-20%" }} />
+                <div
+                  className="x-crossing"
+                  style={{ width: "140%", left: "-20%" }}
+                />
               </div>
             </div>
             <span className="font-black text-lg tracking-tight brand-xc">
               CAPITAL
             </span>
-            <span className="profit-signal hidden sm:inline-flex">Profit Signal Active</span>
+            <span className="profit-signal hidden sm:inline-flex">
+              Profit Signal Active
+            </span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm text-xc-muted">
             <a
@@ -777,12 +795,14 @@ export default function LandingPage() {
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight">
               <span className="brand-xc">X-CAPITAL</span> Starlink
               <br />
-              <span className="text-emerald-400/80">Constellation Network.</span>
+              <span className="text-emerald-400/80">
+                Constellation Network.
+              </span>
             </h2>
             <p className="text-slate-500 text-base max-w-2xl mx-auto">
               The world's first satellite-linked capital deployment network.
-              7,200+ active satellites. Sub-25ms latency. Orbital-grade redundancy.
-              Your trades never touch terrestrial bottlenecks.
+              7,200+ active satellites. Sub-25ms latency. Orbital-grade
+              redundancy. Your trades never touch terrestrial bottlenecks.
             </p>
           </div>
 
@@ -791,10 +811,30 @@ export default function LandingPage() {
             <div className="space-y-6 order-2 lg:order-1">
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: "Active Satellites", value: "7,200+", sub: "LEO Constellation", trend: "+340/mo" },
-                  { label: "Global Coverage", value: "105+", sub: "Countries Served", trend: "Expanding" },
-                  { label: "Daily Throughput", value: "847 TB", sub: "Bandwidth Routed", trend: "+12% QoQ" },
-                  { label: "Node Yield", value: "$2.4K+", sub: "Monthly Per Node", trend: "$1M/mo Pool" },
+                  {
+                    label: "Active Satellites",
+                    value: "7,200+",
+                    sub: "LEO Constellation",
+                    trend: "+340/mo",
+                  },
+                  {
+                    label: "Global Coverage",
+                    value: "105+",
+                    sub: "Countries Served",
+                    trend: "Expanding",
+                  },
+                  {
+                    label: "Daily Throughput",
+                    value: "847 TB",
+                    sub: "Bandwidth Routed",
+                    trend: "+12% QoQ",
+                  },
+                  {
+                    label: "Node Yield",
+                    value: "$2.4K+",
+                    sub: "Monthly Per Node",
+                    trend: "$1M/mo Pool",
+                  },
                 ].map((stat) => (
                   <div
                     key={stat.label}
@@ -833,7 +873,9 @@ export default function LandingPage() {
                     <div className="text-xs font-black text-white font-mono">
                       {metric.value}
                     </div>
-                    <div className="text-[9px] text-xc-muted/50">{metric.label}</div>
+                    <div className="text-[9px] text-xc-muted/50">
+                      {metric.label}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -881,15 +923,27 @@ export default function LandingPage() {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-[180px] h-[180px] md:w-[240px] md:h-[240px] rounded-full border border-emerald-500/5" />
                 </div>
-                
+
                 {/* Import and use the orbital component */}
                 <div className="relative z-10">
                   <div className="w-[280px] h-[280px] md:w-[360px] md:h-[360px] flex items-center justify-center">
                     <div className="constellation-mesh absolute inset-0 rounded-full opacity-40" />
                     <div className="orbit-core" />
-                    <div className="orbit-signal" style={{ animationDelay: "0s", width: 40, height: 40 }} />
-                    <div className="orbit-signal" style={{ animationDelay: "1.3s", width: 40, height: 40, background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)" }} />
-                    
+                    <div
+                      className="orbit-signal"
+                      style={{ animationDelay: "0s", width: 40, height: 40 }}
+                    />
+                    <div
+                      className="orbit-signal"
+                      style={{
+                        animationDelay: "1.3s",
+                        width: 40,
+                        height: 40,
+                        background:
+                          "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)",
+                      }}
+                    />
+
                     {/* Orbital rings */}
                     {[
                       { size: 100, speed: "orbit-1" },
@@ -912,15 +966,18 @@ export default function LandingPage() {
                   <div className="data-stream">7,200+ SATs</div>
                 </div>
                 <div className="absolute top-1/3 -left-2 md:-left-4 bg-black/70 border border-white/10 rounded-lg px-2 py-1 backdrop-blur-sm">
-                  <div className="data-stream">{'<'}25ms</div>
+                  <div className="data-stream">{"<"}25ms</div>
                 </div>
                 <div className="absolute bottom-8 right-0 md:right-2 bg-black/70 border border-emerald-500/20 rounded-lg px-3 py-2 backdrop-blur-sm">
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <div className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">XLINK Live</div>
+                    <div className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
+                      XLINK Live
+                    </div>
                   </div>
                   <div className="text-lg font-black text-white font-mono profit-number">
-                    $95.25 <span className="text-emerald-400 text-sm">+4.22%</span>
+                    $95.25{" "}
+                    <span className="text-emerald-400 text-sm">+4.22%</span>
                   </div>
                 </div>
               </div>
@@ -1930,13 +1987,26 @@ export default function LandingPage() {
               <div className="flex items-center gap-2 mb-3">
                 <div className="hero-x-logo w-6 h-6 rounded-md bg-gradient-to-br from-white/10 to-white/10 flex items-center justify-center">
                   <div className="x-logo relative">
-                    <svg viewBox="0 0 24 24" fill="white" width="12" height="12" style={{ filter: "drop-shadow(0 0 4px rgba(16,185,129,0.4))" }}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="white"
+                      width="12"
+                      height="12"
+                      style={{
+                        filter: "drop-shadow(0 0 4px rgba(16,185,129,0.4))",
+                      }}
+                    >
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
-                    <div className="x-crossing" style={{ width: "140%", left: "-20%", height: "1.5px" }} />
+                    <div
+                      className="x-crossing"
+                      style={{ width: "140%", left: "-20%", height: "1.5px" }}
+                    />
                   </div>
                 </div>
-                <span className="font-black text-white text-sm brand-xc">CAPITAL</span>
+                <span className="font-black text-white text-sm brand-xc">
+                  CAPITAL
+                </span>
               </div>
               <p className="text-[11px] text-slate-600 leading-relaxed">
                 Multiplanetary capital deployment. Five rails. One command

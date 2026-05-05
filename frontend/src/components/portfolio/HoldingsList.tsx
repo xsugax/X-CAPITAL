@@ -39,7 +39,7 @@ export default function HoldingsList({
         </p>
       </div>
     );
-  }
+  } 
 
   return (
     <div>

@@ -1,195 +1,351 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AssetList from "@/components/trading/AssetList";
 import OrderForm from "@/components/trading/OrderForm";
-import OrbitalConstellation from "@/components/starlink/OrbitalConstellation";
-import StarlinkStats from "@/components/starlink/StarlinkStats";
-import { StatCard } from "@/components/ui/Card";
-import type { Asset } from "@/types";
+import { Badge } from "@/components/ui/Badge";
 import {
-  ArrowUpRight,
-  TrendingUp,
-  TrendingDown,
+  BarChart,
+  Bar,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from "recharts";
+import {
   Satellite,
+  TrendingUp,
+  BarChart3,
+  Activity,
+  Flame,
   Radio,
-  Zap,
-  Globe,
+  DollarSign,
 } from "lucide-react";
-import { cn, formatCurrency } from "@/lib/utils";
+import { useMarketPrices } from "@/hooks/useMarketPrices";
+import { formatCurrency, formatPercent, cn } from "@/lib/utils";
 
-const MARKET_STATS = [
-  { label: "Total Assets", value: "50,000+", icon: Globe },
-  { label: "Live Markets", value: "14", icon: Radio },
-  { label: "24h Volume", value: "$2.4B", icon: TrendingUp },
-  { label: "Active Orders", value: "847", icon: Zap },
+const DEMO_ASSETS = [
+  {
+    symbol: "AAPL",
+    name: "Apple Inc.",
+    type: "STOCK",
+    price: 245.5,
+    priceChange24h: 2.3,
+  },
+  {
+    symbol: "TSLA",
+    name: "Tesla Inc.",
+    type: "STOCK",
+    price: 387.2,
+    priceChange24h: 1.8,
+  },
+  {
+    symbol: "NVDA",
+    name: "NVIDIA Corp.",
+    type: "STOCK",
+    price: 1204.85,
+    priceChange24h: 4.2,
+  },
+  {
+    symbol: "BTC",
+    name: "Bitcoin",
+    type: "CRYPTO",
+    price: 89420,
+    priceChange24h: 3.1,
+  },
+  {
+    symbol: "ETH",
+    name: "Ethereum",
+    type: "CRYPTO",
+    price: 4282,
+    priceChange24h: 2.8,
+  },
+  {
+    symbol: "GLD",
+    name: "SPDR Gold Shares",
+    type: "ETF",
+    price: 198.75,
+    priceChange24h: 0.9,
+  },
+  {
+    symbol: "QQQ",
+    name: "Invesco QQQ Trust",
+    type: "ETF",
+    price: 543.2,
+    priceChange24h: 3.5,
+  },
+  {
+    symbol: "XLINK",
+    name: "Starlink Growth Token",
+    type: "TOKEN",
+    price: 95.24,
+    priceChange24h: 12.4,
+  },
+];
+
+const volumeData = [
+  { time: "09:30", volume: 2400 },
+  { time: "10:00", volume: 1398 },
+  { time: "10:30", volume: 9800 },
+  { time: "11:00", volume: 3908 },
+  { time: "11:30", volume: 4800 },
+  { time: "12:00", volume: 3800 },
+  { time: "12:30", volume: 4300 },
+];
+
+const orderBookData = [
+  { price: 95.5, size: 1200, side: "ask" },
+  { price: 95.4, size: 850, side: "ask" },
+  { price: 95.3, size: 2100, side: "ask" },
+  { price: 95.24, size: 0, side: "mid" },
+  { price: 95.18, size: 1800, side: "bid" },
+  { price: 95.1, size: 950, side: "bid" },
+  { price: 94.95, size: 2300, side: "bid" },
 ];
 
 export default function TradingPage() {
-  const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
+  const [selectedAsset, setSelectedAsset] = useState(DEMO_ASSETS[7]); // XLINK
+  const { prices: livePrices } = useMarketPrices({ refreshInterval: 30000 });
+
+  const assetWithLivePrice = useMemo(() => {
+    const live = livePrices[selectedAsset?.symbol ?? ""];
+    return live
+      ? {
+          ...selectedAsset,
+          price: live.price,
+          priceChange24h: live.changePercent24h,
+        }
+      : selectedAsset;
+  }, [selectedAsset, livePrices]);
+
+  const isPositive = (assetWithLivePrice?.priceChange24h ?? 0) >= 0;
 
   return (
     <DashboardLayout
       title="Trading Terminal"
-      subtitle="Markets · Execution · Real-time intelligence"
+      subtitle="Real-time execution across all asset classes"
     >
-      <div className="space-y-5">
-        {/* ═══════════════════════════════════════════════════════════════
-            STARLINK ORBITAL HERO — Markets Gateway (EXTRAORDINARY)
-            ═══════════════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-[#080c0a] via-[#0a0a0a] to-[#080c0a] p-6 md:p-8 lg:p-10">
-          {/* Animated scan line */}
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent animate-[starlinkScan_3s_linear_infinite]" />
-          
-          {/* Background constellation mesh with enhanced glow */}
-          <div className="constellation-mesh absolute inset-0 opacity-40" />
-          
-          {/* Orbital glow effect */}
-          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-emerald-500/5 blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-            {/* Text content */}
-            <div className="flex-1 space-y-5 w-full">
-              <div className="flex items-center gap-3 flex-wrap">
-                <div className="profit-signal">
-                  Profit Signal Active
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">
-                    Satellite-Linked Markets
-                  </span>
-                </div>
+      <div className="space-y-6">
+        {/* ═════════════════════════════════════════════════════════════════════════════════
+            STARLINK TRADING SPOTLIGHT - XLINK Token
+            ═════════════════════════════════════════════════════════════════════════════════ */}
+        <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900/40 via-emerald-900/20 to-slate-900/40 border border-emerald-500/50 p-6 md:p-8">
+          <div className="absolute -top-40 -right-40 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <Satellite className="w-6 h-6 text-emerald-400" />
+                <h3 className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+                  Trading Spotlight
+                </h3>
               </div>
-              
-              <div className="space-y-2">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight">
-                  <span className="brand-xc">X-CAPITAL</span> Starlink
-                  <br />
-                  <span className="text-emerald-400/80">Constellation Network.</span>
-                </h2>
-                <p className="text-sm text-white/40 max-w-lg leading-relaxed">
-                  Execute trades routed through the X-CAPITAL satellite mesh.
-                  Every order benefits from sub-25ms latency and orbital-grade
-                  redundancy. The market never sleeps — neither does the network.
+              <div className="flex gap-2">
+                <Badge variant="default">42% Target APY</Badge>
+                <Badge variant="success">Real-time Tracking</Badge>
+                <Badge variant="default">Live Now</Badge>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6 items-start">
+              <div>
+                <p className="text-xs text-xc-muted font-bold mb-1">
+                  XLINK Token
+                </p>
+                <p className="text-3xl font-black text-white mb-1">
+                  ${assetWithLivePrice.price.toFixed(2)}
+                </p>
+                <p
+                  className={cn(
+                    "text-sm font-bold flex items-center gap-1",
+                    isPositive ? "text-emerald-400" : "text-red-400",
+                  )}
+                >
+                  {isPositive ? "↑" : "↓"}{" "}
+                  {formatPercent(assetWithLivePrice.priceChange24h)} 24h
                 </p>
               </div>
-
-              {/* Enhanced stats with live metrics */}
-              <StarlinkStats className="max-w-lg pt-2" showLiveMetrics />
-
-              {/* Quick action row */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <div className="flex items-center gap-2 bg-emerald-950/30 border border-emerald-500/20 rounded-lg px-3 py-2">
-                  <div className="signal-bars">
-                    <div className="signal-bar" />
-                    <div className="signal-bar" />
-                    <div className="signal-bar" />
-                    <div className="signal-bar" />
-                  </div>
-                  <span className="text-[10px] font-mono text-emerald-400/80">XLINK UPLINK</span>
-                </div>
-                <span className="text-[10px] font-mono text-white/30">
-                  ROUTING THROUGH SAT-A7 · ORBIT 342
-                </span>
+              <div className="bg-white/5 border border-emerald-500/30 rounded-xl p-4">
+                <p className="text-xs text-xc-muted font-bold mb-2">
+                  24h Volume
+                </p>
+                <p className="text-2xl font-black text-emerald-400">$285.4M</p>
+                <p className="text-xs text-xc-muted mt-1">
+                  +18% from yesterday
+                </p>
+              </div>
+              <div className="bg-white/5 border border-emerald-500/30 rounded-xl p-4">
+                <p className="text-xs text-xc-muted font-bold mb-2">
+                  Market Cap
+                </p>
+                <p className="text-2xl font-black text-emerald-400">$4.2B</p>
+                <p className="text-xs text-xc-muted mt-1">52w High: $142.80</p>
               </div>
             </div>
-
-            {/* Orbital visual with enhanced presentation */}
-            <div className="shrink-0 flex items-center justify-center w-full lg:w-auto">
-              <div className="relative">
-                {/* Glow ring behind constellation */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-[200px] h-[200px] md:w-[260px] md:h-[260px] rounded-full border border-emerald-500/10 animate-pulse" />
-                </div>
-                <OrbitalConstellation size={280} dense className="opacity-95 relative z-10" />
-                
-                {/* Floating price tag with profit styling */}
-                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-emerald-950/90 border border-emerald-500/30 rounded-xl px-4 py-2 backdrop-blur-sm shadow-lg shadow-emerald-900/20 z-20">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <div className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
-                      XLINK Live
-                    </div>
-                  </div>
-                  <div className="text-lg font-black text-white font-mono profit-number">
-                    $95.25{" "}
-                    <span className="text-emerald-400 text-sm">+4.22%</span>
-                  </div>
-                </div>
-
-                {/* Orbital data points */}
-                <div className="absolute -top-2 -right-4 md:right-0 bg-black/60 border border-white/10 rounded-lg px-2 py-1 backdrop-blur-sm">
-                  <div className="data-stream">7,200+ SATs</div>
-                </div>
-                <div className="absolute top-1/2 -left-4 md:left-0 bg-black/60 border border-white/10 rounded-lg px-2 py-1 backdrop-blur-sm">
-                  <div className="data-stream">{'<'}25ms</div>
-                </div>
-              </div>
-            </div>
+            <button className="mt-4 w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black px-6 py-3 rounded-lg transition-all transform hover:scale-105">
+              Start Trading XLINK
+            </button>
           </div>
-        </section>
-
-        {/* ═══════════════════════════════════════════════════════════════
-            MARKET STATS STRIP
-            ═══════════════════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-          {MARKET_STATS.map(({ label, value, icon: Icon }) => (
-            <div
-              key={label}
-              className="bg-xc-card border border-xc-border rounded-xl p-3 md:p-4 flex items-center gap-3"
-            >
-              <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0">
-                <Icon className="w-4 h-4 text-white/40" />
-              </div>
-              <div>
-                <div className="text-xs text-xc-muted">{label}</div>
-                <div className="text-sm font-black text-white font-mono">
-                  {value}
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════════
-            TRADING TERMINAL — Asset List + Order Form
-            ═══════════════════════════════════════════════════════════════ */}
-        <div className="grid lg:grid-cols-[380px_1fr] gap-3 md:gap-4">
-          {/* Markets panel */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl overflow-hidden flex flex-col h-[640px]">
-            <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Satellite className="w-4 h-4 text-emerald-400" />
-                <h3 className="text-sm font-black text-white">Markets</h3>
+        {/* Main Trading Layout */}
+        <div className="grid lg:grid-cols-3 gap-4">
+          {/* Left: Asset List & Chart */}
+          <div className="lg:col-span-2 space-y-4">
+            {/* Charts Grid */}
+            <div className="grid md:grid-cols-2 gap-4">
+              {/* Volume Chart */}
+              <div className="bg-xc-card border border-xc-border rounded-2xl p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-black text-white text-sm">
+                    Volume Trend
+                  </h3>
+                  <BarChart3 className="w-4 h-4 text-xc-muted" />
+                </div>
+                <div style={{ height: 160 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={volumeData}>
+                      <Bar dataKey="volume" radius={[4, 4, 0, 0]}>
+                        {volumeData.map((_, i) => (
+                          <Cell
+                            key={i}
+                            fill={
+                              i === volumeData.length - 1
+                                ? "#10b981"
+                                : "#7c3aed"
+                            }
+                            opacity={i === volumeData.length - 1 ? 0.9 : 0.4}
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
-              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
-                Starlink Mesh Active
-              </span>
+
+              {/* Order Book */}
+              <div className="bg-xc-card border border-xc-border rounded-2xl p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-black text-white text-sm">Order Book</h3>
+                  <Activity className="w-4 h-4 text-xc-muted" />
+                </div>
+                <div className="space-y-1 text-xs">
+                  {orderBookData.map((row, i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        "flex justify-between px-2 py-1 rounded",
+                        row.side === "ask"
+                          ? "bg-red-500/10"
+                          : row.side === "bid"
+                            ? "bg-emerald-500/10"
+                            : "border-t border-b border-white/10",
+                      )}
+                    >
+                      <span
+                        className={
+                          row.side === "ask"
+                            ? "text-red-400"
+                            : row.side === "bid"
+                              ? "text-emerald-400"
+                              : "text-white font-bold"
+                        }
+                      >
+                        {row.price.toFixed(2)}
+                      </span>
+                      <span className="text-xc-muted">
+                        {row.size.toLocaleString()}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="flex-1 p-3 overflow-hidden">
-              <AssetList
-                onSelect={setSelectedAsset}
-                selectedSymbol={selectedAsset?.symbol}
-              />
-            </div>
+
+            {/* Asset List */}
+            <AssetList
+              assets={DEMO_ASSETS}
+              selectedAsset={selectedAsset}
+              onSelectAsset={setSelectedAsset}
+            />
           </div>
 
-          {/* Order execution panel */}
-          <div className="bg-xc-card border border-xc-border rounded-2xl overflow-hidden flex flex-col h-[640px]">
-            <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
-              <h3 className="text-sm font-black text-white">Order Execution</h3>
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[10px] font-bold text-xc-muted uppercase tracking-wider">
-                  Live
-                </span>
+          {/* Right: Order Form */}
+          <div>
+            <OrderForm asset={assetWithLivePrice} />
+          </div>
+        </div>
+
+        {/* HOT SIGNALS */}
+        <div className="bg-xc-card border border-xc-border rounded-2xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Flame className="w-5 h-5 text-orange-400" />
+              <h3 className="font-black text-white">Hot Signals</h3>
+            </div>
+            <Badge variant="default">AI Generated</Badge>
+          </div>
+          <div className="space-y-3">
+            {[
+              {
+                symbol: "XLINK",
+                signal: "BUY",
+                strength: 85,
+                reason: "Bullish momentum + satellite demand surge",
+              },
+              {
+                symbol: "NVDA",
+                signal: "BUY",
+                strength: 72,
+                reason: "AI infrastructure build-out accelerating",
+              },
+              {
+                symbol: "TSLA",
+                signal: "HOLD",
+                strength: 58,
+                reason: "Consolidation phase before earnings",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between bg-white/[0.02] border border-white/[0.05] rounded-xl p-3"
+              >
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-black text-white text-sm">
+                      {item.symbol}
+                    </span>
+                    <span
+                      className={cn(
+                        "text-xs font-black px-2 py-0.5 rounded",
+                        item.signal === "BUY"
+                          ? "bg-emerald-500/20 text-emerald-400"
+                          : item.signal === "SELL"
+                            ? "bg-red-500/20 text-red-400"
+                            : "bg-amber-500/20 text-amber-400",
+                      )}
+                    >
+                      {item.signal}
+                    </span>
+                  </div>
+                  <p className="text-xs text-xc-muted">{item.reason}</p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-xs font-black text-white">
+                    {item.strength}%
+                  </p>
+                  <div className="w-16 h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                      style={{ width: `${item.strength}%` }}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="flex-1 p-4 overflow-y-auto custom-scrollbar">
-              <OrderForm asset={selectedAsset} />
-            </div>
+            ))}
           </div>
         </div>
       </div>

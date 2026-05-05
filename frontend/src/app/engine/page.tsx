@@ -462,103 +462,64 @@ export default function EnginePage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════════
-            STARLINK INFRASTRUCTURE INVESTMENT — Orbital Edition
+            STARLINK INFRASTRUCTURE INVESTMENT
             ═══════════════════════════════════════════════════════════════════ */}
-        <section className="relative group overflow-hidden rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-[#080c0a] via-[#0a0a0a] to-[#080c0a] p-6 md:p-10 mb-10 md:mb-16">
-          <div className="constellation-mesh absolute inset-0 opacity-20" />
+        <section className="relative group overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-900/30 via-slate-900/20 to-slate-900/30 border border-emerald-500/40 p-8 md:p-10 mb-10 md:mb-16">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           <div className="relative z-10">
-            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-              {/* Orbital visual */}
-              <div className="shrink-0 order-1 lg:order-1">
-                <div className="relative">
-                  <div className="orbit-card-glow rounded-full w-[260px] h-[260px] flex items-center justify-center">
-                    <div
-                      className="orbit-ring orbit-1"
-                      style={{ width: 80, height: 80 }}
-                    >
-                      <div className="orbit-satellite" />
-                    </div>
-                    <div
-                      className="orbit-ring orbit-3"
-                      style={{ width: 140, height: 140 }}
-                    >
-                      <div className="orbit-satellite dim" />
-                    </div>
-                    <div
-                      className="orbit-ring orbit-5"
-                      style={{ width: 200, height: 200 }}
-                    >
-                      <div className="orbit-satellite" />
-                    </div>
-                    <div
-                      className="orbit-ring orbit-2"
-                      style={{ width: 240, height: 240 }}
-                    >
-                      <div className="orbit-satellite dim" />
-                    </div>
-                    <div className="orbit-core" />
-                    <div
-                      className="orbit-signal"
-                      style={{ animationDelay: "0s" }}
-                    />
-                    <div
-                      className="orbit-signal"
-                      style={{
-                        animationDelay: "1.3s",
-                        background:
-                          "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)",
-                      }}
-                    />
-                  </div>
-                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-emerald-950/80 border border-emerald-500/30 rounded-lg px-3 py-1 backdrop-blur-sm">
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
-                      Network Online
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 order-2 lg:order-2">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+              <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <Wifi className="w-5 h-5 text-emerald-400" />
+                  <Wifi className="w-7 h-7 text-emerald-400" />
                   <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">
                     Starlink Global Network
                   </span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black text-white mb-3 leading-tight">
+                <h3 className="text-3xl md:text-4xl font-black text-white mb-3 leading-tight">
                   Deploy Satellite Infrastructure
                 </h3>
-                <p className="text-sm text-white/40 max-w-xl mb-6 leading-relaxed">
+                <p className="text-base text-emerald-50 max-w-2xl mb-6 leading-relaxed">
                   Integrated Starlink bandwidth routing converts your X-CAPITAL
                   node into a satellite edge compute terminal. Real throughput.
                   Real revenue. Real yield from global data transmission and AI
                   inference processing on SpaceX infrastructure.
                 </p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                  {[
-                    { label: "Monthly Yield", value: "$2.4K+" },
-                    { label: "Network Nodes", value: "14.8K" },
-                    { label: "Active Countries", value: "105+" },
-                    { label: "Throughput", value: "847 TB" },
-                  ].map(({ label, value }) => (
-                    <div
-                      key={label}
-                      className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 hover:border-emerald-500/20 transition-colors"
-                    >
-                      <p className="text-[10px] text-xc-muted font-bold uppercase tracking-wider mb-1">
-                        {label}
-                      </p>
-                      <p className="text-lg font-black text-emerald-400 font-mono">
-                        {value}
-                      </p>
-                    </div>
-                  ))}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-white/5 border border-emerald-500/30 rounded-lg p-4">
+                    <p className="text-xs text-xc-muted font-bold mb-1">
+                      Monthly Yield
+                    </p>
+                    <p className="text-2xl font-black text-emerald-400">
+                      $2.4K+
+                    </p>
+                  </div>
+                  <div className="bg-white/5 border border-emerald-500/30 rounded-lg p-4">
+                    <p className="text-xs text-xc-muted font-bold mb-1">
+                      Network Nodes
+                    </p>
+                    <p className="text-2xl font-black text-emerald-400">
+                      14.8K
+                    </p>
+                  </div>
+                  <div className="bg-white/5 border border-emerald-500/30 rounded-lg p-4">
+                    <p className="text-xs text-xc-muted font-bold mb-1">
+                      Active Countries
+                    </p>
+                    <p className="text-2xl font-black text-emerald-400">105+</p>
+                  </div>
+                  <div className="bg-white/5 border border-emerald-500/30 rounded-lg p-4">
+                    <p className="text-xs text-xc-muted font-bold mb-1">
+                      Throughput
+                    </p>
+                    <p className="text-2xl font-black text-emerald-400">
+                      847 TB
+                    </p>
+                  </div>
                 </div>
-                <button className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-sm font-black rounded-xl transition-all shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40">
-                  Deploy Node Now
-                </button>
               </div>
+              <button className="w-full lg:w-auto px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black rounded-xl transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 h-fit">
+                Deploy Now
+              </button>
             </div>
           </div>
         </section>

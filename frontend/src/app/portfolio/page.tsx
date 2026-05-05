@@ -797,6 +797,23 @@ const DEMO_HOLDINGS = [
       isTradable: true,
     },
   },
+  {
+    id: "9",
+    portfolioId: "1",
+    assetId: "9",
+    quantity: 350,
+    avgCost: 42.5,
+    currentValue: 33437.5,
+    unrealizedPnL: 15087.5,
+    asset: {
+      id: "9",
+      symbol: "XLINK",
+      name: "Starlink Growth Token",
+      type: "TOKEN" as const,
+      price: 95.25,
+      isTradable: true,
+    },
+  },
 ];
 
 const DEMO_ALLOCATION = [
